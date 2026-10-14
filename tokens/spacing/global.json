@@ -1,0 +1,90 @@
+{
+  "global": {
+    "spacing": {
+      "01": {
+        "$value": {
+          "unit": "rem",
+          "value": 0.125
+        },
+        "$type": "dimension"
+      },
+      "02": {
+        "$value": {
+          "unit": "rem",
+          "value": 0.25
+        },
+        "$type": "dimension"
+      },
+      "03": {
+        "$value": {
+          "unit": "rem",
+          "value": 0.5
+        },
+        "$type": "dimension"
+      },
+      "04": {
+        "$value": {
+          "unit": "rem",
+          "value": 0.75
+        },
+        "$type": "dimension"
+      },
+      "05": {
+        "$value": {
+          "unit": "rem",
+          "value": 1
+        },
+        "$type": "dimension"
+      },
+      "06": {
+        "$value": {
+          "unit": "rem",
+          "value": 1.25
+        },
+        "$type": "dimension"
+      },
+      "07": {
+        "$value": {
+          "unit": "rem",
+          "value": 1.5
+        },
+        "$type": "dimension"
+      },
+      "08": {
+        "$value": {
+          "unit": "rem",
+          "value": 2
+        },
+        "$type": "dimension"
+      },
+      "09": {
+        "$value": {
+          "unit": "rem",
+          "value": 2.5
+        },
+        "$type": "dimension"
+      },
+      "10": {
+        "$value": {
+          "unit": "rem",
+          "value": 3
+        },
+        "$type": "dimension"
+      },
+      "11": {
+        "$value": {
+          "unit": "rem",
+          "value": 3.5
+        },
+        "$type": "dimension"
+      },
+      "12": {
+        "$value": {
+          "unit": "rem",
+          "value": 4
+        },
+        "$type": "dimension"
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "json.schemaDownload.enable": true,
+  "json.schemaDownload.trustedDomains": {
+    "https://www.designtokens.org/*": true,
+  },
+  "json.schemas": [
+    {
+      "fileMatch": ["/tokens/**/*.json"],
+      "url": "https://www.designtokens.org/schemas/2025.10/format.json"
+    }
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.run": "onSave",
+  "eslint.format.enable": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "editor.formatOnSave": true
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "workbench.settings.openDefaultSettings": false
+}

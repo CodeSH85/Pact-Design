@@ -1,0 +1,60 @@
+{
+  "system": {
+    "semantic": {
+      "primary": {
+        "$value": "{global.indigo.500}",
+        "$type": "color"
+      },
+      "on-primary": {
+        "$value": "{global.white}",
+        "$type": "color"
+      },
+      "secondary": {
+        "$value": "{global.blue.600}",
+        "$type": "color"
+      },
+      "on-secondary": {
+        "$value": "{global.white}",
+        "$type": "color"
+      },
+      "success": {
+        "$value": "{global.green.500}",
+        "$type": "color"
+      },
+      "on-success": {
+        "$value": "{global.white}",
+        "$type": "color"
+      },
+      "danger": {
+        "$value": "{global.red.500}",
+        "$type": "color"
+      },
+      "on-danger": {
+        "$value": "{global.white}",
+        "$type": "color"
+      },
+      "warning": {
+        "$value": "{global.orange.400}",
+        "$type": "color"
+      },
+      "on-warning": {
+        "$value": "{global.white}",
+        "$type": "color"
+      },
+      "info": {
+        "$value": "{global.blue.500}",
+        "$type": "color"
+      },
+      "on-info": {
+        "$value": "{global.white}",
+        "$type": "color"
+      }
+    },
+    "util": {
+      "black": {
+        "$value": "{global.black}"
+      },
+      "$type": "color"
+    }
+  }
+}

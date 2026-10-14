@@ -1,0 +1,102 @@
+{
+  "system": {
+    "font": {
+      "heading": {
+        "sm": {
+          "$value": {
+            "fontFamily": "{global.font.family.sans}",
+            "fontSize": "{global.font.size.05}",
+            "fontWeight": "{global.font.weight.05}",
+            "lineHeight": "{global.font.line-height.01}",
+            "letterSpacing": "{global.font.letter-spacing.02}"
+          },
+          "$type": "typography"
+        },
+        "md": {
+          "$value": {
+            "fontFamily": "{global.font.family.sans}",
+            "fontSize": "{global.font.size.06}",
+            "fontWeight": "{global.font.weight.05}",
+            "lineHeight": "{global.font.line-height.01}",
+            "letterSpacing": "{global.font.letter-spacing.01}"
+          },
+          "$type": "typography"
+        },
+        "lg": {
+          "$value": {
+            "fontFamily": "{global.font.family.sans}",
+            "fontSize": "{global.font.size.07}",
+            "fontWeight": "{global.font.weight.05}",
+            "lineHeight": "{global.font.line-height.01}",
+            "letterSpacing": "{global.font.letter-spacing.01}"
+          },
+          "$type": "typography"
+        }
+      },
+      "body": {
+        "sm": {
+          "$value": {
+            "fontFamily": "{global.font.family.sans}",
+            "fontSize": "{global.font.size.03}",
+            "fontWeight": "{global.font.weight.02}",
+            "lineHeight": "{global.font.line-height.03}",
+            "letterSpacing": "{global.font.letter-spacing.04}"
+          },
+          "$type": "typography"
+        },
+        "md": {
+          "$value": {
+            "fontFamily": "{global.font.family.sans}",
+            "fontSize": "{global.font.size.04}",
+            "fontWeight": "{global.font.weight.02}",
+            "lineHeight": "{global.font.line-height.04}",
+            "letterSpacing": "{global.font.letter-spacing.03}"
+          },
+          "$type": "typography"
+        },
+        "lg": {
+          "$value": {
+            "fontFamily": "{global.font.family.sans}",
+            "fontSize": "{global.font.size.05}",
+            "fontWeight": "{global.font.weight.02}",
+            "lineHeight": "{global.font.line-height.04}",
+            "letterSpacing": "{global.font.letter-spacing.03}"
+          },
+          "$type": "typography"
+        }
+      },
+      "label": {
+        "sm": {
+          "$value": {
+            "fontFamily": "{global.font.family.sans}",
+            "fontSize": "{global.font.size.03}",
+            "fontWeight": "{global.font.weight.03}",
+            "lineHeight": "{global.font.line-height.04}",
+            "letterSpacing": "{global.font.letter-spacing.06}"
+          },
+          "$type": "typography"
+        },
+        "md": {
+          "$value": {
+            "fontFamily": "{global.font.family.sans}",
+            "fontSize": "{global.font.size.04}",
+            "fontWeight": "{global.font.weight.03}",
+            "lineHeight": "{global.font.line-height.04}",
+            "letterSpacing": "{global.font.letter-spacing.05}"
+          },
+          "$type": "typography"
+        },
+        "lg": {
+          "$value": {
+            "fontFamily": "{global.font.family.sans}",
+            "fontSize": "{global.font.size.05}",
+            "fontWeight": "{global.font.weight.03}",
+            "lineHeight": "{global.font.line-height.05}",
+            "letterSpacing": "{global.font.letter-spacing.05}"
+          },
+          "$type": "typography"
+        }
+      }
+    }
+  }
+}

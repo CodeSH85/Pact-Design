@@ -1,0 +1,36 @@
+{
+  "system": {
+    "stroke": {
+      "sm": {
+        "$value": "{global.stroke.width.01}",
+        "$type": "dimension"
+      },
+      "md": {
+        "$value": "{global.stroke.width.02}",
+        "$type": "dimension"
+      },
+      "lg": {
+        "$value": "{global.stroke.width.03}",
+        "$type": "dimension"
+      }
+    },
+    "radius": {
+      "sm": {
+        "$value": "{global.radius.01}",
+        "$type": "dimension"
+      },
+      "md": {
+        "$value": "{global.radius.03}",
+        "$type": "dimension"
+      },
+      "lg": {
+        "$value": "{global.radius.05}",
+        "$type": "dimension"
+      },
+      "full": {
+        "$value": "{global.radius.full}",
+        "$type": "dimension"
+      }
+    }
+  }
+}

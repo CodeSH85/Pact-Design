@@ -1,0 +1,38 @@
+{
+  "system": {
+    "spacing": {
+      "2xs": {
+        "$value": "{global.spacing.01}",
+        "$type": "dimension"
+      },
+      "xs": {
+        "$value": "{global.spacing.02}",
+        "$type": "dimension"
+      },
+      "sm": {
+        "$value": "{global.spacing.03}",
+        "$type": "dimension"
+      },
+      "md": {
+        "$value": "{global.spacing.04}",
+        "$type": "dimension"
+      },
+      "lg": {
+        "$value": "{global.spacing.05}",
+        "$type": "dimension"
+      },
+      "xl": {
+        "$value": "{global.spacing.06}",
+        "$type": "dimension"
+      },
+      "2xl": {
+        "$value": "{global.spacing.07}",
+        "$type": "dimension"
+      },
+      "3xl": {
+        "$value": "{global.spacing.08}",
+        "$type": "dimension"
+      }
+    }
+  }
+}
