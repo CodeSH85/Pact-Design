@@ -1,67 +1,37 @@
 {
   "global": {
     "offset": {
+      "00": {
+        "$value": {
+          "value": 0,
+          "unit": "rem"
+        },
+        "$type": "dimension"
+      },
       "01": {
         "$value": {
-          "value": 0.1,
+          "value": 0.0625,
           "unit": "rem"
         },
         "$type": "dimension"
       },
       "02": {
         "$value": {
-          "value": 0.25,
+          "value": 0.125,
           "unit": "rem"
         },
         "$type": "dimension"
       },
       "03": {
         "$value": {
-          "value": 0.5,
-          "unit": "rem"
-        },
-        "$type": "dimension"
-      },
-      "04": {
-        "$value": {
-          "value": 0.75,
-          "unit": "rem"
-        },
-        "$type": "dimension"
-      },
-      "05": {
-        "$value": {
-          "value": 1,
-          "unit": "rem"
-        },
-        "$type": "dimension"
-      }
-    },
-    "spread": {
-      "01": {
-        "$value": {
-          "value": 0.1,
-          "unit": "rem"
-        },
-        "$type": "dimension"
-      },
-      "02": {
-        "$value": {
           "value": 0.25,
           "unit": "rem"
         },
         "$type": "dimension"
       },
-      "03": {
-        "$value": {
-          "value": 0.5,
-          "unit": "rem"
-        },
-        "$type": "dimension"
-      },
       "04": {
         "$value": {
-          "value": 0.75,
+          "value": 0.5,
           "unit": "rem"
         },
         "$type": "dimension"
@@ -77,7 +47,7 @@
     "blur": {
       "01": {
         "$value": {
-          "value": 0.1,
+          "value": 0.125,
           "unit": "rem"
         },
         "$type": "dimension"
@@ -98,24 +68,137 @@
       },
       "04": {
         "$value": {
-          "value": 0.75,
+          "value": 1,
           "unit": "rem"
         },
         "$type": "dimension"
       },
       "05": {
         "$value": {
-          "value": 1,
+          "value": 1.5,
           "unit": "rem"
         },
         "$type": "dimension"
       },
       "06": {
         "$value": {
-          "value": 1.2,
+          "value": 2,
           "unit": "rem"
         },
         "$type": "dimension"
+      }
+    },
+    "spread": {
+      "00": {
+        "$value": {
+          "value": 0,
+          "unit": "rem"
+        },
+        "$type": "dimension"
+      },
+      "01": {
+        "$value": {
+          "value": -0.0625,
+          "unit": "rem"
+        },
+        "$type": "dimension"
+      },
+      "02": {
+        "$value": {
+          "value": -0.125,
+          "unit": "rem"
+        },
+        "$type": "dimension"
+      },
+      "03": {
+        "$value": {
+          "value": -0.25,
+          "unit": "rem"
+        },
+        "$type": "dimension"
+      },
+      "04": {
+        "$value": {
+          "value": 0.0625,
+          "unit": "rem"
+        },
+        "$type": "dimension"
+      },
+      "05": {
+        "$value": {
+          "value": 0.125,
+          "unit": "rem"
+        },
+        "$type": "dimension"
+      }
+    },
+    "shadow": {
+      "color": {
+        "01": {
+          "$value": {
+            "colorSpace": "oklch",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.06,
+            "hex": "#000000"
+          },
+          "$type": "color"
+        },
+        "02": {
+          "$value": {
+            "colorSpace": "oklch",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.08,
+            "hex": "#000000"
+          },
+          "$type": "color"
+        },
+        "03": {
+          "$value": {
+            "colorSpace": "oklch",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.1,
+            "hex": "#000000"
+          },
+          "$type": "color"
+        },
+        "04": {
+          "$value": {
+            "colorSpace": "oklch",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.14,
+            "hex": "#000000"
+          },
+          "$type": "color"
+        },
+        "05": {
+          "$value": {
+            "colorSpace": "oklch",
+            "components": [
+              0,
+              0,
+              0
+            ],
+            "alpha": 0.18,
+            "hex": "#000000"
+          },
+          "$type": "color"
+        }
       }
     }
   }

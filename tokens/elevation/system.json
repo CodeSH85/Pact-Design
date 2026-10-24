@@ -1,0 +1,56 @@
+{
+  "system": {
+    "elevation": {
+      "xs": {
+        "$value": {
+          "offsetX": "{global.offset.00}",
+          "offsetY": "{global.offset.01}",
+          "blur": "{global.blur.01}",
+          "spread": "{global.spread.00}",
+          "color": "{global.shadow.color.01}"
+        },
+        "$type": "shadow"
+      },
+      "sm": {
+        "$value": {
+          "offsetX": "{global.offset.00}",
+          "offsetY": "{global.offset.02}",
+          "blur": "{global.blur.02}",
+          "spread": "{global.spread.00}",
+          "color": "{global.shadow.color.02}"
+        },
+        "$type": "shadow"
+      },
+      "md": {
+        "$value": {
+          "offsetX": "{global.offset.00}",
+          "offsetY": "{global.offset.03}",
+          "blur": "{global.blur.03}",
+          "spread": "{global.spread.01}",
+          "color": "{global.shadow.color.03}"
+        },
+        "$type": "shadow"
+      },
+      "lg": {
+        "$value": {
+          "offsetX": "{global.offset.00}",
+          "offsetY": "{global.offset.04}",
+          "blur": "{global.blur.04}",
+          "spread": "{global.spread.02}",
+          "color": "{global.shadow.color.04}"
+        },
+        "$type": "shadow"
+      },
+      "xl": {
+        "$value": {
+          "offsetX": "{global.offset.00}",
+          "offsetY": "{global.offset.05}",
+          "blur": "{global.blur.05}",
+          "spread": "{global.spread.03}",
+          "color": "{global.shadow.color.05}"
+        },
+        "$type": "shadow"
+      }
+    }
+  }
+}
