@@ -28,6 +28,18 @@
       "2xl": {
         "$value": "{global.size.07}",
         "$type": "dimension"
+      },
+      "3xl": {
+        "$value": "{global.size.08}",
+        "$type": "dimension"
+      },
+      "4xl": {
+        "$value": "{global.size.09}",
+        "$type": "dimension"
+      },
+      "5xl": {
+        "$value": "{global.size.10}",
+        "$type": "dimension"
       }
     }
   }

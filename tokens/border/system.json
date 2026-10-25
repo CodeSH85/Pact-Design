@@ -15,8 +15,12 @@
       }
     },
     "radius": {
-      "sm": {
+      "xs": {
         "$value": "{global.radius.01}",
+        "$type": "dimension"
+      },
+      "sm": {
+        "$value": "{global.radius.02}",
         "$type": "dimension"
       },
       "md": {
@@ -24,6 +28,10 @@
         "$type": "dimension"
       },
       "lg": {
+        "$value": "{global.radius.04}",
+        "$type": "dimension"
+      },
+      "xl": {
         "$value": "{global.radius.05}",
         "$type": "dimension"
       },
