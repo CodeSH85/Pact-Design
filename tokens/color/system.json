@@ -34,7 +34,7 @@
         "$type": "color"
       },
       "warning": {
-        "$value": "{global.orange.400}",
+        "$value": "{global.orange.500}",
         "$type": "color"
       },
       "on-warning": {
@@ -52,9 +52,9 @@
     },
     "util": {
       "black": {
-        "$value": "{global.black}"
-      },
-      "$type": "color"
+        "$value": "{global.black}",
+        "$type": "color"
+      }
     }
   }
 }
