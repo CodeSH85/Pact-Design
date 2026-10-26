@@ -1,5 +1,23 @@
 {
   "system": {
+    "background": {
+      "base": {
+        "$value": "{global.gray.100}",
+        "$type": "color"
+      },
+      "layer-1": {
+        "$value": "{global.gray.50}",
+        "$type": "color"
+      },
+      "layer-2": {
+        "$value": "{global.white}",
+        "$type": "color"
+      },
+      "elevated": {
+        "$value": "{system.background.layer-2}",
+        "$type": "color"
+      }
+    },
     "semantic": {
       "primary": {
         "$value": "{global.indigo.500}",
