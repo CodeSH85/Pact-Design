@@ -18,6 +18,42 @@
         "$type": "color"
       }
     },
+    "text": {
+      "primary": {
+        "$value": "{global.gray.900}",
+        "$type": "color"
+      },
+      "secondary": {
+        "$value": "{global.gray.700}",
+        "$type": "color"
+      },
+      "muted": {
+        "$value": "{global.gray.600}",
+        "$type": "color"
+      },
+      "disabled": {
+        "$value": "{global.gray.400}",
+        "$type": "color"
+      }
+    },
+    "border": {
+      "subtle": {
+        "$value": "{global.gray.100}",
+        "$type": "color"
+      },
+      "default": {
+        "$value": "{global.gray.200}",
+        "$type": "color"
+      },
+      "strong": {
+        "$value": "{global.gray.400}",
+        "$type": "color"
+      },
+      "focus": {
+        "$value": "{system.semantic.primary}",
+        "$type": "color"
+      }
+    },
     "semantic": {
       "primary": {
         "$value": "{global.indigo.500}",
