@@ -102,6 +102,14 @@
       "on-info": {
         "$value": "{global.white}",
         "$type": "color"
+      },
+      "neutral": {
+        "$value": "{global.coolGray.600}",
+        "$type": "color"
+      },
+      "on-neutral": {
+        "$value": "{global.white}",
+        "$type": "color"
       }
     },
     "util": {
