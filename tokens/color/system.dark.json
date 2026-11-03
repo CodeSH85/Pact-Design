@@ -17,6 +17,10 @@
         "$value": "{system.background.layer-2}",
         "$type": "color"
       },
+      "backdrop": {
+        "$value": "{global.scrim.02}",
+        "$type": "color"
+      },
       "hover": {
         "$value": "{global.gray.700}",
         "$type": "color"

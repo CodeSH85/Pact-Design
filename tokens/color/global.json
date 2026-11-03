@@ -1910,6 +1910,34 @@
         "hex": "#000000"
       },
       "$type": "color"
+    },
+    "scrim": {
+      "01": {
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0,
+            0,
+            0
+          ],
+          "alpha": 0.48,
+          "hex": "#000000"
+        },
+        "$type": "color"
+      },
+      "02": {
+        "$value": {
+          "colorSpace": "oklch",
+          "components": [
+            0,
+            0,
+            0
+          ],
+          "alpha": 0.68,
+          "hex": "#000000"
+        },
+        "$type": "color"
+      }
     }
   }
 }

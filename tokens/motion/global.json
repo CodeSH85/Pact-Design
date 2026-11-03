@@ -11,42 +11,28 @@
       "01": {
         "$value": {
           "unit": "ms",
-          "value": 75
+          "value": 50
         },
         "$type": "duration"
       },
       "02": {
         "$value": {
           "unit": "ms",
-          "value": 120
+          "value": 100
         },
         "$type": "duration"
       },
       "03": {
         "$value": {
           "unit": "ms",
-          "value": 180
+          "value": 150
         },
         "$type": "duration"
       },
       "04": {
         "$value": {
           "unit": "ms",
-          "value": 240
-        },
-        "$type": "duration"
-      },
-      "05": {
-        "$value": {
-          "unit": "ms",
-          "value": 320
-        },
-        "$type": "duration"
-      },
-      "06": {
-        "$value": {
-          "unit": "ms",
-          "value": 450
+          "value": 200
         },
         "$type": "duration"
       }
@@ -66,10 +52,6 @@
       },
       "exit": {
         "$value": [0.3, 0, 1, 1],
-        "$type": "cubicBezier"
-      },
-      "spring": {
-        "$value": [0.22, 1.2, 0.36, 1],
         "$type": "cubicBezier"
       }
     }

@@ -20,6 +20,30 @@
         }
       }
     },
+    "focus": {
+      "width": {
+        "$value": "{global.border.width.02}",
+        "$type": "dimension"
+      },
+      "style": {
+        "$value": "{global.border.style.solid}",
+        "$type": "strokeStyle"
+      },
+      "offset": {
+        "default": {
+          "$value": "{global.border.offset.02}",
+          "$type": "dimension"
+        },
+        "flush": {
+          "$value": "{global.border.offset.00}",
+          "$type": "dimension"
+        },
+        "inset": {
+          "$value": "{global.border.offset.inset-02}",
+          "$type": "dimension"
+        }
+      }
+    },
     "radius": {
       "none": {
         "$value": "{global.radius.00}",

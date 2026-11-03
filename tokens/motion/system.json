@@ -11,15 +11,15 @@
           "$type": "duration"
         },
         "normal": {
-          "$value": "{global.duration.03}",
+          "$value": "{global.duration.02}",
           "$type": "duration"
         },
         "slow": {
-          "$value": "{global.duration.04}",
+          "$value": "{global.duration.03}",
           "$type": "duration"
         },
         "slower": {
-          "$value": "{global.duration.05}",
+          "$value": "{global.duration.04}",
           "$type": "duration"
         }
       },
