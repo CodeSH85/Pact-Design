@@ -5,6 +5,10 @@
         "sans": {
           "$value": ["Inter", "Open Sans", "Roboto"],
           "$type": "fontFamily"
+        },
+        "mono": {
+          "$value": ["SFMono-Regular", "Menlo", "Consolas", "monospace"],
+          "$type": "fontFamily"
         }
       },
       "size": {

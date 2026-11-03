@@ -252,6 +252,38 @@
           },
           "$type": "typography"
         }
+      },
+      "mono": {
+        "xs": {
+          "$value": {
+            "fontFamily": "{global.font.family.mono}",
+            "fontSize": "{global.font.size.03}",
+            "fontWeight": "{global.font.weight.02}",
+            "lineHeight": "{global.font.line-height.06}",
+            "letterSpacing": "{global.font.letter-spacing.05}"
+          },
+          "$type": "typography"
+        },
+        "sm": {
+          "$value": {
+            "fontFamily": "{global.font.family.mono}",
+            "fontSize": "{global.font.size.04}",
+            "fontWeight": "{global.font.weight.02}",
+            "lineHeight": "{global.font.line-height.06}",
+            "letterSpacing": "{global.font.letter-spacing.05}"
+          },
+          "$type": "typography"
+        },
+        "md": {
+          "$value": {
+            "fontFamily": "{global.font.family.mono}",
+            "fontSize": "{global.font.size.05}",
+            "fontWeight": "{global.font.weight.02}",
+            "lineHeight": "{global.font.line-height.07}",
+            "letterSpacing": "{global.font.letter-spacing.05}"
+          },
+          "$type": "typography"
+        }
       }
     }
   }
