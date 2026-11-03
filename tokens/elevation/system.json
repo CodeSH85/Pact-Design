@@ -7,7 +7,7 @@
           "offsetY": "{global.offset.01}",
           "blur": "{global.blur.01}",
           "spread": "{global.spread.00}",
-          "color": "{global.shadow.color.01}"
+          "color": "{system.shadow.color.xs}"
         },
         "$type": "shadow"
       },
@@ -17,7 +17,7 @@
           "offsetY": "{global.offset.02}",
           "blur": "{global.blur.02}",
           "spread": "{global.spread.00}",
-          "color": "{global.shadow.color.02}"
+          "color": "{system.shadow.color.sm}"
         },
         "$type": "shadow"
       },
@@ -27,7 +27,7 @@
           "offsetY": "{global.offset.03}",
           "blur": "{global.blur.03}",
           "spread": "{global.spread.01}",
-          "color": "{global.shadow.color.03}"
+          "color": "{system.shadow.color.md}"
         },
         "$type": "shadow"
       },
@@ -37,7 +37,7 @@
           "offsetY": "{global.offset.04}",
           "blur": "{global.blur.04}",
           "spread": "{global.spread.02}",
-          "color": "{global.shadow.color.04}"
+          "color": "{system.shadow.color.lg}"
         },
         "$type": "shadow"
       },
@@ -47,9 +47,43 @@
           "offsetY": "{global.offset.05}",
           "blur": "{global.blur.05}",
           "spread": "{global.spread.03}",
-          "color": "{global.shadow.color.05}"
+          "color": "{system.shadow.color.xl}"
         },
         "$type": "shadow"
+      }
+    },
+    "z-index": {
+      "base": {
+        "$value": "{global.z-index.00}",
+        "$type": "number"
+      },
+      "docked": {
+        "$value": "{global.z-index.01}",
+        "$type": "number"
+      },
+      "dropdown": {
+        "$value": "{global.z-index.02}",
+        "$type": "number"
+      },
+      "sticky": {
+        "$value": "{global.z-index.03}",
+        "$type": "number"
+      },
+      "drawer": {
+        "$value": "{global.z-index.04}",
+        "$type": "number"
+      },
+      "modal": {
+        "$value": "{global.z-index.05}",
+        "$type": "number"
+      },
+      "popover": {
+        "$value": "{global.z-index.06}",
+        "$type": "number"
+      },
+      "toast": {
+        "$value": "{global.z-index.07}",
+        "$type": "number"
       }
     }
   }

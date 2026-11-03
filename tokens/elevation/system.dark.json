@@ -1,0 +1,28 @@
+{
+  "system": {
+    "shadow": {
+      "color": {
+        "xs": {
+          "$value": "{global.shadow.color.06}",
+          "$type": "color"
+        },
+        "sm": {
+          "$value": "{global.shadow.color.07}",
+          "$type": "color"
+        },
+        "md": {
+          "$value": "{global.shadow.color.08}",
+          "$type": "color"
+        },
+        "lg": {
+          "$value": "{global.shadow.color.09}",
+          "$type": "color"
+        },
+        "xl": {
+          "$value": "{global.shadow.color.10}",
+          "$type": "color"
+        }
+      }
+    }
+  }
+}

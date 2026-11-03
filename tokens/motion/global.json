@@ -1,0 +1,77 @@
+{
+  "global": {
+    "duration": {
+      "00": {
+        "$value": {
+          "unit": "ms",
+          "value": 0
+        },
+        "$type": "duration"
+      },
+      "01": {
+        "$value": {
+          "unit": "ms",
+          "value": 75
+        },
+        "$type": "duration"
+      },
+      "02": {
+        "$value": {
+          "unit": "ms",
+          "value": 120
+        },
+        "$type": "duration"
+      },
+      "03": {
+        "$value": {
+          "unit": "ms",
+          "value": 180
+        },
+        "$type": "duration"
+      },
+      "04": {
+        "$value": {
+          "unit": "ms",
+          "value": 240
+        },
+        "$type": "duration"
+      },
+      "05": {
+        "$value": {
+          "unit": "ms",
+          "value": 320
+        },
+        "$type": "duration"
+      },
+      "06": {
+        "$value": {
+          "unit": "ms",
+          "value": 450
+        },
+        "$type": "duration"
+      }
+    },
+    "easing": {
+      "linear": {
+        "$value": [0, 0, 1, 1],
+        "$type": "cubicBezier"
+      },
+      "standard": {
+        "$value": [0.2, 0, 0, 1],
+        "$type": "cubicBezier"
+      },
+      "enter": {
+        "$value": [0, 0, 0.15, 1],
+        "$type": "cubicBezier"
+      },
+      "exit": {
+        "$value": [0.3, 0, 1, 1],
+        "$type": "cubicBezier"
+      },
+      "spring": {
+        "$value": [0.22, 1.2, 0.36, 1],
+        "$type": "cubicBezier"
+      }
+    }
+  }
+}

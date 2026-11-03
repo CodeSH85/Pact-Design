@@ -1,0 +1,46 @@
+{
+  "system": {
+    "motion": {
+      "duration": {
+        "instant": {
+          "$value": "{global.duration.00}",
+          "$type": "duration"
+        },
+        "fast": {
+          "$value": "{global.duration.01}",
+          "$type": "duration"
+        },
+        "normal": {
+          "$value": "{global.duration.03}",
+          "$type": "duration"
+        },
+        "slow": {
+          "$value": "{global.duration.04}",
+          "$type": "duration"
+        },
+        "slower": {
+          "$value": "{global.duration.05}",
+          "$type": "duration"
+        }
+      },
+      "easing": {
+        "default": {
+          "$value": "{global.easing.standard}",
+          "$type": "cubicBezier"
+        },
+        "enter": {
+          "$value": "{global.easing.enter}",
+          "$type": "cubicBezier"
+        },
+        "exit": {
+          "$value": "{global.easing.exit}",
+          "$type": "cubicBezier"
+        },
+        "linear": {
+          "$value": "{global.easing.linear}",
+          "$type": "cubicBezier"
+        }
+      }
+    }
+  }
+}
