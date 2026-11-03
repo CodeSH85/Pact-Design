@@ -20,7 +20,7 @@
     },
     "text": {
       "primary": {
-        "$value": "{global.gray.900}",
+        "$value": "{global.gray.1000}",
         "$type": "color"
       },
       "secondary": {
