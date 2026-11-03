@@ -1,6 +1,13 @@
 {
   "global": {
     "spacing": {
+      "00": {
+        "$value": {
+          "unit": "px",
+          "value": 0
+        },
+        "$type": "dimension"
+      },
       "01": {
         "$value": {
           "unit": "rem",

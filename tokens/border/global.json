@@ -1,7 +1,14 @@
 {
   "global": {
-    "stroke": {
+    "border": {
       "width": {
+        "00": {
+          "$value": {
+            "unit": "px",
+            "value": 0
+          },
+          "$type": "dimension"
+        },
         "01": {
           "$value": {
             "unit": "px",
@@ -65,42 +72,56 @@
       }
     },
     "radius": {
+      "00": {
+        "$value": {
+          "unit": "px",
+          "value": 0
+        },
+        "$type": "dimension"
+      },
       "01": {
         "$value": {
           "unit": "rem",
-          "value": 0.25
+          "value": 0.125
         },
         "$type": "dimension"
       },
       "02": {
         "$value": {
           "unit": "rem",
-          "value": 0.5
+          "value": 0.25
         },
         "$type": "dimension"
       },
       "03": {
         "$value": {
           "unit": "rem",
-          "value": 0.75
+          "value": 0.5
         },
         "$type": "dimension"
       },
       "04": {
         "$value": {
           "unit": "rem",
-          "value": 1
+          "value": 0.75
         },
         "$type": "dimension"
       },
       "05": {
         "$value": {
           "unit": "rem",
-          "value": 1.5
+          "value": 1
         },
         "$type": "dimension"
       },
       "06": {
+        "$value": {
+          "unit": "rem",
+          "value": 1.5
+        },
+        "$type": "dimension"
+      },
+      "07": {
         "$value": {
           "unit": "rem",
           "value": 2

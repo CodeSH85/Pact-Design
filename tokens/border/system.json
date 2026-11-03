@@ -1,38 +1,52 @@
 {
   "system": {
-    "stroke": {
-      "sm": {
-        "$value": "{global.stroke.width.01}",
-        "$type": "dimension"
-      },
-      "md": {
-        "$value": "{global.stroke.width.02}",
-        "$type": "dimension"
-      },
-      "lg": {
-        "$value": "{global.stroke.width.03}",
-        "$type": "dimension"
+    "border": {
+      "width": {
+        "none": {
+          "$value": "{global.border.width.00}",
+          "$type": "dimension"
+        },
+        "sm": {
+          "$value": "{global.border.width.01}",
+          "$type": "dimension"
+        },
+        "md": {
+          "$value": "{global.border.width.02}",
+          "$type": "dimension"
+        },
+        "lg": {
+          "$value": "{global.border.width.03}",
+          "$type": "dimension"
+        }
       }
     },
     "radius": {
-      "xs": {
+      "none": {
+        "$value": "{global.radius.00}",
+        "$type": "dimension"
+      },
+      "2xs": {
         "$value": "{global.radius.01}",
         "$type": "dimension"
       },
-      "sm": {
+      "xs": {
         "$value": "{global.radius.02}",
         "$type": "dimension"
       },
-      "md": {
+      "sm": {
         "$value": "{global.radius.03}",
         "$type": "dimension"
       },
-      "lg": {
+      "md": {
         "$value": "{global.radius.04}",
         "$type": "dimension"
       },
-      "xl": {
+      "lg": {
         "$value": "{global.radius.05}",
+        "$type": "dimension"
+      },
+      "xl": {
+        "$value": "{global.radius.06}",
         "$type": "dimension"
       },
       "full": {

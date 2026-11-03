@@ -1,45 +1,73 @@
 {
   "system": {
     "size": {
-      "2xs": {
+      "3xs": {
         "$value": "{global.size.01}",
         "$type": "dimension"
       },
-      "xs": {
+      "2xs": {
         "$value": "{global.size.02}",
         "$type": "dimension"
       },
-      "sm": {
-        "$value": "{global.size.03}",
-        "$type": "dimension"
-      },
-      "md": {
+      "xs": {
         "$value": "{global.size.04}",
         "$type": "dimension"
       },
-      "lg": {
+      "sm": {
         "$value": "{global.size.05}",
         "$type": "dimension"
       },
-      "xl": {
+      "md": {
         "$value": "{global.size.06}",
         "$type": "dimension"
       },
-      "2xl": {
-        "$value": "{global.size.07}",
-        "$type": "dimension"
-      },
-      "3xl": {
+      "lg": {
         "$value": "{global.size.08}",
         "$type": "dimension"
       },
-      "4xl": {
+      "xl": {
         "$value": "{global.size.09}",
         "$type": "dimension"
       },
-      "5xl": {
+      "2xl": {
         "$value": "{global.size.10}",
         "$type": "dimension"
+      },
+      "3xl": {
+        "$value": "{global.size.11}",
+        "$type": "dimension"
+      },
+      "4xl": {
+        "$value": "{global.size.12}",
+        "$type": "dimension"
+      },
+      "5xl": {
+        "$value": "{global.size.13}",
+        "$type": "dimension"
+      }
+    },
+    "control": {
+      "height": {
+        "xs": {
+          "$value": "{global.size.06}",
+          "$type": "dimension"
+        },
+        "sm": {
+          "$value": "{global.size.07}",
+          "$type": "dimension"
+        },
+        "md": {
+          "$value": "{global.size.08}",
+          "$type": "dimension"
+        },
+        "lg": {
+          "$value": "{global.size.09}",
+          "$type": "dimension"
+        },
+        "xl": {
+          "$value": "{global.size.10}",
+          "$type": "dimension"
+        }
       }
     }
   }

@@ -1,6 +1,10 @@
 {
   "system": {
     "spacing": {
+      "none": {
+        "$value": "{global.spacing.00}",
+        "$type": "dimension"
+      },
       "3xs": {
         "$value": "{global.spacing.01}",
         "$type": "dimension"
