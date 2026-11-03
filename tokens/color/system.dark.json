@@ -14,7 +14,7 @@
         "$type": "color"
       },
       "elevated": {
-        "$value": "{global.gray.600}",
+        "$value": "{system.background.layer-2}",
         "$type": "color"
       }
     },
@@ -38,15 +38,15 @@
     },
     "border": {
       "subtle": {
-        "$value": "{global.gray.600}",
-        "$type": "color"
-      },
-      "default": {
         "$value": "{global.gray.500}",
         "$type": "color"
       },
+      "default": {
+        "$value": "{global.gray.400}",
+        "$type": "color"
+      },
       "strong": {
-        "$value": "{global.gray.300}",
+        "$value": "{global.gray.200}",
         "$type": "color"
       },
       "focus": {
@@ -56,7 +56,7 @@
     },
     "semantic": {
       "primary": {
-        "$value": "{global.indigo.400}",
+        "$value": "{global.indigo.300}",
         "$type": "color"
       },
       "on-primary": {
@@ -64,7 +64,7 @@
         "$type": "color"
       },
       "secondary": {
-        "$value": "{global.blue.300}",
+        "$value": "{global.blue.200}",
         "$type": "color"
       },
       "on-secondary": {
@@ -72,7 +72,7 @@
         "$type": "color"
       },
       "success": {
-        "$value": "{global.green.400}",
+        "$value": "{global.green.300}",
         "$type": "color"
       },
       "on-success": {
@@ -80,7 +80,7 @@
         "$type": "color"
       },
       "danger": {
-        "$value": "{global.red.400}",
+        "$value": "{global.red.300}",
         "$type": "color"
       },
       "on-danger": {
@@ -88,7 +88,7 @@
         "$type": "color"
       },
       "warning": {
-        "$value": "{global.orange.400}",
+        "$value": "{global.orange.300}",
         "$type": "color"
       },
       "on-warning": {
@@ -96,7 +96,7 @@
         "$type": "color"
       },
       "info": {
-        "$value": "{global.blue.400}",
+        "$value": "{global.blue.300}",
         "$type": "color"
       },
       "on-info": {
