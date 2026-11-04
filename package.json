@@ -1,14 +1,13 @@
 {
-  "name": "kekui",
+  "name": "pactui",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build:sd": "style-dictionary build --config ./scripts/sd.config.js",
-    "check:tokens": "node utils/color.js",
-    "check:wcag": "node utils/wcag-check.js",
-    "check:wcag-500": "node utils/wcag-check.js --shade=500 --bg=#ffffff --min=4.5"
+    "test": "node --test 'test/**/*.test.js'",
+    "build:sd": "style-dictionary build --config ./scripts/sd.config.js && pnpm test",
+    "playground": "node scripts/playground.js",
+    "check:tokens": "node utils/color.js"
   },
   "keywords": [],
   "author": "",

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PactUI · Token Playground</title>
+  <link rel="stylesheet" href="./styles.css">
+  <!-- Generated from tokens/**/*.json at runtime; rewritten on every edit -->
+  <style id="token-css"></style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">P</span>
+      <div>
+        <strong>PactUI Token Playground</strong>
+        <small id="status-line">載入中…</small>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button id="btn-issues" class="chip" hidden></button>
+      <span id="dirty-indicator" class="chip chip-warn" hidden></span>
+      <button id="btn-css" class="btn">檢視 CSS</button>
+      <button id="btn-download" class="btn" disabled>下載 JSON</button>
+      <button id="btn-reset" class="btn" disabled>全部重設</button>
+      <button id="btn-save" class="btn btn-primary" disabled>儲存至 tokens/</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="editor">
+      <nav id="tabs" class="tabs" role="tablist"></nav>
+      <div class="editor-tools">
+        <input id="search" type="search" placeholder="搜尋 token，例如 blue.500、radius" autocomplete="off">
+        <select id="level-filter" aria-label="Token 層級">
+          <option value="all">全部層級</option>
+          <option value="global">Global</option>
+          <option value="system">System</option>
+        </select>
+      </div>
+      <div id="editor" class="editor-body"></div>
+    </aside>
+
+    <main class="preview-wrap">
+      <div class="preview-toolbar">
+        <button id="btn-toggle-sidebar" class="btn btn-sidebar-toggle" type="button" aria-expanded="true" title="收合或展開左側編輯器 (⌘B / Ctrl+B)">◀ 收合側欄</button>
+        <div class="seg" role="group" aria-label="預覽主題">
+          <button data-canvas="light" class="active">☀ 淺色主題 Light</button>
+          <button data-canvas="dark">☾ 深色主題 Dark</button>
+        </div>
+        <span class="hint">切換主題將同步預覽與左側 system.light / system.dark 編輯器</span>
+      </div>
+      <div id="preview" class="preview" data-canvas="light"></div>
+    </main>
+  </div>
+
+  <dialog id="css-dialog" class="dialog">
+    <header>
+      <strong>產生的 CSS Custom Properties</strong>
+      <div>
+        <button id="btn-copy-css" class="btn">複製</button>
+        <button class="btn" data-close>關閉</button>
+      </div>
+    </header>
+    <pre id="css-output"></pre>
+  </dialog>
+
+  <dialog id="issues-dialog" class="dialog">
+    <header>
+      <strong>Token 問題</strong>
+      <button class="btn" data-close>關閉</button>
+    </header>
+    <ul id="issues-list" class="issues-list"></ul>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
