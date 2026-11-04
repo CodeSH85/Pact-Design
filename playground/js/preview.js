@@ -163,7 +163,7 @@ export function renderPreview(root, ctx) {
         </div>
         <div class="pv-field" style="gap:${space('3xs')}">
           <label style="${font(label)}color:var(--pv-text)" ${jump(label)}>電子郵件 Email</label>
-          <input class="pv-input" value="hello@pactui.dev" style="${font(bodySm)}height:${v('system.control.height.md', '32px')};padding:0 ${space('xs')};border-radius:${radius('xs')};border:${stroke} solid var(--pv-border);color:var(--pv-text);background:var(--pv-surface)">
+          <input class="pv-input" value="hello@pactdesign.dev" style="${font(bodySm)}height:${v('system.control.height.md', '32px')};padding:0 ${space('xs')};border-radius:${radius('xs')};border:${stroke} solid var(--pv-border);color:var(--pv-text);background:var(--pv-surface)">
           <small style="${font(caption)}color:var(--pv-muted)" ${jump(caption)}>圖說與輔助標註 (Caption)：變更將即時套用至所有連線工作階段。</small>
         </div>
         <div class="pv-row" style="gap:${space('2xs')}">

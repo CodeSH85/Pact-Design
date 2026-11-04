@@ -122,5 +122,5 @@ const server = http.createServer(async(req, res) => {
 })
 
 server.listen(PORT, () => {
-  console.log(`\n  PactUI Token Playground → http://localhost:${PORT}\n`)
+  console.log(`\n  Pact Design Token Playground → http://localhost:${PORT}\n`)
 })

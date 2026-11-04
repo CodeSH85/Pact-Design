@@ -1,4 +1,4 @@
-# PactUI Design System — Token Specification
+# Pact Design — Token Specification
 
 All token files strictly follow the **W3C Design Tokens Community Group (DTCG) Format Module 2025.10** specification (`$value`, `$type`). See <https://www.designtokens.org/tr/2025.10/format/> for full specification details.
 
@@ -8,7 +8,7 @@ All token files strictly follow the **W3C Design Tokens Community Group (DTCG) F
 
 ### 1.1 Three-Tier Token Hierarchy
 
-PactUI organizes design tokens into three distinct tiers to separate raw primitives from semantic intent and component-specific overrides:
+Pact Design organizes design tokens into three distinct tiers to separate raw primitives from semantic intent and component-specific overrides:
 
 1. **Global (`global.*`)**: Foundation primitives with no semantic meaning.
 2. **System (`system.*`)**: Semantic tokens representing themeable UI roles, hierarchy, and density.
@@ -40,7 +40,7 @@ PactUI organizes design tokens into three distinct tiers to separate raw primiti
 
 ## 2. Theming Strategy (Light & Dark Modes)
 
-PactUI implements theming at the **System (`system.*`)** layer using **split token sets** (`system.light.json` and `system.dark.json`):
+Pact Design implements theming at the **System (`system.*`)** layer using **split token sets** (`system.light.json` and `system.dark.json`):
 
 - **100% Identical Token Paths**: Light and Dark files define the exact same JSON hierarchy and token names. Theme names (`light` / `dark`) are never embedded in token paths.
 - **File Structure**:

@@ -1,6 +1,6 @@
 /* global document, Node, clearTimeout, setTimeout, requestAnimationFrame, navigator, CSS, confirm, fetch, Blob, URL, window */
 /**
- * PactUI Token Playground — editor state, controls and wiring.
+ * Pact Design Token Playground — editor state, controls and wiring.
  */
 import { clone, round, same } from '../../utils/helper.js'
 import * as T from '../../utils/token.js'

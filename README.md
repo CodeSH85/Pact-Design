@@ -1,8 +1,8 @@
-# PactUI
+# Pact Design
 
-**PactUI** is a domain-neutral design token system engineered for **dense, compact, and straightforward** user interfaces.
+**Pact Design** is a domain-neutral design token system engineered for **dense, compact, and straightforward** user interfaces.
 
-Built strictly on the **W3C Design Tokens Community Group (DTCG) 2025.10** specification, PactUI prioritizes high information density, crisp structural hierarchy, and perceptual contrast precision—without unnecessary whitespace, decorative visual noise, or flashy animations.
+Built strictly on the **W3C Design Tokens Community Group (DTCG) 2025.10** specification, Pact Design prioritizes high information density, crisp structural hierarchy, and perceptual contrast precision—without unnecessary whitespace, decorative visual noise, or flashy animations.
 
 ---
 
