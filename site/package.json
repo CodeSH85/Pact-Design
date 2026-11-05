@@ -10,5 +10,8 @@
   },
   "dependencies": {
     "pact-design": "workspace:*"
+  },
+  "devDependencies": {
+    "astro": "^7.4.5"
   }
 }

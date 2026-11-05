@@ -1,0 +1,142 @@
+---
+import '../styles/global.css'
+import { withBase } from '../utils/url.js'
+
+const {
+  title = 'Pact Design',
+  description = 'Domain-neutral design token system engineered for dense, compact, and straightforward user interfaces.'
+} = Astro.props
+
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/'
+
+const navSections = [
+  {
+    title: 'Getting Started',
+    items: [
+      { label: 'Overview', href: '/' },
+      { label: 'Token Architecture', href: '/foundations/architecture' }
+    ]
+  },
+  {
+    title: 'Foundations',
+    items: [
+      { label: 'Color & APCA Contrast', href: '/foundations/color' },
+      { label: 'Typography & Numerals', href: '/foundations/typography' },
+      { label: 'Sizing & Spacing', href: '/foundations/sizing-spacing' },
+      { label: 'Border, Elevation & Motion', href: '/foundations/elevation-motion' }
+    ]
+  },
+  {
+    title: 'Components',
+    items: [
+      { label: 'Interactive Primitives', href: '/components/primitives' }
+    ]
+  }
+]
+
+function isCurrentPage(itemHref) {
+  const fullHref = withBase(itemHref).replace(/\/$/, '') || '/'
+  return currentPath === fullHref
+}
+---
+
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title === 'Pact Design' ? 'Pact Design · Design System' : `${title} · Pact Design`}</title>
+    <meta name="description" content={description} />
+    <script is:inline>
+      (() => {
+        const saved = localStorage.getItem('pact-theme')
+        const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        const theme = saved === 'dark' || saved === 'light' ? saved : preferred
+        document.documentElement.setAttribute('data-theme', theme)
+      })()
+    </script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-topbar">
+        <div class="brand-group">
+          <a href={withBase('/')} class="brand-link">
+            <span class="brand-mark">P</span>
+            <span>Pact Design</span>
+          </a>
+          <span class="pact-badge pact-badge-primary">v1.0.0</span>
+          <span class="pact-badge">DTCG 2025.10</span>
+        </div>
+
+        <div class="topbar-controls">
+          <div class="pact-seg" role="group" aria-label="切換全站主題">
+            <button type="button" class="pact-seg-btn" data-theme-btn="light" aria-pressed="true">
+              ☀ Light
+            </button>
+            <button type="button" class="pact-seg-btn" data-theme-btn="dark" aria-pressed="false">
+              ☾ Dark
+            </button>
+          </div>
+          <a
+            href="https://github.com/CodeSH85/Pact-UI"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="pact-btn pact-btn-xs"
+          >
+            GitHub ↗
+          </a>
+        </div>
+      </header>
+
+      <div class="app-body">
+        <aside class="app-sidebar" aria-label="Documentation Navigation">
+          {navSections.map((section) => (
+            <div class="nav-section">
+              <div class="nav-section-title">{section.title}</div>
+              {section.items.map((item) => (
+                <a
+                  href={withBase(item.href)}
+                  class="nav-item"
+                  aria-current={isCurrentPage(item.href) ? 'page' : undefined}
+                >
+                  <span>{item.label}</span>
+                </a>
+              ))}
+            </div>
+          ))}
+        </aside>
+
+        <main class="app-main">
+          <div class="content-container">
+            <slot />
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      const root = document.documentElement
+      const buttons = document.querySelectorAll('[data-theme-btn]')
+
+      function syncThemeButtons(theme) {
+        buttons.forEach((btn) => {
+          const isMatch = btn.getAttribute('data-theme-btn') === theme
+          btn.setAttribute('aria-pressed', String(isMatch))
+        })
+      }
+
+      const initialTheme = root.getAttribute('data-theme') || 'light'
+      syncThemeButtons(initialTheme)
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const nextTheme = btn.getAttribute('data-theme-btn') || 'light'
+          root.setAttribute('data-theme', nextTheme)
+          localStorage.setItem('pact-theme', nextTheme)
+          syncThemeButtons(nextTheme)
+          window.dispatchEvent(new CustomEvent('pact:theme-change', { detail: { theme: nextTheme } }))
+        })
+      })
+    </script>
+  </body>
+</html>
