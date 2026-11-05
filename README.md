@@ -40,13 +40,20 @@ pnpm build:sd
 # Run CSS variable & APCA/WCAG contrast test suite directly
 pnpm test
 
-# Launch the interactive Token Playground (http://localhost:5173)
+# Launch the interactive Token Playground (http://localhost:5174)
 pnpm playground
+
+# Launch the Astro Documentation Site locally (http://localhost:4321)
+pnpm site:dev
+
+# Build tokens, run tests, and build the Documentation Site (site/dist)
+pnpm site:build
 ```
 
 ---
 
 ## Documentation
 
+- [**Documentation Website (`site/`)**](https://codesh85.github.io/Pact-UI/) — Interactive foundation showcase (Color, APCA contrast, Typography, Sizing & Spacing, Elevation & Motion) styled with Pact Design tokens.
 - [**Design Token Architecture (`docs/token.md`)**](./docs/token.md) — Detailed specification of token tiers, naming conventions, OKLCH color scales, and CSS variable output.
 - [**Roadmap (`docs/roadmap.md`)**](./docs/roadmap.md) — Completed milestones and upcoming plans.
