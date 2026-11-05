@@ -3,6 +3,6 @@ node_modules
 .agents
 .vscode
 .env
-build/**
-dist/**
-.astro/**
+build/
+dist/
+.astro/
