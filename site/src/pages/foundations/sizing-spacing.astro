@@ -1,0 +1,257 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import {
+  cssName,
+  dimensionToCss,
+  loadTokenCatalog,
+  refOf,
+  resolveValue,
+  toPx
+} from '../../utils/tokens-loader.js'
+
+const { lightTokens } = await loadTokenCatalog()
+
+function getScaleItems(prefix) {
+  return [...lightTokens.values()]
+    .filter((t) => t.id.startsWith(prefix))
+    .map((t) => {
+      const resolved = resolveValue(t.node.$value, lightTokens)
+      const px = toPx(resolved) ?? 0
+      return {
+        id: t.id,
+        key: t.path.at(-1),
+        cssVar: cssName(t.path),
+        alias: refOf(t.node.$value) ?? '-',
+        rem: dimensionToCss(resolved),
+        px
+      }
+    })
+}
+
+const controlHeights = getScaleItems('system.control.height.')
+const iconSizes = getScaleItems('system.icon.size.')
+const spacingScale = getScaleItems('system.spacing.')
+const sizingScale = getScaleItems('system.size.')
+---
+
+<BaseLayout title="Sizing & Spacing">
+  <header class="page-header">
+    <span class="page-eyebrow">Foundations · Spatial Rhythm</span>
+    <h1 class="page-title">Sizing &amp; Spacing</h1>
+    <p class="page-desc">
+      Pact Design 以緊湊控制項高度（<code>xs: 24px</code>、<code>sm: 28px</code>、<code>md: 32px</code>）與 <code>2px</code>/<code>4px</code> 細粒度空間比例尺為核心，確保工具列、表單控制項與資料列在有限螢幕空間內維持清晰秩序。
+    </p>
+  </header>
+
+  <!-- Control Heights & Icon Sizes -->
+  <section class="section-block">
+    <div class="section-header">
+      <h2 class="section-title">緊湊控制項高度與圖示尺寸 (Control Heights &amp; Icon Sizes)</h2>
+      <span class="section-subtitle">Aligned heights across buttons, inputs, selects, and toolbar items</span>
+    </div>
+
+    <div class="pact-grid pact-grid-2">
+      <div class="pact-panel">
+        <div class="panel-heading">
+          <strong>Control Heights (system.control.height.*)</strong>
+          <span class="pact-badge pact-badge-primary">24px – 40px</span>
+        </div>
+
+        <div class="control-stack">
+          {controlHeights.map((c) => (
+            <div class="control-demo-row">
+              <div class="control-meta mono tabular-nums">
+                <code>{c.cssVar}</code>
+                <span style="color: var(--system-text-muted);">{c.px}px ({c.rem})</span>
+              </div>
+              <button
+                type="button"
+                class="pact-btn"
+                style={`height: var(${c.cssVar}); width: 100%; justify-content: space-between;`}
+              >
+                <span>Control {c.key.toUpperCase()}</span>
+                <span class="mono tabular-nums" style="color: var(--system-text-muted);">{c.px}px</span>
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="pact-panel">
+        <div class="panel-heading">
+          <strong>Icon Sizing (system.icon.size.*)</strong>
+          <span class="pact-badge">12px – 32px</span>
+        </div>
+
+        <div class="icon-grid">
+          {iconSizes.map((ic) => (
+            <div class="icon-card">
+              <div class="icon-stage">
+                <svg
+                  style={`width: var(${ic.cssVar}); height: var(${ic.cssVar});`}
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <rect x="2" y="2" width="12" height="12" rx="1.5" />
+                  <path d="M2 6h12M6 6v8" />
+                </svg>
+              </div>
+              <strong class="mono">{ic.key}</strong>
+              <span class="mono tabular-nums" style="color: var(--system-text-muted);">{ic.px}px</span>
+              <code style="font-size: 11px;">{ic.cssVar}</code>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- System Spacing Scale -->
+  <section class="section-block">
+    <div class="section-header">
+      <h2 class="section-title">語意間距比例尺 (System Spacing Scale)</h2>
+      <span class="section-subtitle">Used for padding, gap, and layout rhythm (0px – 64px)</span>
+    </div>
+
+    <div class="pact-table-wrap">
+      <table class="pact-table">
+        <thead>
+          <tr>
+            <th style="width: 90px;">Token Key</th>
+            <th style="width: 230px;">CSS Variable</th>
+            <th style="width: 170px;">Global 參照</th>
+            <th style="width: 130px;">數值 (rem / px)</th>
+            <th>視覺化比例尺 (Visual Scale)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {spacingScale.map((sp) => (
+            <tr>
+              <td><span class="pact-badge">{sp.key}</span></td>
+              <td><code>{sp.cssVar}</code></td>
+              <td class="mono" style="color: var(--system-text-muted);">{sp.alias}</td>
+              <td class="mono tabular-nums">{sp.rem} · <strong>{sp.px}px</strong></td>
+              <td>
+                <div class="scale-bar-track">
+                  <div class="scale-bar-fill" style={`width: var(${sp.cssVar});`} />
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- System Sizing Scale -->
+  <section class="section-block">
+    <div class="section-header">
+      <h2 class="section-title">語意尺寸比例尺 (System Sizing Scale)</h2>
+      <span class="section-subtitle">General-purpose structural dimensions (4px – 80px)</span>
+    </div>
+
+    <div class="pact-table-wrap">
+      <table class="pact-table">
+        <thead>
+          <tr>
+            <th style="width: 90px;">Token Key</th>
+            <th style="width: 230px;">CSS Variable</th>
+            <th style="width: 170px;">Global 參照</th>
+            <th style="width: 130px;">數值 (rem / px)</th>
+            <th>視覺化比例尺 (Visual Scale)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sizingScale.map((sz) => (
+            <tr>
+              <td><span class="pact-badge">{sz.key}</span></td>
+              <td><code>{sz.cssVar}</code></td>
+              <td class="mono" style="color: var(--system-text-muted);">{sz.alias}</td>
+              <td class="mono tabular-nums">{sz.rem} · <strong>{sz.px}px</strong></td>
+              <td>
+                <div class="scale-bar-track">
+                  <div class="scale-bar-fill scale-bar-size" style={`width: var(${sz.cssVar});`} />
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--system-spacing-md);
+  }
+
+  .control-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--system-spacing-sm);
+  }
+
+  .control-demo-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--system-spacing-3xs);
+  }
+
+  .control-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: var(--system-spacing-xs);
+  }
+
+  .icon-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--system-spacing-2xs);
+    padding: var(--system-spacing-sm);
+    background: var(--system-background-layer-1);
+    border: var(--system-border-width-sm) solid var(--system-border-subtle);
+    border-radius: var(--system-radius-xs);
+    text-align: center;
+  }
+
+  .icon-stage {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    color: var(--system-semantic-primary);
+  }
+
+  .scale-bar-track {
+    display: flex;
+    align-items: center;
+    height: 12px;
+    background: var(--system-background-layer-1);
+    border-radius: var(--system-radius-2xs);
+    overflow: hidden;
+  }
+
+  .scale-bar-fill {
+    height: 100%;
+    min-width: 2px;
+    background: var(--system-semantic-primary);
+    border-radius: var(--system-radius-2xs);
+  }
+
+  .scale-bar-size {
+    background: var(--system-semantic-info);
+  }
+</style>
