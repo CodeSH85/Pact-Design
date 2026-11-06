@@ -196,23 +196,24 @@ export function renderPreview(root, ctx) {
   // =========================================================
   const bgBaseId = pick('system.background.base')
   const bgL1Id = pick('system.background.layer-1')
+  const bgL1SelectedId = pick('system.background.layer-1-selected', 'system.background.layer-2')
   const bgL2Id = pick('system.background.layer-2')
   const bgElevId = pick('system.background.elevated', 'system.background.layer-2-elevated')
-  const bgHoverId = pick('system.background.hover')
-  const bgActiveId = pick('system.background.active')
-  const bgSelectedId = pick('system.background.selected')
-  const bgSelectedHoverId = pick('system.background.selected-hover')
+  const bgHoverId = pick('system.background.layer-2-hover', 'system.background.hover')
+  const bgActiveId = pick('system.background.layer-2-active', 'system.background.active')
+  const bgSelectedId = pick('system.background.layer-2-selected', 'system.background.selected')
+  const bgSelectedHoverId = pick('system.background.layer-2-selected-hover', 'system.background.selected-hover')
   const txtPrimaryId = pick('system.text.primary')
   const bgTokens = byType('color').filter((t) => t.path[0] === 'system' && t.path[1] === 'background')
-  const interactiveNames = new Set(['hover', 'active', 'selected', 'selected-hover'])
-  const bgLayerTokens = bgTokens.filter((t) => !interactiveNames.has(t.path.at(-1)))
-  const bgInteractiveTokens = bgTokens.filter((t) => interactiveNames.has(t.path.at(-1)))
+  const isInteractiveBg = (key) => /^(?:layer-[12]-)?(?:hover|active|selected|selected-hover)$/.test(key)
+  const bgLayerTokens = bgTokens.filter((t) => !isInteractiveBg(t.path.at(-1)))
+  const bgInteractiveTokens = bgTokens.filter((t) => isInteractiveBg(t.path.at(-1)))
 
   const bgLayersHtml = bgTokens.length ? `
     <h3 class="pv-sub">System · 背景與容器階層（Compact Multi-Pane Workspace 多欄高密度工作區）</h3>
     <div class="pv-spectrum-app" style="border-radius:${radius('sm')};border:${stroke} solid var(--pv-border);box-shadow:${elev('xs')}">
       <!-- TopNav: background-layer-1 -->
-      <header class="pv-spectrum-topnav" ${jump(bgL1Id)} style="background:${v(bgL1Id, 'var(--pv-subtle)')};padding:${space('2xs')} ${space('sm')};border-bottom:${stroke} solid var(--pv-border);gap:${space('sm')}">
+      <header class="pv-spectrum-topnav" ${jump(bgL1Id)} style="background:${v(bgL1Id, 'var(--pv-subtle)')};padding:${space('xs')} ${space('sm')};border-bottom:${stroke} solid var(--pv-border);gap:${space('sm')}">
         <div class="pv-row" style="gap:${space('xs')}">
           <span class="pv-spectrum-logo" style="background:${primary ? v(primary.bg.id) : '#3b63fb'};color:${primary ? v(primary.on.id) : '#fff'};border-radius:${radius('2xs')};${font(labelXs)}">P</span>
           <strong style="${font(label)}color:var(--pv-text)">TopNav</strong>
@@ -232,7 +233,7 @@ export function renderPreview(root, ctx) {
           <code class="pv-spectrum-tag">layer-1</code>
           <div class="pv-spectrum-tools" style="gap:${space('3xs')};margin-top:${space('3xs')}">
             ${['▤ 總覽 Overview', '☰ 資料表 Records', '⛁ 儲存體 Storage', '⚙ 系統設定 Settings'].map((tool, i) => `
-              <div class="pv-spectrum-tool ${i === 0 ? 'is-active' : ''}" style="padding:${space('3xs')} ${space('xs')};border-radius:${radius('2xs')};${font(bodySm)};${i === 0 ? `background:${v(bgL2Id)};color:var(--pv-text);box-shadow:${elev('xs')};` : 'color:var(--pv-muted);'}">${tool}</div>
+              <div class="pv-spectrum-tool ${i === 0 ? 'is-active' : ''}" style="padding:${space('3xs')} ${space('xs')};border-radius:${radius('2xs')};${font(bodySm)};${i === 0 ? `background:${v(bgL1SelectedId)};color:var(--pv-text);` : 'color:var(--pv-muted);'}">${tool}</div>
             `).join('')}
           </div>
         </aside>
@@ -244,7 +245,7 @@ export function renderPreview(root, ctx) {
             <code class="pv-spectrum-tag">background.base (${esc(formatValue('color', val(bgBaseId)))})</code>
           </div>
 
-          <!-- Main Content Block: background-layer-2 -->
+          <!-- Main Content Block: background-layer-1 -->
           <div class="pv-spectrum-artboard" ${jump(bgL2Id)} style="background:${v(bgL2Id, 'var(--pv-surface)')};border-radius:${radius('xs')};border:${stroke} solid var(--pv-border);padding:${space('md')};gap:${space('sm')}">
             <div class="pv-row" style="justify-content:space-between;border-bottom:${stroke} solid var(--pv-border);padding-bottom:${space('2xs')}">
               <div>

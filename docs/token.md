@@ -66,19 +66,27 @@ Pact Design implements theming at the **System (`system.*`)** layer using **spli
 
 #### System Background Layers & Interactive Surface States (`system.background.*`)
 
-Workspace surfaces are divided into four luminance layers, a translucent modal/drawer backdrop, and four interactive surface states for data grids, tree views, and selectable lists:
+Workspace surfaces are divided into four luminance layers, a translucent modal/drawer backdrop, and neutral gray interactive surface states (`hover`, `active`, `selected`, `selected-hover`) across `base`, `layer-1`, and `layer-2`:
 
 | Token | Light Value | Dark Value | Semantic Role |
 | :--- | :--- | :--- | :--- |
-| `system.background.base` | `{global.gray.100}` (`#e8e8e8`) | `{global.gray.1000}` (`#1c1c1c`) | Lowest application canvas / pasteboard; no interactive elements are placed directly on this layer. |
+| `system.background.base` | `{global.gray.100}` (`#e8e8e8`) | `{global.gray.1000}` (`#1c1c1c`) | Lowest application canvas / pasteboard. |
+| `system.background.hover` | `{global.gray.50}` (`#f4f4f4`) | `{global.gray.900}` (`#282828`) | Base / default neutral hover state (`|Lc| > 97` with `text.primary`). |
+| `system.background.active` | `{global.gray.100}` (`#e8e8e8`) | `{global.gray.800}` (`#373737`) | Base / default neutral pressed state (`|Lc| > 90` with `text.primary`). |
+| `system.background.selected` | `{global.gray.100}` (`#e8e8e8`) | `{global.gray.800}` (`#373737`) | Base / default neutral selected state (`|Lc| > 90` with `text.primary`). |
+| `system.background.selected-hover` | `{global.gray.200}` (`#d4d4d4`) | `{global.gray.700}` (`#4b4b4b`) | Base / default hover state on an already-selected item (`|Lc| > 78` with `text.primary`). |
 | `system.background.layer-1` | `{global.gray.50}` (`#f4f4f4`) | `{global.gray.900}` (`#282828`) | Primary structural chrome (`TopNav`, `Side-Nav`, docking toolbars, inspector panels). |
+| `system.background.layer-1-hover` | `{global.gray.100}` (`#e8e8e8`) | `{global.gray.800}` (`#373737`) | Neutral hover state on `layer-1` surfaces (`|Lc| > 90` with `text.primary`). |
+| `system.background.layer-1-active` | `{global.gray.200}` (`#d4d4d4`) | `{global.gray.700}` (`#4b4b4b`) | Neutral pressed state on `layer-1` surfaces (`|Lc| > 78` with `text.primary`). |
+| `system.background.layer-1-selected` | `{global.gray.200}` (`#d4d4d4`) | `{global.gray.700}` (`#4b4b4b`) | Neutral selected state on `layer-1` surfaces (`|Lc| > 78` with `text.primary`). |
+| `system.background.layer-1-selected-hover` | `{global.gray.200}` (`#d4d4d4`) | `{global.gray.600}` (`#646464`) | Hover state on a selected `layer-1` item (`|Lc| > 78` with `text.primary`). |
 | `system.background.layer-2` | `{global.white}` (`#ffffff`) | `{global.gray.800}` (`#373737`) | Main editing workspace, artboards, data tables, and primary content containers. |
+| `system.background.layer-2-hover` | `{global.gray.50}` (`#f4f4f4`) | `{global.gray.700}` (`#4b4b4b`) | Neutral hover state on `layer-2` surfaces (`|Lc| > 94` with `text.primary`). |
+| `system.background.layer-2-active` | `{global.gray.100}` (`#e8e8e8`) | `{global.gray.600}` (`#646464`) | Neutral pressed state on `layer-2` surfaces (`|Lc| > 84` with `text.primary`). |
+| `system.background.layer-2-selected` | `{global.gray.100}` (`#e8e8e8`) | `{global.gray.600}` (`#646464`) | Neutral selected state on `layer-2` surfaces (`|Lc| > 84` with `text.primary`). |
+| `system.background.layer-2-selected-hover` | `{global.gray.200}` (`#d4d4d4`) | `{global.gray.600}` (`#646464`) | Hover state on a selected `layer-2` item (`|Lc| > 78` with `text.primary`). |
 | `system.background.elevated` | `{system.background.layer-2}` (`#ffffff`) | `{system.background.layer-2}` (`#373737`) | Floating elements over the workspace (contextual popovers, modals, dropdowns), paired with `system.elevation.*`. |
 | `system.background.backdrop` | `{global.scrim.01}` (`#000000 · α 0.48`) | `{global.scrim.02}` (`#000000 · α 0.68`) | Translucent scrim / backdrop behind modals (`z-index.modal`) and drawers (`z-index.drawer`). |
-| `system.background.hover` | `{global.gray.50}` (`#f4f4f4`) | `{global.gray.700}` (`#4b4b4b`) | Neutral hover state for table rows, tree nodes, and quiet buttons (`|Lc| > 94` with `text.primary`). |
-| `system.background.active` | `{global.gray.100}` (`#e8e8e8`) | `{global.gray.600}` (`#646464`) | Neutral pressed / active state for interactive surfaces (`|Lc| > 84` with `text.primary`). |
-| `system.background.selected` | `{global.indigo.50}` (`#f2f3ff`) | `{global.indigo.900}` (`#1f2547`) | Selected tree node or data grid row (`|Lc| > 97` with `text.primary`). |
-| `system.background.selected-hover` | `{global.indigo.100}` (`#e3e6ff`) | `{global.indigo.800}` (`#293260`) | Hover state on an already-selected tree node or table row (`|Lc| > 90` with `text.primary`). |
 
 #### System Text Hierarchy (`system.text.*`)
 
@@ -115,8 +123,8 @@ Each semantic role (`primary`, `secondary`, `success`, `danger`, `warning`, `inf
 | **Secondary** | `blue` | `600 / 700 / 800 / white` | `600 / 500 / 700 / white` | `100 / 700 / 200` | `900 / 200 / 700` |
 | **Success** | `green` | `500 / 600 / 700 / white` | `600 / 500 / 700 / white` | `100 / 700 / 200` | `900 / 200 / 700` |
 | **Danger** | `red` | `500 / 600 / 700 / white` | `600 / 500 / 700 / white` | `100 / 700 / 200` | `900 / 200 / 700` |
-| **Warning** | `orange` | `500 / 600 / 700 / white` | `600 / 500 / 700 / white` | `100 / 700 / 200` | `900 / 200 / 700` |
-| **Info** | `blue` | `500 / 600 / 700 / white` | `600 / 500 / 700 / white` | `100 / 700 / 200` | `900 / 200 / 700` |
+| **Warning** | `orange` | `500 / 600 / 700 / white` | `500 / 600 / 700 / white` | `100 / 700 / 200` | `800 / 100 / 600` |
+| **Info** | `blue` | `500 / 600 / 700 / white` | `500 / 600 / 700 / white` | `100 / 700 / 200` | `800 / 100 / 600` |
 | **Neutral** | `coolGray` | `600 / 700 / 800 / white` | `600 / 500 / 700 / white` | `100 / 700 / 200` | `900 / 200 / 700` |
 
 ---

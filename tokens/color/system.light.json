@@ -9,8 +9,40 @@
         "$value": "{global.gray.50}",
         "$type": "color"
       },
+      "layer-1-hover": {
+        "$value": "{global.gray.100}",
+        "$type": "color"
+      },
+      "layer-1-active": {
+        "$value": "{global.gray.200}",
+        "$type": "color"
+      },
+      "layer-1-selected": {
+        "$value": "{global.gray.200}",
+        "$type": "color"
+      },
+      "layer-1-selected-hover": {
+        "$value": "{global.gray.200}",
+        "$type": "color"
+      },
       "layer-2": {
         "$value": "{global.white}",
+        "$type": "color"
+      },
+      "layer-2-hover": {
+        "$value": "{global.gray.50}",
+        "$type": "color"
+      },
+      "layer-2-active": {
+        "$value": "{global.gray.100}",
+        "$type": "color"
+      },
+      "layer-2-selected": {
+        "$value": "{global.gray.100}",
+        "$type": "color"
+      },
+      "layer-2-selected-hover": {
+        "$value": "{global.gray.200}",
         "$type": "color"
       },
       "elevated": {
@@ -30,11 +62,11 @@
         "$type": "color"
       },
       "selected": {
-        "$value": "{global.indigo.50}",
+        "$value": "{global.gray.100}",
         "$type": "color"
       },
       "selected-hover": {
-        "$value": "{global.indigo.100}",
+        "$value": "{global.gray.200}",
         "$type": "color"
       }
     },
