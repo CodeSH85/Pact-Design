@@ -1,63 +1,71 @@
 /**
- * Dependency-free OKLCH <-> sRGB / HEX conversion utilities for DTCG color tokens.
- * Math based on Björn Ottosson's OKLab reference implementation.
+ * @file
+ * OKLCH <-> sRGB / HEX conversion utilities for DTCG color tokens,
+ * powered by chroma-js.
  */
+
+import chroma from 'chroma-js'
 import { clamp01, isFalsy, round } from './helper.js'
 
-export const toLinear = (c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)
-export const toGamma = (c) => (c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055)
+/**
+ * Constructs a chroma Color object from any DTCG color token value, CSS string, or raw components.
+ * @param {object} DTCGColorToken
+ */
+export function toColor(DTCGColorToken) {
+  if (!DTCGColorToken) return null
 
-/** @returns {{ r:number, g:number, b:number, inGamut:boolean }} gamma-encoded sRGB in 0..1 */
+  if (typeof DTCGColorToken === 'object') {
+    if (DTCGColorToken.colorSpace && Array.isArray(DTCGColorToken.components)) {
+      return chroma(DTCGColorToken.components, DTCGColorToken.colorSpace)
+    }
+    if (DTCGColorToken.hex) return chroma(DTCGColorToken.hex)
+  }
+  return chroma(DTCGColorToken)
+}
+
+/**
+ * @returns {{ r:number, g:number, b:number, inGamut:boolean }} gamma-encoded sRGB in 0..1
+ * */
 export function oklchToRgb(L, C, H) {
-  const hr = ((Number(H) || 0) * Math.PI) / 180
-  const a = C * Math.cos(hr)
-  const b = C * Math.sin(hr)
-
-  const l = (L + 0.3963377774 * a + 0.2158037573 * b) ** 3
-  const m = (L - 0.1055613458 * a - 0.0638541728 * b) ** 3
-  const s = (L - 0.0894841775 * a - 1.291485548 * b) ** 3
-
-  const lr = 4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s
-  const lg = -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s
-  const lb = -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s
-
-  const eps = 0.0005
-  const inGamut = [lr, lg, lb].every((v) => v >= -eps && v <= 1 + eps)
-  return { r: clamp01(toGamma(lr)), g: clamp01(toGamma(lg)), b: clamp01(toGamma(lb)), inGamut }
+  try {
+    const c = chroma([Number(L) || 0, Number(C) || 0, Number(H) || 0], 'oklch')
+    const [r, g, b] = c.rgb()
+    return {
+      r: clamp01(r / 255),
+      g: clamp01(g / 255),
+      b: clamp01(b / 255),
+      inGamut: !c.clipped()
+    }
+  } catch {
+    return { r: 0, g: 0, b: 0, inGamut: false }
+  }
 }
 
 export function rgbToOklch({ r, g, b }) {
-  const lr = toLinear(r)
-  const lg = toLinear(g)
-  const lb = toLinear(b)
-
-  const l = Math.cbrt(0.4122214708 * lr + 0.5363649185 * lg + 0.0514616106 * lb)
-  const m = Math.cbrt(0.2119034982 * lr + 0.6806995451 * lg + 0.1073969566 * lb)
-  const s = Math.cbrt(0.0883024619 * lr + 0.2817188376 * lg + 0.6299787005 * lb)
-
-  const L = 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s
-  const A = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s
-  const B = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s
-
-  const C = Math.sqrt(A * A + B * B)
-  let H = (Math.atan2(B, A) * 180) / Math.PI
-  if (H < 0) H += 360
-  // Achromatic colours have no meaningful hue
-  if (C < 0.0001) H = 0
-  return [round(L), round(C < 0.0001 ? 0 : C), round(H)]
+  try {
+    const [L, C, H] = chroma([clamp01(r) * 255, clamp01(g) * 255, clamp01(b) * 255]).oklch()
+    const validC = C < 0.0001 ? 0 : round(C)
+    const validH = isNaN(H) || validC === 0 ? 0 : round(H)
+    return [round(L), validC, validH]
+  } catch {
+    return [0, 0, 0]
+  }
 }
 
 export function hexToRgb(hex) {
-  let h = String(hex).trim().replace(/^#/, '')
-  if (h.length === 3 || h.length === 4) h = [...h].map((c) => c + c).join('')
-  if (!/^[0-9a-f]{6}([0-9a-f]{2})?$/i.test(h)) return null
-  const n = (i) => parseInt(h.slice(i, i + 2), 16) / 255
-  return { r: n(0), g: n(2), b: n(4), a: h.length === 8 ? n(6) : 1 }
+  if (!hex) return null
+
+  try {
+    const c = chroma(String(hex).trim())
+    const [r, g, b, a] = c.rgba()
+    return { r: r / 255, g: g / 255, b: b / 255, a: round(a) }
+  } catch {
+    return null
+  }
 }
 
 export function rgbToHex({ r, g, b }) {
-  const p = (v) => Math.round(clamp01(v) * 255).toString(16).padStart(2, '0')
-  return `#${p(r)}${p(g)}${p(b)}`
+  return chroma([clamp01(r) * 255, clamp01(g) * 255, clamp01(b) * 255]).hex()
 }
 
 /**
@@ -67,7 +75,11 @@ export function rgbToHex({ r, g, b }) {
 export function oklchToHex(...args) {
   const [L, C, H] = args.length === 1 && Array.isArray(args[0]) ? args[0] : args
   if (isFalsy(L) || isFalsy(C) || isFalsy(H)) return null
-  return rgbToHex(oklchToRgb(L, C, H))
+  try {
+    return chroma([Number(L), Number(C), Number(H)], 'oklch').hex()
+  } catch {
+    return null
+  }
 }
 
 /**
@@ -80,20 +92,20 @@ export function hexToOklch(hex) {
   if (typeof hex !== 'string' || !hex.startsWith('#')) {
     return hex
   }
-  const rgb = hexToRgb(hex)
-  if (!rgb) return hex
-  return {
-    colorSpace: 'oklch',
-    components: rgbToOklch(rgb),
-    alpha: round(rgb.a ?? 1),
-    hex: rgbToHex(rgb)
+  try {
+    const c = chroma(hex)
+    const [L, C, H] = c.oklch()
+    const validC = C < 0.0001 ? 0 : round(C)
+    const validH = isNaN(H) || validC === 0 ? 0 : round(H)
+    return {
+      colorSpace: 'oklch',
+      components: [round(L), validC, validH],
+      alpha: round(c.alpha()),
+      hex: c.hex()
+    }
+  } catch {
+    return hex
   }
-}
-
-function parsePercentOrNumber(str, scale = 1) {
-  const s = String(str).trim()
-  if (s.endsWith('%')) return (parseFloat(s) / 100) * scale
-  return parseFloat(s)
 }
 
 /**
@@ -102,60 +114,37 @@ function parsePercentOrNumber(str, scale = 1) {
  * and `{ colorSpace: 'oklch' | 'srgb', components, alpha, hex }` objects.
  */
 export function colorValueToRgb(value) {
-  if (!value) return null
-  if (typeof value === 'string') {
-    const str = value.trim()
-    if (str.startsWith('#')) return hexToRgb(str)
-
-    const oklchMatch = str.match(
-      /^oklch\(\s*([\d.+-]+%?)\s+([\d.+-]+%?)\s+([\d.+-]+)(?:deg)?(?:\s*\/\s*([\d.+-]+%?))?\s*\)$/i
-    )
-    if (oklchMatch) {
-      const L = parsePercentOrNumber(oklchMatch[1], 1)
-      const C = parsePercentOrNumber(oklchMatch[2], 0.4)
-      const H = parseFloat(oklchMatch[3])
-      const a = oklchMatch[4] !== undefined ? parsePercentOrNumber(oklchMatch[4], 1) : 1
-      return { ...oklchToRgb(L, C, H), a }
+  try {
+    const c = toColor(value)
+    if (!c) return null
+    const [r, g, b, a] = c.rgba()
+    return {
+      r: clamp01(r / 255),
+      g: clamp01(g / 255),
+      b: clamp01(b / 255),
+      a: clamp01(a),
+      inGamut: !c.clipped()
     }
-
-    const rgbMatch = str.match(
-      /^rgba?\(\s*([\d.]+%?)\s*[, ]\s*([\d.]+%?)\s*[, ]\s*([\d.]+%?)(?:\s*[,/]\s*([\d.]+%?))?\s*\)$/i
-    )
-    if (rgbMatch) {
-      const parseChan = (c) => (c.endsWith('%') ? parseFloat(c) / 100 : parseFloat(c) / 255)
-      const a = rgbMatch[4] !== undefined ? parsePercentOrNumber(rgbMatch[4], 1) : 1
-      return {
-        r: clamp01(parseChan(rgbMatch[1])),
-        g: clamp01(parseChan(rgbMatch[2])),
-        b: clamp01(parseChan(rgbMatch[3])),
-        a: clamp01(a),
-        inGamut: true
-      }
-    }
-
-    return hexToRgb(str)
+  } catch {
+    return null
   }
-  if (typeof value === 'object') {
-    if (value.colorSpace === 'oklch' && Array.isArray(value.components)) {
-      const [L, C, H] = value.components
-      return { ...oklchToRgb(L, C, H), a: value.alpha ?? 1 }
-    }
-    if (value.colorSpace === 'srgb' && Array.isArray(value.components)) {
-      const [r, g, b] = value.components
-      return { r, g, b, a: value.alpha ?? 1, inGamut: true }
-    }
-    if (value.hex) return hexToRgb(value.hex)
-  }
-  return null
 }
 
-/** Extracts [L, C, H] from any supported colour value. */
+/** Extracts [L, C, H] from any supported color value. */
 export function colorValueToOklch(value) {
   if (value && typeof value === 'object' && value.colorSpace === 'oklch') {
     return value.components.map(Number)
   }
-  const rgb = colorValueToRgb(value)
-  return rgb ? rgbToOklch(rgb) : [0, 0, 0]
+  try {
+    const c = toColor(value)
+    if (!c) return [0, 0, 0]
+    const [L, C, H] = c.oklch()
+    const validC = C < 0.0001 ? 0 : round(C)
+    const validH = isNaN(H) || validC === 0 ? 0 : round(H)
+    return [round(L), validC, validH]
+  } catch {
+    return [0, 0, 0]
+  }
 }
 
 export function colorValueToCss(value) {
@@ -175,8 +164,12 @@ export function colorValueToCss(value) {
 
 export function colorValueToHex(value) {
   if (value && typeof value === 'object' && value.hex) return value.hex
-  const rgb = colorValueToRgb(value)
-  return rgb ? rgbToHex(rgb) : '#000000'
+  try {
+    const c = toColor(value)
+    return c ? c.hex() : '#000000'
+  } catch {
+    return '#000000'
+  }
 }
 
 /**

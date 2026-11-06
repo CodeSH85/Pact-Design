@@ -18,6 +18,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const TOKENS_DIR = path.join(ROOT, 'tokens')
 const STATIC_DIR = path.join(ROOT, 'playground')
 const UTILS_DIR = path.join(ROOT, 'utils')
+const NODE_MODULES_DIR = path.join(ROOT, 'node_modules')
 const PORT = Number(process.env.PORT) || 5174
 
 const MIME = {
@@ -94,9 +95,17 @@ async function putTokens(req, res) {
 
 async function serveStatic(urlPath, res) {
   const rel = decodeURIComponent(urlPath === '/' ? '/index.html' : urlPath)
+  const isNodeModules = rel.startsWith('/node_modules/')
   const isUtils = rel.startsWith('/utils/')
-  const baseDir = isUtils ? UTILS_DIR : STATIC_DIR
-  const subPath = isUtils ? rel.slice('/utils'.length) : rel
+  let baseDir = STATIC_DIR
+  let subPath = rel
+  if (isNodeModules) {
+    baseDir = NODE_MODULES_DIR
+    subPath = rel.slice('/node_modules'.length)
+  } else if (isUtils) {
+    baseDir = UTILS_DIR
+    subPath = rel.slice('/utils'.length)
+  }
   const abs = path.resolve(baseDir, `.${subPath}`)
   if (!isInside(baseDir, abs)) return send(res, 403, 'Forbidden', 'text/plain')
   try {

@@ -1,40 +1,36 @@
-/**
- * Dependency-free APCA-W3 (0.1.9 / SAPC 4g) and WCAG 2.1 contrast utilities,
- * plus CSS custom property variable resolution helpers for contrast auditing.
- */
-import { clamp01, round } from './helper.js'
-import { colorValueToRgb, getTokenColorString, toLinear } from './color.js'
+import { round } from './helper.js'
+import { getTokenColorString, toColor } from './color.js'
+import { contrast as _contrast, contrastAPCA } from 'chroma-js'
 
 export { getTokenColorString }
 
-const luminance = ({ r, g, b }) =>
-  0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b)
-
 /**
- * Calculates WCAG 2.1 contrast ratio between two colour values (any supported format).
+ * Calculates WCAG 2.x contrast ratio between two color values (any supported format).
  */
 export function calculateContrast(colorVal, backgroundVal = '#ffffff') {
-  const ca = colorValueToRgb(colorVal)
-  const cb = colorValueToRgb(backgroundVal)
-  if (!ca || !cb) return 0
-  const la = luminance(ca)
-  const lb = luminance(cb)
-  return round((Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05), 2)
+  try {
+    const ca = toColor(colorVal)
+    const cb = toColor(backgroundVal)
+    if (!ca || !cb) return 0
+    return round(_contrast(ca, cb), 2)
+  } catch {
+    return 0
+  }
 }
 
 export const contrast = calculateContrast
 
+/**
+ * Check WCAG 2.x contrast level by ratio value
+ * @param {number} ratio
+ * @returns {string}
+ */
 export function wcagLevel(ratio) {
   if (ratio >= 7) return 'AAA'
   if (ratio >= 4.5) return 'AA'
   if (ratio >= 3) return 'AA Large'
   return 'Fail'
 }
-
-const srgbToApcaY = ({ r, g, b }) =>
-  0.2126729 * (clamp01(r) ** 2.4) +
-  0.7151522 * (clamp01(g) ** 2.4) +
-  0.0721750 * (clamp01(b) ** 2.4)
 
 /**
  * Calculates APCA-W3 (0.1.9 / SAPC 4g) perceptual lightness contrast (Lc)
@@ -44,26 +40,13 @@ const srgbToApcaY = ({ r, g, b }) =>
  * Negative Lc = light text on dark background (WoB).
  */
 export function calculateAPCA(textVal, backgroundVal = '#ffffff') {
-  const ct = colorValueToRgb(textVal)
-  const cb = colorValueToRgb(backgroundVal)
-  if (!ct || !cb) return 0
-
-  let Ytxt = srgbToApcaY(ct)
-  let Ybg = srgbToApcaY(cb)
-
-  // Soft clamp near black (blkThrs = 0.022, blkClmp = 1.414)
-  if (Ytxt <= 0.022) Ytxt += (0.022 - Ytxt) ** 1.414
-  if (Ybg <= 0.022) Ybg += (0.022 - Ybg) ** 1.414
-  if (Math.abs(Ybg - Ytxt) < 0.0005) return 0
-
-  if (Ybg > Ytxt) {
-    // Dark text on light background (BoW)
-    const sapc = ((Ybg ** 0.56) - (Ytxt ** 0.57)) * 1.14
-    return sapc < 0.1 ? 0 : round((sapc - 0.027) * 100, 1)
-  } else {
-    // Light text on dark background (WoB)
-    const sapc = ((Ybg ** 0.65) - (Ytxt ** 0.62)) * 1.14
-    return sapc > -0.1 ? 0 : round((sapc + 0.027) * 100, 1)
+  try {
+    const ct = toColor(textVal)
+    const cb = toColor(backgroundVal)
+    if (!ct || !cb) return 0
+    return round(contrastAPCA(ct, cb), 1)
+  } catch {
+    return 0
   }
 }
 
