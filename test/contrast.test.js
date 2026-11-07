@@ -106,9 +106,9 @@ describe('System Semantic Color Contrast Audit (Light & Dark CSS Variables)', ()
     describe(`Theme: [data-theme="${themeName}"]`, () => {
       it('maintains readable text hierarchy across all surface and interactive backgrounds', () => {
         const textRules = [
-          { textVar: '--system-text-primary', minLc: 75, minRatio: 7.0 },
-          { textVar: '--system-text-secondary', minLc: 60, minRatio: 4.5 },
-          { textVar: '--system-text-muted', minLc: 45, minRatio: 3.0 }
+          { textVar: '--system-on-surface-default', minLc: 75, minRatio: 7.0 },
+          { textVar: '--system-on-surface-secondary', minLc: 60, minRatio: 4.5 },
+          { textVar: '--system-on-surface-muted', minLc: 45, minRatio: 3.0 }
         ]
 
         for (const bgVar of SURFACE_VARS) {

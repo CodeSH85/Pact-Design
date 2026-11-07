@@ -70,8 +70,8 @@
         "$type": "color"
       }
     },
-    "text": {
-      "primary": {
+    "on-surface": {
+      "default": {
         "$value": "{global.white}",
         "$type": "color"
       },
