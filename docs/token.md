@@ -167,9 +167,9 @@ For numeric columns in data tables, metrics (`12.05 ms`), quantities, and percen
 
 ### 3.3 Spacing (`tokens/spacing/`)
 
-- **Global (`global.spacing.00`–`12`)**: `0px` (`00`) and `0.125rem` (2px) up to `4rem` (64px).
-- **System (`system.spacing.*`)**: Anchored at `md = 1rem` (16px):
-  - `none` (0px), `3xs` (2px), `2xs` (4px), `xs` (8px), `sm` (12px), **`md` (16px)**, `lg` (20px), `xl` (24px), `2xl` (32px), `3xl` (40px), `4xl` (48px), `5xl` (64px).
+- **Global (`global.spacing.00`–`13`)**: `0px` (`00`), `0.0625rem` (1px) hairline, and `0.125rem` (2px) up to `4rem` (64px).
+- **System (`system.spacing.*`)**: Anchored at `md = 0.5rem` (8px) for dense, high-density desktop & data UI:
+  - `none` (0px), `3xs` (1px), `2xs` (2px), `xs` (4px), `sm` (6px), **`md` (8px)**, `lg` (12px), `xl` (16px), `2xl` (20px), `3xl` (24px), `4xl` (32px), `5xl` (48px).
 
 ---
 
