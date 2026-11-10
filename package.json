@@ -5,6 +5,7 @@
   "main": "index.js",
   "exports": {
     "./css": "./build/css/_variables.css",
+    "./uno": "./build/uno/preset.js",
     "./tokens/*": "./tokens/*",
     "./utils/*": "./utils/*"
   },
