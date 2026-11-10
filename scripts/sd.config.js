@@ -2,6 +2,7 @@ import StyleDictionary from 'style-dictionary'
 import { createPropertyFormatter, fileHeader } from 'style-dictionary/utils'
 import { colorValueToCss } from '../utils/color.js'
 import { dimensionToCss, refOf, SHADOW_PROPS, TYPOGRAPHY_PROPS } from '../utils/token.js'
+import { UnoCssTransformer } from './unoCss.js'
 
 /**
  * StyleDictionary's DTCG Types Map Util has some issue with some token types, we need to implement ourself
@@ -175,11 +176,22 @@ export default {
           }
         }
       ]
+    },
+    uno: {
+      transforms: cssTransformList,
+      buildPath: 'build/uno/',
+      files: [
+        {
+          destination: 'preset.js',
+          format: 'uno/preset'
+        }
+      ]
     }
   },
   hooks: {
     transforms: customTransforms,
     formats: {
+      'uno/preset': UnoCssTransformer,
       'css/variables-themed': async({ dictionary, file, options }) => {
         const header = await fileHeader({ file })
         const usesDtcg = options.usesDtcg ?? true

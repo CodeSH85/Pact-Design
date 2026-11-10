@@ -1,0 +1,38 @@
+---
+title: "Sizing & Control Density"
+eyebrow: "Foundations · Density & Dimensions"
+description: "定義緊湊型互動控制項高度（24px–40px）、圖示尺寸比例尺（12px–32px）與通用結構尺寸。"
+order: 6
+---
+
+## 緊湊控制項高度 (`system.control.height.*`)
+
+為確保按鈕（Button）、文字輸入框（Input）、下拉選單（Select）與資料表列高（Table Row）在同一水平工具列或表單列中完美對齊，Pact Design 定義五階標準控制項高度：
+
+| 密度等級 | UnoCSS 工具類別 | CSS Variable | 數值 (`rem` / `px`) | 建議搭配字階與圖示 | 典型應用場景 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **`xs`** (Ultra-Compact) | `h-control-xs` | `--system-control-height-xs` | `1.5rem` (`24px`) | `text-label-xs` + `w-icon-xs` (12px) | 資料表行內操作按鈕、樹狀節點列、狀態標籤列。 |
+| **`sm`** (Compact) | `h-control-sm` | `--system-control-height-sm` | `1.75rem` (`28px`) | `text-label-xs` + `w-icon-sm` (16px) | **高密度預設**：緊湊工具列、資料表預設列高、次要動作按鈕。 |
+| **`md`** (Default) | `h-control-md` | `--system-control-height-md` | `2rem` (`32px`) | `text-label-sm` + `w-icon-sm` (16px) | **桌面端標準預設**：一般表單輸入框、標準按鈕、導覽項目。 |
+| **`lg`** (Comfortable) | `h-control-lg` | `--system-control-height-lg` | `2.25rem` (`36px`) | `text-label-md` + `w-icon-md` (20px) | 獨立對話框（Dialog）表單欄位、強調型主要動作按鈕。 |
+| **`xl`** (Spacious) | `h-control-xl` | `--system-control-height-xl` | `2.5rem` (`40px`) | `text-label-lg` + `w-icon-lg` (24px) | 全域搜尋列（Command Bar）、登入頁大型表單控制項。 |
+
+---
+
+## 圖示尺寸比例尺 (`system.icon.size.*`)
+
+圖示尺寸與控制項高度嚴格配對，支援透過 UnoCSS `w-icon-<size>` 與 `h-icon-<size>` 直接設定寬高：
+
+| Token Key | UnoCSS 工具類別 | CSS Variable | 數值 (`rem` / `px`) | 典型應用場景 |
+| :--- | :--- | :--- | :--- | :--- |
+| **`xs`** | `w-icon-xs h-icon-xs` | `--system-icon-size-xs` | `0.75rem` (`12px`) | 樹狀展開箭頭（Chevron）、行內 Badge 狀態圖示、排序指示器。 |
+| **`sm`** | `w-icon-sm h-icon-sm` | `--system-icon-size-sm` | `1rem` (`16px`) | 緊湊工具列圖示、選單項目圖示（搭配 `control-xs` / `control-sm` / `control-md`）。 |
+| **`md`** | `w-icon-md h-icon-md` | `--system-icon-size-md` | `1.25rem` (`20px`) | 標準導覽列圖示、獨立圖示按鈕（搭配 `control-lg`）。 |
+| **`lg`** | `w-icon-lg h-icon-lg` | `--system-icon-size-lg` | `1.5rem` (`24px`) | 頂部主導覽列、大型標題列圖示（搭配 `control-xl`）。 |
+| **`xl`** | `w-icon-xl h-icon-xl` | `--system-icon-size-xl` | `2rem` (`32px`) | 空狀態（Empty State）提示圖示、功能模組引導圖示。 |
+
+---
+
+## 通用結構尺寸 (`system.size.*`)
+
+提供從 `3xs` (`4px`) 至 `5xl` (`80px`) 的 11 階通用尺寸 Token（`--system-size-*`），適用於 Checkbox 方框（`size-xs: 16px`）、Avatar 頭像（`size-md: 24px`、`size-lg: 32px`）與固定寬高結構容器。

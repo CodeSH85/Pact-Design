@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { ComponentPlayground } from '../../components/ui/ComponentPlayground.jsx'
+---
+
+<BaseLayout
+  title="Base UI Components Playground"
+  description="Interactive playground testing Pact Design system tokens with headless React Base UI components."
+>
+  <div class="flex flex-col gap-xl">
+    <header class="flex flex-col gap-xs pb-md border-b border-border-default">
+      <span class="text-label-xs text-primary uppercase">Playground · React + Base UI</span>
+      <h1 class="text-heading-lg text-on-surface">Component Token Sandbox</h1>
+      <p class="text-body-md text-on-surface-secondary">
+        Testing headless <code>@base-ui/react</code> primitives styled exclusively with Pact Design system tokens via UnoCSS.
+      </p>
+    </header>
+
+    <ComponentPlayground client:load />
+  </div>
+</BaseLayout>
