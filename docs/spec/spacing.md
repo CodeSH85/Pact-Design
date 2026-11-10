@@ -1,0 +1,34 @@
+---
+title: "Spacing Scale"
+eyebrow: "Foundations · Spatial Rhythm"
+description: "以 md = 8px 為核心錨點的細粒度語意間距比例尺，支援 1px–64px 的高密度工作區留白控制。"
+order: 5
+---
+
+## 間距設計原則
+
+高資訊密度介面（Data Grids、Inspector Panels、Docking Toolbars）需要在極小範圍內建立清晰的視覺分組。Pact Design 的間距系統遵循以下原則：
+
+- **緊湊基準錨點 (`md = 8px`)**：不同於傳統行銷網站以 `16px` 為預設間距，Pact Design 將 `system.spacing.md` 錨定於 `0.5rem` (`8px`)，使元件內距（Padding）與容器間距（Gap）預設即具備緊湊韻律。
+- **細粒度微調 (`3xs: 1px`, `2xs: 2px`, `xs: 4px`, `sm: 6px`)**：提供低於 `8px` 的四段微間距，用於緊鄰工具列按鈕、行內標籤（Badge）與高密度表格儲存格內距。
+
+---
+
+## 語意間距比例尺 (`system.spacing.*`)
+
+所有間距 Token 皆可直接透過 UnoCSS 工具類別（如 `p-md`、`px-sm`、`py-2xs`、`gap-xs`、`m-lg`）套用：
+
+| Token Key | UnoCSS 範例 (`p-*` / `gap-*`) | CSS Variable | Global 參照 | 數值 (`rem` / `px`) | 典型應用場景 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **`none`** | `p-none`, `gap-none` | `--system-spacing-none` | `{global.spacing.00}` | `0px` | 齊平接合之分割窗格、無間距邊框容器。 |
+| **`3xs`** | `p-3xs`, `gap-3xs` | `--system-spacing-3xs` | `{global.spacing.01}` | `0.0625rem` (`1px`) | 髮絲分隔線留白、極緊湊微調。 |
+| **`2xs`** | `p-2xs`, `gap-2xs` | `--system-spacing-2xs` | `{global.spacing.02}` | `0.125rem` (`2px`) | 行內 Badge 圖文間距、緊湊選單項目垂直內距。 |
+| **`xs`** | `p-xs`, `gap-xs` | `--system-spacing-xs` | `{global.spacing.03}` | `0.25rem` (`4px`) | 按鈕圖示與文字間距、緊湊按鈕群組間距。 |
+| **`sm`** | `p-sm`, `gap-sm` | `--system-spacing-sm` | `{global.spacing.04}` | `0.375rem` (`6px`) | 小型控制項水平內距、側欄導覽項目內距。 |
+| **`md`** | `p-md`, `gap-md` | `--system-spacing-md` | `{global.spacing.05}` | `0.5rem` (`8px`) | **系統預設間距**：標準按鈕水平內距、表單項目間距。 |
+| **`lg`** | `p-lg`, `gap-lg` | `--system-spacing-lg` | `{global.spacing.06}` | `0.75rem` (`12px`) | 卡片與面板內部預設 Padding、工具列分組間距。 |
+| **`xl`** | `p-xl`, `gap-xl` | `--system-spacing-xl` | `{global.spacing.07}` | `1rem` (`16px`) | 區塊（Section）內部模組間距、對話框內容邊距。 |
+| **`2xl`** | `p-2xl`, `gap-2xl` | `--system-spacing-2xl` | `{global.spacing.08}` | `1.25rem` (`20px`) | 獨立面板區塊之間的垂直分隔。 |
+| **`3xl`** | `p-3xl`, `gap-3xl` | `--system-spacing-3xl` | `{global.spacing.09}` | `1.5rem` (`24px`) | 主工作區頁面內容外圍 Padding。 |
+| **`4xl`** | `p-4xl`, `gap-4xl` | `--system-spacing-4xl` | `{global.spacing.10}` | `2rem` (`32px`) | 大型章節（Major Sections）之間的垂直間距。 |
+| **`5xl`** | `p-5xl`, `gap-5xl` | `--system-spacing-5xl` | `{global.spacing.12}` | `3rem` (`48px`) | 頁面級別頂部或底部大型留白。 |

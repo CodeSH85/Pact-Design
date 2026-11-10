@@ -1,0 +1,56 @@
+---
+title: "色彩"
+eyebrow: "Foundations · Color System"
+description: "建立於 OKLCH 均勻感知色彩空間的 13 組 11 階色票、四層工作區背景階層、on-surface 文字階層與 APCA 對比校準規範。"
+order: 3
+demos:
+  - "color-palette"
+---
+
+## OKLCH 均勻感知色階
+
+Pact Design 的色彩 token 採用 **OKLCH** 色彩空間（`colorSpace: "oklch"`，`components: [L, C, H]`），提供 13 組色系 × 11 階色票（`50`–`1000`）以及 `white` (`#ffffff`) 與 `black` (`#000000`)：
+
+- 基礎色系：`gray`、`coolGray`、`warmGray`、`cyan`、`blue`、`indigo`、`purple`、`magenta`、`red`、`orange`、`yellow`、`green`（翡翠綠 `H = 148°`）、`mint`。
+- 感知明度曲線：
+  - `50` (`L = 0.968`) → `100` (`0.930`) → `200` (`0.870`) → `300` (`0.790`) → `400` (`0.698`) → **`500` (`0.600`，感知明度中點)** → `600` (`0.504`) → `700` (`0.414`) → `800` (`0.338`) → `900` (`0.276`) → `1000` (`0.228`)。
+- APCA 與 sRGB 色域保證：所有 `500`–`1000` 色階對純白文字皆通過 **APCA `|Lc| >= 60`**，且全部 143 個色階 100% 落於標準 sRGB 色域內。
+
+---
+
+## 工作區背景階層
+
+高密度工作區將介面劃分為四個明度階層、半透明遮罩（Backdrop），以及對應的互動狀態（`hover`、`active`、`selected`、`selected-hover`）：
+
+| Token 路徑 | UnoCSS 工具類別 | Light 參照 | Dark 參照 | 語意角色說明 |
+| :--- | :--- | :--- | :--- | :--- |
+| `system.background.base` | `bg-base` | `{global.gray.100}` | `{global.gray.1000}` | 最底層應用程式畫布（App Canvas / Pasteboard）。 |
+| `system.background.layer-1` | `bg-layer-1` | `{global.gray.50}` | `{global.gray.900}` | 主要結構框架（`TopNav`、`Side-Nav`、側邊工具列、屬性面板）。 |
+| `system.background.layer-2` | `bg-layer-2` | `{global.white}` | `{global.gray.800}` | 主要編輯區、資料表（Data Grid）與卡片內容容器。 |
+| `system.background.elevated` | `bg-elevated` | `{system.background.layer-2}` | `{system.background.layer-2}` | 懸浮於工作區之上的下拉選單、Popover 與 Modal（搭配 `shadow-elevation-*`）。 |
+| `system.background.backdrop` | `bg-backdrop` | `{global.scrim.01}` (`α 0.48`) | `{global.scrim.02}` (`α 0.68`) | Modal 與 Drawer 背後的半透明遮罩層。 |
+| `system.background.disabled` | `bg-disabled` | `{global.gray.100}` | `{global.gray.800}` | 禁用表單控制項與按鈕的通用背景色。 |
+
+---
+
+## 表面文字階層
+
+為避免與語意品牌色 `text-primary`（`system.semantic.primary`）產生命名衝突，Pact Design 採用 **`on-surface`** 命名規範定義工作區文字階層，並確保在所有背景層級上皆通過 APCA 對比度驗證：
+
+| Token 路徑 | UnoCSS 工具類別 | Light 參照 (`layer-2` APCA) | Dark 參照 (`layer-2` APCA) | 語意角色說明 |
+| :--- | :--- | :--- | :--- | :--- |
+| `system.on-surface.default` | `text-on-surface` | `{global.gray.1000}` (`Lc +104.0`) | `{global.white}` (`Lc -100.9`) | 主要標題、內文、資料表主要儲存格與識別碼（`Lc 90+`）。 |
+| `system.on-surface.secondary` | `text-on-surface-secondary` | `{global.gray.700}` (`Lc +89.8`) | `{global.gray.50}` (`Lc -93.6`) | 次要標題、表單標籤、次要欄位資訊（`Lc 75+`）。 |
+| `system.on-surface.muted` | `text-on-surface-muted` | `{global.gray.600}` (`Lc +79.6`) | `{global.gray.200}` (`Lc -73.5`) | 輔助說明、時間戳記、Placeholder 與註腳（`Lc 70+`）。 |
+| `system.on-surface.disabled` | `text-on-surface-disabled` | `{global.gray.400}` (`Lc +52.1`) | `{global.gray.500}` (`Lc -27.8`) | 禁用狀態文字與非作用中控制項標籤。 |
+
+---
+
+## 語意狀態與互動色
+
+七組語意角色（`primary`、`secondary`、`success`、`danger`、`warning`、`info`、`neutral`）各自提供 7 個協同 Token，分為兩種視覺模式：
+
+1. **Solid Action 模式（`<role>`、`on-<role>`、`<role>-hover`、`<role>-active`）**
+   適用於高優先級主按鈕與啟用狀態控制項，在淺色與深色主題皆維持 **字淺背景深（Light-on-Deep）** 的高對比視覺階層（Light `|Lc| >= 69`、Dark `|Lc| >= 82`）。
+2. **Subtle Container 模式（`<role>-subtle`、`on-<role>-subtle`、`<role>-border`）**
+   適用於高密度資料表中的狀態標籤（Badge）、行內提示（Inline Banner）與標籤，採用 **同色系柔和背景 + 高對比深/亮字**（`|Lc| >= 75`），避免實心色塊在大量資料列中造成視覺疲勞。

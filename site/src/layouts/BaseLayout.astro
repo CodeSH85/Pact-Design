@@ -20,10 +20,18 @@ const navSections = [
   {
     title: 'Foundations',
     items: [
-      { label: 'Color & APCA Contrast', href: '/foundations/color' },
-      { label: 'Typography & Numerals', href: '/foundations/typography' },
-      { label: 'Sizing & Spacing', href: '/foundations/sizing-spacing' },
-      { label: 'Border, Elevation & Motion', href: '/foundations/elevation-motion' }
+      { label: 'Color', href: '/foundations/color' },
+      { label: 'Typography', href: '/foundations/typography' },
+      { label: 'Spacing', href: '/foundations/spacing' },
+      { label: 'Sizing', href: '/foundations/sizing' },
+      { label: 'Elevation', href: '/foundations/elevation' },
+      { label: 'Motion', href: '/foundations/motion' }
+    ]
+  },
+  {
+    title: 'Components (Base UI)',
+    items: [
+      { label: 'Playground', href: '/components' }
     ]
   }
 ]
@@ -35,11 +43,11 @@ function isCurrentPage(itemHref) {
 ---
 
 <!DOCTYPE html>
-<html lang="zh-Hant" data-theme="light">
+<html lang="zh-Hant" data-theme="light" class="h-full">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title === 'Pact Design' ? 'Pact Design · Design System' : `${title} · Pact Design`}</title>
+    <title>{title === 'Pact Design' ? 'Pact Design · Design System' : `${title} | Pact Design`}</title>
     <meta name="description" content={description} />
     <script is:inline>
       (() => {
@@ -50,47 +58,48 @@ function isCurrentPage(itemHref) {
       })()
     </script>
   </head>
-  <body>
-    <div class="app-shell">
-      <header class="app-topbar">
-        <div class="brand-group">
-          <a href={withBase('/')} class="brand-link">
-            <span class="brand-mark">P</span>
+  <body class="h-full w-full overflow-hidden">
+    <div class="flex flex-col h-screen bg-base text-on-surface">
+      <header class="flex shrink-0 bg-layer-1 w-full items-center justify-between p-md border-b border-border-default">
+        <div class="flex w-full">
+          <a href={withBase('/')} class="">
+            <span class="">P</span>
             <span>Pact Design</span>
           </a>
-          <span class="pact-badge pact-badge-primary">v1.0.0</span>
-          <span class="pact-badge">DTCG 2025.10</span>
         </div>
 
-        <div class="topbar-controls">
-          <div class="pact-seg" role="group" aria-label="切換全站主題">
-            <button type="button" class="pact-seg-btn" data-theme-btn="light" aria-pressed="true">
-              ☀ Light
+        <div class="flex w-full justify-end">
+          <div class="flex gap-sm" role="group" aria-label="切換全站主題">
+            <button type="button" class="px-sm" data-theme-btn="light" aria-pressed="true">
+              ☀
             </button>
-            <button type="button" class="pact-seg-btn" data-theme-btn="dark" aria-pressed="false">
-              ☾ Dark
+            <button type="button" class="" data-theme-btn="dark" aria-pressed="false">
+              ☾
             </button>
+            <a
+              href="https://github.com/CodeSH85/Pact-UI"
+              target="_blank"
+              rel="noopener noreferrer"
+              class=""
+            >
+              GitHub
+            </a>
           </div>
-          <a
-            href="https://github.com/CodeSH85/Pact-UI"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="pact-btn pact-btn-xs"
-          >
-            GitHub ↗
-          </a>
         </div>
       </header>
 
-      <div class="app-body">
-        <aside class="app-sidebar" aria-label="Documentation Navigation">
+      <div class="flex flex-1 min-h-0 overflow-hidden">
+        <aside
+          class="flex flex-col shrink-0 bg-layer-1 border-r border-border-default py-md overflow-y-auto"
+          aria-label="Documentation Navigation"
+        >
           {navSections.map((section) => (
-            <div class="nav-section">
-              <div class="nav-section-title">{section.title}</div>
+            <div class="flex flex-col">
+              <div class="px-sm">{section.title}</div>
               {section.items.map((item) => (
                 <a
                   href={withBase(item.href)}
-                  class="nav-item"
+                  class="hover-bg-layer-1-hover text-on-surface-muted py-2xs px-sm"
                   aria-current={isCurrentPage(item.href) ? 'page' : undefined}
                 >
                   <span>{item.label}</span>
@@ -100,8 +109,8 @@ function isCurrentPage(itemHref) {
           ))}
         </aside>
 
-        <main class="app-main">
-          <div class="content-container">
+        <main class="flex-1 min-w-0 overflow-y-auto p-lg">
+          <div class="bg-layer-1 py-md px-lg">
             <slot />
           </div>
         </main>

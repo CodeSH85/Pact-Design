@@ -1,0 +1,64 @@
+---
+import { getEntry, render } from 'astro:content'
+import ColorPalette from './demos/ColorPalette.astro'
+
+const { id, showHeader = true } = Astro.props
+
+const entry = await getEntry('spec', id)
+if (!entry) {
+  throw new Error(`Spec markdown entry "${id}" not found in docs/spec/${id}.md`)
+}
+
+const { Content } = await render(entry)
+const { title, eyebrow, description, demos = [] } = entry.data
+
+const demoRegistry = {
+  'color-palette': ColorPalette
+}
+
+const proseClasses = [
+  'flex flex-col gap-md text-body-sm text-on-surface',
+  '[&_h2]:mt-md [&_h2]:mb-0 [&_h2]:text-heading-xs [&_h2]:text-on-surface',
+  '[&_h3]:mt-sm [&_h3]:mb-0 [&_h3]:text-subheader-sm [&_h3]:text-on-surface',
+  '[&_p]:m-0 [&_p]:text-body-sm [&_p]:text-on-surface-secondary [&_p]:leading-07',
+  '[&_strong]:text-on-surface [&_strong]:font-04',
+  '[&_a]:text-primary [&_a:hover]:text-primary-hover [&_a:hover]:underline',
+  '[&_ul]:m-0 [&_ul]:pl-xl [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-xs [&_ul]:text-on-surface-secondary [&_ul]:list-disc',
+  '[&_ol]:m-0 [&_ol]:pl-xl [&_ol]:flex [&_ol]:flex-col [&_ol]:gap-xs [&_ol]:text-on-surface-secondary [&_ol]:list-decimal',
+  '[&_li]:leading-07',
+  '[&_hr]:border-0 [&_hr]:border-t [&_hr]:border-border-default [&_hr]:my-xs',
+  '[&_blockquote]:m-0 [&_blockquote]:py-sm [&_blockquote]:px-md [&_blockquote]:border-l-lg [&_blockquote]:border-primary [&_blockquote]:bg-layer-2 [&_blockquote]:rounded-r-xs [&_blockquote]:text-on-surface-secondary',
+  '[&_code]:text-mono-xs',
+  '[&_:not(pre)>code]:px-2xs [&_:not(pre)>code]:py-1px [&_:not(pre)>code]:rounded-2xs [&_:not(pre)>code]:bg-layer-2 [&_:not(pre)>code]:border [&_:not(pre)>code]:border-border-subtle [&_:not(pre)>code]:text-on-surface',
+  '[&_pre]:m-0 [&_pre]:p-md [&_pre]:rounded-xs [&_pre]:bg-layer-2 [&_pre]:border [&_pre]:border-border-default [&_pre]:overflow-x-auto [&_pre]:text-mono-xs',
+  '[&_table]:w-full [&_table]:border-collapse [&_table]:text-left [&_table]:text-body-xs [&_table]:bg-layer-2 [&_table]:border [&_table]:border-border-default [&_table]:rounded-xs [&_table]:overflow-hidden',
+  '[&_th]:h-control-sm [&_th]:py-2xs [&_th]:px-sm [&_th]:bg-layer-1 [&_th]:text-on-surface-secondary [&_th]:text-label-xs [&_th]:border-b [&_th]:border-border-default [&_th]:whitespace-nowrap',
+  '[&_td]:h-control-md [&_td]:py-xs [&_td]:px-sm [&_td]:border-b [&_td]:border-border-subtle [&_td]:text-on-surface [&_td]:align-middle',
+  '[&_tr:last-child_td]:border-b-0 [&_tbody_tr:hover]:bg-hover'
+].join(' ')
+---
+
+<div class="flex flex-col gap-xl">
+  {showHeader && (
+    <header class="flex flex-col gap-xs pb-md border-b border-border-default">
+      {eyebrow && (
+        <span class="text-mono-xs text-primary uppercase">{eyebrow}</span>
+      )}
+      <h1 class="text-heading-lg text-on-surface m-0">{title}</h1>
+      {description && (
+        <p class="text-body-md text-on-surface-secondary m-0 max-w-76ch">
+          {description}
+        </p>
+      )}
+    </header>
+  )}
+
+  <article class={proseClasses}>
+    <Content />
+  </article>
+
+  {demos.map((demoKey) => {
+    const DemoComponent = demoRegistry[demoKey]
+    return DemoComponent ? <DemoComponent /> : null
+  })}
+</div>
