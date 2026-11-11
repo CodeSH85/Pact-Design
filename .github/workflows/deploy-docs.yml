@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build Tokens & Astro Site
+    name: Build Tokens & Documentation Site
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -41,11 +41,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build CSS tokens, run contrast tests, and build Astro site
+      - name: Build CSS tokens, run contrast tests, and build React site
         env:
-          ASTRO_SITE: ${{ steps.pages.outputs.origin }}
-          ASTRO_BASE: ${{ steps.pages.outputs.base_path }}
-        run: pnpm site:build
+          VITE_BASE: ${{ steps.pages.outputs.base_path }}/
+        run: |
+          pnpm site:build
+          cp ./site/dist/index.html ./site/dist/404.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
