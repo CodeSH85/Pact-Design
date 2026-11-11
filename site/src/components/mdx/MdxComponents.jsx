@@ -2,13 +2,13 @@ import { ColorPalette } from '../demos/ColorPalette.jsx'
 
 export const mdxComponents = {
   h2: (props) => (
-    <h2 className="mt-md mb-0 text-heading-xs text-on-surface" {...props} />
+    <h2 className="mt-md text-heading-xs text-on-surface" {...props} />
   ),
   h3: (props) => (
-    <h3 className="mt-sm mb-0 text-subheader-sm text-on-surface" {...props} />
+    <h3 className="mt-sm text-subheader-md text-on-surface" {...props} />
   ),
   p: (props) => (
-    <p className="m-0 text-body-md text-on-surface-secondary leading-07" {...props} />
+    <p className="m-0 text-body-md text-on-surface-muted" {...props} />
   ),
   strong: (props) => (
     <strong className="text-on-surface font-04" {...props} />

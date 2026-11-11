@@ -21,7 +21,7 @@ const navSections = [
     ]
   },
   {
-    title: 'Components (Base UI)',
+    title: 'Components (React Aria)',
     items: [
       { label: 'Playground', to: '/components' }
     ]
@@ -56,7 +56,7 @@ export function RootLayout() {
           <div className="flex gap-sm" role="group" aria-label="切換全站主題">
             <button
               type="button"
-              className="px-sm cursor-pointer"
+              className="cursor-pointer"
               aria-pressed={theme === 'light'}
               onClick={() => setTheme('light')}
             >
