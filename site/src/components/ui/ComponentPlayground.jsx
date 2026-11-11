@@ -4,7 +4,7 @@ import { Checkbox } from './Checkbox.jsx'
 import { Menu } from './Menu.jsx'
 
 export function ComponentPlayground() {
-  const [lastAction, setLastAction] = useState('Ready — interact with any Base UI control below')
+  const [lastAction, setLastAction] = useState('Ready — interact with any React Aria control below')
   const [checks, setChecks] = useState({
     compact: true,
     apca: true,
@@ -47,7 +47,7 @@ export function ComponentPlayground() {
       {/* 1. Button Showcase */}
       <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
         <div className="flex flex-col gap-2xs">
-          <h2 className="text-heading-sm text-on-surface">Button (@base-ui/react/button)</h2>
+          <h2 className="text-heading-sm text-on-surface">Button (react-aria-components)</h2>
           <p className="text-body-sm text-on-surface-muted">
             Uses system semantic colors, surface layers, control heights (h-control-xs to xl), and label typography.
           </p>
@@ -102,9 +102,9 @@ export function ComponentPlayground() {
       {/* 2. Checkbox Showcase */}
       <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
         <div className="flex flex-col gap-2xs">
-          <h2 className="text-heading-sm text-on-surface">Checkbox (@base-ui/react/checkbox)</h2>
+          <h2 className="text-heading-sm text-on-surface">Checkbox (react-aria-components)</h2>
           <p className="text-body-sm text-on-surface-muted">
-            Styled via Base UI data-[checked] and data-[disabled] attributes paired with w-icon-md, border-strong, and primary tokens.
+            Styled via React Aria group-data-[selected] and group-data-[disabled] attributes paired with w-icon-md, border-strong, and primary tokens.
           </p>
         </div>
 
@@ -157,9 +157,9 @@ export function ComponentPlayground() {
       {/* 3. Menu Showcase */}
       <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
         <div className="flex flex-col gap-2xs">
-          <h2 className="text-heading-sm text-on-surface">Menu (@base-ui/react/menu)</h2>
+          <h2 className="text-heading-sm text-on-surface">Menu (react-aria-components)</h2>
           <p className="text-body-sm text-on-surface-muted">
-            Demonstrates bg-elevated surface, shadow-elevation-lg, z-dropdown, and data-[highlighted]:bg-layer-2-hover.
+            Demonstrates bg-elevated surface, shadow-elevation-lg, z-dropdown, and data-[focused]:bg-layer-2-hover.
           </p>
         </div>
 

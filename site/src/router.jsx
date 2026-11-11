@@ -34,16 +34,16 @@ const componentsRoute = createRoute({
   path: '/components',
   component: function ComponentsPage() {
     useEffect(() => {
-      document.title = 'Base UI Components Playground | Pact Design'
+      document.title = 'React Aria Components Playground | Pact Design'
     }, [])
 
     return (
       <div className="flex flex-col gap-xl">
         <header className="flex flex-col gap-xs pb-md border-b border-border-default">
-          <span className="text-label-xs text-primary uppercase">Playground · React + Base UI</span>
+          <span className="text-label-xs text-primary uppercase">Playground · React + React Aria</span>
           <h1 className="text-heading-md text-on-surface">Component Token Sandbox</h1>
           <p className="text-subheader-sm text-on-surface-muted m-none">
-            Testing headless <code>@base-ui/react</code> primitives styled exclusively with Pact Design system tokens via UnoCSS.
+            Testing headless <code>react-aria-components</code> primitives styled exclusively with Pact Design system tokens via UnoCSS.
           </p>
         </header>
 
