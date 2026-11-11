@@ -1,5 +1,8 @@
 import js from '@eslint/js'
 import stylistic from '@stylistic/eslint-plugin'
+import reactPlugin from 'eslint-plugin-react'
+import reactHooks from 'eslint-plugin-react-hooks'
+import globals from 'globals'
 import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
@@ -59,6 +62,30 @@ export default defineConfig([
       '@stylistic/no-whitespace-before-property': 'error',
       '@stylistic/no-mixed-spaces-and-tabs': 'error',
       '@stylistic/no-multiple-empty-lines': ['error', { 'max': 1, 'maxEOF': 0 }]
+    }
+  },
+  {
+    files: ['site/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.browser
+      }
+    },
+    settings: {
+      react: {
+        version: 'detect'
+      }
+    },
+    plugins: {
+      react: reactPlugin,
+      'react-hooks': reactHooks
+    },
+    rules: {
+      'react/jsx-uses-vars': 'error',
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'off',
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn'
     }
   }
 ])
