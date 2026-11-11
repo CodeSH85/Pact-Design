@@ -3,8 +3,6 @@ title: "色彩"
 eyebrow: "Foundations · Color System"
 description: "建立於 OKLCH 均勻感知色彩空間的 13 組 11 階色票、四層工作區背景階層、on-surface 文字階層與 APCA 對比校準規範。"
 order: 3
-demos:
-  - "color-palette"
 ---
 
 ## OKLCH 均勻感知色階
@@ -14,13 +12,13 @@ Pact Design 的色彩 token 採用 **OKLCH** 色彩空間（`colorSpace: "oklch"
 - 基礎色系：`gray`、`coolGray`、`warmGray`、`cyan`、`blue`、`indigo`、`purple`、`magenta`、`red`、`orange`、`yellow`、`green`（翡翠綠 `H = 148°`）、`mint`。
 - 感知明度曲線：
   - `50` (`L = 0.968`) → `100` (`0.930`) → `200` (`0.870`) → `300` (`0.790`) → `400` (`0.698`) → **`500` (`0.600`，感知明度中點)** → `600` (`0.504`) → `700` (`0.414`) → `800` (`0.338`) → `900` (`0.276`) → `1000` (`0.228`)。
-- APCA 與 sRGB 色域保證：所有 `500`–`1000` 色階對純白文字皆通過 **APCA `|Lc| >= 60`**，且全部 143 個色階 100% 落於標準 sRGB 色域內。
+- APCA 與 sRGB 色域保證：所有 `500`–`1000` 色階對純白文字皆通過 APCA `|Lc| >= 60`，且全部 143 個色階 100% 落於標準 sRGB 色域內。
 
 ---
 
 ## 工作區背景階層
 
-高密度工作區將介面劃分為四個明度階層、半透明遮罩（Backdrop），以及對應的互動狀態（`hover`、`active`、`selected`、`selected-hover`）：
+高密度工作區將介面劃分為四個明度階層、半透明遮罩，以及對應的互動狀態：
 
 | Token 路徑 | UnoCSS 工具類別 | Light 參照 | Dark 參照 | 語意角色說明 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -35,7 +33,7 @@ Pact Design 的色彩 token 採用 **OKLCH** 色彩空間（`colorSpace: "oklch"
 
 ## 表面文字階層
 
-為避免與語意品牌色 `text-primary`（`system.semantic.primary`）產生命名衝突，Pact Design 採用 **`on-surface`** 命名規範定義工作區文字階層，並確保在所有背景層級上皆通過 APCA 對比度驗證：
+為避免與語意品牌色 `text-primary` 產生命名衝突，Pact Design 採用 **`on-surface`** 命名規範定義工作區文字階層，並確保在所有背景層級上皆通過 APCA 對比度驗證：
 
 | Token 路徑 | UnoCSS 工具類別 | Light 參照 (`layer-2` APCA) | Dark 參照 (`layer-2` APCA) | 語意角色說明 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -54,3 +52,5 @@ Pact Design 的色彩 token 採用 **OKLCH** 色彩空間（`colorSpace: "oklch"
    適用於高優先級主按鈕與啟用狀態控制項，在淺色與深色主題皆維持 **字淺背景深（Light-on-Deep）** 的高對比視覺階層（Light `|Lc| >= 69`、Dark `|Lc| >= 82`）。
 2. **Subtle Container 模式（`<role>-subtle`、`on-<role>-subtle`、`<role>-border`）**
    適用於高密度資料表中的狀態標籤（Badge）、行內提示（Inline Banner）與標籤，採用 **同色系柔和背景 + 高對比深/亮字**（`|Lc| >= 75`），避免實心色塊在大量資料列中造成視覺疲勞。
+
+<ColorPalette />

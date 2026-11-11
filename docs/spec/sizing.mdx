@@ -1,13 +1,13 @@
 ---
 title: "Sizing & Control Density"
 eyebrow: "Foundations · Density & Dimensions"
-description: "定義緊湊型互動控制項高度（24px–40px）、圖示尺寸比例尺（12px–32px）與通用結構尺寸。"
+description: "定義緊湊型互動控制項高度、圖示尺寸比例尺與通用結構尺寸。"
 order: 6
 ---
 
-## 緊湊控制項高度 (`system.control.height.*`)
+## 緊湊控制項高度
 
-為確保按鈕（Button）、文字輸入框（Input）、下拉選單（Select）與資料表列高（Table Row）在同一水平工具列或表單列中完美對齊，Pact Design 定義五階標準控制項高度：
+為確保按鈕、文字輸入框、下拉選單與資料表列高在同一水平工具列或表單列中完美對齊，Pact Design 定義五階標準控制項高度：
 
 | 密度等級 | UnoCSS 工具類別 | CSS Variable | 數值 (`rem` / `px`) | 建議搭配字階與圖示 | 典型應用場景 |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -19,7 +19,7 @@ order: 6
 
 ---
 
-## 圖示尺寸比例尺 (`system.icon.size.*`)
+## 圖示尺寸比例尺
 
 圖示尺寸與控制項高度嚴格配對，支援透過 UnoCSS `w-icon-<size>` 與 `h-icon-<size>` 直接設定寬高：
 
@@ -33,6 +33,6 @@ order: 6
 
 ---
 
-## 通用結構尺寸 (`system.size.*`)
+## 通用結構尺寸
 
 提供從 `3xs` (`4px`) 至 `5xl` (`80px`) 的 11 階通用尺寸 Token（`--system-size-*`），適用於 Checkbox 方框（`size-xs: 16px`）、Avatar 頭像（`size-md: 24px`、`size-lg: 32px`）與固定寬高結構容器。
