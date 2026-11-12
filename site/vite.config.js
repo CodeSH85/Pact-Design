@@ -1,5 +1,6 @@
 import { Buffer } from 'node:buffer'
 import fs from 'node:fs/promises'
+import { createRequire } from 'node:module'
 import path from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
@@ -11,6 +12,8 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
 import { stringifyTokens } from '../packages/tokens/utils/token.js'
+
+const require = createRequire(import.meta.url)
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const TOKENS_PACKAGE_DIR = path.join(ROOT, 'packages/tokens')
@@ -110,7 +113,10 @@ export default defineConfig({
       'pact-design/css': path.resolve(TOKENS_PACKAGE_DIR, 'build/css/_variables.css'),
       'pact-design/uno': path.resolve(TOKENS_PACKAGE_DIR, 'build/uno/preset.js'),
       'pact-design': TOKENS_PACKAGE_DIR,
-      '@pact-design/tokens': TOKENS_PACKAGE_DIR
+      '@pact-design/tokens': TOKENS_PACKAGE_DIR,
+      'react': path.dirname(require.resolve('react/package.json')),
+      'react-dom': path.dirname(require.resolve('react-dom/package.json')),
+      '@mdx-js/react': path.dirname(require.resolve('@mdx-js/react'))
     }
   },
   plugins: [
