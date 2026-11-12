@@ -12,7 +12,6 @@
   "scripts": {
     "test": "node --test 'test/**/*.test.js'",
     "build:sd": "style-dictionary build --config ./scripts/sd.config.js && pnpm test",
-    "playground": "node scripts/playground.js",
     "check:tokens": "node utils/color.js",
     "site:dev": "pnpm --filter pact-site dev",
     "site:build": "pnpm build:sd && pnpm --filter pact-site build",

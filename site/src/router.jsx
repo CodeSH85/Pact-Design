@@ -6,6 +6,7 @@ import {
 } from '@tanstack/react-router'
 import { RootLayout } from './components/layout/RootLayout.jsx'
 import { SpecDoc } from './components/mdx/SpecDoc.jsx'
+import { TokenPlayground } from './components/playground/TokenPlayground.jsx'
 import { ComponentPlayground } from './components/ui/ComponentPlayground.jsx'
 
 const rootRoute = createRootRoute({
@@ -27,6 +28,12 @@ const foundationRoute = createRoute({
     const { id } = foundationRoute.useParams()
     return <SpecDoc id={id} />
   }
+})
+
+const playgroundRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/playground',
+  component: TokenPlayground
 })
 
 const componentsRoute = createRoute({
@@ -56,6 +63,7 @@ const componentsRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   indexRoute,
   foundationRoute,
+  playgroundRoute,
   componentsRoute
 ])
 
