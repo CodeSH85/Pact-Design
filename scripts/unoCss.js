@@ -17,6 +17,7 @@ function extractDynamicTheme(allTokens) {
     borderRadius: {},
     borderWidth: {},
     lineWidth: {},
+    ringWidth: {},
     boxShadow: {},
     zIndex: {},
     fontFamily: {},
@@ -51,9 +52,11 @@ function extractDynamicTheme(allTokens) {
           const widthKey = rest.slice(1).join('-')
           theme.borderWidth[widthKey] = varRef
           theme.lineWidth[widthKey] = varRef
+          theme.ringWidth[widthKey] = varRef
           if (widthKey === 'sm') {
             theme.borderWidth.DEFAULT = varRef
             theme.lineWidth.DEFAULT = varRef
+            theme.ringWidth.DEFAULT = varRef
           }
         } else {
           theme.colors[`border-${key}`] = varRef
@@ -61,10 +64,10 @@ function extractDynamicTheme(allTokens) {
       } else if (category === 'spacing') {
         theme.spacing[key] = varRef
       } else if (category === 'size') {
-        const sizeKey = `size-${key}`
-        theme.spacing[sizeKey] = varRef
-        theme.width[sizeKey] = varRef
-        theme.height[sizeKey] = varRef
+        theme.width[key] = varRef
+        theme.height[key] = varRef
+        theme.width[`size-${key}`] = varRef
+        theme.height[`size-${key}`] = varRef
       } else if (category === 'control' && rest[0] === 'height') {
         const controlKey = `control-${rest.slice(1).join('-')}`
         theme.spacing[controlKey] = varRef

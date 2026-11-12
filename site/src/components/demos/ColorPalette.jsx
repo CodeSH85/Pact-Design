@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { Button } from '../ui/Button.jsx'
 import {
   calculateAPCA,
   colorValueToHex,
@@ -79,7 +80,7 @@ export function ColorPalette() {
           Global 11 階 OKLCH 色票
         </h2>
         <span className="m-0 text-body-sm text-on-surface-muted">
-          Click any step to copy its CSS variable · Step 500 anchored at L = 0.600
+          <Button variant="ghost">顯示文字</Button>
         </span>
       </div>
 

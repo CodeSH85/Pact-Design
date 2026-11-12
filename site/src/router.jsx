@@ -5,6 +5,7 @@ import {
   createRouter
 } from '@tanstack/react-router'
 import { RootLayout } from './components/layout/RootLayout.jsx'
+import { DocFooter } from './components/layout/DocFooter.jsx'
 import { SpecDoc } from './components/mdx/SpecDoc.jsx'
 import { TokenPlayground } from './components/playground/TokenPlayground.jsx'
 import { ComponentPlayground } from './components/ui/ComponentPlayground.jsx'
@@ -55,6 +56,8 @@ const componentsRoute = createRoute({
         </header>
 
         <ComponentPlayground />
+
+        <DocFooter currentId="components" />
       </div>
     )
   }

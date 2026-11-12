@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { MDXProvider } from '@mdx-js/react'
 import { mdxComponents } from './MdxComponents.jsx'
+import { DocFooter } from '../layout/DocFooter.jsx'
+import { TableOfContents } from '../layout/TableOfContents.jsx'
 
 const mdxModules = import.meta.glob('../../../../docs/spec/*.mdx', { eager: true })
 
@@ -37,26 +39,32 @@ export function SpecDoc({ id, showHeader = true }) {
   const { eyebrow, description } = frontmatter
 
   return (
-    <div className="flex flex-col gap-xl">
-      {showHeader && (
-        <header className="flex flex-col gap-xs pb-md border-b border-border-default">
-          {eyebrow && (
-            <span className="text-mono-xs text-primary uppercase">{eyebrow}</span>
-          )}
-          <h1 className="text-heading-md text-on-surface">{title}</h1>
-          {description && (
-            <p className="text-subheader-sm text-on-surface-muted m-none">
-              {description}
-            </p>
-          )}
-        </header>
-      )}
+    <div className="flex gap-2xl items-start">
+      <div className="flex-1 min-w-0 flex flex-col gap-xl">
+        {showHeader && (
+          <header className="flex flex-col gap-xs pb-md border-b border-border-default">
+            {eyebrow && (
+              <span className="text-mono-xs text-primary uppercase">{eyebrow}</span>
+            )}
+            <h1 className="text-heading-md text-on-surface">{title}</h1>
+            {description && (
+              <p className="text-subheader-sm text-on-surface-muted my-sm">
+                {description}
+              </p>
+            )}
+          </header>
+        )}
 
-      <article className="flex flex-col gap-md text-body-md text-on-surface">
-        <MDXProvider components={mdxComponents}>
-          <Content />
-        </MDXProvider>
-      </article>
+        <article className="flex flex-col gap-md text-body-md text-on-surface">
+          <MDXProvider components={mdxComponents}>
+            <Content />
+          </MDXProvider>
+        </article>
+
+        <DocFooter currentId={id} />
+      </div>
+
+      <TableOfContents pageTitle={title} />
     </div>
   )
 }
