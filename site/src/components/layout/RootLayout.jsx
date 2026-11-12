@@ -1,33 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, Outlet, useNavigate, useRouterState } from '@tanstack/react-router'
 import { Button } from '../ui/Button.jsx'
-
-const navSections = [
-  {
-    title: 'Getting Started',
-    items: [
-      { label: 'Overview', to: '/' },
-      { label: 'Token Architecture', to: '/foundations/$id', params: { id: 'architecture' } }
-    ]
-  },
-  {
-    title: 'Foundations',
-    items: [
-      { label: 'Color', to: '/foundations/$id', params: { id: 'color' } },
-      { label: 'Typography', to: '/foundations/$id', params: { id: 'typography' } },
-      { label: 'Spacing', to: '/foundations/$id', params: { id: 'spacing' } },
-      { label: 'Sizing', to: '/foundations/$id', params: { id: 'sizing' } },
-      { label: 'Elevation', to: '/foundations/$id', params: { id: 'elevation' } },
-      { label: 'Motion', to: '/foundations/$id', params: { id: 'motion' } }
-    ]
-  },
-  {
-    title: 'Components (React Aria)',
-    items: [
-      { label: 'Playground', to: '/components' }
-    ]
-  }
-]
+import { navSections } from '../../config/navigation.js'
 
 export function RootLayout() {
   const navigate = useNavigate()
@@ -60,11 +34,11 @@ export function RootLayout() {
 
   return (
     <div className="flex flex-col h-screen bg-base text-on-surface">
-      <header className="flex shrink-0 bg-layer-1 w-full items-center justify-between p-md border-b border-border-default">
+      <header className="flex items-center shrink-0 bg-layer-1 w-full justify-between p-md border-b border-border-default">
         <div className="flex w-full">
-          <Link to="/" className="">
-            <span className="">P</span>
-            <span>Pact Design</span>
+          <Link to="/" className="flex gap-md items-center">
+            <img src={`${import.meta.env.BASE_URL}PD_logo.png`} className="size-md" alt="Pact Design" />
+            <span className="text-label-lg">Pact Design</span>
           </Link>
         </div>
 
@@ -108,20 +82,26 @@ export function RootLayout() {
       <div className="flex flex-1 min-h-0 overflow-hidden">
         {!isTokenPlayground && (
           <aside
-            className="flex flex-col shrink-0 bg-layer-1 border-r border-border-default py-md overflow-y-auto"
+            className="flex flex-col min-w-12rem bg-layer-1 border-r border-border-default py-md overflow-y-auto"
             aria-label="Documentation Navigation"
           >
             {navSections.map((section) => (
               <div key={section.title} className="flex flex-col">
-                <div className="px-sm">{section.title}</div>
+                <div className="px-sm py-xs bg-layer-2">{section.title}</div>
                 {section.items.map((item) => (
                   <Link
                     key={item.label}
                     to={item.to}
                     params={item.params}
                     activeOptions={{ exact: true }}
-                    className="hover-bg-layer-1-hover text-on-surface-muted py-2xs px-sm"
-                    activeProps={{ 'aria-current': 'page' }}
+                    className="hover-bg-layer-1-hover hover-ring-sm hover-ring-inset hover-ring-border-strong py-2xs px-sm"
+                    activeProps={{
+                      className: 'active bg-layer-1-selected text-on-surface ring-sm ring-inset ring-border-strong font-medium',
+                      'aria-current': 'page'
+                    }}
+                    inactiveProps={{
+                      className: 'text-on-surface-muted'
+                    }}
                   >
                     <span>{item.label}</span>
                   </Link>
@@ -137,7 +117,7 @@ export function RootLayout() {
           </main>
         ) : (
           <main className="flex-1 min-w-0 overflow-y-auto p-lg">
-            <div className="bg-layer-1 py-md px-lg">
+            <div className="bg-layer-1 border-sm border-border-default py-md px-xl rounded-xs">
               <Outlet />
             </div>
           </main>
