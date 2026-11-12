@@ -2,25 +2,25 @@ import { ColorPalette } from '../demos/ColorPalette.jsx'
 
 export const mdxComponents = {
   h2: (props) => (
-    <h2 className="mt-md text-heading-xs text-on-surface" {...props} />
+    <h2 className="mt-md text-heading-xs text-on-surface scroll-mt-xl" {...props} />
   ),
   h3: (props) => (
-    <h3 className="mt-sm text-subheader-md text-on-surface" {...props} />
+    <h3 className="mt-md text-subheader-md text-on-surface scroll-mt-xl" {...props} />
   ),
   p: (props) => (
-    <p className="m-0 text-body-md text-on-surface-muted" {...props} />
+    <p className="text-body-md text-on-surface-muted" {...props} />
   ),
   strong: (props) => (
-    <strong className="text-on-surface font-04" {...props} />
+    <strong className="text-on-surface" {...props} />
   ),
   a: (props) => (
     <a className="text-primary hover:text-primary-hover hover:underline" {...props} />
   ),
   ul: (props) => (
-    <ul className="list-disc pl-xl flex flex-col gap-xs text-on-surface-secondary" {...props} />
+    <ul className="list-disc pl-xl flex flex-col gap-xs text-on-surface-muted" {...props} />
   ),
   ol: (props) => (
-    <ol className="m-0 pl-xl flex flex-col gap-xs text-on-surface-secondary list-decimal" {...props} />
+    <ol className="m-0 pl-xl flex flex-col gap-xs text-on-surface-muted list-decimal" {...props} />
   ),
   li: (props) => (
     <li className="leading-07" {...props} />
