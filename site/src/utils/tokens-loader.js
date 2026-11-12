@@ -19,7 +19,7 @@ import {
   toPx
 } from 'pact-design/utils/token.js'
 
-const rawTokenModules = import.meta.glob('../../../tokens/**/*.json', {
+const rawTokenModules = import.meta.glob('../../../packages/tokens/tokens/**/*.json', {
   eager: true,
   import: 'default'
 })
@@ -31,7 +31,7 @@ export function loadTokenCatalog() {
 
   const files = {}
   for (const [relPath, json] of Object.entries(rawTokenModules)) {
-    const cleanKey = relPath.replace(/^.*?(tokens\/)/, '$1')
+    const cleanKey = relPath.replace(/^.*\/tokens\/(.*)$/, 'tokens/$1')
     files[cleanKey] = json
   }
 

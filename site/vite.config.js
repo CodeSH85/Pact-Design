@@ -10,10 +10,11 @@ import remarkGfm from 'remark-gfm'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
-import { stringifyTokens } from '../utils/token.js'
+import { stringifyTokens } from '../packages/tokens/utils/token.js'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const TOKENS_DIR = path.join(ROOT, 'tokens')
+const TOKENS_PACKAGE_DIR = path.join(ROOT, 'packages/tokens')
+const TOKENS_DIR = path.join(TOKENS_PACKAGE_DIR, 'tokens')
 
 const isInside = (parent, child) => {
   const rel = path.relative(parent, child)
@@ -32,7 +33,7 @@ async function listJsonFiles(dir) {
   return nested.flat().sort()
 }
 
-const toRel = (abs) => path.relative(ROOT, abs).split(path.sep).join('/')
+const toRel = (abs) => path.relative(TOKENS_PACKAGE_DIR, abs).split(path.sep).join('/')
 
 function sendJson(res, status, body) {
   res.writeHead(status, {
@@ -73,7 +74,7 @@ function tokensApiPlugin() {
             const { files } = JSON.parse(await readBody(req))
             const written = []
             for (const [rel, json] of Object.entries(files ?? {})) {
-              const abs = path.resolve(ROOT, rel)
+              const abs = path.resolve(TOKENS_PACKAGE_DIR, rel)
               if (!isInside(TOKENS_DIR, abs) || !abs.endsWith('.json')) {
                 return sendJson(res, 400, { error: `Refusing to write outside tokens/: ${rel}` })
               }
@@ -99,6 +100,19 @@ function tokensApiPlugin() {
 
 export default defineConfig({
   base: process.env.VITE_BASE || '/',
+  server: {
+    fs: {
+      allow: [ROOT]
+    }
+  },
+  resolve: {
+    alias: {
+      'pact-design/css': path.resolve(TOKENS_PACKAGE_DIR, 'build/css/_variables.css'),
+      'pact-design/uno': path.resolve(TOKENS_PACKAGE_DIR, 'build/uno/preset.js'),
+      'pact-design': TOKENS_PACKAGE_DIR,
+      '@pact-design/tokens': TOKENS_PACKAGE_DIR
+    }
+  },
   plugins: [
     tokensApiPlugin(),
     {

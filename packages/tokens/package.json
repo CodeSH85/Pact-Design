@@ -1,0 +1,29 @@
+{
+  "name": "@pact-design/tokens",
+  "version": "1.0.0",
+  "description": "Domain-neutral design token system engineered for dense, compact, and straightforward user interfaces",
+  "type": "module",
+  "exports": {
+    "./css": "./build/css/_variables.css",
+    "./uno": "./build/uno/preset.js",
+    "./tokens/*": "./tokens/*",
+    "./utils/*": "./utils/*"
+  },
+  "files": [
+    "build",
+    "tokens",
+    "utils"
+  ],
+  "scripts": {
+    "build": "pnpm build:sd",
+    "build:sd": "style-dictionary build --config ./scripts/sd.config.js && pnpm test",
+    "test": "node --test 'test/**/*.test.js'",
+    "check:tokens": "node utils/color.js"
+  },
+  "dependencies": {
+    "chroma-js": "^3.1.2"
+  },
+  "devDependencies": {
+    "style-dictionary": "^5.5.0"
+  }
+}
