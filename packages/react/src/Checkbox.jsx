@@ -76,3 +76,5 @@ export function Checkbox({
     </AriaCheckbox>
   )
 }
+
+export default Checkbox

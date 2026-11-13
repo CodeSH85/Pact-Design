@@ -1,0 +1,34 @@
+{
+  "name": "@pact-design/react",
+  "version": "0.1.0",
+  "description": "Dense, compact, and accessible React UI components built on React Aria and Pact Design tokens",
+  "type": "module",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./Button": "./src/Button.jsx",
+    "./Checkbox": "./src/Checkbox.jsx",
+    "./Menu": "./src/Menu.jsx",
+    "./*": "./src/*.jsx"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "build": "node -e \"process.exit(0)\"",
+    "test": "node --test 'test/**/*.test.js'"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "dependencies": {
+    "@pact-design/tokens": "workspace:*",
+    "react-aria-components": "^1.22.1"
+  },
+  "devDependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  }
+}

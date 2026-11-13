@@ -3,7 +3,7 @@ import * as C from 'pact-design/utils/color.js'
 import { apcaContrast, apcaLevel, contrast, readableOn, wcagLevel } from 'pact-design/utils/contrast.js'
 import { clone, round, same } from 'pact-design/utils/helper.js'
 import * as T from 'pact-design/utils/token.js'
-import { Button } from '../ui/Button.jsx'
+import { Button } from '@pact-design/react'
 
 export const CATEGORY_LABELS = {
   color: '色彩',

@@ -65,7 +65,10 @@ export default defineConfig([
     }
   },
   {
-    files: ['site/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    files: [
+      'site/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}',
+      'packages/react/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'
+    ],
     languageOptions: {
       globals: {
         ...globals.browser

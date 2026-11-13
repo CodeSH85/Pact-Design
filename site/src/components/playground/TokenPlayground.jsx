@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { clone, same } from 'pact-design/utils/helper.js'
 import * as T from 'pact-design/utils/token.js'
 import { loadTokenCatalog } from '../../utils/tokens-loader.js'
-import { Button } from '../ui/Button.jsx'
+import { Button } from '@pact-design/react'
 import { CATEGORY_ORDER, TokenEditor } from './TokenEditor.jsx'
 import { TokenPreview } from './TokenPreview.jsx'
 

@@ -112,3 +112,5 @@ export function Menu({
     </MenuTrigger>
   )
 }
+
+export default Menu

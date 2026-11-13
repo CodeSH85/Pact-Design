@@ -1,7 +1,5 @@
 import { useState } from 'react'
-import { Button } from './Button.jsx'
-import { Checkbox } from './Checkbox.jsx'
-import { Menu } from './Menu.jsx'
+import { Button, Checkbox, Menu } from '@pact-design/react'
 
 export function ComponentPlayground() {
   const [lastAction, setLastAction] = useState('Ready — interact with any React Aria control below')

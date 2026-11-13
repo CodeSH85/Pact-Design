@@ -69,3 +69,5 @@ export function Button({
     </AriaButton>
   )
 }
+
+export default Button

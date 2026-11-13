@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Button } from '../ui/Button.jsx'
+import { Button } from '@pact-design/react'
 import {
   calculateAPCA,
   colorValueToHex,
