@@ -7,6 +7,7 @@
     "build": "pnpm --filter @pact-design/tokens build && pnpm --filter pact-site build",
     "build:tokens": "pnpm --filter @pact-design/tokens build",
     "build:sd": "pnpm --filter @pact-design/tokens build:sd",
+    "pretest": "pnpm build:tokens",
     "test": "pnpm -r test",
     "lint": "eslint .",
     "typecheck": "pnpm -r typecheck",
