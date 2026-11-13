@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "description": "Dense, compact, and accessible React UI components built on React Aria and Pact Design tokens",
   "type": "module",
-  "main": "./src/index.js",
-  "module": "./src/index.js",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
   "exports": {
-    ".": "./src/index.js",
-    "./Button": "./src/Button.jsx",
-    "./Checkbox": "./src/Checkbox.jsx",
-    "./Menu": "./src/Menu.jsx",
-    "./*": "./src/*.jsx"
+    ".": "./src/index.ts",
+    "./components": "./src/components/index.ts",
+    "./utils": "./src/utils/index.ts",
+    "./*": "./src/components/*/index.ts"
   },
   "files": [
     "src"

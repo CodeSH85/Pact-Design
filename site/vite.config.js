@@ -115,7 +115,7 @@ export default defineConfig({
       'pact-design/uno': path.resolve(TOKENS_PACKAGE_DIR, 'build/uno/preset.js'),
       'pact-design': TOKENS_PACKAGE_DIR,
       '@pact-design/tokens': TOKENS_PACKAGE_DIR,
-      '@pact-design/react$': path.resolve(REACT_PACKAGE_DIR, 'src/index.js'),
+      '@pact-design/react$': path.resolve(REACT_PACKAGE_DIR, 'src/index.ts'),
       '@pact-design/react': path.resolve(REACT_PACKAGE_DIR, 'src'),
       'react': path.dirname(require.resolve('react/package.json')),
       'react-dom': path.dirname(require.resolve('react-dom/package.json')),
