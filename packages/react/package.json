@@ -17,18 +17,27 @@
   ],
   "scripts": {
     "build": "node -e \"process.exit(0)\"",
-    "test": "node --test 'test/**/*.test.js'"
+    "test": "node --test 'test/**/*.test.js'",
+    "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18"
   },
   "dependencies": {
+    "@internationalized/date": "^3.12.4",
     "@pact-design/tokens": "workspace:*",
-    "react-aria-components": "^1.22.1"
+    "@remixicon/react": "^4.9.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "react-aria-components": "^1.22.1",
+    "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "typescript": "^6.0.3"
   }
 }
