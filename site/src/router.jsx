@@ -8,7 +8,7 @@ import { RootLayout } from './components/layout/RootLayout.jsx'
 import { DocFooter } from './components/layout/DocFooter.jsx'
 import { SpecDoc } from './components/mdx/SpecDoc.jsx'
 import { TokenPlayground } from './components/playground/TokenPlayground.jsx'
-import { ComponentPlayground } from './components/ui/ComponentPlayground.jsx'
+import { ComponentPlayground } from './components/playground/ComponentPlayground.jsx'
 
 const rootRoute = createRootRoute({
   component: RootLayout

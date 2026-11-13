@@ -18,6 +18,7 @@ const require = createRequire(import.meta.url)
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const TOKENS_PACKAGE_DIR = path.join(ROOT, 'packages/tokens')
 const TOKENS_DIR = path.join(TOKENS_PACKAGE_DIR, 'tokens')
+const REACT_PACKAGE_DIR = path.join(ROOT, 'packages/react')
 
 const isInside = (parent, child) => {
   const rel = path.relative(parent, child)
@@ -114,6 +115,8 @@ export default defineConfig({
       'pact-design/uno': path.resolve(TOKENS_PACKAGE_DIR, 'build/uno/preset.js'),
       'pact-design': TOKENS_PACKAGE_DIR,
       '@pact-design/tokens': TOKENS_PACKAGE_DIR,
+      '@pact-design/react$': path.resolve(REACT_PACKAGE_DIR, 'src/index.js'),
+      '@pact-design/react': path.resolve(REACT_PACKAGE_DIR, 'src'),
       'react': path.dirname(require.resolve('react/package.json')),
       'react-dom': path.dirname(require.resolve('react-dom/package.json')),
       '@mdx-js/react': path.dirname(require.resolve('@mdx-js/react'))

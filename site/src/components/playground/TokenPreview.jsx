@@ -2,9 +2,7 @@ import { useState } from 'react'
 import { colorValueToHex } from 'pact-design/utils/color.js'
 import { apcaContrast, apcaLevel, contrast, readableOn, wcagLevel } from 'pact-design/utils/contrast.js'
 import { cssName, formatValue, refOf } from 'pact-design/utils/token.js'
-import { Button } from '../ui/Button.jsx'
-import { Checkbox } from '../ui/Checkbox.jsx'
-import { Menu } from '../ui/Menu.jsx'
+import { Button, Checkbox, Menu } from '@pact-design/react'
 import { apcaBadgeClasses } from './TokenEditor.jsx'
 
 const DENSITY_LABELS = {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, Outlet, useNavigate, useRouterState } from '@tanstack/react-router'
-import { Button } from '../ui/Button.jsx'
+import { Button } from '@pact-design/react'
 import { navSections } from '../../config/navigation.js'
 
 export function RootLayout() {
