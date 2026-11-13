@@ -3,6 +3,7 @@ import stylistic from '@stylistic/eslint-plugin'
 import reactPlugin from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
 import globals from 'globals'
+import tseslint from 'typescript-eslint'
 import { defineConfig } from 'eslint/config'
 
 export default defineConfig([
@@ -89,6 +90,23 @@ export default defineConfig([
       'react/prop-types': 'off',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn'
+    }
+  },
+  {
+    files: ['**/*.{ts,mts,cts,tsx}'],
+    languageOptions: {
+      parser: tseslint.parser
+    },
+    plugins: {
+      '@typescript-eslint': tseslint.plugin
+    },
+    rules: {
+      'no-undef': 'off',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }
+      ]
     }
   }
 ])

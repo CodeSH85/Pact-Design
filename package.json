@@ -9,6 +9,7 @@
     "build:sd": "pnpm --filter @pact-design/tokens build:sd",
     "test": "pnpm -r test",
     "lint": "eslint .",
+    "typecheck": "pnpm -r typecheck",
     "site:dev": "pnpm --filter pact-site dev",
     "site:build": "pnpm build:tokens && pnpm --filter pact-site build",
     "site:preview": "pnpm --filter pact-site preview"
@@ -17,6 +18,8 @@
     "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@stylistic/eslint-plugin-js": "^4.4.1",
-    "eslint": "^10.8.1"
+    "eslint": "^10.8.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.2"
   }
 }
