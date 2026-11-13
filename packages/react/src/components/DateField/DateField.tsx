@@ -93,3 +93,4 @@ export function DateField<T extends DateValue>({
 }
 
 export default DateField
+export type { DateValue }

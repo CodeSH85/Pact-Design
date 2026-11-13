@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@internationalized/date": "^3.12.4",
     "@mdx-js/react": "^3.1.1",
     "@pact-design/react": "workspace:*",
     "@pact-design/tokens": "workspace:*",

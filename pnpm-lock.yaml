@@ -88,6 +88,9 @@ importers:
 
   site:
     dependencies:
+      '@internationalized/date':
+        specifier: ^3.12.4
+        version: 3.12.4
       '@mdx-js/react':
         specifier: ^3.1.1
         version: 3.1.1(@types/react@19.3.0)(react@19.3.1)
