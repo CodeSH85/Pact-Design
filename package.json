@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prepare": "husky",
     "build": "pnpm --filter @pact-design/tokens build && pnpm --filter pact-site build",
     "build:tokens": "pnpm --filter @pact-design/tokens build",
     "build:sd": "pnpm --filter @pact-design/tokens build:sd",
@@ -16,6 +17,8 @@
     "site:preview": "pnpm --filter pact-site preview"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
     "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@stylistic/eslint-plugin-js": "^4.4.1",
@@ -23,6 +26,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.14.0",
+    "husky": "^9.1.7",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.72.2"
   }
