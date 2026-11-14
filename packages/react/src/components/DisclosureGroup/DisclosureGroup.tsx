@@ -53,16 +53,16 @@ export function DisclosureGroup({
     >
       {items
         ? items.map((item) => (
-            <Disclosure
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              isDisabled={item.isDisabled}
-              variant={variant === 'grouped' ? 'ghost' : 'bordered'}
-            >
-              {item.content}
-            </Disclosure>
-          ))
+          <Disclosure
+            key={item.id}
+            id={item.id}
+            title={item.title}
+            isDisabled={item.isDisabled}
+            variant={variant === 'grouped' ? 'ghost' : 'bordered'}
+          >
+            {item.content}
+          </Disclosure>
+        ))
         : children}
     </AriaDisclosureGroup>
   )
