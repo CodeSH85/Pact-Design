@@ -114,20 +114,11 @@ export function Disclosure({
   )
 }
 
-export interface DisclosureGroupProps extends AriaDisclosureGroupProps {
-  className?: string
-  children?: ReactNode
-}
-
-export function DisclosureGroup({ className, children, ...props }: DisclosureGroupProps) {
-  return (
-    <AriaDisclosureGroup
-      className={composeTailwindRenderProps(className, 'flex flex-col gap-xs w-full')}
-      {...props}
-    >
-      {children}
-    </AriaDisclosureGroup>
-  )
-}
+export {
+  DisclosureGroup,
+  disclosureGroupVariants,
+  type DisclosureGroupItemData,
+  type DisclosureGroupProps
+} from '../DisclosureGroup/index.ts'
 
 export default Disclosure
