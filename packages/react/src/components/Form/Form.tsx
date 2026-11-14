@@ -5,7 +5,7 @@ import {
   type FormProps as AriaFormProps
 } from 'react-aria-components'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn, composeTailwindRenderProps } from '../../utils/index.ts'
+import { cn } from '../../utils/index.ts'
 
 export const formVariants = cva('flex flex-col w-full', {
   variants: {

@@ -2,8 +2,6 @@ import { type ReactNode } from 'react'
 import {
   Button as AriaButton,
   Disclosure as AriaDisclosure,
-  DisclosureGroup as AriaDisclosureGroup,
-  type DisclosureGroupProps as AriaDisclosureGroupProps,
   DisclosurePanel as AriaDisclosurePanel,
   type DisclosurePanelProps as AriaDisclosurePanelProps,
   type DisclosureProps as AriaDisclosureProps,

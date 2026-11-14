@@ -131,12 +131,12 @@ export function Breadcrumbs<T extends object = object>({
     >
       {items
         ? items.map((item, idx) => (
-            <Breadcrumb key={item.id ?? idx} id={item.id}>
-              <BreadcrumbLink href={item.href} isDisabled={item.isDisabled}>
-                {item.label}
-              </BreadcrumbLink>
-            </Breadcrumb>
-          ))
+          <Breadcrumb key={item.id ?? idx} id={item.id}>
+            <BreadcrumbLink href={item.href} isDisabled={item.isDisabled}>
+              {item.label}
+            </BreadcrumbLink>
+          </Breadcrumb>
+        ))
         : (children as ReactNode)}
     </AriaBreadcrumbs>
   )

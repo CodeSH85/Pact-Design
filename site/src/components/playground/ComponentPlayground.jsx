@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { parseDate } from '@internationalized/date'
 import {
+  Autocomplete,
+  AutocompleteItem,
+  Breadcrumbs,
   Button,
   Checkbox,
   CheckboxGroup,
@@ -9,13 +12,25 @@ import {
   DateField,
   Disclosure,
   DisclosureGroup,
+  FileTrigger,
+  Form,
+  FormActions,
+  FormSection,
   Menu,
   Modal,
   Popover,
+  Select,
+  SelectItem,
   Switch,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
   TextField,
+  ToastRegion,
   ToggleButton,
-  ToggleButtonGroup
+  ToggleButtonGroup,
+  toast
 } from '@pact-design/react'
 
 export function ComponentPlayground() {
@@ -31,6 +46,8 @@ export function ComponentPlayground() {
   const [textValue, setTextValue] = useState('Pact Design System')
   const [dateValue, setDateValue] = useState(() => parseDate('2026-11-13'))
   const [selectedCity, setSelectedCity] = useState('taipei')
+  const [selectedRole, setSelectedRole] = useState('admin')
+  const [selectedFile, setSelectedFile] = useState(null)
 
   const cities = [
     { id: 'taipei', name: 'Taipei (TPE)' },
@@ -352,6 +369,191 @@ export function ComponentPlayground() {
           />
         </div>
       </section>
+
+      {/* 7. Navigation: Breadcrumbs & Tabs */}
+      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+        <div className="flex flex-col gap-2xs">
+          <h2 className="text-heading-sm text-on-surface">Navigation (Breadcrumbs & Tabs)</h2>
+          <p className="text-body-sm text-on-surface-muted m-0">
+            Hierarchical path navigation with Breadcrumbs and multi-variant Tabs (`underline`, `segmented`, `pill`).
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-md">
+          <div className="flex flex-col gap-2xs">
+            <span className="text-caption-sm text-on-surface-muted font-medium">Breadcrumbs</span>
+            <Breadcrumbs
+              items={[
+                { id: 'home', label: 'Home', href: '#' },
+                { id: 'components', label: 'Components', href: '#' },
+                { id: 'react', label: 'React Aria' }
+              ]}
+              onAction={(key) => setLastAction(`Breadcrumb: ${key}`)}
+            />
+          </div>
+
+          <div className="flex flex-col gap-sm">
+            <span className="text-caption-sm text-on-surface-muted font-medium">Tabs (Underline Variant)</span>
+            <Tabs defaultSelectedKey="tab-tokens">
+              <TabList>
+                <Tab id="tab-tokens">Design Tokens</Tab>
+                <Tab id="tab-components">React Components</Tab>
+                <Tab id="tab-accessibility">APCA Calibration</Tab>
+              </TabList>
+              <TabPanel id="tab-tokens">
+                Three-tier architecture: Global, System Semantic, and Component-scoped tokens.
+              </TabPanel>
+              <TabPanel id="tab-components">
+                20 accessible components built with React Aria and Pact Design tokens.
+              </TabPanel>
+              <TabPanel id="tab-accessibility">
+                Calibrated against APCA-W3 for verified perceptual text readability.
+              </TabPanel>
+            </Tabs>
+          </div>
+
+          <div className="flex flex-col gap-sm">
+            <span className="text-caption-sm text-on-surface-muted font-medium">Tabs (Segmented Variant)</span>
+            <Tabs variant="segmented" defaultSelectedKey="preview">
+              <TabList>
+                <Tab id="preview">Interactive Preview</Tab>
+                <Tab id="code">TSX Source</Tab>
+                <Tab id="props">Component API</Tab>
+              </TabList>
+              <TabPanel id="preview">Live reactive render playground.</TabPanel>
+              <TabPanel id="code">Clean copy-pasteable TSX snippets.</TabPanel>
+              <TabPanel id="props">Complete TypeScript props and slot definitions.</TabPanel>
+            </Tabs>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. Selection & Search: Select & Autocomplete */}
+      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+        <div className="flex flex-col gap-2xs">
+          <h2 className="text-heading-sm text-on-surface">Selection & Filtering (Select & Autocomplete)</h2>
+          <p className="text-body-sm text-on-surface-muted m-0">
+            Accessible pickers with single/multi selection and filter-as-you-type search suggestions.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+          <Select
+            label="Assigned Role"
+            description="Choose access level for collaborator"
+            selectedKey={selectedRole}
+            onSelectionChange={(key) => {
+              setSelectedRole(String(key))
+              setLastAction(`Select: ${key}`)
+            }}
+          >
+            <SelectItem id="viewer">Viewer (Read-only)</SelectItem>
+            <SelectItem id="editor">Editor (Can edit tokens & components)</SelectItem>
+            <SelectItem id="admin">Administrator (Full workspace rights)</SelectItem>
+          </Select>
+
+          <Autocomplete
+            label="Search System Tokens"
+            description="Type a token category (e.g. color, elevation, motion)"
+            placeholder="Search tokens..."
+            onSelectionChange={(key) => setLastAction(`Autocomplete: ${key}`)}
+          >
+            <AutocompleteItem id="color-primary">color-primary (Brand theme accent)</AutocompleteItem>
+            <AutocompleteItem id="color-surface">color-surface (Base UI backgrounds)</AutocompleteItem>
+            <AutocompleteItem id="elevation-lg">elevation-lg (Floating popovers & modals)</AutocompleteItem>
+            <AutocompleteItem id="motion-fast">motion-fast (Interactive micro-interactions)</AutocompleteItem>
+            <AutocompleteItem id="control-md">control-md (32px standard input height)</AutocompleteItem>
+          </Autocomplete>
+        </div>
+      </section>
+
+      {/* 9. Form, FileTrigger & Toast */}
+      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+        <div className="flex flex-col gap-2xs">
+          <h2 className="text-heading-sm text-on-surface">Form, FileTrigger & Toast</h2>
+          <p className="text-body-sm text-on-surface-muted m-0">
+            Composite form layout with file trigger upload and floating notification toast system.
+          </p>
+        </div>
+
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault()
+            toast.success('Form Submitted', 'Workspace settings have been updated.')
+            setLastAction('Form: Submitted')
+          }}
+        >
+          <FormSection
+            title="Artifact Asset Submission"
+            description="Upload icon SVG or token bundle specification"
+          >
+            <div className="flex items-center gap-md">
+              <FileTrigger
+                acceptedFileTypes={['.json', '.svg', '.png']}
+                onSelect={(files) => {
+                  if (files && files.length > 0) {
+                    setSelectedFile(files[0].name)
+                    toast.info('File Selected', files[0].name)
+                    setLastAction(`FileTrigger: ${files[0].name}`)
+                  }
+                }}
+              />
+              <span className="text-caption-md text-on-surface-muted">
+                {selectedFile ? `Selected: ${selectedFile}` : 'No file chosen yet'}
+              </span>
+            </div>
+          </FormSection>
+
+          <FormActions>
+            <Button
+              type="button"
+              variant="subtle"
+              onPress={() => {
+                setSelectedFile(null)
+                setLastAction('Form: Reset')
+              }}
+            >
+              Reset
+            </Button>
+            <Button type="submit" variant="primary">
+              Save Changes
+            </Button>
+          </FormActions>
+        </Form>
+
+        <div className="flex flex-col gap-xs pt-sm border-t border-border-subtle">
+          <span className="text-caption-sm text-on-surface-muted font-medium">Trigger Toast Notifications</span>
+          <div className="flex flex-wrap gap-sm">
+            <Button
+              variant="subtle"
+              onPress={() => toast.info('Information', 'A new token version is available.')}
+            >
+              Info Toast
+            </Button>
+            <Button
+              variant="subtle"
+              onPress={() => toast.success('Saved Successfully', 'Token variables synced.')}
+            >
+              Success Toast
+            </Button>
+            <Button
+              variant="subtle"
+              onPress={() => toast.warning('Low Contrast Warning', 'Subtle border requires check.')}
+            >
+              Warning Toast
+            </Button>
+            <Button
+              variant="danger"
+              onPress={() => toast.danger('Action Failed', 'Could not export DTCG format.')}
+            >
+              Danger Toast
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Live Toast Region */}
+      <ToastRegion />
     </div>
   )
 }
