@@ -11,7 +11,7 @@ import {
 
 const { files, lightTokens } = loadTokenCatalog()
 
-const colorGlobalJson = files['tokens/color/global.json']?.global ?? {}
+const colorGlobalJson = files['tokens/global/color.json']?.global ?? {}
 const scaleNames = [
   'gray',
   'coolGray',

@@ -91,6 +91,48 @@
           "value": 5
         },
         "$type": "dimension"
+      },
+      "14": {
+        "$value": {
+          "unit": "rem",
+          "value": 12
+        },
+        "$type": "dimension"
+      },
+      "15": {
+        "$value": {
+          "unit": "rem",
+          "value": 15
+        },
+        "$type": "dimension"
+      },
+      "16": {
+        "$value": {
+          "unit": "rem",
+          "value": 24
+        },
+        "$type": "dimension"
+      },
+      "17": {
+        "$value": {
+          "unit": "rem",
+          "value": 28
+        },
+        "$type": "dimension"
+      },
+      "18": {
+        "$value": {
+          "unit": "rem",
+          "value": 32
+        },
+        "$type": "dimension"
+      },
+      "19": {
+        "$value": {
+          "unit": "rem",
+          "value": 42
+        },
+        "$type": "dimension"
       }
     }
   }

@@ -12,7 +12,8 @@ export const CATEGORY_LABELS = {
   sizing: '尺寸',
   border: '邊框',
   elevation: '陰影',
-  motion: '動態'
+  motion: '動態',
+  component: '元件'
 }
 
 export const CATEGORY_ORDER = Object.keys(CATEGORY_LABELS)
@@ -1138,11 +1139,13 @@ export function TokenEditor({
 
     if (groupBlocks.length > 0) {
       const themeTag = T.themeOf(file) ? ` · ${T.themeOf(file)}` : ''
+      const sectionLabel =
+        T.levelOf(file) === 'component' ? `component · ${T.fileStemOf(file)}` : T.levelOf(file)
       fileSections.push(
         <section key={file} className="flex flex-col gap-xs">
           <div className="flex items-center justify-between px-xs py-2xs rounded-2xs bg-layer-2 border-sm border-border-default">
             <h3 className="text-label-sm text-on-surface m-0">
-              {T.levelOf(file)}{themeTag}
+              {sectionLabel}{themeTag}
             </h3>
             <code className="text-mono-xs text-on-surface-muted">{file}</code>
           </div>

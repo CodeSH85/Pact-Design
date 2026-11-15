@@ -68,10 +68,13 @@ export function stringifyTokens(value, indent = '') {
 export const themeOf = (file) =>
   file.endsWith('.dark.json') ? 'dark' : file.endsWith('.light.json') ? 'light' : null
 
-export const categoryOf = (file) => file.split('/').at(-2)
+export const levelOf = (file) => file.split('/').at(-2)
 
-export const levelOf = (file) =>
+export const fileStemOf = (file) =>
   file.split('/').at(-1).replace(/\.(light|dark)\.json$/, '').replace(/\.json$/, '')
+
+export const categoryOf = (file) =>
+  levelOf(file) === 'component' ? 'component' : fileStemOf(file)
 
 export const filterFilesForTheme = (files, theme = 'light') =>
   Object.fromEntries(
