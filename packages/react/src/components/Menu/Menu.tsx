@@ -22,21 +22,21 @@ import { cn, composeTailwindRenderProps, focusRing, focusRingInset } from '../..
 import { popoverContentClasses } from '../Popover/index.ts'
 
 export const menuItemClasses = [
-  'flex items-center justify-between gap-md',
-  'h-control-sm px-sm rounded-xs',
-  'text-label-sm text-on-surface select-none cursor-pointer',
+  'flex items-center justify-between gap-popover-item-gap',
+  'h-popover-item-height px-popover-item-padding-x rounded-popover-item-radius',
+  'text-label-sm text-popover-item-text select-none cursor-pointer',
   focusRingInset,
-  'data-[focused]:bg-layer-2-hover data-[hovered]:bg-layer-2-hover',
-  'data-[disabled]:text-on-surface-disabled data-[disabled]:cursor-not-allowed'
+  'data-[focused]:bg-popover-item-bg-hover data-[hovered]:bg-popover-item-bg-hover',
+  'data-[disabled]:text-popover-item-text-disabled data-[disabled]:cursor-not-allowed'
 ].join(' ')
 
 export const menuDangerItemClasses = [
-  'flex items-center justify-between gap-md',
-  'h-control-sm px-sm rounded-xs',
-  'text-label-sm text-on-danger-subtle select-none cursor-pointer',
+  'flex items-center justify-between gap-popover-item-gap',
+  'h-popover-item-height px-popover-item-padding-x rounded-popover-item-radius',
+  'text-label-sm text-popover-item-text-danger select-none cursor-pointer',
   focusRingInset,
-  'data-[focused]:bg-danger-subtle data-[hovered]:bg-danger-subtle',
-  'data-[disabled]:text-on-surface-disabled data-[disabled]:cursor-not-allowed'
+  'data-[focused]:bg-popover-item-bg-danger-hover data-[hovered]:bg-popover-item-bg-danger-hover',
+  'data-[disabled]:text-popover-item-text-disabled data-[disabled]:cursor-not-allowed'
 ].join(' ')
 
 export const menuTriggerButtonClasses = [

@@ -11,8 +11,8 @@ import {
 import { cn, composeTailwindRenderProps } from '../../utils/index.ts'
 
 export const popoverContentClasses = [
-  'z-popover min-w-48 p-xs rounded-md',
-  'bg-elevated text-on-surface border border-border-default shadow-elevation-lg',
+  'z-popover min-w-popover-surface p-popover-surface-padding rounded-popover-surface',
+  'bg-popover-surface-bg text-popover-surface-text border border-popover-surface-border shadow-popover-surface-shadow',
   'outline-none origin-top transition-opacity duration-fast ease-default',
   'entering:animate-in entering:fade-in-0 entering:zoom-in-95',
   'exiting:animate-out exiting:fade-out-0 exiting:zoom-out-95'

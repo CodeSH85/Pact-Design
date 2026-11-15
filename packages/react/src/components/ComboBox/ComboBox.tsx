@@ -76,7 +76,7 @@ export function ComboBoxPopover({ className, children, ...props }: ComboBoxPopov
 export function ComboBoxListBox<T extends object>({ className, children, ...props }: AriaListBoxProps<T>) {
   return (
     <AriaListBox
-      className={composeTailwindRenderProps(className, 'outline-none flex flex-col gap-3xs max-h-60 overflow-auto p-2xs')}
+      className={composeTailwindRenderProps(className, 'outline-none flex flex-col gap-3xs max-h-popover-listbox overflow-auto p-2xs')}
       {...props}
     >
       {children}

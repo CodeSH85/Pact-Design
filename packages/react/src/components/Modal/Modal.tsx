@@ -16,22 +16,22 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn, composeTailwindRenderProps, focusRing } from '../../utils/index.ts'
 
 export const modalOverlayClasses = [
-  'fixed inset-0 z-modal bg-backdrop flex items-center justify-center p-md',
+  'fixed inset-0 z-modal bg-modal-overlay-bg flex items-center justify-center p-modal-overlay-padding',
   'entering:animate-in entering:fade-in-0 exiting:animate-out exiting:fade-out-0'
 ].join(' ')
 
 export const modalContentVariants = cva(
   [
-    'w-full bg-elevated text-on-surface border border-border-default shadow-elevation-xl rounded-md outline-none',
+    'w-full bg-modal-content-bg text-modal-content-text border border-modal-content-border shadow-modal-content-shadow rounded-modal-content outline-none',
     'entering:animate-in entering:zoom-in-95 exiting:animate-out exiting:zoom-out-95'
   ].join(' '),
   {
     variants: {
       size: {
-        sm: 'max-w-sm',
-        md: 'max-w-md',
-        lg: 'max-w-lg',
-        xl: 'max-w-2xl',
+        sm: 'max-w-modal-content-sm',
+        md: 'max-w-modal-content-md',
+        lg: 'max-w-modal-content-lg',
+        xl: 'max-w-modal-content-xl',
         full: 'max-w-[calc(100vw-2rem)] max-h-[calc(100vh-2rem)]'
       }
     },

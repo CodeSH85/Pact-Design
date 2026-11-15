@@ -32,10 +32,10 @@ export const tabListVariants = cva('transition-colors duration-fast', {
   variants: {
     variant: {
       underline:
-        'flex border-b border-border-subtle gap-md data-[orientation=vertical]:flex-col data-[orientation=vertical]:border-b-0 data-[orientation=vertical]:border-r data-[orientation=vertical]:gap-xs',
+        'flex border-b border-tab-list-underline-border gap-tab-list-underline-gap data-[orientation=vertical]:flex-col data-[orientation=vertical]:border-b-0 data-[orientation=vertical]:border-r data-[orientation=vertical]:gap-xs',
       segmented:
-        'inline-flex p-3xs bg-layer-2 border border-border-subtle rounded-sm gap-2xs data-[orientation=vertical]:flex-col',
-      pill: 'inline-flex gap-xs data-[orientation=vertical]:flex-col'
+        'inline-flex p-tab-list-segmented-padding bg-tab-list-segmented-bg border border-tab-list-segmented-border rounded-tab-list-segmented-radius gap-tab-list-segmented-gap data-[orientation=vertical]:flex-col',
+      pill: 'inline-flex gap-tab-list-pill-gap data-[orientation=vertical]:flex-col'
     },
     size: {
       sm: 'text-label-sm',
@@ -50,31 +50,31 @@ export const tabListVariants = cva('transition-colors duration-fast', {
 })
 
 export const tabVariants = cva(
-  'flex items-center justify-center font-medium select-none cursor-pointer transition-all duration-fast outline-none data-[disabled]:text-on-surface-disabled data-[disabled]:cursor-not-allowed',
+  'flex items-center justify-center font-medium select-none cursor-pointer transition-all duration-fast outline-none data-[disabled]:text-tab-trigger-text-disabled data-[disabled]:cursor-not-allowed',
   {
     variants: {
       variant: {
         underline: [
-          'relative border-b-2 -mb-px border-transparent text-on-surface-muted hover:text-on-surface',
-          'data-[selected]:text-on-surface data-[selected]:border-primary',
+          'relative border-b-2 -mb-px border-transparent text-tab-trigger-text hover:text-tab-trigger-text-hover',
+          'data-[selected]:text-tab-trigger-text-selected data-[selected]:border-tab-trigger-border-selected',
           'data-[orientation=vertical]:border-b-0 data-[orientation=vertical]:border-r-2 data-[orientation=vertical]:-mr-px',
           focusRingInset
         ].join(' '),
         segmented: [
-          'rounded-xs text-on-surface-muted hover:text-on-surface',
-          'data-[selected]:bg-layer-1 data-[selected]:text-on-surface data-[selected]:shadow-elevation-sm',
+          'rounded-xs text-tab-trigger-text hover:text-tab-trigger-text-hover',
+          'data-[selected]:bg-tab-trigger-segmented-bg-selected data-[selected]:text-tab-trigger-text-selected data-[selected]:shadow-tab-trigger-segmented-selected',
           focusRing
         ].join(' '),
         pill: [
-          'rounded-pill text-on-surface-muted hover:text-on-surface hover:bg-hover',
-          'data-[selected]:bg-primary data-[selected]:text-on-primary',
+          'rounded-pill text-tab-trigger-text hover:text-tab-trigger-text-hover hover:bg-tab-trigger-pill-bg-hover',
+          'data-[selected]:bg-tab-trigger-pill-bg-selected data-[selected]:text-tab-trigger-pill-text-selected',
           focusRing
         ].join(' ')
       },
       size: {
-        sm: 'h-control-sm px-sm text-label-xs gap-xs',
-        md: 'h-control-md px-md text-label-sm gap-xs',
-        lg: 'h-control-lg px-lg text-label-md gap-sm'
+        sm: 'h-tab-trigger-sm px-tab-trigger-padding-x-sm text-label-xs gap-tab-trigger-gap-sm',
+        md: 'h-tab-trigger-md px-tab-trigger-padding-x-md text-label-sm gap-tab-trigger-gap-md',
+        lg: 'h-tab-trigger-lg px-tab-trigger-padding-x-lg text-label-md gap-tab-trigger-gap-lg'
       }
     },
     defaultVariants: {

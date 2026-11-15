@@ -19,30 +19,30 @@ export const toggleButtonVariants = cva(
     variants: {
       variant: {
         secondary: [
-          'bg-layer-1 text-on-surface border border-border-default',
-          'hover:bg-layer-1-hover data-[hovered]:bg-layer-1-hover',
-          'active:bg-layer-1-active data-[pressed]:bg-layer-1-active',
-          'data-[selected]:bg-layer-1-selected data-[selected]:border-border-strong data-[selected]:text-on-surface'
+          'bg-button-secondary-bg text-button-secondary-text border border-button-secondary-border',
+          'hover:bg-button-secondary-bg-hover data-[hovered]:bg-button-secondary-bg-hover',
+          'active:bg-button-secondary-bg-active data-[pressed]:bg-button-secondary-bg-active',
+          'data-[selected]:bg-button-secondary-bg-selected data-[selected]:border-button-secondary-border-selected data-[selected]:text-button-secondary-text-selected'
         ].join(' '),
         ghost: [
-          'bg-transparent text-on-surface border border-transparent',
-          'hover:bg-hover data-[hovered]:bg-hover',
-          'active:bg-active data-[pressed]:bg-active',
-          'data-[selected]:bg-layer-1-selected data-[selected]:text-on-surface'
+          'bg-button-ghost-bg text-button-ghost-text border border-button-ghost-border',
+          'hover:bg-button-ghost-bg-hover data-[hovered]:bg-button-ghost-bg-hover',
+          'active:bg-button-ghost-bg-active data-[pressed]:bg-button-ghost-bg-active',
+          'data-[selected]:bg-button-ghost-bg-selected data-[selected]:text-button-ghost-text-selected'
         ].join(' '),
         primary: [
-          'bg-layer-1 text-on-surface border border-border-default',
-          'hover:bg-layer-1-hover data-[hovered]:bg-layer-1-hover',
-          'data-[selected]:bg-primary data-[selected]:text-on-primary data-[selected]:border-transparent',
-          'data-[selected]:hover:bg-primary-hover data-[selected]:active:bg-primary-active'
+          'bg-button-secondary-bg text-button-secondary-text border border-button-secondary-border',
+          'hover:bg-button-secondary-bg-hover data-[hovered]:bg-button-secondary-bg-hover',
+          'data-[selected]:bg-button-primary-bg data-[selected]:text-button-primary-text data-[selected]:border-button-primary-border',
+          'data-[selected]:hover:bg-button-primary-bg-hover data-[selected]:active:bg-button-primary-bg-active'
         ].join(' ')
       },
       size: {
-        xs: 'h-control-xs px-xs gap-2xs text-label-xs rounded-xs',
-        sm: 'h-control-sm px-sm gap-xs text-label-sm rounded-sm',
-        md: 'h-control-md px-md gap-xs text-label-md rounded-sm',
-        lg: 'h-control-lg px-lg gap-sm text-label-lg rounded-md',
-        xl: 'h-control-xl px-xl gap-sm text-label-xl rounded-md'
+        xs: 'h-button-xs px-button-padding-x-xs gap-button-gap-xs text-label-xs rounded-button-xs',
+        sm: 'h-button-sm px-button-padding-x-sm gap-button-gap-sm text-label-sm rounded-button-sm',
+        md: 'h-button-md px-button-padding-x-md gap-button-gap-md text-label-md rounded-button-md',
+        lg: 'h-button-lg px-button-padding-x-lg gap-button-gap-lg text-label-lg rounded-button-lg',
+        xl: 'h-button-xl px-button-padding-x-xl gap-button-gap-xl text-label-xl rounded-button-xl'
       }
     },
     defaultVariants: {

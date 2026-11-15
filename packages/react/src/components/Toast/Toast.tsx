@@ -31,7 +31,7 @@ export interface ToastData {
 
 export const toastVariants = cva(
   [
-    'flex items-start gap-sm w-full p-md rounded-md border shadow-elevation-lg select-none',
+    'flex items-start gap-toast-container-gap w-full p-toast-container-padding rounded-toast-container border shadow-toast-container-shadow select-none',
     'transition-all duration-normal ease-default',
     'entering:animate-in entering:fade-in-0 entering:slide-in-from-right-full',
     'exiting:animate-out exiting:fade-out-0 exiting:slide-out-to-right-full'
@@ -39,11 +39,11 @@ export const toastVariants = cva(
   {
     variants: {
       tone: {
-        default: 'bg-surface-overlay border-border-default text-on-surface',
-        info: 'bg-info-subtle border-info text-on-info-subtle',
-        success: 'bg-success-subtle border-success text-on-success-subtle',
-        warning: 'bg-warning-subtle border-warning text-on-warning-subtle',
-        danger: 'bg-danger-subtle border-danger text-on-danger-subtle'
+        default: 'bg-toast-tone-default-bg border-toast-tone-default-border text-toast-tone-default-text',
+        info: 'bg-toast-tone-info-bg border-toast-tone-info-border text-toast-tone-info-text',
+        success: 'bg-toast-tone-success-bg border-toast-tone-success-border text-toast-tone-success-text',
+        warning: 'bg-toast-tone-warning-bg border-toast-tone-warning-border text-toast-tone-warning-text',
+        danger: 'bg-toast-tone-danger-bg border-toast-tone-danger-border text-toast-tone-danger-text'
       }
     },
     defaultVariants: {
@@ -152,7 +152,7 @@ export function ToastRegion<T extends object = ToastData>({
       queue={queue}
       className={composeTailwindRenderProps(
         className,
-        'fixed bottom-lg right-lg z-toast flex flex-col gap-sm max-w-sm w-full outline-none pointer-events-none [&>*]:pointer-events-auto'
+        'fixed bottom-lg right-lg z-toast flex flex-col gap-sm max-w-toast-container w-full outline-none pointer-events-none [&>*]:pointer-events-auto'
       )}
       {...props}
     >

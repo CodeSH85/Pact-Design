@@ -17,37 +17,37 @@ export const buttonVariants = cva(
     variants: {
       variant: {
         primary: [
-          'bg-primary text-on-primary border border-transparent',
-          'hover:bg-primary-hover data-[hovered]:bg-primary-hover',
-          'active:bg-primary-active data-[pressed]:bg-primary-active'
+          'bg-button-primary-bg text-button-primary-text border border-button-primary-border',
+          'hover:bg-button-primary-bg-hover data-[hovered]:bg-button-primary-bg-hover',
+          'active:bg-button-primary-bg-active data-[pressed]:bg-button-primary-bg-active'
         ].join(' '),
         secondary: [
-          'bg-layer-1 text-on-surface border border-border-default',
-          'hover:bg-layer-1-hover data-[hovered]:bg-layer-1-hover',
-          'active:bg-layer-1-active data-[pressed]:bg-layer-1-active'
+          'bg-button-secondary-bg text-button-secondary-text border border-button-secondary-border',
+          'hover:bg-button-secondary-bg-hover data-[hovered]:bg-button-secondary-bg-hover',
+          'active:bg-button-secondary-bg-active data-[pressed]:bg-button-secondary-bg-active'
         ].join(' '),
         ghost: [
-          'bg-transparent text-on-surface border border-transparent',
-          'hover:bg-hover data-[hovered]:bg-hover',
-          'active:bg-active data-[pressed]:bg-active'
+          'bg-button-ghost-bg text-button-ghost-text border border-button-ghost-border',
+          'hover:bg-button-ghost-bg-hover data-[hovered]:bg-button-ghost-bg-hover',
+          'active:bg-button-ghost-bg-active data-[pressed]:bg-button-ghost-bg-active'
         ].join(' '),
         danger: [
-          'bg-danger text-on-danger border border-transparent',
-          'hover:bg-danger-hover data-[hovered]:bg-danger-hover',
-          'active:bg-danger-active data-[pressed]:bg-danger-active'
+          'bg-button-danger-bg text-button-danger-text border border-button-danger-border',
+          'hover:bg-button-danger-bg-hover data-[hovered]:bg-button-danger-bg-hover',
+          'active:bg-button-danger-bg-active data-[pressed]:bg-button-danger-bg-active'
         ].join(' '),
         subtle: [
-          'bg-info-subtle text-on-info-subtle border border-info-border',
-          'hover:bg-layer-2-hover data-[hovered]:bg-layer-2-hover',
-          'active:bg-layer-2-active data-[pressed]:bg-layer-2-active'
+          'bg-button-subtle-bg text-button-subtle-text border border-button-subtle-border',
+          'hover:bg-button-subtle-bg-hover data-[hovered]:bg-button-subtle-bg-hover',
+          'active:bg-button-subtle-bg-active data-[pressed]:bg-button-subtle-bg-active'
         ].join(' ')
       },
       size: {
-        xs: 'h-control-xs px-xs gap-2xs text-label-xs rounded-xs',
-        sm: 'h-control-sm px-sm gap-xs text-label-sm rounded-sm',
-        md: 'h-control-md px-md gap-xs text-label-md rounded-sm',
-        lg: 'h-control-lg px-lg gap-sm text-label-lg rounded-md',
-        xl: 'h-control-xl px-xl gap-sm text-label-xl rounded-md'
+        xs: 'h-button-xs px-button-padding-x-xs gap-button-gap-xs text-label-xs rounded-button-xs',
+        sm: 'h-button-sm px-button-padding-x-sm gap-button-gap-sm text-label-sm rounded-button-sm',
+        md: 'h-button-md px-button-padding-x-md gap-button-gap-md text-label-md rounded-button-md',
+        lg: 'h-button-lg px-button-padding-x-lg gap-button-gap-lg text-label-lg rounded-button-lg',
+        xl: 'h-button-xl px-button-padding-x-xl gap-button-gap-xl text-label-xl rounded-button-xl'
       }
     },
     defaultVariants: {
