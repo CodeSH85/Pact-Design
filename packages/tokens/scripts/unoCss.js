@@ -4,7 +4,7 @@ export { transform as UnoCssTransformer }
 
 /**
  * Dynamically extract UnoCSS / Tailwind theme configuration from Style Dictionary's token dictionary.
- * No hardcoded token names or scale values: whenever a token is added or updated in `tokens/**\/*.json`,
+ * No hardcoded token names or scale values: whenever a token is added or updated in `src/**\/*.json`,
  * it automatically maps to its corresponding CSS Custom Property `var(--<token.name>)`.
  */
 function extractDynamicTheme(allTokens) {

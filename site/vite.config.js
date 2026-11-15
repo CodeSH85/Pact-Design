@@ -17,7 +17,7 @@ const require = createRequire(import.meta.url)
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const TOKENS_PACKAGE_DIR = path.join(ROOT, 'packages/tokens')
-const TOKENS_DIR = path.join(TOKENS_PACKAGE_DIR, 'tokens')
+const TOKENS_DIR = path.join(TOKENS_PACKAGE_DIR, 'src')
 const REACT_PACKAGE_DIR = path.join(ROOT, 'packages/react')
 
 const isInside = (parent, child) => {
@@ -80,7 +80,7 @@ function tokensApiPlugin() {
             for (const [rel, json] of Object.entries(files ?? {})) {
               const abs = path.resolve(TOKENS_PACKAGE_DIR, rel)
               if (!isInside(TOKENS_DIR, abs) || !abs.endsWith('.json')) {
-                return sendJson(res, 400, { error: `Refusing to write outside tokens/: ${rel}` })
+                return sendJson(res, 400, { error: `Refusing to write outside src/: ${rel}` })
               }
               const original = await fs.readFile(abs, 'utf-8').catch(() => '')
               const eol = original.includes('\r\n') ? '\r\n' : '\n'

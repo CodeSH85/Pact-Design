@@ -35,7 +35,7 @@ Built strictly on the **W3C Design Tokens Community Group (DTCG) 2025.10** speci
 Pact-Design/
 ├── packages/
 │   └── tokens/              # @pact-design/tokens (publishable token library)
-│       ├── tokens/          # W3C DTCG 2025.10 JSON files
+│       ├── src/             # W3C DTCG 2025.10 JSON files (global, system, component)
 │       ├── scripts/         # Style Dictionary build & UnoCSS preset generator
 │       ├── utils/           # Isomorphic color, APCA/WCAG contrast & token utilities
 │       ├── test/            # Automated APCA contrast & token integrity tests

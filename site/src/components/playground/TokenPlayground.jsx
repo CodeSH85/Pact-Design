@@ -374,10 +374,10 @@ export function TokenPlayground() {
             variant="primary"
             size="xs"
             disabled={!isDirty || !canWriteToDisk}
-            title={canWriteToDisk ? '寫入變更至 tokens/ 目錄 (⌘S)' : '靜態預覽模式請使用「下載 JSON」'}
+            title={canWriteToDisk ? '寫入變更至 src/ 目錄 (⌘S)' : '靜態預覽模式請使用「下載 JSON」'}
             onClick={handleSave}
           >
-            儲存至 tokens/
+            儲存至 src/
           </Button>
         </div>
       </header>
