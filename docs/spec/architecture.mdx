@@ -7,14 +7,14 @@ order: 2
 
 ## W3C DTCG 2025.10 結構規範
 
-所有位於 `tokens/**/*.json` 的原始檔案皆嚴格遵循 **W3C Design Tokens Community Group (DTCG) Format Module 2025.10** 標準：
+所有位於 `src/**/*.json` 的原始檔案皆嚴格遵循 **W3C Design Tokens Community Group (DTCG) Format Module 2025.10** 標準：
 
 - **結構化型別與數值**：每個終端 Token 節點皆明確定義 `$value` 與 `$type`（且 `$value` 固定排列於 `$type` 之前）。
 - **巢狀階層取代連字號鍵名**：使用 JSON 物件巢狀結構（例如 `system.background.layer-1`、`global.font.size.04`）表達分類與階層。
 - **保留參照鏈 (`outputReferences: true`)**：Style Dictionary v5 編譯時會保留 `{global.*}` 與 `{system.*}` 參照關係，轉譯為原生 CSS `var(--*)` 變數鏈，實現零執行期成本的動態主題切換。
 
 ```json
-// tokens/global/color.json
+// src/global/color.json
 {
   "global": {
     "indigo": {
@@ -31,7 +31,7 @@ order: 2
   }
 }
 
-// tokens/system/color.light.json
+// src/system/color.light.json
 {
   "system": {
     "semantic": {
@@ -52,8 +52,8 @@ Pact Design 在 **System** 層級透過分離檔案實作主題切換：
 
 - **100% 鍵名對稱（Key Parity）**：淺色與深色設定檔具備完全一致的 JSON 路徑與 Token 名稱，絕不將 `light` 或 `dark` 字樣寫入 Token 路徑中。
 - **CSS 選擇器隔離**：
-  - `tokens/global/*.json` + `tokens/system/*.light.json` + `tokens/component/*.json` 輸出至 `:root, [data-theme="light"]`
-  - `tokens/system/*.dark.json` 輸出至 `[data-theme="dark"]`
+  - `src/global/*.json` + `src/system/*.light.json` + `src/component/*.json` 輸出至 `:root, [data-theme="light"]`
+  - `src/system/*.dark.json` 輸出至 `[data-theme="dark"]`
 
 ```css
 :root, [data-theme="light"] {

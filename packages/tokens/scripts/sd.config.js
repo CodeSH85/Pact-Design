@@ -162,7 +162,7 @@ function expandAndFormatTokens(dictionary, { outputReferences = true, usesDtcg =
 
 export default {
   usesDtcg: true,
-  source: ['tokens/**/!(*.dark).json'],
+  source: ['src/**/!(*.dark).json'],
   platforms: {
     css: {
       transforms: cssTransformList,
@@ -200,7 +200,7 @@ export default {
 
         const darkSd = new StyleDictionary({
           usesDtcg: true,
-          source: ['tokens/**/!(*.light).json'],
+          source: ['src/**/!(*.light).json'],
           hooks: { transforms: customTransforms },
           platforms: {
             css: {

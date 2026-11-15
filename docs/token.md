@@ -14,7 +14,7 @@ Pact Design organizes design tokens into three distinct tiers to separate raw pr
 2. **System (`system.*`)**: Semantic tokens representing themeable UI roles, hierarchy, and density.
 3. **Component (`component.*`)**: Scoped tokens bound to specific UI components (e.g., Data Grid, Tree View, Button, Modal).
 
-#### Global Level (`tokens/global/*.json`)
+#### Global Level (`src/global/*.json`)
 
 - Serves as the single source of truth for raw values (OKLCH colors, `rem`/`px` dimensions, font weights, stroke styles).
 - Uses numeric scales (`00`, `01`, `02`... or `50`–`1000` for 11-step color palettes) rather than semantic names.
@@ -22,12 +22,12 @@ Pact Design organizes design tokens into three distinct tiers to separate raw pr
 > [!IMPORTANT]
 > Never reference `global.*` tokens directly in application or component stylesheets. Always consume `system.*` (or `component.*`) tokens so themes and density adjustments propagate automatically.
 
-#### System Level (`tokens/system/*.json`)
+#### System Level (`src/system/*.json`)
 
 - Maps `global.*` primitives to semantic roles (`background`, `text`, `border`, `semantic`, `font`, `spacing`, `size`, `radius`, `stroke`, `elevation`).
 - Uses a unified **T-shirt sizing scale** (`xs`, `sm`, `md`, `lg`, `xl`, with `3xs`–`5xl` extensions for spacing/sizing) anchored around `md` (`0.5rem` / `8px` for spacing, `1rem` / `16px` for sizing).
 
-#### Component Level (`tokens/component/*.json`)
+#### Component Level (`src/component/*.json`)
 
 - Maps `system.*` tokens to specific component slots and interactive state variants (e.g., `button.json`, `field.json`, `switch.json`, `modal.json`, `popover.json`, `tab.json`, `toast.json`, `disclosure.json`, `checkbox.json`), enabling scoped customization without breaking system-wide semantics.
 
@@ -44,10 +44,10 @@ Pact Design implements theming at the **System (`system.*`)** layer using **spli
 
 - **100% Identical Token Paths**: Light and Dark files define the exact same JSON hierarchy and token names. Theme names (`light` / `dark`) are never embedded in token paths.
 - **File Structure**:
-  - `tokens/global/color.json` — Shared perceptual OKLCH palettes.
-  - `tokens/system/color.light.json` — Light mode semantic mappings (`:root, [data-theme="light"]`).
-  - `tokens/system/color.dark.json` — Dark mode semantic mappings (`[data-theme="dark"]`).
-  - `tokens/component/*.json` — Component token definitions referencing semantic system tokens.
+  - `src/global/color.json` — Shared perceptual OKLCH palettes.
+  - `src/system/color.light.json` — Light mode semantic mappings (`:root, [data-theme="light"]`).
+  - `src/system/color.dark.json` — Dark mode semantic mappings (`[data-theme="dark"]`).
+  - `src/component/*.json` — Component token definitions referencing semantic system tokens.
 
 ---
 

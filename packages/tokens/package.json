@@ -6,12 +6,13 @@
   "exports": {
     "./css": "./build/css/_variables.css",
     "./uno": "./build/uno/preset.js",
-    "./tokens/*": "./tokens/*",
+    "./src/*": "./src/*",
+    "./tokens/*": "./src/*",
     "./utils/*": "./utils/*"
   },
   "files": [
     "build",
-    "tokens",
+    "src",
     "utils"
   ],
   "scripts": {
