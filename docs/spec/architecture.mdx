@@ -14,7 +14,7 @@ order: 2
 - **保留參照鏈 (`outputReferences: true`)**：Style Dictionary v5 編譯時會保留 `{global.*}` 與 `{system.*}` 參照關係，轉譯為原生 CSS `var(--*)` 變數鏈，實現零執行期成本的動態主題切換。
 
 ```json
-// tokens/color/global.json
+// tokens/global/color.json
 {
   "global": {
     "indigo": {
@@ -31,7 +31,7 @@ order: 2
   }
 }
 
-// tokens/color/system.light.json
+// tokens/system/color.light.json
 {
   "system": {
     "semantic": {
@@ -52,8 +52,8 @@ Pact Design 在 **System** 層級透過分離檔案實作主題切換：
 
 - **100% 鍵名對稱（Key Parity）**：淺色與深色設定檔具備完全一致的 JSON 路徑與 Token 名稱，絕不將 `light` 或 `dark` 字樣寫入 Token 路徑中。
 - **CSS 選擇器隔離**：
-  - `tokens/*/global.json` + `tokens/*/system.light.json` 輸出至 `:root, [data-theme="light"]`
-  - `tokens/*/system.dark.json` 輸出至 `[data-theme="dark"]`
+  - `tokens/global/*.json` + `tokens/system/*.light.json` + `tokens/component/*.json` 輸出至 `:root, [data-theme="light"]`
+  - `tokens/system/*.dark.json` 輸出至 `[data-theme="dark"]`
 
 ```css
 :root, [data-theme="light"] {

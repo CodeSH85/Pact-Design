@@ -14,7 +14,7 @@ Pact Design organizes design tokens into three distinct tiers to separate raw pr
 2. **System (`system.*`)**: Semantic tokens representing themeable UI roles, hierarchy, and density.
 3. **Component (`component.*`)**: Scoped tokens bound to specific UI components (e.g., Data Grid, Tree View, Button, Modal).
 
-#### Global Level (`tokens/*/global.json`)
+#### Global Level (`tokens/global/*.json`)
 
 - Serves as the single source of truth for raw values (OKLCH colors, `rem`/`px` dimensions, font weights, stroke styles).
 - Uses numeric scales (`00`, `01`, `02`... or `50`–`1000` for 11-step color palettes) rather than semantic names.
@@ -22,31 +22,32 @@ Pact Design organizes design tokens into three distinct tiers to separate raw pr
 > [!IMPORTANT]
 > Never reference `global.*` tokens directly in application or component stylesheets. Always consume `system.*` (or `component.*`) tokens so themes and density adjustments propagate automatically.
 
-#### System Level (`tokens/*/system*.json`)
+#### System Level (`tokens/system/*.json`)
 
 - Maps `global.*` primitives to semantic roles (`background`, `text`, `border`, `semantic`, `font`, `spacing`, `size`, `radius`, `stroke`, `elevation`).
-- Uses a unified **T-shirt sizing scale** (`xs`, `sm`, `md`, `lg`, `xl`, with `3xs`–`5xl` extensions for spacing/sizing) anchored around `md` (`1rem` / `16px`).
+- Uses a unified **T-shirt sizing scale** (`xs`, `sm`, `md`, `lg`, `xl`, with `3xs`–`5xl` extensions for spacing/sizing) anchored around `md` (`0.5rem` / `8px` for spacing, `1rem` / `16px` for sizing).
 
-#### Component Level (Planned)
+#### Component Level (`tokens/component/*.json`)
 
-- Maps `system.*` tokens to specific component slots when independent customization is required without breaking system-wide semantics.
+- Maps `system.*` tokens to specific component slots and interactive state variants (e.g., `button.json`, `field.json`, `switch.json`, `modal.json`, `popover.json`, `tab.json`, `toast.json`, `disclosure.json`, `checkbox.json`), enabling scoped customization without breaking system-wide semantics.
 
 ### 1.2 Structural Conventions
 
-- **Nested Hierarchy over Hyphenated Keys**: Token groups use nested JSON objects (e.g., `global.font.weight.regular`, `global.shadow.color.01`, `system.background.layer-1`) rather than flat hyphenated keys.
+- **Nested Hierarchy over Hyphenated Keys**: Token groups use nested JSON objects (e.g., `global.font.weight.regular`, `global.shadow.color.01`, `system.background.layer-1`, `component.button.height.md`) rather than flat hyphenated keys.
 - **Property Ordering**: Within token leaf nodes, `$value` is placed before `$type`.
 
 ---
 
 ## 2. Theming Strategy (Light & Dark Modes)
 
-Pact Design implements theming at the **System (`system.*`)** layer using **split token sets** (`system.light.json` and `system.dark.json`):
+Pact Design implements theming at the **System (`system.*`)** layer using **split token sets** (`system/*.light.json` and `system/*.dark.json`):
 
 - **100% Identical Token Paths**: Light and Dark files define the exact same JSON hierarchy and token names. Theme names (`light` / `dark`) are never embedded in token paths.
 - **File Structure**:
-  - `tokens/color/global.json` — Shared perceptual OKLCH palettes.
-  - `tokens/color/system.light.json` — Light mode semantic mappings (`:root, [data-theme="light"]`).
-  - `tokens/color/system.dark.json` — Dark mode semantic mappings (`[data-theme="dark"]`).
+  - `tokens/global/color.json` — Shared perceptual OKLCH palettes.
+  - `tokens/system/color.light.json` — Light mode semantic mappings (`:root, [data-theme="light"]`).
+  - `tokens/system/color.dark.json` — Dark mode semantic mappings (`[data-theme="dark"]`).
+  - `tokens/component/*.json` — Component token definitions referencing semantic system tokens.
 
 ---
 
