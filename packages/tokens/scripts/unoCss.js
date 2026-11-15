@@ -13,7 +13,10 @@ function extractDynamicTheme(allTokens) {
     spacing: {},
     width: {},
     height: {},
+    minWidth: {},
+    maxWidth: {},
     minHeight: {},
+    maxHeight: {},
     borderRadius: {},
     borderWidth: {},
     lineWidth: {},
@@ -123,6 +126,78 @@ function extractDynamicTheme(allTokens) {
       } else if (tokenType === 'color') {
         const scaleKebab = category.replace(/([A-Z])/g, '-$1').toLowerCase()
         theme.colors[`${scaleKebab}-${key}`] = varRef
+      }
+    } else if (tier === 'component') {
+      const compKey = `${category}-${key}`
+      const cleanKey = `${category}-${rest.filter((s) => s !== 'color').join('-')}`
+
+      if (tokenType === 'color') {
+        theme.colors[compKey] = varRef
+        theme.colors[cleanKey] = varRef
+        if (cleanKey.endsWith('-default')) {
+          theme.colors[cleanKey.replace(/-default$/, '')] = varRef
+        }
+      } else if (tokenType === 'dimension') {
+        const has = (word) => rest.includes(word)
+
+        if (has('max-width')) {
+          theme.maxWidth[compKey] = varRef
+          theme.maxWidth[`${category}-${rest.filter((s) => s !== 'max-width').join('-')}`] = varRef
+        } else if (has('min-width')) {
+          theme.minWidth[compKey] = varRef
+          theme.minWidth[`${category}-${rest.filter((s) => s !== 'min-width').join('-')}`] = varRef
+        } else if (has('width')) {
+          theme.width[compKey] = varRef
+          theme.width[`${category}-${rest.filter((s) => s !== 'width').join('-')}`] = varRef
+          theme.spacing[compKey] = varRef
+        }
+
+        if (has('max-height')) {
+          theme.maxHeight[compKey] = varRef
+          theme.maxHeight[`${category}-${rest.filter((s) => s !== 'max-height').join('-')}`] = varRef
+        } else if (has('min-height')) {
+          theme.minHeight[compKey] = varRef
+          theme.minHeight[`${category}-${rest.filter((s) => s !== 'min-height').join('-')}`] = varRef
+        } else if (has('height')) {
+          theme.height[compKey] = varRef
+          theme.height[`${category}-${rest.filter((s) => s !== 'height').join('-')}`] = varRef
+          theme.spacing[compKey] = varRef
+        }
+
+        if (has('size') || has('icon-size')) {
+          theme.width[compKey] = varRef
+          theme.height[compKey] = varRef
+          theme.spacing[compKey] = varRef
+          theme.width[`${category}-${rest.filter((s) => s !== 'size' && s !== 'icon-size').join('-')}`] = varRef
+          theme.height[`${category}-${rest.filter((s) => s !== 'size' && s !== 'icon-size').join('-')}`] = varRef
+        }
+
+        if (has('radius')) {
+          theme.borderRadius[compKey] = varRef
+          theme.borderRadius[`${category}-${rest.filter((s) => s !== 'radius').join('-')}`] = varRef
+        }
+
+        if (
+          has('padding') ||
+          has('padding-x') ||
+          has('padding-y') ||
+          has('padding-top') ||
+          has('padding-bottom') ||
+          has('gap') ||
+          has('offset') ||
+          has('translate') ||
+          has('margin-y')
+        ) {
+          theme.spacing[compKey] = varRef
+        }
+
+        if (has('z-index')) {
+          theme.zIndex[compKey] = varRef
+          theme.zIndex[category] = varRef
+        }
+      } else if (tokenType === 'shadow') {
+        theme.boxShadow[compKey] = varRef
+        theme.boxShadow[`elevation-${compKey}`] = varRef
       }
     }
   }
