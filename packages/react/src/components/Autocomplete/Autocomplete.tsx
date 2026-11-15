@@ -107,7 +107,7 @@ export function AutocompleteListBox<T extends object = object>({
     <AriaListBox
       className={composeTailwindRenderProps(
         className,
-        'outline-none flex flex-col gap-3xs max-h-60 overflow-auto p-2xs bg-layer-1 border border-border-default rounded-sm shadow-elevation-sm'
+        'outline-none flex flex-col gap-3xs max-h-popover-listbox overflow-auto p-2xs bg-layer-1 border border-border-default rounded-sm shadow-elevation-sm'
       )}
       {...props}
     >

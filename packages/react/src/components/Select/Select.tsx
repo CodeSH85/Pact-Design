@@ -28,23 +28,23 @@ import { popoverContentClasses } from '../Popover/index.ts'
 export const selectTriggerVariants = cva(
   [
     'group inline-flex items-center justify-between w-full select-none cursor-pointer',
-    'bg-layer-1 border border-border-default rounded-sm text-on-surface',
+    'bg-field-bg border border-field-border rounded-field-sm text-field-text',
     'transition-colors duration-fast ease-default',
-    'hover:border-border-strong',
-    'data-[focused]:border-border-focus data-[focus-visible]:border-border-focus',
-    'data-[open]:border-border-focus',
-    'data-[invalid]:border-danger data-[invalid]:hover:border-danger-hover',
-    'data-[disabled]:bg-disabled data-[disabled]:border-border-subtle data-[disabled]:text-on-surface-disabled data-[disabled]:cursor-not-allowed',
+    'hover:border-field-border-hover',
+    'data-[focused]:border-field-border-focus data-[focus-visible]:border-field-border-focus',
+    'data-[open]:border-field-border-focus',
+    'data-[invalid]:border-field-border-invalid data-[invalid]:hover:border-field-border-invalid-hover',
+    'data-[disabled]:bg-field-bg-disabled data-[disabled]:border-field-border-disabled data-[disabled]:text-field-text-disabled data-[disabled]:cursor-not-allowed',
     focusRing
   ].join(' '),
   {
     variants: {
       size: {
-        xs: 'h-control-xs px-xs gap-2xs text-label-xs rounded-xs',
-        sm: 'h-control-sm px-sm gap-xs text-label-sm rounded-sm',
-        md: 'h-control-md px-md gap-xs text-label-md rounded-sm',
-        lg: 'h-control-lg px-lg gap-sm text-label-lg rounded-md',
-        xl: 'h-control-xl px-xl gap-sm text-label-xl rounded-md'
+        xs: 'h-field-xs px-field-padding-x-xs gap-field-gap-xs text-label-xs rounded-field-xs',
+        sm: 'h-field-sm px-field-padding-x-sm gap-field-gap-sm text-label-sm rounded-field-sm',
+        md: 'h-field-md px-field-padding-x-md gap-field-gap-md text-label-md rounded-field-md',
+        lg: 'h-field-lg px-field-padding-x-lg gap-field-gap-lg text-label-lg rounded-field-lg',
+        xl: 'h-field-xl px-field-padding-x-xl gap-field-gap-xl text-label-xl rounded-field-xl'
       }
     },
     defaultVariants: {
@@ -153,7 +153,7 @@ export function SelectListBox<T extends object = object>({
     <AriaListBox
       className={composeTailwindRenderProps(
         className,
-        'outline-none flex flex-col gap-3xs max-h-60 overflow-auto p-2xs'
+        'outline-none flex flex-col gap-3xs max-h-popover-listbox overflow-auto p-2xs'
       )}
       {...props}
     >

@@ -42,15 +42,15 @@ export function Checkbox({
 
   const boxClasses = [
     'inline-flex shrink-0 items-center justify-center',
-    'w-icon-md h-icon-md rounded-2xs',
-    'border border-border-strong bg-layer-1 text-on-primary',
+    'w-checkbox-size h-checkbox-size rounded-checkbox-radius',
+    'border border-checkbox-border bg-checkbox-bg text-checkbox-icon',
     'transition-colors duration-fast ease-default',
-    'group-hover:border-primary group-data-[hovered]:border-primary',
+    'group-hover:border-checkbox-border-hover group-data-[hovered]:border-checkbox-border-hover',
     'group-data-[focus-visible]:outline group-data-[focus-visible]:outline-2',
     'group-data-[focus-visible]:outline-border-focus group-data-[focus-visible]:outline-offset-2',
-    'group-data-[selected]:bg-primary group-data-[selected]:border-primary',
-    'group-data-[indeterminate]:bg-primary group-data-[indeterminate]:border-primary',
-    'group-data-[disabled]:bg-disabled group-data-[disabled]:border-border-subtle group-data-[disabled]:text-on-surface-disabled'
+    'group-data-[selected]:bg-checkbox-bg-selected group-data-[selected]:border-checkbox-border-selected',
+    'group-data-[indeterminate]:bg-checkbox-bg-selected group-data-[indeterminate]:border-checkbox-border-selected',
+    'group-data-[disabled]:bg-checkbox-bg-disabled group-data-[disabled]:border-checkbox-border-disabled group-data-[disabled]:text-checkbox-icon-disabled'
   ].join(' ')
 
   return (
@@ -80,9 +80,9 @@ export function Checkbox({
           <>
             <span className={boxClasses}>
               {isIndeterminate ? (
-                <RiSubtractLine className="w-icon-xs h-icon-xs" aria-hidden="true" />
+                <RiSubtractLine className="w-checkbox-icon-size h-checkbox-icon-size" aria-hidden="true" />
               ) : selected ? (
-                <RiCheckLine className="w-icon-xs h-icon-xs" aria-hidden="true" />
+                <RiCheckLine className="w-checkbox-icon-size h-checkbox-icon-size" aria-hidden="true" />
               ) : null}
             </span>
 

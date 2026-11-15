@@ -16,8 +16,8 @@ export const disclosureVariants = cva(
   {
     variants: {
       variant: {
-        bordered: 'border border-border-default rounded-sm bg-layer-1',
-        ghost: 'border-b border-border-subtle bg-transparent'
+        bordered: 'border border-disclosure-container-border rounded-disclosure-container-radius bg-disclosure-container-bg',
+        ghost: 'border-b border-disclosure-container-divider bg-transparent'
       }
     },
     defaultVariants: {
@@ -27,16 +27,16 @@ export const disclosureVariants = cva(
 )
 
 export const disclosureTriggerClasses = [
-  'group flex items-center justify-between w-full h-control-md px-md select-none cursor-pointer',
-  'text-label-md font-medium text-on-surface bg-transparent',
+  'group flex items-center justify-between w-full h-disclosure-trigger-height px-disclosure-trigger-padding-x select-none cursor-pointer',
+  'text-label-md font-medium text-disclosure-trigger-text bg-transparent',
   'transition-colors duration-fast ease-default',
-  'hover:bg-hover active:bg-active',
+  'hover:bg-disclosure-trigger-bg-hover active:bg-disclosure-trigger-bg-active',
   focusRingInset,
-  'data-[disabled]:text-on-surface-disabled data-[disabled]:cursor-not-allowed'
+  'data-[disabled]:text-disclosure-trigger-text-disabled data-[disabled]:cursor-not-allowed'
 ].join(' ')
 
 export const disclosurePanelClasses = [
-  'px-md py-sm text-body-sm text-on-surface-secondary',
+  'px-disclosure-panel-padding-x py-disclosure-panel-padding-y text-body-sm text-disclosure-panel-text',
   'entering:animate-in entering:fade-in-0 exiting:animate-out exiting:fade-out-0'
 ].join(' ')
 

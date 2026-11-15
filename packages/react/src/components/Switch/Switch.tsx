@@ -8,18 +8,18 @@ import { composeTailwindRenderProps, focusRing } from '../../utils/index.ts'
 
 export const switchTrackVariants = cva(
   [
-    'relative inline-flex shrink-0 items-center rounded-full cursor-pointer',
-    'bg-layer-1-active border border-border-default',
+    'relative inline-flex shrink-0 items-center rounded-switch-track-radius cursor-pointer',
+    'bg-switch-track-bg-unchecked border border-switch-track-border-unchecked',
     'transition-colors duration-normal ease-default',
     focusRing,
-    'group-data-[selected]:bg-primary group-data-[selected]:border-primary',
-    'group-data-[disabled]:bg-disabled group-data-[disabled]:border-border-subtle group-data-[disabled]:cursor-not-allowed'
+    'group-data-[selected]:bg-switch-track-bg-checked group-data-[selected]:border-switch-track-border-checked',
+    'group-data-[disabled]:bg-switch-track-bg-disabled group-data-[disabled]:border-switch-track-border-disabled group-data-[disabled]:cursor-not-allowed'
   ].join(' '),
   {
     variants: {
       size: {
-        sm: 'w-7 h-4 p-0.5',
-        md: 'w-9 h-5 p-0.5'
+        sm: 'w-switch-track-sm h-switch-track-sm p-switch-track-padding',
+        md: 'w-switch-track-md h-switch-track-md p-switch-track-padding'
       }
     },
     defaultVariants: {
@@ -30,14 +30,14 @@ export const switchTrackVariants = cva(
 
 export const switchThumbVariants = cva(
   [
-    'pointer-events-none block rounded-full bg-layer-2 shadow-elevation-xs',
+    'pointer-events-none block rounded-switch-thumb-radius bg-switch-thumb-bg shadow-switch-thumb-shadow',
     'transition-transform duration-normal ease-default'
   ].join(' '),
   {
     variants: {
       size: {
-        sm: 'w-3 h-3 group-data-[selected]:translate-x-3',
-        md: 'w-4 h-4 group-data-[selected]:translate-x-4'
+        sm: 'w-switch-thumb-sm h-switch-thumb-sm group-data-[selected]:translate-x-switch-thumb-translate-sm',
+        md: 'w-switch-thumb-md h-switch-thumb-md group-data-[selected]:translate-x-switch-thumb-translate-md'
       }
     },
     defaultVariants: {
