@@ -1,0 +1,240 @@
+{
+  "component": {
+    "button": {
+      "height": {
+        "xs": {
+          "$value": "{system.control.height.xs}",
+          "$type": "dimension"
+        },
+        "sm": {
+          "$value": "{system.control.height.sm}",
+          "$type": "dimension"
+        },
+        "md": {
+          "$value": "{system.control.height.md}",
+          "$type": "dimension"
+        },
+        "lg": {
+          "$value": "{system.control.height.lg}",
+          "$type": "dimension"
+        },
+        "xl": {
+          "$value": "{system.control.height.xl}",
+          "$type": "dimension"
+        }
+      },
+      "padding-x": {
+        "xs": {
+          "$value": "{system.spacing.xs}",
+          "$type": "dimension"
+        },
+        "sm": {
+          "$value": "{system.spacing.sm}",
+          "$type": "dimension"
+        },
+        "md": {
+          "$value": "{system.spacing.md}",
+          "$type": "dimension"
+        },
+        "lg": {
+          "$value": "{system.spacing.lg}",
+          "$type": "dimension"
+        },
+        "xl": {
+          "$value": "{system.spacing.xl}",
+          "$type": "dimension"
+        }
+      },
+      "gap": {
+        "xs": {
+          "$value": "{system.spacing.2xs}",
+          "$type": "dimension"
+        },
+        "sm": {
+          "$value": "{system.spacing.xs}",
+          "$type": "dimension"
+        },
+        "md": {
+          "$value": "{system.spacing.xs}",
+          "$type": "dimension"
+        },
+        "lg": {
+          "$value": "{system.spacing.sm}",
+          "$type": "dimension"
+        },
+        "xl": {
+          "$value": "{system.spacing.sm}",
+          "$type": "dimension"
+        }
+      },
+      "radius": {
+        "xs": {
+          "$value": "{system.radius.xs}",
+          "$type": "dimension"
+        },
+        "sm": {
+          "$value": "{system.radius.sm}",
+          "$type": "dimension"
+        },
+        "md": {
+          "$value": "{system.radius.sm}",
+          "$type": "dimension"
+        },
+        "lg": {
+          "$value": "{system.radius.md}",
+          "$type": "dimension"
+        },
+        "xl": {
+          "$value": "{system.radius.md}",
+          "$type": "dimension"
+        }
+      },
+      "color": {
+        "primary": {
+          "bg": {
+            "$value": "{system.semantic.primary}",
+            "$type": "color"
+          },
+          "bg-hover": {
+            "$value": "{system.semantic.primary-hover}",
+            "$type": "color"
+          },
+          "bg-active": {
+            "$value": "{system.semantic.primary-active}",
+            "$type": "color"
+          },
+          "text": {
+            "$value": "{system.semantic.on-primary}",
+            "$type": "color"
+          },
+          "border": {
+            "$value": "transparent",
+            "$type": "color"
+          }
+        },
+        "secondary": {
+          "bg": {
+            "$value": "{system.background.layer-1}",
+            "$type": "color"
+          },
+          "bg-hover": {
+            "$value": "{system.background.layer-1-hover}",
+            "$type": "color"
+          },
+          "bg-active": {
+            "$value": "{system.background.layer-1-active}",
+            "$type": "color"
+          },
+          "bg-selected": {
+            "$value": "{system.background.layer-1-selected}",
+            "$type": "color"
+          },
+          "text": {
+            "$value": "{system.on-surface.default}",
+            "$type": "color"
+          },
+          "text-selected": {
+            "$value": "{system.on-surface.default}",
+            "$type": "color"
+          },
+          "border": {
+            "$value": "{system.border.default}",
+            "$type": "color"
+          },
+          "border-selected": {
+            "$value": "{system.border.strong}",
+            "$type": "color"
+          }
+        },
+        "ghost": {
+          "bg": {
+            "$value": "transparent",
+            "$type": "color"
+          },
+          "bg-hover": {
+            "$value": "{system.background.hover}",
+            "$type": "color"
+          },
+          "bg-active": {
+            "$value": "{system.background.active}",
+            "$type": "color"
+          },
+          "bg-selected": {
+            "$value": "{system.background.layer-1-selected}",
+            "$type": "color"
+          },
+          "text": {
+            "$value": "{system.on-surface.default}",
+            "$type": "color"
+          },
+          "text-selected": {
+            "$value": "{system.on-surface.default}",
+            "$type": "color"
+          },
+          "border": {
+            "$value": "transparent",
+            "$type": "color"
+          }
+        },
+        "danger": {
+          "bg": {
+            "$value": "{system.semantic.danger}",
+            "$type": "color"
+          },
+          "bg-hover": {
+            "$value": "{system.semantic.danger-hover}",
+            "$type": "color"
+          },
+          "bg-active": {
+            "$value": "{system.semantic.danger-active}",
+            "$type": "color"
+          },
+          "text": {
+            "$value": "{system.semantic.on-danger}",
+            "$type": "color"
+          },
+          "border": {
+            "$value": "transparent",
+            "$type": "color"
+          }
+        },
+        "subtle": {
+          "bg": {
+            "$value": "{system.semantic.info-subtle}",
+            "$type": "color"
+          },
+          "bg-hover": {
+            "$value": "{system.background.layer-2-hover}",
+            "$type": "color"
+          },
+          "bg-active": {
+            "$value": "{system.background.layer-2-active}",
+            "$type": "color"
+          },
+          "text": {
+            "$value": "{system.semantic.on-info-subtle}",
+            "$type": "color"
+          },
+          "border": {
+            "$value": "{system.semantic.info-border}",
+            "$type": "color"
+          }
+        },
+        "disabled": {
+          "bg": {
+            "$value": "{system.background.disabled}",
+            "$type": "color"
+          },
+          "text": {
+            "$value": "{system.on-surface.disabled}",
+            "$type": "color"
+          },
+          "border": {
+            "$value": "transparent",
+            "$type": "color"
+          }
+        }
+      }
+    }
+  }
+}
