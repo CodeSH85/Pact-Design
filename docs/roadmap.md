@@ -119,7 +119,7 @@ Build on `test/contrast.test.js` to ensure full structural, mathematical, and th
 - [ ] **Light & Dark Theme Parity Test (`test/parity.test.js`)**:
   - Assert 100% key-path and `$type` symmetry between all `*.light.json` and `*.dark.json` token files (`tokens/color/`, `tokens/elevation/`) to prevent missing variables when switching themes.
 - [ ] **OKLCH Gamut & Scale Monotonicity Test (`test/color.test.js`)**:
-  - Verify that all `global.color.*` tokens remain strictly within the sRGB gamut (`r, g, b ∈ [0, 1]`) and maintain strictly monotonic lightness (`L`) progression from step `50` to `1000`.
+  - Verify that all `global.color.*` tokens remain strictly within the sRGB gamut (`r, g, b ∈ [0, 1]`) and maintain strictly monotonic lightness (`L`) progression across all 12 steps from `100` to `1200`.
 
 ---
 
