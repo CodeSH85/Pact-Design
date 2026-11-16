@@ -2,28 +2,28 @@ import { ColorPalette } from '../demos/ColorPalette.jsx'
 
 export const mdxComponents = {
   h2: (props) => (
-    <h2 className="mt-md text-heading-xs text-on-surface scroll-mt-xl" {...props} />
+    <h2 className="my-sm text-heading-xs text-on-surface-default scroll-mt-xl" {...props} />
   ),
   h3: (props) => (
-    <h3 className="mt-md text-subheader-md text-on-surface scroll-mt-xl" {...props} />
+    <h3 className="mt-sm text-subheader-md text-on-surface scroll-mt-xl" {...props} />
   ),
   p: (props) => (
-    <p className="text-body-md text-on-surface-muted" {...props} />
+    <p className="text-body-md text-on-surface-secondary" {...props} />
   ),
   strong: (props) => (
-    <strong className="text-on-surface" {...props} />
+    <strong className="text-on-surface text-body-md" {...props} />
   ),
   a: (props) => (
     <a className="text-primary hover:text-primary-hover hover:underline" {...props} />
   ),
   ul: (props) => (
-    <ul className="list-disc pl-xl flex flex-col gap-xs text-on-surface-muted" {...props} />
+    <ul className="list-disc pl-xl flex flex-col gap-xs text-body-md text-on-surface-secondary" {...props} />
   ),
   ol: (props) => (
-    <ol className="m-0 pl-xl flex flex-col gap-xs text-on-surface-muted list-decimal" {...props} />
+    <ol className="m-0 pl-xl flex flex-col gap-xs text-body-md text-on-surface-default list-decimal" {...props} />
   ),
   li: (props) => (
-    <li className="leading-07" {...props} />
+    <li className="leading-07 text-body-md" {...props} />
   ),
   hr: (props) => (
     <hr className="border-0 border-t border-border-default my-xs" {...props} />
@@ -53,13 +53,13 @@ export const mdxComponents = {
   ),
   th: (props) => (
     <th
-      className="h-control-sm py-2xs px-sm bg-layer-1 text-on-surface-secondary text-label-sm border-b border-border-default whitespace-nowrap"
+      className="h-control-sm py-2xs px-sm bg-layer-2 text-on-surface-secondary text-label-sm border-b border-border-default whitespace-nowrap"
       {...props}
     />
   ),
   td: (props) => (
     <td
-      className="h-control-md py-xs px-sm border-b border-border-subtle text-on-surface align-middle"
+      className="h-control-md py-xs px-sm bg-layer-1 border-b border-border-subtle text-on-surface align-middle"
       {...props}
     />
   ),

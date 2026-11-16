@@ -34,7 +34,7 @@ export function RootLayout() {
 
   return (
     <div className="flex flex-col h-screen bg-base text-on-surface">
-      <header className="flex items-center shrink-0 bg-layer-1 w-full justify-between p-md border-b border-border-default">
+      <header className="flex items-center shrink-0 bg-layer-1 w-full justify-between p-sm border-b border-border-default">
         <div className="flex w-full">
           <Link to="/" className="flex gap-md items-center">
             <img src={`${import.meta.env.BASE_URL}PD_logo.png`} className="size-md" alt="Pact Design" />
@@ -82,25 +82,27 @@ export function RootLayout() {
       <div className="flex flex-1 min-h-0 overflow-hidden">
         {!isTokenPlayground && (
           <aside
-            className="flex flex-col min-w-12rem bg-layer-1 border-r border-border-default py-md overflow-y-auto"
+            className="flex flex-col min-w-12rem bg-layer-1 border-r border-border-default overflow-y-auto"
             aria-label="Documentation Navigation"
           >
             {navSections.map((section) => (
               <div key={section.title} className="flex flex-col">
-                <div className="px-sm py-xs bg-layer-2">{section.title}</div>
+                <div className="px-sm py-xs my-sm text-on-surface-muted border-b border-border-default">
+                  <span>{section.title}</span>
+                </div>
                 {section.items.map((item) => (
                   <Link
                     key={item.label}
                     to={item.to}
                     params={item.params}
                     activeOptions={{ exact: true }}
-                    className="hover-bg-layer-1-hover hover-ring-sm hover-ring-inset hover-ring-border-strong py-2xs px-sm"
+                    className="hover-bg-layer-1-hover py-2xs px-sm"
                     activeProps={{
-                      className: 'active bg-layer-1-selected text-on-surface ring-sm ring-inset ring-border-strong font-medium',
+                      className: 'bg-layer-1-selected hover-bg-layer-1-selected-hover ring-sm ring-inset ring-border-default text-on-surface font-medium',
                       'aria-current': 'page'
                     }}
                     inactiveProps={{
-                      className: 'text-on-surface-muted'
+                      className: 'text-on-surface-default'
                     }}
                   >
                     <span>{item.label}</span>
