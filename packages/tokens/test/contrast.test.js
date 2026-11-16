@@ -71,17 +71,17 @@ describe('CSS Variables Build Output (build/css/_variables.css)', () => {
   })
 })
 
-describe('Global Color Scale Midpoint (500) Contrast Audit', () => {
+describe('Global Color Scale Midpoint (600) Contrast Audit', () => {
   const cssContent = fs.readFileSync(CSS_VARS_PATH, 'utf-8')
   const { lightRaw } = parseCssVariables(cssContent)
   const globalTokens = JSON.parse(fs.readFileSync(GLOBAL_COLOR_PATH, 'utf-8')).global
 
   const palettes = Object.entries(globalTokens).filter(
-    ([, group]) => group && typeof group === 'object' && '500' in group
+    ([, group]) => group && typeof group === 'object' && '600' in group
   )
 
   for (const [paletteName] of palettes) {
-    const cssVarName = `--global-${kebab(paletteName)}-500`
+    const cssVarName = `--global-${kebab(paletteName)}-600`
     it(`${cssVarName} passes APCA |Lc| >= 60 against #ffffff`, () => {
       const cssColor = resolveCssVariable(cssVarName, lightRaw)
       const res = evaluateWCAG(cssColor, '#ffffff', 4.5, 60)
