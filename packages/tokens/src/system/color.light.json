@@ -30,11 +30,11 @@
         "$type": "color"
       },
       "layer-2-hover": {
-        "$value": "{global.gray.100}",
+        "$value": "{global.gray.200}",
         "$type": "color"
       },
       "layer-2-active": {
-        "$value": "{global.gray.200}",
+        "$value": "{global.gray.300}",
         "$type": "color"
       },
       "layer-2-selected": {
@@ -76,11 +76,11 @@
     },
     "on-surface": {
       "default": {
-        "$value": "{global.gray.1200}",
+        "$value": "{global.gray.1100}",
         "$type": "color"
       },
       "secondary": {
-        "$value": "{global.gray.800}",
+        "$value": "{global.gray.900}",
         "$type": "color"
       },
       "muted": {

@@ -3,11 +3,11 @@
     "font": {
       "family": {
         "sans": {
-          "$value": ["Inter", "Open Sans", "Roboto"],
+          "$value": ["Inter", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", "ui-sans-serif", "system-ui", "sans-serif"],
           "$type": "fontFamily"
         },
         "mono": {
-          "$value": ["SFMono-Regular", "Menlo", "Consolas", "monospace"],
+          "$value": ["SFMono-Regular", "Menlo", "Consolas", "ui-monospace", "system-ui"],
           "$type": "fontFamily"
         }
       },
