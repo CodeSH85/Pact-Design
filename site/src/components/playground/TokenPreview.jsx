@@ -979,7 +979,7 @@ export function TokenPreview({
                   <code className="text-mono-xs text-on-surface-secondary truncate">
                     {key.split('.').at(-1)}
                   </code>
-                  <div className="grid grid-cols-11 gap-3xs">
+                  <div className="grid grid-cols-12 gap-3xs">
                     {list.map((t) => {
                       const value = val(t.id)
                       const lcWhite = Math.abs(apcaContrast(value, '#ffffff'))

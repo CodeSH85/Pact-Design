@@ -77,7 +77,7 @@ export function ColorPalette() {
     <section className="flex flex-col gap-md pt-md border-t border-border-default">
       <div className="flex items-baseline justify-between gap-sm flex-wrap">
         <h2 className="m-0 text-heading-xs text-on-surface">
-          Global 11 階 OKLCH 色票
+          Global 12 階 OKLCH 色票
         </h2>
         <span className="m-0 text-body-sm text-on-surface-muted">
           <Button variant="ghost">顯示文字</Button>
@@ -93,10 +93,10 @@ export function ColorPalette() {
             <div className="flex items-center justify-between text-label-sm">
               <strong className="text-on-surface">{palette.scale}</strong>
               <code className="text-mono-xs text-on-surface-muted">
-                --global-{palette.scale.replace(/([A-Z])/g, '-$1').toLowerCase()}-{'{50..1000}'}
+                --global-{palette.scale.replace(/([A-Z])/g, '-$1').toLowerCase()}-{'{100..1200}'}
               </code>
             </div>
-            <div className="grid grid-cols-[repeat(11,minmax(64px,1fr))] gap-3xs overflow-x-auto">
+            <div className="grid grid-cols-[repeat(12,minmax(64px,1fr))] gap-3xs overflow-x-auto">
               {palette.steps.map((s) => {
                 const copyValue = `var(${s.cssVar})`
                 return (

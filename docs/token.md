@@ -58,12 +58,13 @@ Pact Design implements theming at the **System (`system.*`)** layer using **spli
 #### Global Palettes (`tokens/color/global.json`)
 
 - **Color Space**: Perceptually uniform **OKLCH** (`colorSpace: "oklch"`, `components: [L, C, H]`, `alpha`, plus sRGB `hex` fallback).
-- **13 Scales × 11 Shades (`50`–`1000`)**: `gray`, `coolGray`, `warmGray`, `cyan`, `blue`, `indigo`, `purple`, `magenta`, `red`, `orange`, `yellow`, `green` (clean emerald hue at `H = 148°`), and `mint`, plus `white` (`#ffffff`) and `black` (`#000000`).
-- **11-Step Perceptual Lightness Curve (`50` to `1000`)**:
-  - `50` (`L = 0.968`) → `100` (`0.930`) → `200` (`0.870`) → `300` (`0.790`) → `400` (`0.698`) → `500` (`0.600`, true perceptual midpoint) → `600` (`0.504`) → `700` (`0.414`) → `800` (`0.338`) → `900` (`0.276`) → `1000` (`0.228`).
+- **13 Scales × 12 Shades (`100`–`1200`)**: `gray`, `coolGray`, `warmGray`, `cyan`, `blue`, `indigo`, `purple`, `magenta`, `red`, `orange`, `yellow`, `green` (clean emerald hue at `H = 148°`), and `mint`, plus `white` (`#ffffff`) and `black` (`#000000`).
+- **12-Step Perceptual Lightness Curve (`100` to `1200`)**:
+  - `100` (`L = 0.968`) → `200` (`0.930`) → `300` (`0.870`) → `400` (`0.790`) → `500` (`0.698`) → **`600` (`0.600`, true perceptual midpoint)** → `700` (`0.504`) → `800` (`0.416`) → `900` (`0.344`) → `1000` (`0.288`) → `1100` (`0.244`) → `1200` (`0.208`).
+  - `yellow` features elevated high-luminance light steps (`100`–`500`: `0.975`, `0.945`, `0.895`, `0.825`, `0.725`), joining the standard curve at `600` (`0.600`).
 - **APCA & sRGB Gamut Baseline**:
-  - All `500`–`1000` shades pass **APCA `|Lc| >= 60`** against `#ffffff` (`500` reaches `Lc +63.9` to `+69.4` as text on white and `Lc -69.4` to `-74.8` with white text on solid backgrounds; `600` reaches `Lc +77.1` to `+81.5` and WCAG `≥ 5.5:1`).
-  - All 143 shades lie 100% within the standard sRGB gamut.
+  - All `600`–`1200` shades pass **APCA `|Lc| >= 60`** against `#ffffff` (`600` reaches `Lc +63.9` to `+74.4` as text on white and `Lc -69.4` to `-74.4` with white text on solid backgrounds; `700` reaches `Lc +77.1` to `+86.1` and WCAG `≥ 5.5:1`).
+  - All 156 shades lie 100% within the standard sRGB gamut.
 
 #### System Background Layers & Interactive Surface States (`system.background.*`)
 
@@ -71,22 +72,22 @@ Workspace surfaces are divided into four luminance layers, a translucent modal/d
 
 | Token | Light Value | Dark Value | Semantic Role |
 | :--- | :--- | :--- | :--- |
-| `system.background.base` | `{global.gray.100}` (`#e8e8e8`) | `{global.gray.1000}` (`#1c1c1c`) | Lowest application canvas / pasteboard. |
-| `system.background.hover` | `{global.gray.50}` (`#f4f4f4`) | `{global.gray.900}` (`#282828`) | Base / default neutral hover state (`|Lc| > 97` with `text.primary`). |
-| `system.background.active` | `{global.gray.100}` (`#e8e8e8`) | `{global.gray.800}` (`#373737`) | Base / default neutral pressed state (`|Lc| > 90` with `text.primary`). |
-| `system.background.selected` | `{global.gray.100}` (`#e8e8e8`) | `{global.gray.800}` (`#373737`) | Base / default neutral selected state (`|Lc| > 90` with `text.primary`). |
-| `system.background.selected-hover` | `{global.gray.200}` (`#d4d4d4`) | `{global.gray.700}` (`#4b4b4b`) | Base / default hover state on an already-selected item (`|Lc| > 78` with `text.primary`). |
-| `system.background.layer-1` | `{global.gray.50}` (`#f4f4f4`) | `{global.gray.900}` (`#282828`) | Primary structural chrome (`TopNav`, `Side-Nav`, docking toolbars, inspector panels). |
-| `system.background.layer-1-hover` | `{global.gray.100}` (`#e8e8e8`) | `{global.gray.800}` (`#373737`) | Neutral hover state on `layer-1` surfaces (`|Lc| > 90` with `text.primary`). |
-| `system.background.layer-1-active` | `{global.gray.200}` (`#d4d4d4`) | `{global.gray.700}` (`#4b4b4b`) | Neutral pressed state on `layer-1` surfaces (`|Lc| > 78` with `text.primary`). |
-| `system.background.layer-1-selected` | `{global.gray.200}` (`#d4d4d4`) | `{global.gray.700}` (`#4b4b4b`) | Neutral selected state on `layer-1` surfaces (`|Lc| > 78` with `text.primary`). |
-| `system.background.layer-1-selected-hover` | `{global.gray.200}` (`#d4d4d4`) | `{global.gray.600}` (`#646464`) | Hover state on a selected `layer-1` item (`|Lc| > 78` with `text.primary`). |
-| `system.background.layer-2` | `{global.white}` (`#ffffff`) | `{global.gray.800}` (`#373737`) | Main editing workspace, artboards, data tables, and primary content containers. |
-| `system.background.layer-2-hover` | `{global.gray.50}` (`#f4f4f4`) | `{global.gray.700}` (`#4b4b4b`) | Neutral hover state on `layer-2` surfaces (`|Lc| > 94` with `text.primary`). |
-| `system.background.layer-2-active` | `{global.gray.100}` (`#e8e8e8`) | `{global.gray.600}` (`#646464`) | Neutral pressed state on `layer-2` surfaces (`|Lc| > 84` with `text.primary`). |
-| `system.background.layer-2-selected` | `{global.gray.100}` (`#e8e8e8`) | `{global.gray.600}` (`#646464`) | Neutral selected state on `layer-2` surfaces (`|Lc| > 84` with `text.primary`). |
-| `system.background.layer-2-selected-hover` | `{global.gray.200}` (`#d4d4d4`) | `{global.gray.600}` (`#646464`) | Hover state on a selected `layer-2` item (`|Lc| > 78` with `text.primary`). |
-| `system.background.elevated` | `{system.background.layer-2}` (`#ffffff`) | `{system.background.layer-2}` (`#373737`) | Floating elements over the workspace (contextual popovers, modals, dropdowns), paired with `system.elevation.*`. |
+| `system.background.base` | `{global.gray.200}` (`#e8e8e8`) | `{global.gray.1200}` (`#181818`) | Lowest application canvas / pasteboard. |
+| `system.background.hover` | `{global.gray.100}` (`#f4f4f4`) | `{global.gray.1100}` (`#202020`) | Base / default neutral hover state (`|Lc| > 97` with `text.primary`). |
+| `system.background.active` | `{global.gray.200}` (`#e8e8e8`) | `{global.gray.1000}` (`#2b2b2b`) | Base / default neutral pressed state (`|Lc| > 90` with `text.primary`). |
+| `system.background.selected` | `{global.gray.200}` (`#e8e8e8`) | `{global.gray.1000}` (`#2b2b2b`) | Base / default neutral selected state (`|Lc| > 90` with `text.primary`). |
+| `system.background.selected-hover` | `{global.gray.300}` (`#d4d4d4`) | `{global.gray.900}` (`#393939`) | Base / default hover state on an already-selected item (`|Lc| > 78` with `text.primary`). |
+| `system.background.layer-1` | `{global.white}` (`#ffffff`) | `{global.gray.1100}` (`#202020`) | Primary structural chrome (`TopNav`, `Side-Nav`, docking toolbars, inspector panels). |
+| `system.background.layer-1-hover` | `{global.gray.100}` (`#f4f4f4`) | `{global.gray.1000}` (`#2b2b2b`) | Neutral hover state on `layer-1` surfaces (`|Lc| > 90` with `text.primary`). |
+| `system.background.layer-1-active` | `{global.gray.200}` (`#e8e8e8`) | `{global.gray.900}` (`#393939`) | Neutral pressed state on `layer-1` surfaces (`|Lc| > 78` with `text.primary`). |
+| `system.background.layer-1-selected` | `{global.gray.200}` (`#e8e8e8`) | `{global.gray.900}` (`#393939`) | Neutral selected state on `layer-1` surfaces (`|Lc| > 78` with `text.primary`). |
+| `system.background.layer-1-selected-hover` | `{global.gray.300}` (`#d4d4d4`) | `{global.gray.800}` (`#4c4c4c`) | Hover state on a selected `layer-1` item (`|Lc| > 78` with `text.primary`). |
+| `system.background.layer-2` | `{global.gray.100}` (`#f4f4f4`) | `{global.gray.1000}` (`#2b2b2b`) | Main editing workspace, artboards, data tables, and primary content containers. |
+| `system.background.layer-2-hover` | `{global.gray.100}` (`#f4f4f4`) | `{global.gray.900}` (`#393939`) | Neutral hover state on `layer-2` surfaces (`|Lc| > 94` with `text.primary`). |
+| `system.background.layer-2-active` | `{global.gray.200}` (`#e8e8e8`) | `{global.gray.800}` (`#4c4c4c`) | Neutral pressed state on `layer-2` surfaces (`|Lc| > 84` with `text.primary`). |
+| `system.background.layer-2-selected` | `{global.gray.200}` (`#e8e8e8`) | `{global.gray.800}` (`#4c4c4c`) | Neutral selected state on `layer-2` surfaces (`|Lc| > 84` with `text.primary`). |
+| `system.background.layer-2-selected-hover` | `{global.gray.300}` (`#d4d4d4`) | `{global.gray.700}` (`#646464`) | Hover state on a selected `layer-2` item (`|Lc| > 78` with `text.primary`). |
+| `system.background.elevated` | `{system.background.layer-2}` (`#f4f4f4`) | `{system.background.layer-2}` (`#2b2b2b`) | Floating elements over the workspace (contextual popovers, modals, dropdowns), paired with `system.elevation.*`. |
 | `system.background.backdrop` | `{global.scrim.01}` (`#000000 · α 0.48`) | `{global.scrim.02}` (`#000000 · α 0.68`) | Translucent scrim / backdrop behind modals (`z-index.modal`) and drawers (`z-index.drawer`). |
 
 #### System Text Hierarchy (`system.text.*`)
@@ -95,19 +96,19 @@ Engineered to pass **APCA** (`Lc`) and WCAG 2.1 contrast across **all background
 
 | Token | Light Value | Light APCA (`Lc` on `layer-2`) | Dark Value | Dark APCA (`Lc` on `layer-2`) | Semantic Role |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `system.text.primary` | `{global.gray.1000}` (`#1c1c1c`) | `Lc +104.0` | `{global.white}` (`#ffffff`) | `Lc -100.9` | Headings, body copy, primary table cells, identifiers (`Lc 90+`). |
-| `system.text.secondary` | `{global.gray.700}` (`#4b4b4b`) | `Lc +89.8` | `{global.gray.50}` (`#f4f4f4`) | `Lc -93.6` | Subheaders, form labels, secondary metadata (`Lc 75+`). |
-| `system.text.muted` | `{global.gray.600}` (`#646464`) | `Lc +79.6` | `{global.gray.200}` (`#d4d4d4`) | `Lc -73.5` | Captions, helper text, timestamps (`Lc 70+`). |
-| `system.text.disabled` | `{global.gray.400}` (`#9e9e9e`) | `Lc +52.1` | `{global.gray.500}` (`#808080`) | `Lc -27.8` | Disabled labels and inactive controls. |
+| `system.text.primary` | `{global.gray.1200}` (`#181818`) | `Lc +103.5` | `{global.white}` (`#ffffff`) | `Lc -100.9` | Headings, body copy, primary table cells, identifiers (`Lc 90+`). |
+| `system.text.secondary` | `{global.gray.800}` (`#4c4c4c`) | `Lc +89.6` | `{global.gray.200}` (`#e8e8e8`) | `Lc -91.2` | Subheaders, form labels, secondary metadata (`Lc 75+`). |
+| `system.text.muted` | `{global.gray.700}` (`#646464`) | `Lc +79.4` | `{global.gray.300}` (`#d4d4d4`) | `Lc -76.7` | Captions, helper text, timestamps (`Lc 70+`). |
+| `system.text.disabled` | `{global.gray.500}` (`#9e9e9e`) | `Lc +51.8` | `{global.gray.600}` (`#808080`) | `Lc -31.2` | Disabled labels and inactive controls. |
 
 #### System Border Colors (`system.border.*`)
 
 | Token | Light Value | Dark Value | Semantic Role |
 | :--- | :--- | :--- | :--- |
-| `system.border.subtle` | `{global.gray.100}` (`#e8e8e8`) | `{global.gray.600}` (`#646464`) | Internal panel dividers and dense table row hairlines (`|Lc| ~15.2` on dark `layer-2`). |
-| `system.border.default` | `{global.gray.200}` (`#d4d4d4`) | `{global.gray.500}` (`#808080`) | Default container, card, and panel borders (`|Lc| ~27.8` on dark `layer-2`). |
-| `system.border.strong` | `{global.gray.400}` (`#9e9e9e`) | `{global.gray.300}` (`#bababa`) | High-contrast form input borders (`|Lc| ~58.2` on dark `layer-2`). |
-| `system.border.focus` | `{system.semantic.primary}` | `{global.indigo.300}` | Keyboard focus ring indicator (`|Lc| > 55` across all surfaces). |
+| `system.border.subtle` | `{global.gray.200}` (`#e8e8e8`) | `{global.gray.900}` (`#393939`) | Internal panel dividers and dense table row hairlines (`|Lc| ~16` on dark `layer-2`). |
+| `system.border.default` | `{global.gray.300}` (`#d4d4d4`) | `{global.gray.800}` (`#4c4c4c`) | Default container, card, and panel borders (`|Lc| ~28` on dark `layer-2`). |
+| `system.border.strong` | `{global.gray.500}` (`#9e9e9e`) | `{global.gray.400}` (`#bababa`) | High-contrast form input borders (`|Lc| ~61` on dark `layer-2`). |
+| `system.border.focus` | `{system.semantic.primary}` | `{global.indigo.400}` | Keyboard focus ring indicator (`|Lc| > 55` across all surfaces). |
 
 #### System Semantic Status & Action Colors (`system.semantic.*`)
 
@@ -120,13 +121,13 @@ Each semantic role (`primary`, `secondary`, `success`, `danger`, `warning`, `inf
 
 | Role | Hue Family | Light Solid (`default / hover / active / on`) | Dark Solid (`default / hover / active / on`) | Light Subtle (`bg / on / border`) | Dark Subtle (`bg / on / border`) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Primary** | `indigo` | `500 / 600 / 700 / white` | `600 / 500 / 700 / white` | `100 / 700 / 200` | `900 / 200 / 700` |
-| **Secondary** | `blue` | `600 / 700 / 800 / white` | `600 / 500 / 700 / white` | `100 / 700 / 200` | `900 / 200 / 700` |
-| **Success** | `green` | `500 / 600 / 700 / white` | `600 / 500 / 700 / white` | `100 / 700 / 200` | `900 / 200 / 700` |
-| **Danger** | `red` | `500 / 600 / 700 / white` | `600 / 500 / 700 / white` | `100 / 700 / 200` | `900 / 200 / 700` |
-| **Warning** | `orange` | `500 / 600 / 700 / white` | `500 / 600 / 700 / white` | `100 / 700 / 200` | `800 / 100 / 600` |
-| **Info** | `blue` | `500 / 600 / 700 / white` | `500 / 600 / 700 / white` | `100 / 700 / 200` | `800 / 100 / 600` |
-| **Neutral** | `coolGray` | `600 / 700 / 800 / white` | `600 / 500 / 700 / white` | `100 / 700 / 200` | `900 / 200 / 700` |
+| **Primary** | `indigo` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `200 / 800 / 300` | `1000 / 300 / 800` |
+| **Secondary** | `blue` | `700 / 800 / 900 / white` | `700 / 600 / 800 / white` | `200 / 800 / 300` | `1000 / 300 / 800` |
+| **Success** | `green` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `200 / 800 / 300` | `1000 / 300 / 800` |
+| **Danger** | `red` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `200 / 800 / 300` | `1000 / 300 / 800` |
+| **Warning** | `orange` | `600 / 700 / 800 / white` | `600 / 700 / 800 / white` | `200 / 800 / 300` | `900 / 200 / 700` |
+| **Info** | `blue` | `600 / 700 / 800 / white` | `600 / 700 / 800 / white` | `200 / 800 / 300` | `900 / 200 / 700` |
+| **Neutral** | `coolGray` | `700 / 800 / 900 / white` | `700 / 600 / 800 / white` | `200 / 800 / 300` | `1000 / 300 / 800` |
 
 ---
 

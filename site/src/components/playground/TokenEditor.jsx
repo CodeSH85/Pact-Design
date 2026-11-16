@@ -947,7 +947,7 @@ function PaletteWidget({
         </Button>
       </div>
 
-      <div className="grid grid-cols-11 gap-3xs">
+      <div className="grid grid-cols-12 gap-3xs">
         {list.map((t) => {
           const isSelected = t.id === activeId
           const dirty = isTokenDirty(t.id)
