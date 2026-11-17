@@ -3,7 +3,16 @@ import * as C from 'pact-design/utils/color.js'
 import { apcaContrast, apcaLevel, contrast, readableOn, wcagLevel } from 'pact-design/utils/contrast.js'
 import { clone, round, same } from 'pact-design/utils/helper.js'
 import * as T from 'pact-design/utils/token.js'
-import { Button } from '@pact-design/react'
+import {
+  Button,
+  Select,
+  SelectItem,
+  Tab,
+  TabList,
+  Tabs,
+  TextField,
+  ToggleButton
+} from '@pact-design/react'
 
 export const CATEGORY_LABELS = {
   color: '色彩',
@@ -479,24 +488,28 @@ function RowHeader({
       )}
       <div className={`flex items-center gap-3xs ${users.length > 0 ? '' : 'ml-auto'}`}>
         {linkable && !isAlias && token.type !== 'typography' && token.type !== 'shadow' && token.path[0] !== 'global' && (
-          <button
-            type="button"
+          <Button
+            variant="secondary"
+            size="xs"
+            aria-label="改為引用其他 token"
             title="改為引用其他 token"
-            onClick={() => onLinkToAlias(token)}
-            className="px-2xs py-3xs rounded-2xs text-caption-sm bg-layer-1 hover:bg-layer-1-hover text-on-surface-secondary border-sm border-border-default cursor-pointer"
+            onPress={() => onLinkToAlias(token)}
+            className="px-2xs"
           >
             🔗
-          </button>
+          </Button>
         )}
         {isDirty && (
-          <button
-            type="button"
+          <Button
+            variant="subtle"
+            size="xs"
+            aria-label="重設為檔案中的值"
             title="重設為檔案中的值"
-            onClick={() => onResetToken(token.id)}
-            className="px-2xs py-3xs rounded-2xs text-caption-sm bg-warning-subtle hover:bg-warning text-on-warning-subtle hover:text-on-warning border-sm border-warning-border cursor-pointer"
+            onPress={() => onResetToken(token.id)}
+            className="px-2xs bg-warning-subtle hover:bg-warning text-on-warning-subtle hover:text-on-warning border-warning-border"
           >
             ↺
-          </button>
+          </Button>
         )}
       </div>
     </div>
@@ -937,14 +950,15 @@ function PaletteWidget({
             被引用 {usageCount} 次
           </span>
         )}
-        <Button
+        <ToggleButton
           variant="secondary"
           size="xs"
-          onClick={() => onToggleTools(parentId)}
+          isSelected={showTools}
+          onChange={() => onToggleTools(parentId)}
           className="ml-auto"
         >
           ⚙ 整組調整
-        </Button>
+        </ToggleButton>
       </div>
 
       <div className="grid grid-cols-12 gap-3xs">
@@ -1160,61 +1174,65 @@ export function TokenEditor({
   return (
     <aside className="flex flex-col w-96 shrink-0 bg-layer-1 border-r border-border-default min-h-0 overflow-hidden">
       {/* Category Tabs */}
-      <nav
-        role="tablist"
-        aria-label="Token Categories"
-        className="flex flex-wrap gap-3xs p-xs bg-layer-2 border-b border-border-default shrink-0"
+      <Tabs
+        variant="pill"
+        size="sm"
+        selectedKey={activeCategory}
+        onSelectionChange={(key) => onSelectCategory(String(key))}
+        className="shrink-0"
       >
-        {categories.map((cat) => {
-          const count = [...tokens.values()].filter((t) => T.categoryOf(t.file) === cat).length
-          const isActive = cat === activeCategory
-          const hasDirty = dirtyCategories.has(cat)
-          return (
-            <button
-              key={cat}
-              type="button"
-              role="tab"
-              aria-selected={isActive}
-              onClick={() => onSelectCategory(cat)}
-              className={[
-                'relative inline-flex items-center gap-2xs px-xs py-2xs rounded-2xs text-label-xs cursor-pointer transition-colors border-sm',
-                isActive
-                  ? 'bg-primary text-on-primary border-primary'
-                  : 'bg-layer-1 text-on-surface-secondary border-border-subtle hover:bg-layer-1-hover hover:text-on-surface'
-              ].join(' ')}
-            >
-              <span>{CATEGORY_LABELS[cat] ?? cat}</span>
-              <span className={`text-mono-xs ${isActive ? 'text-on-primary opacity-80' : 'text-on-surface-muted'}`}>
-                {count}
-              </span>
-              {hasDirty && (
-                <span className="w-1.5 h-1.5 rounded-full bg-warning" />
-              )}
-            </button>
-          )
-        })}
-      </nav>
+        <TabList
+          aria-label="Token Categories"
+          className="flex flex-wrap gap-3xs p-xs bg-layer-2 border-b border-border-default w-full"
+        >
+          {categories.map((cat) => {
+            const count = [...tokens.values()].filter((t) => T.categoryOf(t.file) === cat).length
+            const hasDirty = dirtyCategories.has(cat)
+            return (
+              <Tab
+                key={cat}
+                id={cat}
+                className="px-xs gap-2xs rounded-2xs border-sm border-border-subtle bg-layer-1 data-[selected]:border-primary"
+              >
+                {({ isSelected }) => (
+                  <>
+                    <span>{CATEGORY_LABELS[cat] ?? cat}</span>
+                    <span className={`text-mono-xs ${isSelected ? 'text-on-primary opacity-80' : 'text-on-surface-muted'}`}>
+                      {count}
+                    </span>
+                    {hasDirty && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-warning" />
+                    )}
+                  </>
+                )}
+              </Tab>
+            )
+          })}
+        </TabList>
+      </Tabs>
 
       {/* Search & Level Filter */}
       <div className="flex items-center gap-2xs p-xs border-b border-border-default bg-layer-1 shrink-0">
-        <input
-          type="search"
+        <TextField
+          size="sm"
+          aria-label="搜尋 token"
           placeholder="搜尋 token，例如 blue.500、radius"
-          autoComplete="off"
           value={query}
-          onChange={(e) => onQueryChange(e.target.value)}
-          className="h-control-sm px-xs rounded-xs flex-1 min-w-0 bg-layer-2 text-on-surface text-body-xs border-sm border-border-default outline-none focus:border-border-focus"
+          onChange={onQueryChange}
+          inputProps={{ type: 'search', autoComplete: 'off' }}
+          className="flex-1 min-w-0"
         />
-        <select
+        <Select
+          size="sm"
           aria-label="Token 層級"
-          value={level}
-          onChange={(e) => onLevelChange(e.target.value)}
-          className="h-control-sm px-xs rounded-xs bg-layer-2 text-on-surface text-body-xs border-sm border-border-default outline-none cursor-pointer focus:border-border-focus"
+          selectedKey={level}
+          onSelectionChange={(key) => onLevelChange(String(key))}
+          className="w-28 shrink-0"
         >
-          <option value="all">全部層級</option>
-          <option value="global">Global</option>
-          <option value="system">System</option>
-        </select>
+          <SelectItem id="all">全部層級</SelectItem>
+          <SelectItem id="global">Global</SelectItem>
+          <SelectItem id="system">System</SelectItem>
+        </Select>
       </div>
 
       {/* Editor Body */}
