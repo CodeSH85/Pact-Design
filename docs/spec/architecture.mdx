@@ -57,14 +57,14 @@ Pact Design 在 **System** 層級透過分離檔案實作主題切換：
 
 ```css
 :root, [data-theme="light"] {
-  --global-indigo-500: oklch(0.6 0.192 274.9733);
-  --system-semantic-primary: var(--global-indigo-500);
-  --system-on-surface-default: var(--global-gray-1000);
+  --pd-global-indigo-500: oklch(0.698 0.145 275);
+  --pd-system-semantic-primary: var(--pd-global-indigo-600);
+  --pd-system-on-surface-default: var(--pd-global-gray-1100);
 }
 
 [data-theme="dark"] {
-  --system-semantic-primary: var(--global-indigo-600);
-  --system-on-surface-default: var(--global-white);
+  --pd-system-semantic-primary: var(--pd-global-indigo-700);
+  --pd-system-on-surface-default: var(--pd-global-gray-200);
 }
 ```
 

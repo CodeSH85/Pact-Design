@@ -93,7 +93,7 @@ export function ColorPalette() {
             <div className="flex items-center justify-between text-label-sm">
               <strong className="text-on-surface">{palette.scale}</strong>
               <code className="text-mono-xs text-on-surface-muted">
-                --global-{palette.scale.replace(/([A-Z])/g, '-$1').toLowerCase()}-{'{100..1200}'}
+                --pd-global-{palette.scale.replace(/([A-Z])/g, '-$1').toLowerCase()}-{'{100..1200}'}
               </code>
             </div>
             <div className="grid grid-cols-[repeat(12,minmax(64px,1fr))] gap-3xs overflow-x-auto">
