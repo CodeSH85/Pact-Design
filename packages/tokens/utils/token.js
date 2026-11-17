@@ -185,7 +185,9 @@ export function buildUsage(tokens) {
   return usage
 }
 
-export const cssName = (path) => `--${(Array.isArray(path) ? path : path.split('.')).map(kebab).join('-')}`
+export const CSS_VAR_PREFIX = 'pd'
+
+export const cssName = (path) => `--${CSS_VAR_PREFIX}-${(Array.isArray(path) ? path : path.split('.')).map(kebab).join('-')}`
 
 export function toPx(dim) {
   if (!dim || typeof dim !== 'object') return null
@@ -410,7 +412,7 @@ export function createCSSVariable({ token }) {
   const val = tokenData.$value || tokenData.value
 
   if (typeof val === 'object' && val !== null && val.colorSpace === 'oklch') {
-    return `--${type}-${key}: ${colorValueToCss(val)};`
+    return `--${CSS_VAR_PREFIX}-${type}-${key}: ${colorValueToCss(val)};`
   }
-  return `--${type}-${key}: ${val};`
+  return `--${CSS_VAR_PREFIX}-${type}-${key}: ${val};`
 }

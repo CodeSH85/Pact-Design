@@ -165,6 +165,7 @@ export default {
   source: ['src/**/!(*.dark).json'],
   platforms: {
     css: {
+      prefix: 'pd',
       transforms: cssTransformList,
       buildPath: 'build/css/',
       files: [
@@ -178,6 +179,7 @@ export default {
       ]
     },
     uno: {
+      prefix: 'pd',
       transforms: cssTransformList,
       buildPath: 'build/uno/',
       files: [
@@ -204,6 +206,7 @@ export default {
           hooks: { transforms: customTransforms },
           platforms: {
             css: {
+              prefix: 'pd',
               transforms: cssTransformList
             }
           }
