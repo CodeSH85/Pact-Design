@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link, Outlet, useNavigate, useRouterState } from '@tanstack/react-router'
-import { Button } from '@pact-design/react'
+import {
+  Button,
+  Disclosure,
+  DisclosureGroup,
+  ToastRegion,
+  ToggleButton,
+  ToggleButtonGroup
+} from '@pact-design/react'
 import { navSections } from '../../config/navigation.js'
 
 export function RootLayout() {
@@ -43,7 +50,7 @@ export function RootLayout() {
         </div>
 
         <div className="flex w-full justify-end">
-          <div className="flex items-center gap-sm" role="group" aria-label="切換全站主題">
+          <div className="flex items-center gap-sm">
             <Button
               variant={isTokenPlayground ? 'primary' : 'secondary'}
               size="sm"
@@ -51,27 +58,30 @@ export function RootLayout() {
             >
               Playground
             </Button>
-            <button
-              type="button"
-              className="cursor-pointer"
-              aria-pressed={theme === 'light'}
-              onClick={() => setTheme('light')}
+            <ToggleButtonGroup
+              aria-label="切換全站主題"
+              selectionMode="single"
+              disallowEmptySelection
+              selectedKeys={new Set([theme])}
+              onSelectionChange={(keys) => {
+                const next = [...keys][0]
+                if (next === 'light' || next === 'dark') {
+                  setTheme(next)
+                }
+              }}
             >
-              ☀
-            </button>
-            <button
-              type="button"
-              className="cursor-pointer"
-              aria-pressed={theme === 'dark'}
-              onClick={() => setTheme('dark')}
-            >
-              ☾
-            </button>
+              <ToggleButton id="light" size="sm" variant="secondary" aria-label="淺色主題">
+                ☀
+              </ToggleButton>
+              <ToggleButton id="dark" size="sm" variant="secondary" aria-label="深色主題">
+                ☾
+              </ToggleButton>
+            </ToggleButtonGroup>
             <a
               href="https://github.com/CodeSH85/Pact-UI"
               target="_blank"
               rel="noopener noreferrer"
-              className=""
+              className="text-label-sm text-on-surface-secondary hover:text-on-surface"
             >
               GitHub
             </a>
@@ -85,31 +95,40 @@ export function RootLayout() {
             className="flex flex-col min-w-12rem bg-layer-1 border-r border-border-default overflow-y-auto"
             aria-label="Documentation Navigation"
           >
-            {navSections.map((section) => (
-              <div key={section.title} className="flex flex-col">
-                <div className="px-sm py-xs my-sm text-on-surface-muted border-b border-border-default">
-                  <span>{section.title}</span>
-                </div>
-                {section.items.map((item) => (
-                  <Link
-                    key={item.label}
-                    to={item.to}
-                    params={item.params}
-                    activeOptions={{ exact: true }}
-                    className="hover-bg-layer-1-hover py-2xs px-sm"
-                    activeProps={{
-                      className: 'bg-layer-1-selected hover-bg-layer-1-selected-hover ring-sm ring-inset ring-border-default text-on-surface font-medium',
-                      'aria-current': 'page'
-                    }}
-                    inactiveProps={{
-                      className: 'text-on-surface-default'
-                    }}
-                  >
-                    <span>{item.label}</span>
-                  </Link>
-                ))}
-              </div>
-            ))}
+            <DisclosureGroup
+              allowsMultipleExpanded
+              defaultExpandedKeys={navSections.map((section) => section.title)}
+              className="gap-0"
+            >
+              {navSections.map((section) => (
+                <Disclosure
+                  key={section.title}
+                  id={section.title}
+                  title={section.title}
+                  variant="ghost"
+                  panelProps={{ className: 'p-0 flex flex-col' }}
+                >
+                  {section.items.map((item) => (
+                    <Link
+                      key={item.label}
+                      to={item.to}
+                      params={item.params}
+                      activeOptions={{ exact: true }}
+                      className="hover-bg-layer-1-hover py-2xs px-md text-body-sm"
+                      activeProps={{
+                        className: 'bg-layer-1-selected hover-bg-layer-1-selected-hover ring-sm ring-inset ring-border-default text-on-surface font-medium',
+                        'aria-current': 'page'
+                      }}
+                      inactiveProps={{
+                        className: 'text-on-surface-default'
+                      }}
+                    >
+                      <span>{item.label}</span>
+                    </Link>
+                  ))}
+                </Disclosure>
+              ))}
+            </DisclosureGroup>
           </aside>
         )}
 
@@ -125,6 +144,8 @@ export function RootLayout() {
           </main>
         )}
       </div>
+
+      <ToastRegion />
     </div>
   )
 }
