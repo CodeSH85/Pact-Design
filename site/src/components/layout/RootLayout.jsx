@@ -40,7 +40,7 @@ export function RootLayout() {
   }, [theme])
 
   return (
-    <div className="flex flex-col h-screen bg-base text-on-surface">
+    <div className="flex flex-col h-screen overflow-hidden bg-base text-on-surface">
       <header className="flex items-center shrink-0 bg-layer-1 w-full justify-between p-sm border-b border-border-default">
         <div className="flex w-full">
           <Link to="/" className="flex gap-md items-center">
@@ -135,11 +135,11 @@ export function RootLayout() {
         )}
 
         {isTokenPlayground ? (
-          <main className="flex-1 min-w-0 min-h-0 overflow-hidden p-sm">
+          <main className="relative flex-1 min-w-0 min-h-0 overflow-hidden p-sm">
             <Outlet />
           </main>
         ) : (
-          <main className="flex-1 min-w-0 overflow-y-auto p-lg">
+          <main className="relative flex-1 min-w-0 overflow-y-auto p-lg">
             <div className="bg-layer-1 border-sm border-border-default py-md px-xl rounded-xs">
               <Outlet />
             </div>

@@ -26,10 +26,15 @@ const COMPONENTS = [
   'Select',
   'Autocomplete',
   'DateField',
+  'DatePicker',
   'FileTrigger',
   'Form',
   'Toast',
-  'Field'
+  'Field',
+  'Radio',
+  'Separator',
+  'Sheet',
+  'Tree'
 ]
 
 describe('@pact-design/react package integrity', () => {
@@ -57,7 +62,7 @@ describe('@pact-design/react package integrity', () => {
     assert.ok(packageJson.peerDependencies['react-dom'], 'must declare react-dom peerDependency')
   })
 
-  it('exports all 20 component barrels and core utilities from src/index.ts', () => {
+  it('exports all component barrels and core utilities from src/index.ts', () => {
     const rootIndexPath = path.join(PACKAGE_ROOT, 'src/index.ts')
     assert.ok(fs.existsSync(rootIndexPath), 'src/index.ts must exist')
     const rootIndex = fs.readFileSync(rootIndexPath, 'utf-8')

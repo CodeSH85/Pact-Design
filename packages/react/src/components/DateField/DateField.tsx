@@ -75,7 +75,7 @@ export function DateField<T extends DateValue>({
 }: DateFieldProps<T>) {
   return (
     <AriaDateField
-      className={composeTailwindRenderProps(className, 'flex flex-col gap-xs w-full')}
+      className={composeTailwindRenderProps(className, 'relative flex flex-col gap-xs w-full')}
       {...props}
     >
       {label && <Label>{label}</Label>}

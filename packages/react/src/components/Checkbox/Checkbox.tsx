@@ -61,7 +61,7 @@ export function Checkbox({
       onChange={resolvedOnChange}
       className={composeTailwindRenderProps(
         className,
-        'group inline-flex items-start gap-xs select-none outline-none cursor-pointer data-[disabled]:cursor-not-allowed'
+        'group relative inline-flex items-start gap-xs select-none outline-none cursor-pointer data-[disabled]:cursor-not-allowed'
       )}
       {...props}
     >
