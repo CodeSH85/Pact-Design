@@ -1,8 +1,15 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { clone, same } from 'pact-design/utils/helper.js'
 import * as T from 'pact-design/utils/token.js'
 import { loadTokenCatalog } from '../../utils/tokens-loader.js'
-import { Button } from '@pact-design/react'
+import {
+  Button,
+  ModalContent,
+  ModalDialog,
+  ModalFooter,
+  ModalHeader,
+  toast
+} from '@pact-design/react'
 import { CATEGORY_ORDER, TokenEditor } from './TokenEditor.jsx'
 import { TokenPreview } from './TokenPreview.jsx'
 
@@ -29,15 +36,13 @@ export function TokenPlayground() {
 
   const [activeModal, setActiveModal] = useState(null) // 'css' | 'issues' | null
   const [flashedId, setFlashedId] = useState(null)
-  const [toast, setToast] = useState(null)
-  const toastTimerRef = useRef(null)
 
   const showToast = useCallback((message, isError = false) => {
-    setToast({ message, isError })
-    if (toastTimerRef.current) clearTimeout(toastTimerRef.current)
-    toastTimerRef.current = setTimeout(() => {
-      setToast(null)
-    }, 2200)
+    if (isError) {
+      toast.danger(message, undefined, { timeout: 2200 })
+    } else {
+      toast.info(message, undefined, { timeout: 2200 })
+    }
   }, [])
 
   useEffect(() => {
@@ -273,9 +278,6 @@ export function TokenPlayground() {
         e.preventDefault()
         setSidebarCollapsed((prev) => !prev)
       }
-      if (e.key === 'Escape' && activeModal) {
-        setActiveModal(null)
-      }
     }
     const onBeforeUnload = (e) => {
       if (derived.dirtyFilesList.length > 0) {
@@ -288,7 +290,7 @@ export function TokenPlayground() {
       document.removeEventListener('keydown', onKeyDown)
       window.removeEventListener('beforeunload', onBeforeUnload)
     }
-  }, [handleSave, activeModal, derived.dirtyFilesList.length])
+  }, [handleSave, derived.dirtyFilesList.length])
 
   // Ensure default category is valid once files load
   useEffect(() => {
@@ -332,7 +334,7 @@ export function TokenPlayground() {
             <Button
               variant="danger"
               size="xs"
-              onClick={() => setActiveModal('issues')}
+              onPress={() => setActiveModal('issues')}
             >
               ⚠ {derived.allIssues.length} 個問題
             </Button>
@@ -350,7 +352,7 @@ export function TokenPlayground() {
           <Button
             variant="secondary"
             size="xs"
-            onClick={() => setActiveModal('css')}
+            onPress={() => setActiveModal('css')}
           >
             檢視 CSS
           </Button>
@@ -358,7 +360,7 @@ export function TokenPlayground() {
             variant="secondary"
             size="xs"
             disabled={!isDirty}
-            onClick={handleDownload}
+            onPress={handleDownload}
           >
             下載 JSON
           </Button>
@@ -366,7 +368,7 @@ export function TokenPlayground() {
             variant="secondary"
             size="xs"
             disabled={!isDirty}
-            onClick={handleResetAll}
+            onPress={handleResetAll}
           >
             全部重設
           </Button>
@@ -375,7 +377,7 @@ export function TokenPlayground() {
             size="xs"
             disabled={!isDirty || !canWriteToDisk}
             title={canWriteToDisk ? '寫入變更至 src/ 目錄 (⌘S)' : '靜態預覽模式請使用「下載 JSON」'}
-            onClick={handleSave}
+            onPress={handleSave}
           >
             儲存至 src/
           </Button>
@@ -424,118 +426,85 @@ export function TokenPlayground() {
       </div>
 
       {/* CSS Custom Properties Modal */}
-      {activeModal === 'css' && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="產生的 CSS Custom Properties"
-          onClick={() => setActiveModal(null)}
-          className="fixed inset-0 z-modal bg-backdrop flex items-center justify-center p-lg"
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="flex flex-col w-full max-w-3xl max-h-80vh rounded-md bg-elevated border-sm border-border-default shadow-elevation-xl overflow-hidden"
-          >
-            <header className="flex items-center justify-between px-md py-sm bg-layer-2 border-b border-border-default">
-              <strong className="text-label-md text-on-surface">
-                產生的 CSS Custom Properties
-              </strong>
-              <div className="flex items-center gap-xs">
-                <Button
-                  variant="secondary"
-                  size="xs"
-                  onClick={async() => {
-                    await navigator.clipboard?.writeText(derived.css)
-                    showToast('已複製 CSS')
-                  }}
-                >
-                  複製
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="xs"
-                  onClick={() => setActiveModal(null)}
-                >
-                  關閉
-                </Button>
-              </div>
-            </header>
-            <pre className="flex-1 overflow-auto p-md m-0 bg-layer-1 text-mono-xs text-on-surface">
-              {derived.css}
-            </pre>
-          </div>
-        </div>
-      )}
+      <ModalContent
+        size="lg"
+        isOpen={activeModal === 'css'}
+        onOpenChange={(open) => { if (!open) setActiveModal(null) }}
+        className="max-h-80vh flex flex-col overflow-hidden"
+      >
+        <ModalDialog className="flex-1 min-h-0 overflow-hidden">
+          <ModalHeader title="產生的 CSS Custom Properties" />
+          <pre className="flex-1 min-h-0 overflow-auto p-md m-0 rounded-xs bg-layer-2 border-sm border-border-default text-mono-xs text-on-surface">
+            {derived.css}
+          </pre>
+          <ModalFooter>
+            <Button
+              variant="secondary"
+              size="sm"
+              onPress={async() => {
+                await navigator.clipboard?.writeText(derived.css)
+                showToast('已複製 CSS')
+              }}
+            >
+              複製
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              onPress={() => setActiveModal(null)}
+            >
+              關閉
+            </Button>
+          </ModalFooter>
+        </ModalDialog>
+      </ModalContent>
 
       {/* Token Issues Modal */}
-      {activeModal === 'issues' && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="Token 問題"
-          onClick={() => setActiveModal(null)}
-          className="fixed inset-0 z-modal bg-backdrop flex items-center justify-center p-lg"
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="flex flex-col w-full max-w-2xl max-h-80vh rounded-md bg-elevated border-sm border-border-default shadow-elevation-xl overflow-hidden"
-          >
-            <header className="flex items-center justify-between px-md py-sm bg-layer-2 border-b border-border-default">
-              <strong className="text-label-md text-on-surface">
-                Token 問題 ({derived.allIssues.length})
-              </strong>
-              <Button
-                variant="ghost"
-                size="xs"
-                onClick={() => setActiveModal(null)}
+      <ModalContent
+        size="md"
+        isOpen={activeModal === 'issues'}
+        onOpenChange={(open) => { if (!open) setActiveModal(null) }}
+        className="max-h-80vh flex flex-col overflow-hidden"
+      >
+        <ModalDialog className="flex-1 min-h-0 overflow-hidden">
+          <ModalHeader title={`Token 問題 (${derived.allIssues.length})`} />
+          <ul className="flex-1 min-h-0 overflow-auto p-0 m-0 list-none flex flex-col gap-xs">
+            {derived.allIssues.map((issue, idx) => (
+              <li
+                key={`${issue.id}-${idx}`}
+                className="flex flex-wrap items-center justify-between gap-xs p-xs rounded-xs bg-layer-2 border-sm border-danger-border"
               >
-                關閉
-              </Button>
-            </header>
-            <ul className="flex-1 overflow-auto p-md m-0 list-none flex flex-col gap-xs bg-layer-1">
-              {derived.allIssues.map((issue, idx) => (
-                <li
-                  key={`${issue.id}-${idx}`}
-                  className="flex flex-wrap items-center justify-between gap-xs p-xs rounded-xs bg-layer-2 border-sm border-danger-border"
-                >
-                  <div className="flex items-center gap-xs">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setActiveModal(null)
-                        handleJump(issue.id)
-                      }}
-                      className="text-mono-xs text-primary underline cursor-pointer bg-transparent border-none p-0"
-                    >
-                      {issue.id}
-                    </button>
-                    <span className="text-body-xs text-on-surface">{issue.message}</span>
-                  </div>
-                  {issue.file && (
-                    <small className="text-mono-xs text-on-surface-muted">{issue.file}</small>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
-
-      {/* Toast Notification */}
-      {toast && (
-        <div
-          role="status"
-          aria-live="polite"
-          className={[
-            'fixed bottom-md right-md z-toast px-md py-xs rounded-sm shadow-elevation-lg border-sm text-label-sm',
-            toast.isError
-              ? 'bg-danger text-on-danger border-danger-border'
-              : 'bg-elevated text-on-surface border-border-strong'
-          ].join(' ')}
-        >
-          {toast.message}
-        </div>
-      )}
+                <div className="flex items-center gap-xs">
+                  <Button
+                    variant="ghost"
+                    size="xs"
+                    onPress={() => {
+                      setActiveModal(null)
+                      handleJump(issue.id)
+                    }}
+                    className="text-mono-xs text-primary underline px-2xs"
+                  >
+                    {issue.id}
+                  </Button>
+                  <span className="text-body-xs text-on-surface">{issue.message}</span>
+                </div>
+                {issue.file && (
+                  <small className="text-mono-xs text-on-surface-muted">{issue.file}</small>
+                )}
+              </li>
+            ))}
+          </ul>
+          <ModalFooter>
+            <Button
+              variant="secondary"
+              size="sm"
+              onPress={() => setActiveModal(null)}
+            >
+              關閉
+            </Button>
+          </ModalFooter>
+        </ModalDialog>
+      </ModalContent>
     </div>
   )
 }
