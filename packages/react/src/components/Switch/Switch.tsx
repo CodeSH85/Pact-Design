@@ -87,7 +87,7 @@ export function Switch({
       onChange={resolvedOnChange}
       className={composeTailwindRenderProps(
         className,
-        'group inline-flex items-start gap-xs select-none cursor-pointer data-[disabled]:cursor-not-allowed'
+        'group relative inline-flex items-start gap-xs select-none cursor-pointer data-[disabled]:cursor-not-allowed'
       )}
       {...props}
     >

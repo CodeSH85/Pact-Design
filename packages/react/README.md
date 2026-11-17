@@ -37,6 +37,7 @@ import {
   Button,
   ComboBox,
   DateField,
+  DatePicker,
   Disclosure,
   DisclosureGroup,
   FileTrigger,
@@ -44,7 +45,11 @@ import {
   Menu,
   Modal,
   Popover,
+  Radio,
+  RadioGroup,
   Select,
+  Separator,
+  Sheet,
   Switch,
   Tab,
   Tabs,
@@ -52,6 +57,7 @@ import {
   Toast,
   ToastRegion,
   ToggleButton,
+  Tree,
   toast,
   cn
 } from '@pact-design/react'
@@ -71,17 +77,21 @@ import { cn } from '@pact-design/react/utils'
 - **`Button`**: Push button supporting `variant` (`primary`, `secondary`, `subtle`, `ghost`, `danger`) and control heights (`xs`–`xl`).
 - **`ToggleButton` & `ToggleButtonGroup`**: Two-state button with active surface indicators and segmented groups.
 - **`Checkbox` & `CheckboxGroup`**: Compact checkbox with `@remixicon/react` check and indeterminate icons, label/description support.
+- **`Radio` & `RadioGroup`**: Mutually exclusive radio selection group with vertical and horizontal orientations, labels, and descriptions.
 - **`Switch`**: Smooth pill toggle switch with compact `sm` and `md` tracks.
 
 ### Navigation & Layout
 - **`Breadcrumbs`**: Hierarchical breadcrumb navigation trail with automatic separator chevron and active link styling.
+- **`Separator`**: Accessible horizontal or vertical divider with `subtle`, `default`, and `strong` border tones.
 - **`Tab` & `Tabs`**: Multi-panel tab navigation supporting `underline`, `segmented`, and `pill` variants in horizontal and vertical orientations.
 - **`Disclosure` & `DisclosureGroup`**: Expandable accordion panels with rotating chevron indicator and grouped border-divider modes.
+- **`Tree`**: Hierarchical tree grid with expandable branch chevrons, nested indentation, and keyboard/selection support.
 
 ### Overlays & Menus
 - **`Menu`**: Accessible dropdown menu with declarative `items` prop or composable compound subcomponents (`MenuItem`, `MenuSection`, `MenuSeparator`).
 - **`Popover`**: Floating content container with elevation shadow, optional arrow, and smooth placement animations.
 - **`Modal`**: Dialog overlay with scrim backdrop, header close button, and responsive sizes (`sm`–`full`).
+- **`Sheet`**: Swipeable edge drawer/sheet overlay (`left`, `right`, `top`, `bottom`, `center`) with backdrop, header, scrollable body, and footer.
 - **`Toast` & `ToastRegion`**: Floating notifications powered by `UNSTABLE_Toast` and `UNSTABLE_ToastQueue` with `info`, `success`, `warning`, and `danger` tones.
 
 ### Data Entry & Inputs
@@ -90,6 +100,7 @@ import { cn } from '@pact-design/react/utils'
 - **`ComboBox`**: Autocomplete select dropdown with filterable listbox, keyboard navigation, and check indicators.
 - **`Autocomplete`**: Searchable collection input powered by React Aria `useFilter` and `SearchField`.
 - **`DateField`**: Segmented date input with tabular numerals (`tabular-nums font-mono`) powered by `@internationalized/date`.
+- **`DatePicker`**: Combines `DateField` with an interactive `Calendar` popover for date selection.
 - **`FileTrigger`**: Native file upload activator wrapping any pressable button or trigger element.
 - **`Form`**: Form container with semantic `FormSection` and `FormActions` helpers.
 - **`Field` Primitives**: Shared form primitives (`Label`, `FieldDescription`, `FieldError`, `FieldGroup`).

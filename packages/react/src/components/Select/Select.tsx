@@ -228,7 +228,7 @@ export function Select<T extends object = object>({
 }: SelectProps<T>) {
   return (
     <AriaSelect
-      className={composeTailwindRenderProps(className, 'flex flex-col gap-xs w-full')}
+      className={composeTailwindRenderProps(className, 'relative flex flex-col gap-xs w-full')}
       placeholder={placeholder}
       {...props}
     >

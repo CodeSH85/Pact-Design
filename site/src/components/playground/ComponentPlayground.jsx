@@ -10,6 +10,7 @@ import {
   ComboBox,
   ComboBoxItem,
   DateField,
+  DatePicker,
   Disclosure,
   DisclosureGroup,
   FileTrigger,
@@ -19,8 +20,12 @@ import {
   Menu,
   Modal,
   Popover,
+  Radio,
+  RadioGroup,
   Select,
   SelectItem,
+  Separator,
+  Sheet,
   Switch,
   Tab,
   TabList,
@@ -29,6 +34,9 @@ import {
   TextField,
   ToggleButton,
   ToggleButtonGroup,
+  Tree,
+  TreeItem,
+  TreeItemContent,
   toast
 } from '@pact-design/react'
 
@@ -46,6 +54,7 @@ export function ComponentPlayground() {
   const [dateValue, setDateValue] = useState(() => parseDate('2026-11-13'))
   const [selectedCity, setSelectedCity] = useState('taipei')
   const [selectedRole, setSelectedRole] = useState('admin')
+  const [radioTier, setRadioTier] = useState('system')
   const [selectedFile, setSelectedFile] = useState(null)
 
   const cities = [
@@ -255,6 +264,69 @@ export function ComponentPlayground() {
         </div>
       </section>
 
+      {/* 3b. RadioGroup & Separator */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-md">
+        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+          <div className="flex flex-col gap-2xs">
+            <h2 className="text-heading-sm text-on-surface">Radio & RadioGroup</h2>
+            <p className="text-body-sm text-on-surface-muted m-0">
+              Mutually exclusive radio options with labels, descriptions, and keyboard navigation.
+            </p>
+          </div>
+
+          <RadioGroup
+            label="Token Tier Scope"
+            description="Choose which token layer to inspect"
+            value={radioTier}
+            onChange={(val) => {
+              setRadioTier(val)
+              setLastAction(`RadioGroup: ${val}`)
+            }}
+          >
+            <Radio
+              value="global"
+              label="Global Primitives"
+              description="Raw OKLCH palettes, dimensions, and motion curves."
+            />
+            <Radio
+              value="system"
+              label="System Semantic"
+              description="Theme-aware background, surface, and status roles."
+            />
+            <Radio
+              value="component"
+              label="Component Slots"
+              description="Scoped button, field, and overlay overrides."
+            />
+            <Radio value="locked" label="Legacy Tier (Disabled)" disabled />
+          </RadioGroup>
+        </div>
+
+        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+          <div className="flex flex-col gap-2xs">
+            <h2 className="text-heading-sm text-on-surface">Separator</h2>
+            <p className="text-body-sm text-on-surface-muted m-0">
+              Accessible horizontal and vertical dividers using subtle, default, and strong border tones.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-sm">
+            <span className="text-caption-sm text-on-surface-muted font-medium">Horizontal (subtle · default · strong)</span>
+            <Separator tone="subtle" />
+            <Separator tone="default" />
+            <Separator tone="strong" />
+          </div>
+
+          <div className="flex items-center gap-sm h-control-md px-sm rounded-xs bg-layer-1 border border-border-subtle">
+            <span className="text-label-sm text-on-surface">Tokens</span>
+            <Separator orientation="vertical" tone="default" />
+            <span className="text-label-sm text-on-surface">Components</span>
+            <Separator orientation="vertical" tone="default" />
+            <span className="text-label-sm text-on-surface-muted">Docs</span>
+          </div>
+        </div>
+      </section>
+
       {/* 4. Menu, Popover & Modal Overlays */}
       <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
         <div className="flex flex-col gap-2xs">
@@ -297,6 +369,23 @@ export function ComponentPlayground() {
               This modal dialog is rendered in a portal with a scrim backdrop (<code>bg-backdrop</code>) and centered <code>bg-elevated</code> container.
             </p>
           </Modal>
+
+          <Sheet
+            trigger={<Button variant="secondary">Open Sheet</Button>}
+            position="right"
+            size="md"
+            title="Token Inspector Sheet"
+            description="Swipeable edge drawer powered by React Aria Sheet."
+            footer={(
+              <Button variant="primary" size="sm" onPress={() => setLastAction('Sheet Action')}>
+                Apply Tokens
+              </Button>
+            )}
+          >
+            <p className="text-body-sm text-on-surface m-0">
+              Sheets slide in from any viewport edge (<code>left</code>, <code>right</code>, <code>top</code>, <code>bottom</code>) and support swipe-to-dismiss and Escape key handling.
+            </p>
+          </Sheet>
         </div>
       </section>
 
@@ -322,16 +411,55 @@ export function ComponentPlayground() {
         </DisclosureGroup>
       </section>
 
-      {/* 6. Form Fields: TextField, ComboBox, DateField */}
+      {/* 5b. Tree */}
       <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
         <div className="flex flex-col gap-2xs">
-          <h2 className="text-heading-sm text-on-surface">Form Fields (TextField, ComboBox, DateField)</h2>
+          <h2 className="text-heading-sm text-on-surface">Tree</h2>
+          <p className="text-body-sm text-on-surface-muted m-0">
+            Hierarchical tree grid with keyboard arrow navigation, expandable branches, and multi-select checkboxes.
+          </p>
+        </div>
+
+        <Tree
+          aria-label="Token Files"
+          selectionMode="multiple"
+          defaultExpandedKeys={['tokens', 'system']}
+          onSelectionChange={(keys) => setLastAction(`Tree Selection: ${keys === 'all' ? 'all' : [...keys].join(', ') || 'none'}`)}
+        >
+          <TreeItem id="tokens" textValue="tokens">
+            <TreeItemContent>packages/tokens/src</TreeItemContent>
+            <TreeItem id="global" textValue="global">
+              <TreeItemContent>global</TreeItemContent>
+              <TreeItem id="global-color" textValue="color.json">
+                <TreeItemContent>color.json</TreeItemContent>
+              </TreeItem>
+              <TreeItem id="global-spacing" textValue="spacing.json">
+                <TreeItemContent>spacing.json</TreeItemContent>
+              </TreeItem>
+            </TreeItem>
+            <TreeItem id="system" textValue="system">
+              <TreeItemContent>system</TreeItemContent>
+              <TreeItem id="system-light" textValue="color.light.json">
+                <TreeItemContent>color.light.json</TreeItemContent>
+              </TreeItem>
+              <TreeItem id="system-dark" textValue="color.dark.json">
+                <TreeItemContent>color.dark.json</TreeItemContent>
+              </TreeItem>
+            </TreeItem>
+          </TreeItem>
+        </Tree>
+      </section>
+
+      {/* 6. Form Fields: TextField, ComboBox, DateField, DatePicker */}
+      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+        <div className="flex flex-col gap-2xs">
+          <h2 className="text-heading-sm text-on-surface">Form Fields (TextField, ComboBox, DateField, DatePicker)</h2>
           <p className="text-body-sm text-on-surface-muted m-0">
             Input fields built with shared <code>Field</code> primitives (`Label`, `FieldGroup`, `FieldError`, `FieldDescription`).
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-md">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
           <TextField
             label="Workspace Title"
             description="Enter a domain-neutral workspace name"
@@ -363,6 +491,18 @@ export function ComponentPlayground() {
               if (val) {
                 setDateValue(val)
                 setLastAction(`DateField: ${val.toString()}`)
+              }
+            }}
+          />
+
+          <DatePicker
+            label="Release Date"
+            description="Pick a target release date"
+            value={dateValue}
+            onChange={(val) => {
+              if (val) {
+                setDateValue(val)
+                setLastAction(`DatePicker: ${val.toString()}`)
               }
             }}
           />
