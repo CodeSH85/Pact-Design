@@ -27,7 +27,6 @@ import {
   TabPanel,
   Tabs,
   TextField,
-  ToastRegion,
   ToggleButton,
   ToggleButtonGroup,
   toast
@@ -551,9 +550,6 @@ export function ComponentPlayground() {
           </div>
         </div>
       </section>
-
-      {/* Live Toast Region */}
-      <ToastRegion />
     </div>
   )
 }
