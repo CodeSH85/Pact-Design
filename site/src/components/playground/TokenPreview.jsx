@@ -2,7 +2,14 @@ import { useState } from 'react'
 import { colorValueToHex } from 'pact-design/utils/color.js'
 import { apcaContrast, apcaLevel, contrast, readableOn, wcagLevel } from 'pact-design/utils/contrast.js'
 import { cssName, formatValue, refOf } from 'pact-design/utils/token.js'
-import { Button, Checkbox, Menu } from '@pact-design/react'
+import {
+  Button,
+  Checkbox,
+  Menu,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup
+} from '@pact-design/react'
 import { apcaBadgeClasses } from './TokenEditor.jsx'
 
 const DENSITY_LABELS = {
@@ -182,7 +189,6 @@ export function TokenPreview({
   const bodySmId = pickTypo('body', 'sm')
   const labelId = pickTypo('label', 'sm') ?? pickTypo('label', 'md')
   const labelXsId = pickTypo('label', 'xs') ?? pickTypo('label', 'sm')
-  const captionId = pickTypo('caption', 'md') ?? pickTypo('body', 'xs')
   const monoXsId = pickTypo('mono', 'xs') ?? pickTypo('mono', 'sm')
   const monoSmId = pickTypo('mono', 'sm')
 
@@ -337,43 +343,32 @@ export function TokenPreview({
         <Button
           variant="secondary"
           size="xs"
-          onClick={onToggleSidebar}
+          onPress={onToggleSidebar}
           aria-expanded={!sidebarCollapsed}
           title="收合或展開左側編輯器 (⌘B / Ctrl+B)"
         >
           {sidebarCollapsed ? '▶ 展開側欄' : '◀ 收合側欄'}
         </Button>
 
-        <div
-          role="group"
+        <ToggleButtonGroup
           aria-label="預覽主題"
-          className="inline-flex items-center p-3xs rounded-xs bg-layer-2 border-sm border-border-default"
+          selectionMode="single"
+          disallowEmptySelection
+          selectedKeys={new Set([theme])}
+          onSelectionChange={(keys) => {
+            const next = [...keys][0]
+            if (next === 'light' || next === 'dark') {
+              onThemeChange(next)
+            }
+          }}
         >
-          <button
-            type="button"
-            onClick={() => onThemeChange('light')}
-            className={[
-              'px-xs py-3xs rounded-2xs text-label-xs cursor-pointer transition-colors border-none',
-              theme === 'light'
-                ? 'bg-primary text-on-primary'
-                : 'bg-transparent text-on-surface-secondary hover:text-on-surface'
-            ].join(' ')}
-          >
+          <ToggleButton id="light" size="xs" variant="primary">
             ☀ 淺色主題 Light
-          </button>
-          <button
-            type="button"
-            onClick={() => onThemeChange('dark')}
-            className={[
-              'px-xs py-3xs rounded-2xs text-label-xs cursor-pointer transition-colors border-none',
-              theme === 'dark'
-                ? 'bg-primary text-on-primary'
-                : 'bg-transparent text-on-surface-secondary hover:text-on-surface'
-            ].join(' ')}
-          >
+          </ToggleButton>
+          <ToggleButton id="dark" size="xs" variant="primary">
             ☾ 深色主題 Dark
-          </button>
-        </div>
+          </ToggleButton>
+        </ToggleButtonGroup>
 
         <span className="text-caption-md text-on-surface-muted">
           切換主題將同步預覽與左側 system.light / system.dark 編輯器（點擊預覽元素可跳轉至對應 token）
@@ -426,28 +421,13 @@ export function TokenPreview({
                 </p>
               </div>
 
-              <div className="flex flex-col gap-3xs">
-                <label
-                  onClick={() => onJump(labelId)}
-                  title={labelId}
-                  className="text-label-sm text-on-surface cursor-pointer w-fit"
-                >
-                  電子郵件 Email
-                </label>
-                <input
-                  type="text"
-                  value={sampleEmail}
-                  onChange={(e) => setSampleEmail(e.target.value)}
-                  className="h-control-md px-xs rounded-xs bg-layer-1 text-on-surface text-body-sm border-sm border-border-default outline-none focus:border-border-focus"
-                />
-                <small
-                  onClick={() => onJump(captionId)}
-                  title={captionId}
-                  className="text-caption-md text-on-surface-muted cursor-pointer"
-                >
-                  圖說與輔助標註 (Caption)：變更將即時套用至所有連線工作階段。
-                </small>
-              </div>
+              <TextField
+                size="md"
+                label="電子郵件 Email"
+                description="圖說與輔助標註 (Caption)：變更將即時套用至所有連線工作階段。"
+                value={sampleEmail}
+                onChange={setSampleEmail}
+              />
 
               <div className="flex flex-col gap-xs pt-2xs border-t border-border-subtle">
                 <Checkbox
@@ -465,16 +445,16 @@ export function TokenPreview({
               </div>
 
               <div className="flex flex-wrap items-center gap-2xs pt-2xs">
-                <Button variant="primary" size="sm" onClick={() => onJump('system.primary')}>
+                <Button variant="primary" size="sm" onPress={() => onJump('system.primary')}>
                   Primary
                 </Button>
-                <Button variant="secondary" size="sm" onClick={() => onJump('system.background.layer-1')}>
+                <Button variant="secondary" size="sm" onPress={() => onJump('system.background.layer-1')}>
                   Secondary
                 </Button>
-                <Button variant="subtle" size="sm" onClick={() => onJump('system.info-subtle')}>
+                <Button variant="subtle" size="sm" onPress={() => onJump('system.info-subtle')}>
                   Subtle
                 </Button>
-                <Button variant="danger" size="sm" onClick={() => onJump('system.danger')}>
+                <Button variant="danger" size="sm" onPress={() => onJump('system.danger')}>
                   Danger
                 </Button>
                 <Menu triggerLabel="更多操作" items={sampleMenuItems} />
@@ -949,27 +929,24 @@ export function TokenPreview({
               </h3>
               <div className="flex items-center gap-xs">
                 <span className="text-caption-md text-on-surface-muted">色票對比文字：</span>
-                <div
-                  role="group"
+                <ToggleButtonGroup
                   aria-label="色票對比文字顯示"
-                  className="inline-flex items-center p-3xs rounded-xs bg-layer-2 border-sm border-border-default"
+                  selectionMode="single"
+                  disallowEmptySelection
+                  selectedKeys={new Set([swatchContrastMode])}
+                  onSelectionChange={(keys) => {
+                    const next = [...keys][0]
+                    if (next) {
+                      onSwatchContrastChange(String(next))
+                    }
+                  }}
                 >
                   {CONTRAST_MODES.map(([mode, text]) => (
-                    <button
-                      key={mode}
-                      type="button"
-                      onClick={() => onSwatchContrastChange(mode)}
-                      className={[
-                        'px-xs py-3xs rounded-2xs text-caption-sm cursor-pointer border-none transition-colors',
-                        swatchContrastMode === mode
-                          ? 'bg-primary text-on-primary'
-                          : 'bg-transparent text-on-surface-secondary hover:text-on-surface'
-                      ].join(' ')}
-                    >
+                    <ToggleButton key={mode} id={mode} size="xs" variant="primary">
                       {text}
-                    </button>
+                    </ToggleButton>
                   ))}
-                </div>
+                </ToggleButtonGroup>
               </div>
             </div>
 
