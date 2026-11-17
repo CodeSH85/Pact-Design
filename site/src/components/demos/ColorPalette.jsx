@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react'
-import { Button } from '@pact-design/react'
+import { useState } from 'react'
+import { ToggleButton, toast } from '@pact-design/react'
 import {
   calculateAPCA,
   colorValueToHex,
@@ -57,8 +57,7 @@ const globalPalettes = scaleNames.map((scale) => {
 })
 
 export function ColorPalette() {
-  const [toastText, setToastText] = useState(null)
-  const timerRef = useRef(null)
+  const [showText, setShowText] = useState(true)
 
   async function handleCopy(text) {
     try {
@@ -66,22 +65,23 @@ export function ColorPalette() {
     } catch {
       // Fallback if clipboard API is unavailable
     }
-    setToastText(`已複製 ${text}`)
-    if (timerRef.current) clearTimeout(timerRef.current)
-    timerRef.current = setTimeout(() => {
-      setToastText(null)
-    }, 1600)
+    toast({ title: `已複製 ${text}`, tone: 'default' }, { timeout: 1800 })
   }
 
   return (
     <section className="flex flex-col gap-md pt-md border-t border-border-default">
-      <div className="flex items-baseline justify-between gap-sm flex-wrap">
+      <div className="flex items-center justify-between gap-sm flex-wrap">
         <h2 className="m-0 text-heading-xs text-on-surface">
           Global 12 階 OKLCH 色票
         </h2>
-        <span className="m-0 text-body-sm text-on-surface-muted">
-          <Button variant="ghost">顯示文字</Button>
-        </span>
+        <ToggleButton
+          size="sm"
+          variant="secondary"
+          isSelected={showText}
+          onChange={setShowText}
+        >
+          顯示文字
+        </ToggleButton>
       </div>
 
       <div className="flex flex-col gap-sm">
@@ -103,14 +103,19 @@ export function ColorPalette() {
                   <button
                     key={s.step}
                     type="button"
+                    aria-label={`Copy ${copyValue}`}
                     className="flex flex-col justify-between h-68px p-2xs border border-black/8 rounded-2xs text-left cursor-pointer transition-transform duration-fast hover:-translate-y-1px"
                     style={{ background: copyValue, color: s.fg }}
                     onClick={() => handleCopy(copyValue)}
                     title={`Click to copy ${copyValue}\nOKLCH: ${s.L} ${s.C} ${s.H}\nHEX: ${s.hex}\nAPCA vs White: Lc ${s.lcWhite}`}
                   >
-                    <span className="text-label-xs font-04 tabular-nums">{s.step}</span>
-                    <span className="text-mono-xs text-11px opacity-92">{s.hex}</span>
-                    <span className="text-mono-xs text-10px opacity-78 tabular-nums">L {s.L}</span>
+                    {showText && (
+                      <>
+                        <span className="text-label-xs font-04 tabular-nums">{s.step}</span>
+                        <span className="text-mono-xs text-11px opacity-92">{s.hex}</span>
+                        <span className="text-mono-xs text-10px opacity-78 tabular-nums">L {s.L}</span>
+                      </>
+                    )}
                   </button>
                 )
               })}
@@ -118,16 +123,6 @@ export function ColorPalette() {
           </div>
         ))}
       </div>
-
-      {toastText && (
-        <div
-          className="fixed bottom-md right-md z-toast py-xs px-sm bg-layer-2 text-on-surface border border-border-strong rounded-xs shadow-elevation-md text-mono-xs"
-          role="status"
-          aria-live="polite"
-        >
-          {toastText}
-        </div>
-      )}
     </section>
   )
 }
