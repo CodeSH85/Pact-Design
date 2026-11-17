@@ -37,6 +37,7 @@ export const disclosureTriggerClasses = [
 
 export const disclosurePanelClasses = [
   'px-disclosure-panel-padding-x py-disclosure-panel-padding-y text-body-sm text-disclosure-panel-text',
+  'aria-hidden:hidden',
   'entering:animate-in entering:fade-in-0 exiting:animate-out exiting:fade-out-0'
 ].join(' ')
 
@@ -65,10 +66,10 @@ export interface DisclosureHeaderProps {
 export function DisclosureHeader({ title, className, children }: DisclosureHeaderProps) {
   return (
     <AriaHeading className="m-0">
-      <AriaButton className={composeTailwindRenderProps(className, disclosureTriggerClasses)}>
+      <AriaButton slot="trigger" className={composeTailwindRenderProps(className, disclosureTriggerClasses)}>
         <span>{title ?? children}</span>
         <RiArrowRightSLine
-          className="w-icon-xs h-icon-xs text-on-surface-muted transition-transform duration-normal ease-default group-data-[expanded]:rotate-90 shrink-0"
+          className="w-icon-xs h-icon-xs text-on-surface-muted transition-transform duration-normal ease-default group-aria-expanded:rotate-90 shrink-0"
           aria-hidden="true"
         />
       </AriaButton>

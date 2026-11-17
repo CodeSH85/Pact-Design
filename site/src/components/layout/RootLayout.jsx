@@ -106,26 +106,28 @@ export function RootLayout() {
                   id={section.title}
                   title={section.title}
                   variant="ghost"
-                  panelProps={{ className: 'p-0 flex flex-col' }}
+                  panelProps={{ className: 'p-0' }}
                 >
-                  {section.items.map((item) => (
-                    <Link
-                      key={item.label}
-                      to={item.to}
-                      params={item.params}
-                      activeOptions={{ exact: true }}
-                      className="hover-bg-layer-1-hover py-2xs px-md text-body-sm"
-                      activeProps={{
-                        className: 'bg-layer-1-selected hover-bg-layer-1-selected-hover ring-sm ring-inset ring-border-default text-on-surface font-medium',
-                        'aria-current': 'page'
-                      }}
-                      inactiveProps={{
-                        className: 'text-on-surface-default'
-                      }}
-                    >
-                      <span>{item.label}</span>
-                    </Link>
-                  ))}
+                  <div className="flex flex-col">
+                    {section.items.map((item) => (
+                      <Link
+                        key={item.label}
+                        to={item.to}
+                        params={item.params}
+                        activeOptions={{ exact: true }}
+                        className="hover-bg-layer-1-hover py-2xs px-md text-body-sm"
+                        activeProps={{
+                          className: 'bg-layer-1-selected hover-bg-layer-1-selected-hover ring-sm ring-inset ring-border-default text-on-surface font-medium',
+                          'aria-current': 'page'
+                        }}
+                        inactiveProps={{
+                          className: 'text-on-surface-default'
+                        }}
+                      >
+                        <span>{item.label}</span>
+                      </Link>
+                    ))}
+                  </div>
                 </Disclosure>
               ))}
             </DisclosureGroup>
