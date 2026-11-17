@@ -102,7 +102,7 @@ function MotionRow({ token, resolvedVal, isDuration, onJump }) {
             transform: hovered ? 'translateX(calc(100cqw - 100%))' : 'translateX(0)',
             transitionProperty: 'transform',
             transitionDuration: isDuration ? vCss : '250ms',
-            transitionTimingFunction: isDuration ? 'var(--system-easing-default, ease)' : vCss
+            transitionTimingFunction: isDuration ? `var(${cssName('system.motion.easing.default')}, ease)` : vCss
           }}
         />
       </div>
@@ -560,7 +560,7 @@ export function TokenPreview({
                           key={tool}
                           style={
                             i === 0
-                              ? { background: v(bgL1SelectedId), color: 'var(--system-text-on-surface)' }
+                              ? { background: v(bgL1SelectedId), color: v('system.on-surface.default') }
                               : undefined
                           }
                           className={`px-xs py-3xs rounded-2xs text-body-sm ${i === 0 ? 'font-medium' : 'text-on-surface-muted'}`}

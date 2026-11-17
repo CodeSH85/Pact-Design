@@ -38,7 +38,7 @@ All `dimension`, `duration`, `cubicBezier`, `fontFamily`, `typography`, and `sha
 
 - [x] **Style Dictionary v5 Native DTCG Integration (`scripts/sd.config.js`)**: Enabled `usesDtcg: true` and built-in DTCG transforms (`dimension`, `duration`, `fontFamily`, `cubicBezier`, `typography/css/shorthand`, `shadow/css/shorthand`).
 - [x] **DTCG OKLCH Object Transform (`dtcg/color/oklch`)**: Convert DTCG `{ colorSpace: "oklch", components, alpha }` objects into CSS `oklch(...)` strings.
-- [x] **Composite Property Expansion & Reference Preservation**: Expand composite `typography` tokens into shorthand + sub-property CSS variables (`-font-family`, `-font-size`, `-font-weight`, `-line-height`, `-letter-spacing`) and preserve `var(--global-*)` references via `outputReferences: true`.
+- [x] **Composite Property Expansion & Reference Preservation**: Expand composite `typography` tokens into shorthand + sub-property CSS variables (`-font-family`, `-font-size`, `-font-weight`, `-line-height`, `-letter-spacing`) and preserve `var(--pd-global-*)` references via `outputReferences: true`.
 - [x] **Single Source of Truth in `utils/`**: Deduplicated all color, contrast, and token manipulation utilities out of `playground/js/` into isomorphic `utils/*.js` modules.
 - [x] **Automated Build Verification (`test/contrast.test.js`)**: Enforced automated APCA contrast assertions on generated CSS variables during `pnpm build:sd`.
 
@@ -106,7 +106,7 @@ Complete the 3-tier token architecture (`global` → `system` → `component`) b
 - [ ] **High-Density Data Surfaces (`tokens/component/table.json`, `tree.json`, `toolbar.json`)**:
   - Define row height (`compact: 28px`, `default: 32px`), cell padding, header background, sticky column shadow, tree indentation step, and dense toolbar item spacing.
 - [ ] **Playground Component Tier Support (`playground/js/`)**:
-  - Enable `component` level filtering in the Playground sidebar, visualize `global` → `system` → `component` dependency chains, and bind live preview components directly to `--component-*` CSS variables.
+  - Enable `component` level filtering in the Playground sidebar, visualize `global` → `system` → `component` dependency chains, and bind live preview components directly to `--pd-component-*` CSS variables.
 
 ---
 
