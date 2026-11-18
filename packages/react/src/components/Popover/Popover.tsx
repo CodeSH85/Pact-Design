@@ -19,7 +19,6 @@ export const popoverContentClasses = [
 
 export interface PopoverContentProps extends Omit<AriaPopoverProps, 'children'> {
   showArrow?: boolean
-  className?: string
   children?: ReactNode | AriaPopoverProps['children']
 }
 
