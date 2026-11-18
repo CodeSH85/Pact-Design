@@ -1,0 +1,132 @@
+---
+title: "Dialog"
+eyebrow: "Components · React Aria"
+description: "Composable accessible dialog foundation providing Trigger, Header, Body, Footer, and CloseButton slots for Modal, Popover, and Sheet."
+---
+
+<ComponentPreview>
+  <DialogTrigger>
+    <Button variant="primary">Open Custom Dialog</Button>
+    <ModalContent size="md">
+      <Dialog className="p-lg flex flex-col gap-md">
+        <DialogHeader
+          title="Token Audit Report"
+          description="Verify APCA contrast scores before publishing release notes."
+        />
+        <DialogBody>
+          <p className="text-body-sm text-on-surface m-0">
+            All 23 CSS variable contrast assertions pass under Light and Dark themes.
+          </p>
+        </DialogBody>
+        <DialogFooter>
+          <Button variant="ghost" size="sm" slot="close">Cancel</Button>
+          <Button variant="primary" size="sm" slot="close">Publish</Button>
+        </DialogFooter>
+      </Dialog>
+    </ModalContent>
+  </DialogTrigger>
+</ComponentPreview>
+
+```tsx
+import {
+  Button,
+  Dialog,
+  DialogBody,
+  DialogFooter,
+  DialogHeader,
+  DialogTrigger,
+  ModalContent
+} from '@pact-design/react'
+
+<DialogTrigger>
+  <Button variant="primary">Open Custom Dialog</Button>
+  <ModalContent size="md">
+    <Dialog className="p-lg flex flex-col gap-md">
+      <DialogHeader
+        title="Token Audit Report"
+        description="Verify APCA contrast scores before publishing release notes."
+      />
+      <DialogBody>
+        <p>All 23 CSS variable contrast assertions pass under Light and Dark themes.</p>
+      </DialogBody>
+      <DialogFooter>
+        <Button variant="ghost" size="sm" slot="close">Cancel</Button>
+        <Button variant="primary" size="sm" slot="close">Publish</Button>
+      </DialogFooter>
+    </Dialog>
+  </ModalContent>
+</DialogTrigger>
+```
+
+## API Reference
+
+Built on React Aria `Dialog` and `DialogTrigger`. Exports `Dialog`, `DialogTrigger`, `DialogHeader`, `DialogBody`, `DialogFooter`, and `DialogCloseButton`.
+
+### Parts
+
+- **`DialogTrigger`**: Links a trigger button/control with an overlay (`ModalContent` or `PopoverContent`).
+- **`Dialog`**: Focus-managed dialog container with `outline-none` and ARIA role handling.
+- **`DialogHeader`**: Title, optional description, and close button header bar.
+- **`DialogBody`**: Scrollable flex body (`flex-1 min-h-0 overflow-y-auto`) for overflowing content.
+- **`DialogFooter`**: Right-aligned action footer container.
+- **`DialogCloseButton`**: Icon button wired with `slot="close"` to dismiss the enclosing dialog.
+
+### DialogHeader
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `title` | `ReactNode` | `—` | Accessible dialog title (`Heading` with `slot="title"`). |
+| `description` | `ReactNode` | `—` | Subtitle paragraph rendered beneath the title. |
+| `showCloseButton` | `boolean` | `true` | Renders `DialogCloseButton` in the top-right corner. |
+| `className` | `string` | `—` | Optional CSS classes for the header container. |
+
+### DialogCloseButton
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `aria-label` | `string` | `'Close'` | Accessible label for screen readers. |
+| `className` | `string` | `—` | Optional CSS classes for the close icon button. |
+
+## Examples
+
+### Header Without Close Icon
+
+Set `showCloseButton={false}` when requiring explicit footer action choices inside `ModalContent`.
+
+<ComponentPreview>
+  <DialogTrigger>
+    <Button variant="secondary">Confirmation Prompt</Button>
+    <ModalContent size="sm" isDismissable={false}>
+      <Dialog className="p-lg flex flex-col gap-md">
+        <DialogHeader
+          title="Discard Draft?"
+          description="Unsaved token adjustments will be lost."
+          showCloseButton={false}
+        />
+        <DialogFooter>
+          <Button variant="secondary" size="sm" slot="close">Keep Editing</Button>
+          <Button variant="danger" size="sm" slot="close">Discard</Button>
+        </DialogFooter>
+      </Dialog>
+    </ModalContent>
+  </DialogTrigger>
+</ComponentPreview>
+
+```tsx
+<DialogTrigger>
+  <Button variant="secondary">Confirmation Prompt</Button>
+  <ModalContent size="sm" isDismissable={false}>
+    <Dialog className="p-lg flex flex-col gap-md">
+      <DialogHeader
+        title="Discard Draft?"
+        description="Unsaved token adjustments will be lost."
+        showCloseButton={false}
+      />
+      <DialogFooter>
+        <Button variant="secondary" size="sm" slot="close">Keep Editing</Button>
+        <Button variant="danger" size="sm" slot="close">Discard</Button>
+      </DialogFooter>
+    </Dialog>
+  </ModalContent>
+</DialogTrigger>
+```

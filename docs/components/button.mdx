@@ -1,0 +1,89 @@
+---
+title: "Button"
+eyebrow: "Components · React Aria"
+description: "Accessible press button supporting five semantic variants and T-shirt density control heights from xs to xl."
+---
+
+<ComponentPreview>
+  <Button variant="primary">Save Changes</Button>
+</ComponentPreview>
+
+```tsx
+import { Button } from '@pact-design/react'
+
+<Button variant="primary">Save Changes</Button>
+```
+
+## API Reference
+
+Built on React Aria `Button` (`AriaButtonProps`) with `buttonVariants` token mappings.
+
+### Button
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'primary' \| 'secondary' \| 'subtle' \| 'ghost' \| 'danger'` | `'primary'` | Visual hierarchy and semantic color role. |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`), padding, and label scale. |
+| `isDisabled` | `boolean` | `false` | Disables press interaction and keyboard focus (alias: `disabled`). |
+| `disabled` | `boolean` | `false` | HTML-style alias normalized to `isDisabled`. |
+| `onPress` | `(e: PressEvent) => void` | `—` | Unified mouse, touch, and keyboard activation handler. |
+| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Native button behavior inside forms. |
+| `className` | `string \| ((props) => string)` | `—` | Additional UnoCSS classes merged safely via `cn()`. |
+
+## Examples
+
+### Variant
+
+Choose from `primary`, `secondary`, `subtle`, `ghost`, and `danger` variants.
+
+<ComponentPreview>
+  <Button variant="primary">Primary</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="subtle">Subtle</Button>
+  <Button variant="ghost">Ghost</Button>
+  <Button variant="danger">Danger</Button>
+</ComponentPreview>
+
+```tsx
+<Button variant="primary">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="subtle">Subtle</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="danger">Danger</Button>
+```
+
+### Size
+
+Compact density scale spans `xs` (24px), `sm` (28px), `md` (32px), `lg` (36px), and `xl` (40px).
+
+<ComponentPreview>
+  <Button variant="secondary" size="xs">Control XS</Button>
+  <Button variant="secondary" size="sm">Control SM</Button>
+  <Button variant="secondary" size="md">Control MD</Button>
+  <Button variant="secondary" size="lg">Control LG</Button>
+  <Button variant="secondary" size="xl">Control XL</Button>
+</ComponentPreview>
+
+```tsx
+<Button variant="secondary" size="xs">Control XS</Button>
+<Button variant="secondary" size="sm">Control SM</Button>
+<Button variant="secondary" size="md">Control MD</Button>
+<Button variant="secondary" size="lg">Control LG</Button>
+<Button variant="secondary" size="xl">Control XL</Button>
+```
+
+### Disabled
+
+Disable buttons consistently across variants via `isDisabled` or `disabled`.
+
+<ComponentPreview>
+  <Button variant="primary" disabled>Primary Disabled</Button>
+  <Button variant="secondary" isDisabled>Secondary Disabled</Button>
+  <Button variant="danger" disabled>Danger Disabled</Button>
+</ComponentPreview>
+
+```tsx
+<Button variant="primary" disabled>Primary Disabled</Button>
+<Button variant="secondary" isDisabled>Secondary Disabled</Button>
+<Button variant="danger" disabled>Danger Disabled</Button>
+```

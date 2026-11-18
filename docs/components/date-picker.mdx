@@ -1,0 +1,95 @@
+---
+title: "DatePicker"
+eyebrow: "Components · React Aria"
+description: "Combines a segmented DateField with a calendar trigger button and floating Calendar popover."
+---
+
+import { parseDate } from '@internationalized/date'
+
+<ComponentPreview>
+  <div className="w-full max-w-64">
+    <DatePicker
+      label="Release Date"
+      description="Pick a target release date"
+      defaultValue={parseDate('2026-11-18')}
+    />
+  </div>
+</ComponentPreview>
+
+```tsx
+import { parseDate } from '@internationalized/date'
+import { DatePicker } from '@pact-design/react'
+
+<DatePicker
+  label="Release Date"
+  description="Pick a target release date"
+  defaultValue={parseDate('2026-11-18')}
+/>
+```
+
+## API Reference
+
+Built on React Aria `DatePicker`, composing `DateInput`, `FieldButton`, `PopoverContent`, `Dialog`, and `Calendar`.
+
+### DatePicker
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | Accessible label rendered above the picker input. |
+| `description` | `ReactNode` | `—` | Helper caption displayed underneath. |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Validation error text when invalid. |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`) for `FieldGroup`. |
+| `value` / `defaultValue` | `DateValue` | `—` | Controlled or initial selected date. |
+| `onChange` | `(value: DateValue \| null) => void` | `—` | Callback fired when date changes from input or calendar. |
+| `minValue` / `maxValue` | `DateValue` | `—` | Restricts selectable calendar dates. |
+| `isDisabled` | `boolean` | `false` | Disables text segments and calendar trigger button. |
+| `dateInputProps` | `DateInputProps` | `—` | Props forwarded to `DateInput`. |
+| `popoverProps` | `DatePickerPopoverProps` | `—` | Props forwarded to `PopoverContent` (default placement `'bottom start'`). |
+| `calendarProps` | `Partial<CalendarProps<T>>` | `—` | Props forwarded to the embedded `Calendar`. |
+
+## Examples
+
+### Size
+
+Align the picker height with compact toolbars or relaxed forms.
+
+<ComponentPreview align="stretch">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+    <DatePicker label="Compact (sm)" size="sm" defaultValue={parseDate('2026-11-18')} />
+    <DatePicker label="Comfortable (lg)" size="lg" defaultValue={parseDate('2026-11-18')} />
+  </div>
+</ComponentPreview>
+
+```tsx
+<DatePicker label="Compact (sm)" size="sm" defaultValue={parseDate('2026-11-18')} />
+<DatePicker label="Comfortable (lg)" size="lg" defaultValue={parseDate('2026-11-18')} />
+```
+
+### Bounded Selection & Disabled
+
+Constrain selectable dates or disable the entire control.
+
+<ComponentPreview align="stretch">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+    <DatePicker
+      label="Window (Nov 10–25)"
+      defaultValue={parseDate('2026-11-18')}
+      minValue={parseDate('2026-11-10')}
+      maxValue={parseDate('2026-11-25')}
+    />
+    <DatePicker
+      label="Archived Release"
+      isDisabled
+      defaultValue={parseDate('2026-11-18')}
+    />
+  </div>
+</ComponentPreview>
+
+```tsx
+<DatePicker
+  label="Window (Nov 10–25)"
+  defaultValue={parseDate('2026-11-18')}
+  minValue={parseDate('2026-11-10')}
+  maxValue={parseDate('2026-11-25')}
+/>
+```

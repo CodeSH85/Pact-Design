@@ -1,0 +1,123 @@
+---
+title: "Breadcrumbs"
+eyebrow: "Components · React Aria"
+description: "Hierarchical navigation trail indicating the current page location within an application or documentation tree."
+---
+
+<ComponentPreview>
+  <Breadcrumbs
+    items={[
+      { id: 'home', label: 'Pact Design', href: '#home' },
+      { id: 'components', label: 'Components', href: '#components' },
+      { id: 'breadcrumbs', label: 'Breadcrumbs' }
+    ]}
+  />
+</ComponentPreview>
+
+```tsx
+import { Breadcrumbs } from '@pact-design/react'
+
+<Breadcrumbs
+  items={[
+    { id: 'home', label: 'Pact Design', href: '#home' },
+    { id: 'components', label: 'Components', href: '#components' },
+    { id: 'breadcrumbs', label: 'Breadcrumbs' }
+  ]}
+/>
+```
+
+## API Reference
+
+Built on React Aria `Breadcrumbs`, `Breadcrumb`, and `Link`. Exports `Breadcrumbs`, `Breadcrumb`, `BreadcrumbLink`, and `BreadcrumbSeparator`.
+
+### Breadcrumbs
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `items` | `BreadcrumbItemData[]` | `—` | Declarative breadcrumb entries (`{ id?, label, href?, isDisabled? }`). |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Typography and gap scale for breadcrumb items. |
+| `isDisabled` | `boolean` | `false` | Disables interaction across all items. |
+| `onAction` | `(key: Key) => void` | `—` | Handler called when a breadcrumb link is activated. |
+| `className` | `string` | `—` | Optional CSS classes for the root list. |
+
+### Breadcrumb
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `separator` | `ReactNode \| boolean` | `true` | Displays default chevron (`true`), custom separator element, or hides it (`false`). Automatically omitted on the last (`data-current`) item. |
+| `className` | `string` | `—` | Optional CSS classes for the item container. |
+
+## Examples
+
+### Size
+
+Control label typography scale and spacing between links with `size`.
+
+<ComponentPreview align="stretch">
+  <div className="flex flex-col gap-md items-center">
+    <Breadcrumbs
+      size="sm"
+      items={[
+        { id: 's-1', label: 'Tokens', href: '#tokens' },
+        { id: 's-2', label: 'System', href: '#system' },
+        { id: 's-3', label: 'Color (sm)' }
+      ]}
+    />
+    <Breadcrumbs
+      size="md"
+      items={[
+        { id: 'm-1', label: 'Tokens', href: '#tokens' },
+        { id: 'm-2', label: 'System', href: '#system' },
+        { id: 'm-3', label: 'Color (md)' }
+      ]}
+    />
+    <Breadcrumbs
+      size="lg"
+      items={[
+        { id: 'l-1', label: 'Tokens', href: '#tokens' },
+        { id: 'l-2', label: 'System', href: '#system' },
+        { id: 'l-3', label: 'Color (lg)' }
+      ]}
+    />
+  </div>
+</ComponentPreview>
+
+```tsx
+<Breadcrumbs size="sm" items={[...]} />
+<Breadcrumbs size="md" items={[...]} />
+<Breadcrumbs size="lg" items={[...]} />
+```
+
+### Custom Composition & Separators
+
+Use `Breadcrumb`, `BreadcrumbLink`, and custom `separator` nodes for bespoke trails or disabled steps.
+
+<ComponentPreview>
+  <Breadcrumbs>
+    <Breadcrumb separator={<span className="text-on-surface-disabled px-3xs">/</span>}>
+      <BreadcrumbLink href="#root">Workspace</BreadcrumbLink>
+    </Breadcrumb>
+    <Breadcrumb separator={<span className="text-on-surface-disabled px-3xs">/</span>}>
+      <BreadcrumbLink href="#archive" isDisabled>Archived</BreadcrumbLink>
+    </Breadcrumb>
+    <Breadcrumb>
+      <BreadcrumbLink>Audit Report</BreadcrumbLink>
+    </Breadcrumb>
+  </Breadcrumbs>
+</ComponentPreview>
+
+```tsx
+import { Breadcrumb, BreadcrumbLink, Breadcrumbs } from '@pact-design/react'
+
+<Breadcrumbs>
+  <Breadcrumb separator={<span>/</span>}>
+    <BreadcrumbLink href="#root">Workspace</BreadcrumbLink>
+  </Breadcrumb>
+  <Breadcrumb separator={<span>/</span>}>
+    <BreadcrumbLink href="#archive" isDisabled>Archived</BreadcrumbLink>
+  </Breadcrumb>
+  <Breadcrumb>
+    <BreadcrumbLink>Audit Report</BreadcrumbLink>
+  </Breadcrumb>
+</Breadcrumbs>
+```

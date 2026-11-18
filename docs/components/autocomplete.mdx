@@ -1,0 +1,116 @@
+---
+title: "Autocomplete"
+eyebrow: "Components · React Aria"
+description: "Searchable collection input pairing SearchField filtering with a keyboard-navigable ListBox."
+---
+
+<ComponentPreview>
+  <div className="w-full max-w-80">
+    <Autocomplete
+      label="Search System Tokens"
+      description="Filter matching tokens using contains sensitivity"
+      placeholder="Search tokens..."
+    >
+      <AutocompleteItem id="color-primary">color-primary (Brand accent)</AutocompleteItem>
+      <AutocompleteItem id="color-surface">color-surface (UI layer background)</AutocompleteItem>
+      <AutocompleteItem id="elevation-lg">elevation-lg (Floating containers)</AutocompleteItem>
+      <AutocompleteItem id="motion-fast">motion-fast (Micro-interactions)</AutocompleteItem>
+      <AutocompleteItem id="control-md">control-md (32px input height)</AutocompleteItem>
+    </Autocomplete>
+  </div>
+</ComponentPreview>
+
+```tsx
+import { Autocomplete, AutocompleteItem } from '@pact-design/react'
+
+<Autocomplete
+  label="Search System Tokens"
+  description="Filter matching tokens using contains sensitivity"
+  placeholder="Search tokens..."
+>
+  <AutocompleteItem id="color-primary">color-primary (Brand accent)</AutocompleteItem>
+  <AutocompleteItem id="color-surface">color-surface (UI layer background)</AutocompleteItem>
+  <AutocompleteItem id="elevation-lg">elevation-lg (Floating containers)</AutocompleteItem>
+  <AutocompleteItem id="motion-fast">motion-fast (Micro-interactions)</AutocompleteItem>
+</Autocomplete>
+```
+
+## API Reference
+
+Built on React Aria `Autocomplete` and `useFilter({ sensitivity: 'base' })`. Exports `Autocomplete`, `AutocompleteItem`, `AutocompleteSearchField`, `AutocompleteListBox`, and `useFilter`.
+
+### Autocomplete
+
+When `label`, `placeholder`, or `searchFieldProps` is provided, renders an `AutocompleteSearchField` paired with an `AutocompleteListBox`. Otherwise, accepts custom composable children.
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | Accessible label rendered above the search input. |
+| `description` | `ReactNode` | `—` | Helper text rendered below the list box. |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Validation error text displayed when invalid. |
+| `placeholder` | `string` | `—` | Placeholder text forwarded to `AutocompleteSearchField`. |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height scale for the embedded search field. |
+| `filter` | `(textValue: string, inputValue: string) => boolean` | `useFilter({ sensitivity: 'base' }).contains` | Custom item filter predicate. |
+| `searchFieldProps` | `Partial<SearchFieldProps>` | `—` | Props forwarded to `AutocompleteSearchField`. |
+| `listBoxProps` | `Partial<AutocompleteListBoxProps<T>>` | `—` | Props forwarded to `AutocompleteListBox` (such as `onAction`, `selectionMode`, `onSelectionChange`). |
+| `className` | `string` | `—` | Optional CSS classes for the outer field wrapper. |
+
+### Parts
+
+- **`AutocompleteItem`**: Renders a `ListBoxItem` inside `AutocompleteListBox`.
+- **`AutocompleteSearchField`**: Wrapper around `SearchField` wired into React Aria `Autocomplete` context.
+- **`AutocompleteListBox`**: Bordered `ListBox` (`surface="bordered"`) filtered by the current query.
+
+## Examples
+
+### Size
+
+Adjust the search field density with `size` (`sm`, `md`, `lg`).
+
+<ComponentPreview align="stretch">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+    <Autocomplete label="Compact (sm)" size="sm" placeholder="Filter tokens...">
+      <AutocompleteItem id="xs">control-xs (24px)</AutocompleteItem>
+      <AutocompleteItem id="sm">control-sm (28px)</AutocompleteItem>
+    </Autocomplete>
+    <Autocomplete label="Comfortable (lg)" size="lg" placeholder="Filter tokens...">
+      <AutocompleteItem id="md">control-md (32px)</AutocompleteItem>
+      <AutocompleteItem id="lg">control-lg (36px)</AutocompleteItem>
+    </Autocomplete>
+  </div>
+</ComponentPreview>
+
+```tsx
+<Autocomplete label="Compact (sm)" size="sm" placeholder="Filter tokens...">
+  <AutocompleteItem id="xs">control-xs (24px)</AutocompleteItem>
+  <AutocompleteItem id="sm">control-sm (28px)</AutocompleteItem>
+</Autocomplete>
+```
+
+### Custom Composition
+
+Omit shorthand field props to supply custom `AutocompleteSearchField` and `AutocompleteListBox` children directly.
+
+<ComponentPreview>
+  <div className="w-full max-w-80">
+    <Autocomplete>
+      <AutocompleteSearchField aria-label="Custom search" placeholder="Search commands..." />
+      <AutocompleteListBox selectionMode="single">
+        <AutocompleteItem id="build">pnpm build:tokens</AutocompleteItem>
+        <AutocompleteItem id="lint">pnpm lint</AutocompleteItem>
+        <AutocompleteItem id="typecheck">pnpm typecheck</AutocompleteItem>
+      </AutocompleteListBox>
+    </Autocomplete>
+  </div>
+</ComponentPreview>
+
+```tsx
+<Autocomplete>
+  <AutocompleteSearchField aria-label="Custom search" placeholder="Search commands..." />
+  <AutocompleteListBox selectionMode="single">
+    <AutocompleteItem id="build">pnpm build:tokens</AutocompleteItem>
+    <AutocompleteItem id="lint">pnpm lint</AutocompleteItem>
+    <AutocompleteItem id="typecheck">pnpm typecheck</AutocompleteItem>
+  </AutocompleteListBox>
+</Autocomplete>
+```

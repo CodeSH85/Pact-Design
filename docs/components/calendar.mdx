@@ -1,0 +1,67 @@
+---
+title: "Calendar"
+eyebrow: "Components · React Aria"
+description: "Interactive month calendar grid built on @internationalized/date with keyboard navigation and today/selected state styling."
+---
+
+import { parseDate } from '@internationalized/date'
+
+<ComponentPreview>
+  <Calendar aria-label="Event schedule" defaultValue={parseDate('2026-11-18')} />
+</ComponentPreview>
+
+```tsx
+import { parseDate } from '@internationalized/date'
+import { Calendar } from '@pact-design/react'
+
+<Calendar aria-label="Event schedule" defaultValue={parseDate('2026-11-18')} />
+```
+
+## API Reference
+
+Built on React Aria `Calendar` primitives. Exports `Calendar`, `CalendarHeading`, `CalendarGrid`, `CalendarGridHeader`, `CalendarHeaderCell`, `CalendarGridBody`, and `CalendarCell`.
+
+### Calendar
+
+When `children` is omitted, renders the default previous/next header, `CalendarHeading`, and `CalendarGrid`.
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `DateValue` | `—` | Controlled selected date (`@internationalized/date`). |
+| `defaultValue` | `DateValue` | `—` | Initial selected date for uncontrolled usage. |
+| `onChange` | `(value: DateValue) => void` | `—` | Callback fired when a date cell is selected. |
+| `minValue` | `DateValue` | `—` | Minimum selectable date. |
+| `maxValue` | `DateValue` | `—` | Maximum selectable date. |
+| `isDisabled` | `boolean` | `false` | Disables navigation and date selection. |
+| `isReadOnly` | `boolean` | `false` | Prevents changing the current selection. |
+| `className` | `string` | `—` | Optional CSS classes for the root calendar container. |
+
+### Parts
+
+- **`CalendarHeading`**: Displays the current month and year heading.
+- **`CalendarGrid`**: Table wrapper that defaults to rendering `CalendarGridHeader` and `CalendarGridBody`.
+- **`CalendarCell`**: Individual day button styled for today, selected, outside-month, disabled, and unavailable states.
+
+## Examples
+
+### Constrained Date Bounds
+
+Restrict selectable dates to a valid range with `minValue` and `maxValue`.
+
+<ComponentPreview>
+  <Calendar
+    aria-label="November sprint window"
+    defaultValue={parseDate('2026-11-18')}
+    minValue={parseDate('2026-11-10')}
+    maxValue={parseDate('2026-11-24')}
+  />
+</ComponentPreview>
+
+```tsx
+<Calendar
+  aria-label="November sprint window"
+  defaultValue={parseDate('2026-11-18')}
+  minValue={parseDate('2026-11-10')}
+  maxValue={parseDate('2026-11-24')}
+/>
+```

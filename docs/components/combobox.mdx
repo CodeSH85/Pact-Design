@@ -1,0 +1,121 @@
+---
+title: "ComboBox"
+eyebrow: "Components · React Aria"
+description: "Filterable text input combined with an accessible popover dropdown list for selecting from larger option sets."
+---
+
+<ComponentPreview>
+  <div className="w-full max-w-72">
+    <ComboBox
+      label="Default Region"
+      description="Type to filter deployment regions"
+      placeholder="Choose a region..."
+      defaultSelectedKey="taipei"
+    >
+      <ComboBoxItem id="taipei">Taipei (TPE)</ComboBoxItem>
+      <ComboBoxItem id="tokyo">Tokyo (TYO)</ComboBoxItem>
+      <ComboBoxItem id="london">London (LON)</ComboBoxItem>
+      <ComboBoxItem id="sf">San Francisco (SFO)</ComboBoxItem>
+      <ComboBoxItem id="berlin">Berlin (BER)</ComboBoxItem>
+    </ComboBox>
+  </div>
+</ComponentPreview>
+
+```tsx
+import { ComboBox, ComboBoxItem } from '@pact-design/react'
+
+<ComboBox
+  label="Default Region"
+  description="Type to filter deployment regions"
+  placeholder="Choose a region..."
+  defaultSelectedKey="taipei"
+>
+  <ComboBoxItem id="taipei">Taipei (TPE)</ComboBoxItem>
+  <ComboBoxItem id="tokyo">Tokyo (TYO)</ComboBoxItem>
+  <ComboBoxItem id="london">London (LON)</ComboBoxItem>
+  <ComboBoxItem id="sf">San Francisco (SFO)</ComboBoxItem>
+  <ComboBoxItem id="berlin">Berlin (BER)</ComboBoxItem>
+</ComboBox>
+```
+
+## API Reference
+
+Built on React Aria `ComboBox`. Exports `ComboBox`, `ComboBoxItem`, `ComboBoxSection`, `ComboBoxPopover`, and `ComboBoxListBox`.
+
+### ComboBox
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | Accessible field label. |
+| `description` | `ReactNode` | `—` | Supporting field description below the input group. |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Error text displayed when invalid. |
+| `placeholder` | `string` | `—` | Placeholder string passed to the inner `Input`. |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`) applied to `FieldGroup`. |
+| `items` | `Iterable<T>` | `—` | Optional dynamic item collection paired with a render-prop child. |
+| `selectedKey` / `defaultSelectedKey` | `Key \| null` | `—` | Controlled or initial selected item key. |
+| `onSelectionChange` | `(key: Key \| null) => void` | `—` | Handler fired when selection changes. |
+| `inputProps` | `AriaInputProps` | `—` | Additional props passed to the underlying `Input`. |
+| `popoverProps` | `ComboBoxPopoverProps` | `—` | Additional props passed to `ComboBoxPopover`. |
+| `listBoxProps` | `AriaListBoxProps<T>` | `—` | Additional props passed to `ComboBoxListBox`. |
+
+## Examples
+
+### Size
+
+Choose field height (`xs` through `xl`) to match surrounding form density.
+
+<ComponentPreview align="stretch">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+    <ComboBox label="Compact (sm)" size="sm" defaultSelectedKey="xs">
+      <ComboBoxItem id="xs">24px (XS)</ComboBoxItem>
+      <ComboBoxItem id="sm">28px (SM)</ComboBoxItem>
+    </ComboBox>
+    <ComboBox label="Comfortable (lg)" size="lg" defaultSelectedKey="lg">
+      <ComboBoxItem id="md">32px (MD)</ComboBoxItem>
+      <ComboBoxItem id="lg">36px (LG)</ComboBoxItem>
+    </ComboBox>
+  </div>
+</ComponentPreview>
+
+```tsx
+<ComboBox label="Compact (sm)" size="sm" defaultSelectedKey="xs">
+  <ComboBoxItem id="xs">24px (XS)</ComboBoxItem>
+  <ComboBoxItem id="sm">28px (SM)</ComboBoxItem>
+</ComboBox>
+```
+
+### Sections & Disabled State
+
+Organize options using `ComboBoxSection` with `ListBoxHeader`, or disable the field with `isDisabled`.
+
+<ComponentPreview>
+  <div className="w-full max-w-72 flex flex-col gap-md">
+    <ComboBox label="Token Tier" placeholder="Select tier...">
+      <ComboBoxSection>
+        <ListBoxHeader>Primitives</ListBoxHeader>
+        <ComboBoxItem id="color">global.color</ComboBoxItem>
+        <ComboBoxItem id="spacing">global.spacing</ComboBoxItem>
+      </ComboBoxSection>
+      <ComboBoxSection>
+        <ListBoxHeader>Semantic</ListBoxHeader>
+        <ComboBoxItem id="layer">system.background</ComboBoxItem>
+        <ComboBoxItem id="text">system.text</ComboBoxItem>
+      </ComboBoxSection>
+    </ComboBox>
+    <ComboBox label="Locked Environment" isDisabled defaultSelectedKey="prod">
+      <ComboBoxItem id="prod">Production</ComboBoxItem>
+    </ComboBox>
+  </div>
+</ComponentPreview>
+
+```tsx
+import { ComboBox, ComboBoxItem, ComboBoxSection, ListBoxHeader } from '@pact-design/react'
+
+<ComboBox label="Token Tier" placeholder="Select tier...">
+  <ComboBoxSection>
+    <ListBoxHeader>Primitives</ListBoxHeader>
+    <ComboBoxItem id="color">global.color</ComboBoxItem>
+    <ComboBoxItem id="spacing">global.spacing</ComboBoxItem>
+  </ComboBoxSection>
+</ComboBox>
+```
