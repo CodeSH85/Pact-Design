@@ -1,25 +1,49 @@
-import { useEffect } from 'react'
+import { useEffect, type ComponentType } from 'react'
 import { MDXProvider } from '@mdx-js/react'
-import { mdxComponents } from './MdxComponents.jsx'
-import { DocFooter } from '../layout/DocFooter.jsx'
-import { TableOfContents } from '../layout/TableOfContents.jsx'
+import type { MDXComponents } from 'mdx/types'
+import { mdxComponents } from './MdxComponents'
+import { DocFooter } from '../layout/DocFooter'
+import { TableOfContents } from '../layout/TableOfContents'
 
-const mdxModules = import.meta.glob('../../../../docs/spec/*.mdx', { eager: true })
+interface SpecFrontmatter {
+  title?: string
+  eyebrow?: string
+  description?: string
+}
 
-const specRegistry = {}
+interface MdxSpecModule {
+  default: ComponentType<{ components?: MDXComponents }>
+  frontmatter?: SpecFrontmatter
+}
+
+interface SpecRegistryEntry {
+  id: string
+  Content: MdxSpecModule['default']
+  frontmatter: SpecFrontmatter
+}
+
+export interface SpecDocProps {
+  id: string
+  showHeader?: boolean
+}
+
+const mdxModules = import.meta.glob<MdxSpecModule>('../../../../docs/spec/*.mdx', { eager: true })
+
+const specRegistry: Record<string, SpecRegistryEntry> = {}
 for (const [filePath, mod] of Object.entries(mdxModules)) {
   const fileName = filePath.split('/').pop()
+  if (!fileName) continue
   const id = fileName.replace(/\.mdx$/, '')
   specRegistry[id] = {
     id,
     Content: mod.default,
-    frontmatter: mod.frontmatter || {}
+    frontmatter: mod.frontmatter ?? {}
   }
 }
 
-export function SpecDoc({ id, showHeader = true }) {
+export function SpecDoc({ id, showHeader = true }: SpecDocProps) {
   const entry = specRegistry[id]
-  const title = entry?.frontmatter?.title || 'Pact Design'
+  const title = entry?.frontmatter.title || 'Pact Design'
 
   useEffect(() => {
     document.title = title === 'Pact Design'

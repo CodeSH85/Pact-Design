@@ -7,11 +7,33 @@ import {
   cssName,
   loadTokenCatalog,
   readableOn
-} from '../../utils/tokens-loader.js'
+} from '../../utils/tokens-loader'
+
+interface ColorSwatchStep {
+  step: string
+  cssVar: string
+  hex: string
+  L: string
+  C: string
+  H: number
+  lcWhite: string
+  fg: '#fff' | '#000'
+}
+
+interface ColorPaletteGroup {
+  scale: string
+  steps: ColorSwatchStep[]
+}
 
 const { files, lightTokens } = loadTokenCatalog()
 
-const colorGlobalJson = files['src/global/color.json']?.global ?? {}
+const colorGlobalRoot = files['src/global/color.json']
+const colorGlobalJson = (
+  colorGlobalRoot && typeof colorGlobalRoot === 'object' && 'global' in colorGlobalRoot
+    ? colorGlobalRoot.global
+    : {}
+) as Record<string, Record<string, unknown>>
+
 const scaleNames = [
   'gray',
   'coolGray',
@@ -26,17 +48,17 @@ const scaleNames = [
   'yellow',
   'green',
   'mint'
-]
+] as const
 
-const globalPalettes = scaleNames.map((scale) => {
+const globalPalettes: ColorPaletteGroup[] = scaleNames.map((scale) => {
   const stepsObj = colorGlobalJson[scale] ?? {}
-  const steps = Object.keys(stepsObj)
+  const steps: ColorSwatchStep[] = Object.keys(stepsObj)
     .filter((k) => !k.startsWith('$'))
     .sort((a, b) => Number(a) - Number(b))
     .map((step) => {
       const tokenId = `global.${scale}.${step}`
       const token = lightTokens.get(tokenId)
-      const val = token?.node?.$value
+      const val = token?.node.$value
       const hex = colorValueToHex(val)
       const [L, C, H] = colorValueToOklch(val)
       const cssVar = cssName(['global', scale, step])
@@ -59,7 +81,7 @@ const globalPalettes = scaleNames.map((scale) => {
 export function ColorPalette() {
   const [showText, setShowText] = useState(true)
 
-  async function handleCopy(text) {
+  async function handleCopy(text: string): Promise<void> {
     try {
       await navigator.clipboard.writeText(text)
     } catch {

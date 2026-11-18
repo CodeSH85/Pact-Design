@@ -1,8 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useRouterState } from '@tanstack/react-router'
 
-function slugify(text) {
-  if (typeof text !== 'string') return ''
+interface TocHeading {
+  id: string
+  text: string
+}
+
+export interface TableOfContentsProps {
+  pageTitle?: string
+}
+
+function slugify(text: string): string {
   return text
     .trim()
     .toLowerCase()
@@ -10,10 +18,10 @@ function slugify(text) {
     .replace(/[^\p{L}\p{N}\-_]/gu, '')
 }
 
-export function TableOfContents({ pageTitle = 'Introduction' }) {
+export function TableOfContents({ pageTitle = 'Introduction' }: TableOfContentsProps) {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
-  const [headings, setHeadings] = useState([])
-  const [activeId, setActiveId] = useState('page-overview')
+  const [headings, setHeadings] = useState<TocHeading[]>([])
+  const [activeId, setActiveId] = useState<string>('page-overview')
 
   // Scan headings from the article on mount or when route changes
   useEffect(() => {
@@ -22,17 +30,18 @@ export function TableOfContents({ pageTitle = 'Introduction' }) {
       if (!article) return
 
       const elements = Array.from(article.querySelectorAll('h2'))
-      const extracted = elements.map((el, index) => {
+      const extracted: TocHeading[] = elements.map((el, index) => {
+        const rawText = (el.textContent ?? '').trim()
         if (!el.id) {
-          el.id = slugify(el.textContent) || `section-${index + 1}`
+          el.id = slugify(rawText) || `section-${index + 1}`
         }
         return {
           id: el.id,
-          text: el.textContent.trim()
+          text: rawText
         }
       })
 
-      const allItems = [
+      const allItems: TocHeading[] = [
         { id: 'page-overview', text: pageTitle },
         ...extracted
       ]
@@ -83,7 +92,7 @@ export function TableOfContents({ pageTitle = 'Introduction' }) {
     return () => main.removeEventListener('scroll', handleScroll)
   }, [headings])
 
-  const handleNavigate = (id) => {
+  const handleNavigate = (id: string) => {
     const main = document.querySelector('main')
     if (id === 'page-overview') {
       main?.scrollTo({ top: 0, behavior: 'smooth' })

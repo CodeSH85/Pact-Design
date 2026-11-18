@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { parseDate } from '@internationalized/date'
+import { parseDate, type CalendarDate } from '@internationalized/date'
 import {
   Autocomplete,
   AutocompleteItem,
@@ -37,27 +37,40 @@ import {
   Tree,
   TreeItem,
   TreeItemContent,
-  toast
+  toast,
+  type MenuItemData
 } from '@pact-design/react'
 
+interface CheckOptionsState {
+  compact: boolean
+  apca: boolean
+  tokens: boolean
+  disabledChecked: boolean
+}
+
+interface CityOption {
+  id: string
+  name: string
+}
+
 export function ComponentPlayground() {
-  const [lastAction, setLastAction] = useState('Ready — interact with any React Aria control below')
-  const [checks, setChecks] = useState({
+  const [lastAction, setLastAction] = useState<string>('Ready — interact with any React Aria control below')
+  const [checks, setChecks] = useState<CheckOptionsState>({
     compact: true,
     apca: true,
     tokens: false,
     disabledChecked: true
   })
-  const [switchState, setSwitchState] = useState(true)
-  const [toggleState, setToggleState] = useState(false)
-  const [textValue, setTextValue] = useState('Pact Design System')
-  const [dateValue, setDateValue] = useState(() => parseDate('2026-11-13'))
-  const [selectedCity, setSelectedCity] = useState('taipei')
-  const [selectedRole, setSelectedRole] = useState('admin')
-  const [radioTier, setRadioTier] = useState('system')
-  const [selectedFile, setSelectedFile] = useState(null)
+  const [switchState, setSwitchState] = useState<boolean>(true)
+  const [toggleState, setToggleState] = useState<boolean>(false)
+  const [textValue, setTextValue] = useState<string>('Pact Design System')
+  const [dateValue, setDateValue] = useState<CalendarDate>(() => parseDate('2026-11-13'))
+  const [selectedCity, setSelectedCity] = useState<string>('taipei')
+  const [selectedRole, setSelectedRole] = useState<string>('admin')
+  const [radioTier, setRadioTier] = useState<string>('system')
+  const [selectedFile, setSelectedFile] = useState<string | null>(null)
 
-  const cities = [
+  const cities: CityOption[] = [
     { id: 'taipei', name: 'Taipei (TPE)' },
     { id: 'tokyo', name: 'Tokyo (TYO)' },
     { id: 'london', name: 'London (LON)' },
@@ -65,7 +78,7 @@ export function ComponentPlayground() {
     { id: 'berlin', name: 'Berlin (BER)' }
   ]
 
-  const menuItems = [
+  const menuItems: MenuItemData[] = [
     {
       type: 'group',
       label: 'Token Operations',
@@ -595,7 +608,9 @@ export function ComponentPlayground() {
             label="Search System Tokens"
             description="Type a token category (e.g. color, elevation, motion)"
             placeholder="Search tokens..."
-            onSelectionChange={(key) => setLastAction(`Autocomplete: ${key}`)}
+            listBoxProps={{
+              onAction: (key) => setLastAction(`Autocomplete: ${key}`)
+            }}
           >
             <AutocompleteItem id="color-primary">color-primary (Brand theme accent)</AutocompleteItem>
             <AutocompleteItem id="color-surface">color-surface (Base UI backgrounds)</AutocompleteItem>

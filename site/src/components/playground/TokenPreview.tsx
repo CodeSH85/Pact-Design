@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type CSSProperties, type ReactNode } from 'react'
 import { colorValueToHex } from 'pact-design/utils/color.js'
 import { apcaContrast, apcaLevel, contrast, readableOn, wcagLevel } from 'pact-design/utils/contrast.js'
 import { cssName, formatValue, refOf } from 'pact-design/utils/token.js'
@@ -8,11 +8,13 @@ import {
   Menu,
   TextField,
   ToggleButton,
-  ToggleButtonGroup
+  ToggleButtonGroup,
+  type MenuItemData
 } from '@pact-design/react'
-import { apcaBadgeClasses } from './TokenEditor.jsx'
+import { apcaBadgeClasses } from './TokenEditor'
+import type { ContrastMode, ResolvedTokenEntry, ThemeMode, Token, TokenValue } from '../../types/tokens'
 
-const DENSITY_LABELS = {
+const DENSITY_LABELS: Record<string, string> = {
   xs: 'Ultra-Compact (24px · 內嵌動作 / 樹狀節點)',
   sm: 'Compact (28px · 高密度資料列 / 緊湊工具列)',
   md: 'Default (32px · 標準控制項 / 資料表格列)',
@@ -20,7 +22,7 @@ const DENSITY_LABELS = {
   xl: 'Spacious (40px · 頂部主要操作列)'
 }
 
-const ICON_ROLE_LABELS = {
+const ICON_ROLE_LABELS: Record<string, string> = {
   xs: '12px · 展開箭頭 / 狀態徽章內嵌圖示',
   sm: '16px · 高密度工具列 / 表格列動作 (配 control.height.xs–sm)',
   md: '20px · 標準按鈕與側欄導覽圖示 (配 control.height.md–lg)',
@@ -28,7 +30,7 @@ const ICON_ROLE_LABELS = {
   xl: '32px · 空白狀態 (Empty State) / 區塊引導圖示'
 }
 
-const Z_ROLES = {
+const Z_ROLES: Record<string, string> = {
   base: '預設文件流 (0)',
   docked: '固定表頭 / 凍結欄位 (10)',
   dropdown: '下拉選單 / 自動完成 (100)',
@@ -39,14 +41,29 @@ const Z_ROLES = {
   toast: '全域通知 Toast (600)'
 }
 
-const CONTRAST_MODES = [
+const CONTRAST_MODES: ReadonlyArray<readonly [ContrastMode, string]> = [
   ['lc-white', 'APCA vs #fff'],
   ['lc-black', 'APCA vs #000'],
   ['wcag-white', 'WCAG vs #fff'],
   ['none', '隱藏對比值']
 ]
 
-function ContrastBadge({ txtVal, bgVal }) {
+interface SemanticColorPair {
+  bg: Token
+  on: Token
+  hover?: Token
+  active?: Token
+  subtle?: Token
+  onSubtle?: Token
+  border?: Token
+}
+
+interface ContrastBadgeProps {
+  txtVal: TokenValue | undefined
+  bgVal: TokenValue | undefined
+}
+
+function ContrastBadge({ txtVal, bgVal }: ContrastBadgeProps) {
   const lc = apcaContrast(txtVal, bgVal)
   const apca = apcaLevel(lc)
   const ratio = contrast(txtVal, bgVal)
@@ -64,7 +81,14 @@ function ContrastBadge({ txtVal, bgVal }) {
   )
 }
 
-function PreviewSection({ id, title, note, children }) {
+interface PreviewSectionProps {
+  id: string
+  title: string
+  note?: string
+  children: ReactNode
+}
+
+function PreviewSection({ id, title, note, children }: PreviewSectionProps) {
   return (
     <section
       id={`pv-${id}`}
@@ -79,7 +103,14 @@ function PreviewSection({ id, title, note, children }) {
   )
 }
 
-function MotionRow({ token, resolvedVal, isDuration, onJump }) {
+interface MotionRowProps {
+  token: Token
+  resolvedVal: TokenValue | undefined
+  isDuration: boolean
+  onJump: (id?: string) => void
+}
+
+function MotionRow({ token, resolvedVal, isDuration, onJump }: MotionRowProps) {
   const [hovered, setHovered] = useState(false)
   const vCss = `var(${cssName(token.id)})`
   const ref = refOf(token.node.$value)
@@ -114,6 +145,18 @@ function MotionRow({ token, resolvedVal, isDuration, onJump }) {
   )
 }
 
+export interface TokenPreviewProps {
+  tokens: Map<string, Token>
+  resolved: Map<string, ResolvedTokenEntry>
+  theme: ThemeMode
+  sidebarCollapsed: boolean
+  swatchContrastMode: ContrastMode
+  onToggleSidebar: () => void
+  onThemeChange: (theme: ThemeMode) => void
+  onSwatchContrastChange: (mode: ContrastMode) => void
+  onJump: (id?: string) => void
+}
+
 export function TokenPreview({
   tokens,
   resolved,
@@ -124,26 +167,27 @@ export function TokenPreview({
   onThemeChange,
   onSwatchContrastChange,
   onJump
-}) {
+}: TokenPreviewProps) {
   const [sampleEmail, setSampleEmail] = useState('hello@pactdesign.dev')
   const [sampleCompact, setSampleCompact] = useState(true)
   const [sampleApca, setSampleApca] = useState(true)
 
   const all = [...tokens.values()]
-  const has = (id) => !!id && tokens.has(id)
-  const pick = (...ids) => ids.find(has)
-  const val = (id) => resolved.get(id)?.value
-  const v = (id, fallback = '') => (has(id) ? `var(${cssName(id)}${fallback ? `, ${fallback}` : ''})` : fallback)
-  const byType = (type) => all.filter((t) => t.type === type)
-  const inFile = (word) => all.filter((t) => t.file.includes(`/${word}/`))
-  const isSystem = (t) => t.path[0] === 'system'
+  const has = (id?: string): id is string => !!id && tokens.has(id)
+  const pick = (...ids: string[]): string | undefined => ids.find(has)
+  const val = (id?: string): TokenValue | undefined => (id ? resolved.get(id)?.value : undefined)
+  const v = (id?: string, fallback = ''): string =>
+    has(id) ? `var(${cssName(id)}${fallback ? `, ${fallback}` : ''})` : fallback
+  const byType = (type: string): Token[] => all.filter((t) => t.type === type)
+  const inFile = (word: string): Token[] => all.filter((t) => t.file.includes(`/${word}/`))
+  const isSystem = (t: Token): boolean => t.path[0] === 'system'
 
   const typos = byType('typography')
-  const pickTypo = (role, size) =>
+  const pickTypo = (role: string, size: string): string | undefined =>
     typos.find((t) => t.path.includes(role) && t.path.at(-1) === size)?.id ??
     typos.find((t) => t.path.includes(role))?.id
 
-  const fontStyle = (id) => {
+  const fontStyle = (id?: string): CSSProperties => {
     if (!has(id)) return {}
     const n = cssName(id)
     return {
@@ -153,9 +197,9 @@ export function TokenPreview({
   }
 
   // Semantic colour pairs (x / on-x / hover / active / subtle / on-subtle / border)
-  const pairs = byType('color')
+  const pairs: SemanticColorPair[] = byType('color')
     .filter((t) => {
-      const name = t.path.at(-1)
+      const name = t.path.at(-1) ?? ''
       return (
         !name.startsWith('on-') &&
         !name.endsWith('-subtle') &&
@@ -164,10 +208,10 @@ export function TokenPreview({
         !name.endsWith('-border')
       )
     })
-    .map((t) => {
+    .map((t): SemanticColorPair | null => {
       const prefix = t.path.slice(0, -1)
-      const name = t.path.at(-1)
-      const sibling = (n) => tokens.get([...prefix, n].join('.'))
+      const name = t.path.at(-1) ?? ''
+      const sibling = (n: string) => tokens.get([...prefix, n].join('.'))
       const on = sibling(`on-${name}`)
       if (!on) return null
       return {
@@ -180,9 +224,10 @@ export function TokenPreview({
         border: sibling(`${name}-border`)
       }
     })
-    .filter(Boolean)
+    .filter((p): p is SemanticColorPair => p !== null)
 
-  const pairFor = (name) => pairs.find((p) => p.bg.path.at(-1) === name)
+  const pairFor = (name: string): SemanticColorPair | undefined =>
+    pairs.find((p) => p.bg.path.at(-1) === name)
 
   const headingId = pickTypo('heading', 'sm') ?? pickTypo('heading', 'md')
   const subheaderId = pickTypo('subheader', 'sm') ?? pickTypo('subheader', 'md')
@@ -202,20 +247,24 @@ export function TokenPreview({
   const txtPrimaryId = pick('system.text.primary')
 
   const bgTokens = byType('color').filter((t) => t.path[0] === 'system' && t.path[1] === 'background')
-  const isInteractiveBg = (key) => /^(?:layer-[12]-)?(?:hover|active|selected|selected-hover)$/.test(key)
-  const bgLayerTokens = bgTokens.filter((t) => !isInteractiveBg(t.path.at(-1)))
-  const bgInteractiveTokens = bgTokens.filter((t) => isInteractiveBg(t.path.at(-1)))
+  const isInteractiveBg = (key: string): boolean => /^(?:layer-[12]-)?(?:hover|active|selected|selected-hover)$/.test(key)
+  const bgLayerTokens = bgTokens.filter((t) => !isInteractiveBg(t.path.at(-1) ?? ''))
+  const bgInteractiveTokens = bgTokens.filter((t) => isInteractiveBg(t.path.at(-1) ?? ''))
 
   const textTokens = byType('color').filter((t) => t.path[0] === 'system' && t.path[1] === 'text')
   const borderColorTokens = byType('color').filter((t) => t.path[0] === 'system' && t.path[1] === 'border')
 
   // Global raw palettes
   const rawColors = inFile('color').filter((t) => t.type === 'color' && !refOf(t.node.$value))
-  const colorGroups = new Map()
+  const colorGroups = new Map<string, Token[]>()
   for (const t of rawColors) {
     const key = t.path.slice(0, -1).join('.')
-    if (!colorGroups.has(key)) colorGroups.set(key, [])
-    colorGroups.get(key).push(t)
+    const bucket = colorGroups.get(key)
+    if (bucket) {
+      bucket.push(t)
+    } else {
+      colorGroups.set(key, [t])
+    }
   }
   const palettes = [...colorGroups].filter(([, list]) => list.length >= 3)
   const singles = [...colorGroups].filter(([, list]) => list.length < 3).flatMap(([, list]) => list)
@@ -255,7 +304,7 @@ export function TokenPreview({
   const durations = motionTokens.filter((t) => t.type === 'duration')
   const easings = motionTokens.filter((t) => t.type === 'cubicBezier')
 
-  const renderBadge = (p) => {
+  const renderBadge = (p: SemanticColorPair | undefined) => {
     if (!p) return null
     const name = p.bg.path.at(-1)
     const bgCss = p.subtle ? v(p.subtle.id) : v(p.bg.id)
@@ -283,7 +332,7 @@ export function TokenPreview({
     )
   }
 
-  const renderAlert = (p, title, text) => {
+  const renderAlert = (p: SemanticColorPair | undefined, title: string, text: string) => {
     if (!p) return null
     const bgCss = p.subtle ? v(p.subtle.id) : v(p.bg.id)
     const borderCss = p.border ? v(p.border.id) : 'transparent'
@@ -318,7 +367,7 @@ export function TokenPreview({
     )
   }
 
-  const sampleMenuItems = [
+  const sampleMenuItems: MenuItemData[] = [
     {
       type: 'group',
       label: 'Jump to Token',
@@ -340,15 +389,16 @@ export function TokenPreview({
     <div className="flex-1 min-w-0 flex flex-col min-h-0 overflow-hidden bg-base">
       {/* Preview Toolbar */}
       <div className="flex flex-wrap items-center gap-sm px-md py-xs bg-layer-1 border-b border-border-default shrink-0">
-        <Button
-          variant="secondary"
-          size="xs"
-          onPress={onToggleSidebar}
-          aria-expanded={!sidebarCollapsed}
-          title="收合或展開左側編輯器 (⌘B / Ctrl+B)"
-        >
-          {sidebarCollapsed ? '▶ 展開側欄' : '◀ 收合側欄'}
-        </Button>
+        <span title="收合或展開左側編輯器 (⌘B / Ctrl+B)" className="inline-flex">
+          <Button
+            variant="secondary"
+            size="xs"
+            onPress={onToggleSidebar}
+            aria-expanded={!sidebarCollapsed}
+          >
+            {sidebarCollapsed ? '▶ 展開側欄' : '◀ 收合側欄'}
+          </Button>
+        </span>
 
         <ToggleButtonGroup
           aria-label="預覽主題"
@@ -638,8 +688,9 @@ export function TokenPreview({
               {/* Background Layer Swatches */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-xs">
                 {bgLayerTokens.map((t) => {
-                  const isElevated = t.path.at(-1).includes('elevated')
-                  const isBackdrop = t.path.at(-1) === 'backdrop'
+                  const last = t.path.at(-1) ?? ''
+                  const isElevated = last.includes('elevated')
+                  const isBackdrop = last === 'backdrop'
                   const fg = readableOn(val(t.id))
                   return (
                     <div
@@ -874,49 +925,51 @@ export function TokenPreview({
                 System · 柔和狀態容器與同色系標籤（Subtle Status Containers · X-subtle / on-X-subtle / X-border）
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-xs">
-                {pairs.filter((p) => p.subtle && p.onSubtle).map(({ bg, subtle, onSubtle, border }) => {
-                  const name = bg.path.at(-1)
-                  return (
-                    <div
-                      key={subtle.id}
-                      onClick={() => onJump(subtle.id)}
-                      title={subtle.id}
-                      style={{
-                        background: v(subtle.id),
-                        color: v(onSubtle.id),
-                        borderColor: border ? v(border.id) : 'transparent',
-                        borderWidth: '2px'
-                      }}
-                      className="flex flex-col gap-3xs p-sm rounded-xs border-solid cursor-pointer"
-                    >
-                      <strong className="text-label-md">{name}-subtle</strong>
-                      <span className="text-mono-xs">
-                        bg → {refOf(subtle.node.$value) ?? formatValue('color', val(subtle.id))}
-                      </span>
-                      <span
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          onJump(onSubtle.id)
+                {pairs
+                  .filter((p): p is SemanticColorPair & { subtle: Token; onSubtle: Token } => Boolean(p.subtle && p.onSubtle))
+                  .map(({ bg, subtle, onSubtle, border }) => {
+                    const name = bg.path.at(-1)
+                    return (
+                      <div
+                        key={subtle.id}
+                        onClick={() => onJump(subtle.id)}
+                        title={subtle.id}
+                        style={{
+                          background: v(subtle.id),
+                          color: v(onSubtle.id),
+                          borderColor: border ? v(border.id) : 'transparent',
+                          borderWidth: '2px'
                         }}
-                        className="text-mono-xs underline decoration-dotted"
+                        className="flex flex-col gap-3xs p-sm rounded-xs border-solid cursor-pointer"
                       >
-                        text → {refOf(onSubtle.node.$value) ?? formatValue('color', val(onSubtle.id))}
-                      </span>
-                      {border && (
+                        <strong className="text-label-md">{name}-subtle</strong>
+                        <span className="text-mono-xs">
+                          bg → {refOf(subtle.node.$value) ?? formatValue('color', val(subtle.id))}
+                        </span>
                         <span
                           onClick={(e) => {
                             e.stopPropagation()
-                            onJump(border.id)
+                            onJump(onSubtle.id)
                           }}
                           className="text-mono-xs underline decoration-dotted"
                         >
-                          border → {refOf(border.node.$value) ?? formatValue('color', val(border.id))}
+                          text → {refOf(onSubtle.node.$value) ?? formatValue('color', val(onSubtle.id))}
                         </span>
-                      )}
-                      <ContrastBadge txtVal={val(onSubtle.id)} bgVal={val(subtle.id)} />
-                    </div>
-                  )
-                })}
+                        {border && (
+                          <span
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              onJump(border.id)
+                            }}
+                            className="text-mono-xs underline decoration-dotted"
+                          >
+                            border → {refOf(border.node.$value) ?? formatValue('color', val(border.id))}
+                          </span>
+                        )}
+                        <ContrastBadge txtVal={val(onSubtle.id)} bgVal={val(subtle.id)} />
+                      </div>
+                    )
+                  })}
               </div>
             </div>
           )}
@@ -936,8 +989,8 @@ export function TokenPreview({
                   selectedKeys={new Set([swatchContrastMode])}
                   onSelectionChange={(keys) => {
                     const next = [...keys][0]
-                    if (next) {
-                      onSwatchContrastChange(String(next))
+                    if (next === 'lc-white' || next === 'lc-black' || next === 'wcag-white' || next === 'none') {
+                      onSwatchContrastChange(next)
                     }
                   }}
                 >
@@ -1130,7 +1183,7 @@ export function TokenPreview({
                       Ag 永
                     </span>
                     <code className="text-mono-xs text-on-surface-muted">
-                      {t.path.at(-1)} · {val(t.id)}
+                      {t.path.at(-1)} · {String(val(t.id) ?? '')}
                     </code>
                   </div>
                 ))}
@@ -1211,7 +1264,7 @@ export function TokenPreview({
               </h3>
               <div className="flex flex-col gap-xs">
                 {controlHeights.map((t) => {
-                  const key = t.path.at(-1)
+                  const key = t.path.at(-1) ?? ''
                   return (
                     <div
                       key={t.id}
@@ -1243,7 +1296,7 @@ export function TokenPreview({
               </h3>
               <div className="flex flex-col gap-xs">
                 {iconSizes.map((t) => {
-                  const key = t.path.at(-1)
+                  const key = t.path.at(-1) ?? ''
                   return (
                     <div
                       key={t.id}
@@ -1329,11 +1382,11 @@ export function TokenPreview({
                 System · 無障礙焦點環幾何規範（system.focus.* + system.border.focus）
               </h3>
               <div className="flex flex-wrap gap-md">
-                {[
+                {([
                   ['system.focus.offset.default', 'offset.default (+2px)', '獨立按鈕與控制項外擴焦點環', '2px'],
                   ['system.focus.offset.flush', 'offset.flush (0px)', '輸入框與停靠面板貼齊焦點環', '0px'],
                   ['system.focus.offset.inset', 'offset.inset (-2px)', '高密度表格儲存格與清單內縮焦點環（防裁切）', '-2px']
-                ].map(([id, label, desc, fb]) => (
+                ] as const).map(([id, label, desc, fb]) => (
                   <div
                     key={id}
                     onClick={() => onJump(id)}
@@ -1473,7 +1526,7 @@ export function TokenPreview({
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-xs">
                 {sysZIndex.map((t) => {
-                  const key = t.path.at(-1)
+                  const key = t.path.at(-1) ?? ''
                   return (
                     <div
                       key={t.id}
@@ -1482,7 +1535,7 @@ export function TokenPreview({
                       className="flex flex-col gap-3xs p-sm rounded-xs bg-layer-2 border-sm border-border-default cursor-pointer"
                     >
                       <strong className="text-label-sm text-on-surface">
-                        z-index.{key} · {val(t.id)}
+                        z-index.{key} · {String(val(t.id) ?? '')}
                       </strong>
                       <span className="text-caption-md text-on-surface-secondary">
                         {Z_ROLES[key] ?? ''}
@@ -1512,7 +1565,7 @@ export function TokenPreview({
                       {t.path.slice(1).join('.')}
                     </strong>
                     <span className="text-mono-xs text-on-surface-muted">
-                      z-index: {val(t.id)}
+                      z-index: {String(val(t.id) ?? '')}
                     </span>
                   </div>
                 ))}

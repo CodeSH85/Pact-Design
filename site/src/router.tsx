@@ -4,11 +4,11 @@ import {
   createRoute,
   createRouter
 } from '@tanstack/react-router'
-import { RootLayout } from './components/layout/RootLayout.jsx'
-import { DocFooter } from './components/layout/DocFooter.jsx'
-import { SpecDoc } from './components/mdx/SpecDoc.jsx'
-import { TokenPlayground } from './components/playground/TokenPlayground.jsx'
-import { ComponentPlayground } from './components/playground/ComponentPlayground.jsx'
+import { RootLayout } from './components/layout/RootLayout'
+import { DocFooter } from './components/layout/DocFooter'
+import { SpecDoc } from './components/mdx/SpecDoc'
+import { TokenPlayground } from './components/playground/TokenPlayground'
+import { ComponentPlayground } from './components/playground/ComponentPlayground'
 
 const rootRoute = createRootRoute({
   component: RootLayout
@@ -74,3 +74,9 @@ export const router = createRouter({
   routeTree,
   basepath: import.meta.env.BASE_URL
 })
+
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router
+  }
+}

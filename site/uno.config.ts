@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { presetWind3, defineConfig, transformerDirectives } from 'unocss'
+import { defineConfig, presetWind3, transformerDirectives } from 'unocss'
 import { pactPreset } from 'pact-design/uno'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))

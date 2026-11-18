@@ -10,7 +10,7 @@ import remarkFrontmatter from 'remark-frontmatter'
 import remarkGfm from 'remark-gfm'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import UnoCSS from 'unocss/vite'
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import { stringifyTokens } from '../packages/tokens/utils/token.js'
 
 const require = createRequire(import.meta.url)
@@ -20,12 +20,12 @@ const TOKENS_PACKAGE_DIR = path.join(ROOT, 'packages/tokens')
 const TOKENS_DIR = path.join(TOKENS_PACKAGE_DIR, 'src')
 const REACT_PACKAGE_DIR = path.join(ROOT, 'packages/react')
 
-const isInside = (parent, child) => {
+const isInside = (parent: string, child: string): boolean => {
   const rel = path.relative(parent, child)
-  return rel && !rel.startsWith('..') && !path.isAbsolute(rel)
+  return Boolean(rel) && !rel.startsWith('..') && !path.isAbsolute(rel)
 }
 
-async function listJsonFiles(dir) {
+async function listJsonFiles(dir: string): Promise<string[]> {
   const entries = await fs.readdir(dir, { withFileTypes: true })
   const nested = await Promise.all(
     entries.map((e) => {
@@ -37,9 +37,15 @@ async function listJsonFiles(dir) {
   return nested.flat().sort()
 }
 
-const toRel = (abs) => path.relative(TOKENS_PACKAGE_DIR, abs).split(path.sep).join('/')
+const toRel = (abs: string): string =>
+  path.relative(TOKENS_PACKAGE_DIR, abs).split(path.sep).join('/')
 
-function sendJson(res, status, body) {
+interface MinimalResponse {
+  writeHead: (status: number, headers: Record<string, string>) => void
+  end: (data?: string) => void
+}
+
+function sendJson(res: MinimalResponse, status: number, body: unknown): void {
   res.writeHead(status, {
     'Content-Type': 'application/json; charset=utf-8',
     'Cache-Control': 'no-store'
@@ -47,40 +53,42 @@ function sendJson(res, status, body) {
   res.end(JSON.stringify(body))
 }
 
-async function readBody(req) {
-  const chunks = []
+async function readBody(req: AsyncIterable<Uint8Array>): Promise<string> {
+  const chunks: Uint8Array[] = []
   for await (const chunk of req) chunks.push(chunk)
   return Buffer.concat(chunks).toString('utf-8')
 }
 
-function tokensApiPlugin() {
+function tokensApiPlugin(): Plugin {
   return {
     name: 'pact-tokens-api',
     configureServer(server) {
       server.middlewares.use('/api/tokens', async(req, res, next) => {
         try {
           if (req.method === 'GET') {
-            const files = {}
-            const errors = {}
+            const files: Record<string, unknown> = {}
+            const errors: Record<string, string> = {}
             for (const abs of await listJsonFiles(TOKENS_DIR)) {
               const raw = await fs.readFile(abs, 'utf-8')
               try {
                 files[toRel(abs)] = JSON.parse(raw)
               // eslint-disable-next-line @stylistic/space-before-function-paren
-              } catch (err) {
-                errors[toRel(abs)] = err.message
+              } catch (err: unknown) {
+                errors[toRel(abs)] = err instanceof Error ? err.message : String(err)
               }
             }
-            return sendJson(res, 200, { files, errors })
+            sendJson(res, 200, { files, errors })
+            return
           }
 
           if (req.method === 'PUT') {
-            const { files } = JSON.parse(await readBody(req))
-            const written = []
-            for (const [rel, json] of Object.entries(files ?? {})) {
+            const parsed = JSON.parse(await readBody(req)) as { files?: Record<string, unknown> }
+            const written: string[] = []
+            for (const [rel, json] of Object.entries(parsed.files ?? {})) {
               const abs = path.resolve(TOKENS_PACKAGE_DIR, rel)
               if (!isInside(TOKENS_DIR, abs) || !abs.endsWith('.json')) {
-                return sendJson(res, 400, { error: `Refusing to write outside src/: ${rel}` })
+                sendJson(res, 400, { error: `Refusing to write outside src/: ${rel}` })
+                return
               }
               const original = await fs.readFile(abs, 'utf-8').catch(() => '')
               const eol = original.includes('\r\n') ? '\r\n' : '\n'
@@ -89,13 +97,14 @@ function tokensApiPlugin() {
               await fs.writeFile(abs, content, 'utf-8')
               written.push(rel)
             }
-            return sendJson(res, 200, { written })
+            sendJson(res, 200, { written })
+            return
           }
 
           next()
         // eslint-disable-next-line @stylistic/space-before-function-paren
-        } catch (err) {
-          sendJson(res, 500, { error: err.message })
+        } catch (err: unknown) {
+          sendJson(res, 500, { error: err instanceof Error ? err.message : String(err) })
         }
       })
     }
