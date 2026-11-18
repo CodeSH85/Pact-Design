@@ -1,8 +1,5 @@
 import { type ReactNode } from 'react'
 import {
-  Button as AriaButton,
-  Heading as AriaHeading,
-  type HeadingProps as AriaHeadingProps,
   Sheet as AriaSheet,
   SheetBackdrop as AriaSheetBackdrop,
   type SheetBackdropProps as AriaSheetBackdropProps,
@@ -14,17 +11,21 @@ import {
   SheetTrigger as AriaSheetTrigger,
   type SheetTriggerProps as AriaSheetTriggerProps
 } from 'react-aria-components'
-import { RiCloseLine } from '@remixicon/react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import {
   cn,
   composeTailwindRenderProps,
   enterExitFadeClasses,
-  overlayCloseButtonClasses,
-  overlayFooterClasses,
-  overlayHeaderClasses,
   type OverlaySharedProps
 } from '../../utils/index.ts'
+import {
+  DialogBody,
+  type DialogBodyProps,
+  DialogFooter,
+  type DialogFooterProps,
+  DialogHeader,
+  type DialogHeaderProps
+} from '../Dialog/index.ts'
 
 export const sheetBackdropClasses = [
   'bg-modal-overlay-bg',
@@ -155,73 +156,22 @@ export function SheetContent({ className, children, ...props }: SheetContentProp
   )
 }
 
-export interface SheetHeaderProps extends Omit<AriaHeadingProps, 'title'> {
-  title?: ReactNode
-  description?: ReactNode
-  showCloseButton?: boolean
-  className?: string
-  children?: ReactNode
+export type SheetHeaderProps = DialogHeaderProps
+
+export function SheetHeader(props: SheetHeaderProps) {
+  return <DialogHeader {...props} />
 }
 
-export function SheetHeader({
-  title,
-  description,
-  showCloseButton = true,
-  className,
-  children,
-  ...props
-}: SheetHeaderProps) {
-  return (
-    <div className={cn(overlayHeaderClasses, className)}>
-      <div className="flex flex-col gap-2xs">
-        {title && (
-          <AriaHeading slot="title" className="text-heading-sm font-semibold text-on-surface" {...props}>
-            {title}
-          </AriaHeading>
-        )}
-        {description && (
-          <p className="text-body-sm text-on-surface-muted m-0">{description}</p>
-        )}
-        {children}
-      </div>
+export type SheetBodyProps = DialogBodyProps
 
-      {showCloseButton && (
-        <AriaButton
-          slot="close"
-          className={overlayCloseButtonClasses}
-          aria-label="Close"
-        >
-          <RiCloseLine className="w-icon-sm h-icon-sm" aria-hidden="true" />
-        </AriaButton>
-      )}
-    </div>
-  )
+export function SheetBody(props: SheetBodyProps) {
+  return <DialogBody {...props} />
 }
 
-export interface SheetBodyProps {
-  className?: string
-  children?: ReactNode
-}
+export type SheetFooterProps = DialogFooterProps
 
-export function SheetBody({ className, children }: SheetBodyProps) {
-  return (
-    <div className={cn('flex-1 min-h-0 overflow-y-auto', className)}>
-      {children}
-    </div>
-  )
-}
-
-export interface SheetFooterProps {
-  className?: string
-  children?: ReactNode
-}
-
-export function SheetFooter({ className, children }: SheetFooterProps) {
-  return (
-    <div className={cn(overlayFooterClasses, className)}>
-      {children}
-    </div>
-  )
+export function SheetFooter(props: SheetFooterProps) {
+  return <DialogFooter {...props} />
 }
 
 export interface SheetProps

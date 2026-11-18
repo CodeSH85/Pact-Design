@@ -35,18 +35,22 @@ import {
   Autocomplete,
   Breadcrumbs,
   Button,
+  Calendar,
   ComboBox,
   DateField,
   DatePicker,
+  Dialog,
   Disclosure,
   DisclosureGroup,
   FileTrigger,
   Form,
+  ListBox,
   Menu,
   Modal,
   Popover,
   Radio,
   RadioGroup,
+  SearchField,
   Select,
   Separator,
   Sheet,
@@ -88,6 +92,7 @@ import { cn } from '@pact-design/react/utils'
 - **`Tree`**: Hierarchical tree grid with expandable branch chevrons, nested indentation, and keyboard/selection support.
 
 ### Overlays & Menus
+- **`Dialog`**: Standalone dialog primitive (`Dialog`, `DialogTrigger`, `DialogHeader`, `DialogBody`, `DialogFooter`, `DialogCloseButton`) shared across overlay containers.
 - **`Menu`**: Accessible dropdown menu with declarative `items` prop or composable compound subcomponents (`MenuItem`, `MenuSection`, `MenuSeparator`).
 - **`Popover`**: Floating content container with elevation shadow, optional arrow, and smooth placement animations.
 - **`Modal`**: Dialog overlay with scrim backdrop, header close button, and responsive sizes (`sm`–`full`).
@@ -96,14 +101,17 @@ import { cn } from '@pact-design/react/utils'
 
 ### Data Entry & Inputs
 - **`TextField`**: Single-line text input with prefix/suffix slots, label, description, and error message.
+- **`SearchField`**: Standalone search input with search icon and clear button.
+- **`ListBox`**: Standalone selectable list primitive (`ListBox`, `ListBoxItem`, `ListBoxSection`, `ListBoxHeader`, `ListBoxSeparator`) with `plain` and `bordered` surfaces.
 - **`Select`**: Collapsible select picker with check indicators and trigger button variants.
 - **`ComboBox`**: Autocomplete select dropdown with filterable listbox, keyboard navigation, and check indicators.
 - **`Autocomplete`**: Searchable collection input powered by React Aria `useFilter` and `SearchField`.
 - **`DateField`**: Segmented date input with tabular numerals (`tabular-nums font-mono`) powered by `@internationalized/date`.
+- **`Calendar`**: Standalone interactive calendar grid (`Calendar`, `CalendarGrid`, `CalendarCell`, `CalendarHeading`).
 - **`DatePicker`**: Combines `DateField` with an interactive `Calendar` popover for date selection.
 - **`FileTrigger`**: Native file upload activator wrapping any pressable button or trigger element.
 - **`Form`**: Form container with semantic `FormSection` and `FormActions` helpers.
-- **`Field` Primitives**: Shared form primitives (`Label`, `FieldDescription`, `FieldError`, `FieldGroup`).
+- **`Field` Primitives**: Shared form primitives (`Label`, `FieldDescription`, `FieldError`, `FieldGroup`, `Input`, `FieldButton`).
 
 ---
 

@@ -1,30 +1,15 @@
 import { type ReactNode } from 'react'
 import {
   Autocomplete as AriaAutocomplete,
-  SearchField as AriaSearchField,
   useFilter,
   type AutocompleteProps as AriaAutocompleteProps,
-  type ListBoxProps as AriaListBoxProps,
-  type SearchFieldProps as AriaSearchFieldProps
+  type ListBoxProps as AriaListBoxProps
 } from 'react-aria-components'
-import { RiCloseLine, RiSearchLine } from '@remixicon/react'
 import { type VariantProps } from 'class-variance-authority'
-import {
-  cn,
-  composeTailwindRenderProps,
-  fieldWrapperClasses,
-  type FieldSharedProps
-} from '../../utils/index.ts'
-import {
-  FieldButton,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  fieldGroupVariants,
-  Input,
-  Label
-} from '../Field/index.ts'
+import { cn, fieldWrapperClasses, type FieldSharedProps } from '../../utils/index.ts'
+import { fieldGroupVariants } from '../Field/index.ts'
 import { ListBox, ListBoxItem, type ListBoxItemProps } from '../ListBox/index.ts'
+import { SearchField, type SearchFieldProps } from '../SearchField/index.ts'
 
 export type AutocompleteItemProps = ListBoxItemProps
 
@@ -32,40 +17,10 @@ export function AutocompleteItem(props: AutocompleteItemProps) {
   return <ListBoxItem {...props} />
 }
 
-export interface AutocompleteSearchFieldProps
-  extends Omit<AriaSearchFieldProps, 'children'>,
-  VariantProps<typeof fieldGroupVariants>,
-  FieldSharedProps {
-  placeholder?: string
-  className?: string
-}
+export type AutocompleteSearchFieldProps = SearchFieldProps
 
-export function AutocompleteSearchField({
-  label,
-  description,
-  errorMessage,
-  placeholder = 'Search...',
-  size = 'md',
-  className,
-  ...props
-}: AutocompleteSearchFieldProps) {
-  return (
-    <AriaSearchField
-      className={composeTailwindRenderProps(className, 'group', fieldWrapperClasses)}
-      {...props}
-    >
-      {label && <Label>{label}</Label>}
-      <FieldGroup size={size} className="gap-xs">
-        <RiSearchLine className="w-icon-xs h-icon-xs text-field-text-muted shrink-0" aria-hidden="true" />
-        <Input placeholder={placeholder} />
-        <FieldButton className="group-data-[empty]:hidden">
-          <RiCloseLine className="w-icon-xs h-icon-xs" aria-hidden="true" />
-        </FieldButton>
-      </FieldGroup>
-      {description && <FieldDescription>{description}</FieldDescription>}
-      <FieldError>{errorMessage}</FieldError>
-    </AriaSearchField>
-  )
+export function AutocompleteSearchField(props: AutocompleteSearchFieldProps) {
+  return <SearchField {...props} />
 }
 
 export interface AutocompleteListBoxProps<T extends object = object> extends AriaListBoxProps<T> {

@@ -1,14 +1,12 @@
 import { type ReactNode } from 'react'
 import {
-  Dialog as AriaDialog,
-  type DialogProps as AriaDialogProps,
-  DialogTrigger as AriaDialogTrigger,
   type DialogTriggerProps as AriaDialogTriggerProps,
   OverlayArrow as AriaOverlayArrow,
   Popover as AriaPopover,
   type PopoverProps as AriaPopoverProps
 } from 'react-aria-components'
-import { cn, composeTailwindRenderProps, enterExitZoomClasses } from '../../utils/index.ts'
+import { composeTailwindRenderProps, enterExitZoomClasses } from '../../utils/index.ts'
+import { Dialog, type DialogProps, DialogTrigger } from '../Dialog/index.ts'
 
 export const popoverContentClasses = [
   'z-popover min-w-popover-surface p-popover-surface-padding rounded-popover-surface',
@@ -51,23 +49,15 @@ export function PopoverContent({
   )
 }
 
-export interface PopoverDialogProps extends AriaDialogProps {
-  className?: string
+export interface PopoverDialogProps extends DialogProps {
   children?: ReactNode
 }
 
-export function PopoverDialog({ className, children, ...props }: PopoverDialogProps) {
-  return (
-    <AriaDialog
-      className={cn('outline-none', className)}
-      {...props}
-    >
-      {children}
-    </AriaDialog>
-  )
+export function PopoverDialog({ children, ...props }: PopoverDialogProps) {
+  return <Dialog {...props}>{children}</Dialog>
 }
 
-export const PopoverTrigger = AriaDialogTrigger
+export const PopoverTrigger = DialogTrigger
 
 export interface PopoverProps extends Omit<AriaDialogTriggerProps, 'children'> {
   trigger?: ReactNode
@@ -85,18 +75,18 @@ export function Popover({
 }: PopoverProps) {
   if (trigger) {
     return (
-      <AriaDialogTrigger {...props}>
+      <DialogTrigger {...props}>
         {trigger}
         <PopoverContent {...contentProps}>
           <PopoverDialog {...dialogProps}>
             {children}
           </PopoverDialog>
         </PopoverContent>
-      </AriaDialogTrigger>
+      </DialogTrigger>
     )
   }
 
-  return <AriaDialogTrigger {...props}>{children}</AriaDialogTrigger>
+  return <DialogTrigger {...props}>{children}</DialogTrigger>
 }
 
 export default Popover
