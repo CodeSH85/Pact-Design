@@ -4,7 +4,7 @@ declare module 'virtual:uno.css' {}
 
 declare module '*.mdx' {
   import type { ComponentType } from 'react'
-  import type { MDXComponents } from 'mdx/types'
+  import type { useMDXComponents } from '@mdx-js/react'
 
   export interface MdxFrontmatter {
     title?: string
@@ -14,6 +14,6 @@ declare module '*.mdx' {
   }
 
   export const frontmatter: MdxFrontmatter
-  const MDXContent: ComponentType<{ components?: MDXComponents }>
+  const MDXContent: ComponentType<{ components?: ReturnType<typeof useMDXComponents> }>
   export default MDXContent
 }
