@@ -1,0 +1,124 @@
+---
+title: "Tree"
+eyebrow: "Components · React Aria"
+description: "Accessible hierarchical tree view supporting expandable branches, level-based indentation, keyboard arrow navigation, and selection checkboxes."
+---
+
+<ComponentPreview align="stretch">
+  <Tree
+    aria-label="Token package directory"
+    selectionMode="multiple"
+    defaultExpandedKeys={['tokens', 'system']}
+    defaultSelectedKeys={['system-light']}
+  >
+    <TreeItem id="tokens" textValue="packages/tokens/src">
+      <TreeItemContent>packages/tokens/src</TreeItemContent>
+      <TreeItem id="global" textValue="global">
+        <TreeItemContent>global</TreeItemContent>
+        <TreeItem id="global-color" textValue="color.json">
+          <TreeItemContent>color.json</TreeItemContent>
+        </TreeItem>
+        <TreeItem id="global-spacing" textValue="spacing.json">
+          <TreeItemContent>spacing.json</TreeItemContent>
+        </TreeItem>
+      </TreeItem>
+      <TreeItem id="system" textValue="system">
+        <TreeItemContent>system</TreeItemContent>
+        <TreeItem id="system-light" textValue="color.light.json">
+          <TreeItemContent>color.light.json</TreeItemContent>
+        </TreeItem>
+        <TreeItem id="system-dark" textValue="color.dark.json">
+          <TreeItemContent>color.dark.json</TreeItemContent>
+        </TreeItem>
+      </TreeItem>
+    </TreeItem>
+  </Tree>
+</ComponentPreview>
+
+```tsx
+import { Tree, TreeItem, TreeItemContent } from '@pact-design/react'
+
+<Tree
+  aria-label="Token package directory"
+  selectionMode="multiple"
+  defaultExpandedKeys={['tokens', 'system']}
+  defaultSelectedKeys={['system-light']}
+>
+  <TreeItem id="tokens" textValue="packages/tokens/src">
+    <TreeItemContent>packages/tokens/src</TreeItemContent>
+    <TreeItem id="global" textValue="global">
+      <TreeItemContent>global</TreeItemContent>
+      <TreeItem id="global-color" textValue="color.json">
+        <TreeItemContent>color.json</TreeItemContent>
+      </TreeItem>
+    </TreeItem>
+    <TreeItem id="system" textValue="system">
+      <TreeItemContent>system</TreeItemContent>
+      <TreeItem id="system-light" textValue="color.light.json">
+        <TreeItemContent>color.light.json</TreeItemContent>
+      </TreeItem>
+    </TreeItem>
+  </TreeItem>
+</Tree>
+```
+
+## API Reference
+
+Built on React Aria `Tree`, `TreeItem`, `TreeItemContent`, `Collection`, `TreeSection`, and `TreeHeader`.
+
+### Tree
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | Enables single-row selection or renders inline `Checkbox` items when `'multiple'`. |
+| `expandedKeys` / `defaultExpandedKeys` | `Iterable<Key>` | `—` | Controlled or initial expanded parent item IDs. |
+| `onExpandedChange` | `(keys: Set<Key>) => void` | `—` | Handler called when branches expand or collapse. |
+| `selectedKeys` / `defaultSelectedKeys` | `'all' \| Iterable<Key>` | `—` | Controlled or initial selected tree row IDs. |
+| `onSelectionChange` | `(keys: Selection) => void` | `—` | Callback fired when item selection changes. |
+| `disabledKeys` | `Iterable<Key>` | `—` | Disables expansion and selection for matching row keys. |
+
+### Parts
+
+- **`TreeItem`**: Represents a single row node. Automatically indents by depth (`level`) and accepts nested child `TreeItem` elements. Always supply `textValue` for keyboard typeahead and ARIA labels.
+- **`TreeItemContent`**: Renders the optional `Checkbox` (`slot="selection"`), rotating expand chevron (`slot="chevron"`), and truncated item label.
+- **`TreeSection`** & **`TreeHeader`**: Optional grouped section primitives.
+
+## Examples
+
+### Expand-Only File Explorer
+
+Omit `selectionMode` (or use `selectionMode="single"`) when using `Tree` for read-only navigation hierarchies.
+
+<ComponentPreview align="stretch">
+  <Tree aria-label="Component source folders" selectionMode="single" defaultExpandedKeys={['components']}>
+    <TreeItem id="components" textValue="src/components">
+      <TreeItemContent>src/components</TreeItemContent>
+      <TreeItem id="button" textValue="Button">
+        <TreeItemContent>Button</TreeItemContent>
+        <TreeItem id="button-tsx" textValue="Button.tsx">
+          <TreeItemContent>Button.tsx</TreeItemContent>
+        </TreeItem>
+        <TreeItem id="button-index" textValue="index.ts">
+          <TreeItemContent>index.ts</TreeItemContent>
+        </TreeItem>
+      </TreeItem>
+      <TreeItem id="tree" textValue="Tree">
+        <TreeItemContent>Tree</TreeItemContent>
+      </TreeItem>
+    </TreeItem>
+  </Tree>
+</ComponentPreview>
+
+```tsx
+<Tree aria-label="Component source folders" selectionMode="single" defaultExpandedKeys={['components']}>
+  <TreeItem id="components" textValue="src/components">
+    <TreeItemContent>src/components</TreeItemContent>
+    <TreeItem id="button" textValue="Button">
+      <TreeItemContent>Button</TreeItemContent>
+      <TreeItem id="button-tsx" textValue="Button.tsx">
+        <TreeItemContent>Button.tsx</TreeItemContent>
+      </TreeItem>
+    </TreeItem>
+  </TreeItem>
+</Tree>
+```

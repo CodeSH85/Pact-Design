@@ -1,0 +1,105 @@
+---
+title: "ToggleButton"
+eyebrow: "Components · React Aria"
+description: "Two-state pressable toggle button and ToggleButtonGroup segmented selector sharing Button height and focus ring tokens."
+---
+
+<ComponentPreview>
+  <ToggleButton defaultSelected>Pin Inspector</ToggleButton>
+</ComponentPreview>
+
+```tsx
+import { ToggleButton } from '@pact-design/react'
+
+<ToggleButton defaultSelected>Pin Inspector</ToggleButton>
+```
+
+## API Reference
+
+Built on React Aria `ToggleButton` and `ToggleButtonGroup`. Exports `ToggleButton`, `ToggleButtonGroup`, and `toggleButtonVariants`.
+
+### ToggleButton
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'secondary' \| 'ghost' \| 'primary'` | `'secondary'` | Visual treatment for unselected and `data-[selected]` pressed states. |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`) shared with `Button`. |
+| `isSelected` | `boolean` | `—` | Controlled pressed/selected state. |
+| `defaultSelected` | `boolean` | `false` | Initial toggle state for uncontrolled usage. |
+| `onChange` | `(isSelected: boolean) => void` | `—` | Handler called whenever the toggle state flips. |
+| `isDisabled` / `disabled` | `boolean` | `false` | Disables pressing and keyboard interaction. |
+| `id` | `Key` | `—` | Item identifier when nested inside `ToggleButtonGroup`. |
+
+### ToggleButtonGroup
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `selectionMode` | `'single' \| 'multiple'` | `'single'` | Controls whether one or multiple child buttons stay active. |
+| `disallowEmptySelection` | `boolean` | `false` | Prevents unselecting the final active item (ideal for theme switches). |
+| `selectedKeys` / `defaultSelectedKeys` | `Iterable<Key>` | `—` | Controlled or initial selected button `id` keys. |
+| `onSelectionChange` | `(keys: Set<Key>) => void` | `—` | Callback fired when active selection keys change. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Stack axis for grouped toggle buttons. |
+| `isDisabled` | `boolean` | `false` | Disables all toggle buttons inside the group. |
+
+## Examples
+
+### Variant
+
+Test `secondary`, `ghost`, and `primary` toggle button variants in selected and unselected states.
+
+<ComponentPreview>
+  <ToggleButton variant="secondary" defaultSelected>Secondary</ToggleButton>
+  <ToggleButton variant="ghost" defaultSelected>Ghost</ToggleButton>
+  <ToggleButton variant="primary" defaultSelected>Primary</ToggleButton>
+  <ToggleButton variant="secondary" disabled>Disabled</ToggleButton>
+</ComponentPreview>
+
+```tsx
+<ToggleButton variant="secondary" defaultSelected>Secondary</ToggleButton>
+<ToggleButton variant="ghost" defaultSelected>Ghost</ToggleButton>
+<ToggleButton variant="primary" defaultSelected>Primary</ToggleButton>
+```
+
+### Segmented Single & Multi Selection
+
+Compose compact segmented switchers using `ToggleButtonGroup`.
+
+<ComponentPreview align="stretch">
+  <div className="flex flex-wrap items-center justify-center gap-lg">
+    <ToggleButtonGroup
+      aria-label="Preview view mode"
+      selectionMode="single"
+      disallowEmptySelection
+      defaultSelectedKeys={['grid']}
+    >
+      <ToggleButton id="list" size="sm" variant="primary">List</ToggleButton>
+      <ToggleButton id="grid" size="sm" variant="primary">Grid</ToggleButton>
+      <ToggleButton id="table" size="sm" variant="primary">Table</ToggleButton>
+    </ToggleButtonGroup>
+
+    <ToggleButtonGroup
+      aria-label="Formatting toggles"
+      selectionMode="multiple"
+      defaultSelectedKeys={['bold']}
+    >
+      <ToggleButton id="bold" size="sm">Bold</ToggleButton>
+      <ToggleButton id="italic" size="sm">Italic</ToggleButton>
+      <ToggleButton id="mono" size="sm">Mono</ToggleButton>
+    </ToggleButtonGroup>
+  </div>
+</ComponentPreview>
+
+```tsx
+import { ToggleButton, ToggleButtonGroup } from '@pact-design/react'
+
+<ToggleButtonGroup
+  aria-label="Preview view mode"
+  selectionMode="single"
+  disallowEmptySelection
+  defaultSelectedKeys={['grid']}
+>
+  <ToggleButton id="list" size="sm" variant="primary">List</ToggleButton>
+  <ToggleButton id="grid" size="sm" variant="primary">Grid</ToggleButton>
+  <ToggleButton id="table" size="sm" variant="primary">Table</ToggleButton>
+</ToggleButtonGroup>
+```

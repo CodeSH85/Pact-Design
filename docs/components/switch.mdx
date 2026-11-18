@@ -1,0 +1,74 @@
+---
+title: "Switch"
+eyebrow: "Components · React Aria"
+description: "Smooth pill toggle switch supporting compact sm and standard md tracks with optional inline labels and descriptions."
+---
+
+<ComponentPreview>
+  <Switch
+    defaultChecked
+    label="Realtime Token Telemetry"
+    description="Streams token updates to live preview panes."
+  />
+</ComponentPreview>
+
+```tsx
+import { Switch } from '@pact-design/react'
+
+<Switch
+  defaultChecked
+  label="Realtime Token Telemetry"
+  description="Streams token updates to live preview panes."
+/>
+```
+
+## API Reference
+
+Built on React Aria `Switch`. Accepts React Aria toggle props (`isSelected`, `defaultSelected`, `onChange`) alongside HTML-style aliases (`checked`, `defaultChecked`, `onCheckedChange`).
+
+### Switch
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `size` | `'sm' \| 'md'` | `'md'` | Controls track dimensions and thumb translation distance. |
+| `label` | `ReactNode` | `—` | Primary label shown next to the toggle track. |
+| `description` | `ReactNode` | `—` | Secondary description caption underneath `label`. |
+| `isSelected` / `checked` | `boolean` | `—` | Controlled toggle state. |
+| `defaultSelected` / `defaultChecked` | `boolean` | `false` | Initial toggle state for uncontrolled switches. |
+| `onChange` / `onCheckedChange` | `(isSelected: boolean) => void` | `—` | Handler called whenever the toggle state flips. |
+| `isDisabled` / `disabled` | `boolean` | `false` | Disables interaction and applies muted track/thumb colors. |
+| `className` | `string` | `—` | Optional CSS classes for the root switch wrapper. |
+
+## Examples
+
+### Size
+
+Compare `sm` (compact settings rows) and `md` (standard forms).
+
+<ComponentPreview align="start">
+  <div className="flex flex-col gap-md">
+    <Switch size="sm" defaultChecked label="Compact Switch (size='sm')" />
+    <Switch size="md" defaultChecked label="Default Switch (size='md')" />
+  </div>
+</ComponentPreview>
+
+```tsx
+<Switch size="sm" defaultChecked label="Compact Switch (size='sm')" />
+<Switch size="md" defaultChecked label="Default Switch (size='md')" />
+```
+
+### Disabled States
+
+Represent locked settings in both off and on states.
+
+<ComponentPreview align="start">
+  <div className="flex flex-col gap-md">
+    <Switch disabled label="Disabled Unchecked" />
+    <Switch disabled defaultChecked label="Disabled Checked" />
+  </div>
+</ComponentPreview>
+
+```tsx
+<Switch disabled label="Disabled Unchecked" />
+<Switch disabled defaultChecked label="Disabled Checked" />
+```

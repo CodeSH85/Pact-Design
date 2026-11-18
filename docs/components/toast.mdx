@@ -1,0 +1,90 @@
+---
+title: "Toast"
+eyebrow: "Components · React Aria"
+description: "Imperative notification queue and ToastRegion portal supporting default, info, success, warning, and danger semantic tones."
+---
+
+import { toast } from '@pact-design/react'
+
+<ComponentPreview>
+  <Button variant="primary" onPress={() => toast.info('Tokens Synced', 'All Light and Dark variables are up to date.')}>
+    Trigger Notification Toast
+  </Button>
+</ComponentPreview>
+
+```tsx
+import { Button, ToastRegion, toast } from '@pact-design/react'
+
+// Mount ToastRegion once near application root:
+<ToastRegion />
+
+// Trigger toasts from anywhere via toastQueue helpers:
+<Button
+  variant="primary"
+  onPress={() => toast.info('Tokens Synced', 'All Light and Dark variables are up to date.')}
+>
+  Trigger Notification Toast
+</Button>
+```
+
+## API Reference
+
+Built on React Aria `UNSTABLE_ToastRegion`, `UNSTABLE_Toast`, `UNSTABLE_ToastContent`, and `UNSTABLE_ToastQueue`. Exports `Toast`, `ToastRegion`, `ToastContent`, `ToastList`, `toast`, `toastQueue`, and `toastVariants`.
+
+### toast()
+
+Helper backed by singleton `toastQueue` (`maxVisibleToasts: 5`):
+
+- `toast(content: ToastData | string, options?: ToastOptions)`
+- `toast.info(title: string, description?: string, options?: ToastOptions)`
+- `toast.success(title: string, description?: string, options?: ToastOptions)`
+- `toast.warning(title: string, description?: string, options?: ToastOptions)`
+- `toast.danger(title: string, description?: string, options?: ToastOptions)`
+
+### Toast
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `tone` | `'default' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'default'` | Maps background, border, text, and leading Remix status icon to semantic tokens. |
+| `toast` | `QueuedToast<T>` | Required | Queued toast item passed from `ToastRegion` render callback. |
+| `className` | `string` | `—` | Additional CSS classes merged onto the toast card. |
+
+### ToastRegion
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `queue` | `UNSTABLE_ToastQueue<T>` | `toastQueue` | Custom queue instance when isolated toast regions are needed. |
+| `children` | `(renderProps: { toast: QueuedToast<T> }) => ReactElement` | Default `Toast` card renderer | Custom toast item renderer overriding default `title`/`description` layout. |
+| `className` | `string` | Bottom-right fixed stack (`z-toast`) | Overrides toast region positioning classes. |
+
+## Examples
+
+### Tone
+
+Preview all four semantic notification helper tones (`info`, `success`, `warning`, `danger`) plus `default`.
+
+<ComponentPreview>
+  <Button variant="secondary" size="sm" onPress={() => toast({ title: 'Default Note', description: 'Copied CSS custom property.' }, { timeout: 2500 })}>
+    Default
+  </Button>
+  <Button variant="secondary" size="sm" onPress={() => toast.info('Information', 'A new token snapshot is available.')}>
+    Info
+  </Button>
+  <Button variant="secondary" size="sm" onPress={() => toast.success('Saved', 'Token catalog written to disk.')}>
+    Success
+  </Button>
+  <Button variant="secondary" size="sm" onPress={() => toast.warning('Contrast Warning', 'Subtle border below Lc 30 threshold.')}>
+    Warning
+  </Button>
+  <Button variant="danger" size="sm" onPress={() => toast.danger('Export Failed', 'Could not resolve circular alias.')}>
+    Danger
+  </Button>
+</ComponentPreview>
+
+```tsx
+toast({ title: 'Default Note', description: 'Copied CSS custom property.' }, { timeout: 2500 })
+toast.info('Information', 'A new token snapshot is available.')
+toast.success('Saved', 'Token catalog written to disk.')
+toast.warning('Contrast Warning', 'Subtle border below Lc 30 threshold.')
+toast.danger('Export Failed', 'Could not resolve circular alias.')
+```

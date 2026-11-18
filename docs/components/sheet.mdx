@@ -1,0 +1,162 @@
+---
+title: "Sheet"
+eyebrow: "Components · React Aria"
+description: "Swipeable edge drawer overlay sliding in from any viewport edge with backdrop scrim, scrollable body, and Escape dismissal."
+---
+
+<ComponentPreview>
+  <Sheet
+    trigger={<Button variant="secondary">Open Inspector Sheet</Button>}
+    position="right"
+    size="md"
+    title="Token Inspector"
+    description="Inspect resolved light and dark theme token overrides."
+    footer={(
+      <>
+        <Button variant="ghost" size="sm" slot="close">Cancel</Button>
+        <Button variant="primary" size="sm" slot="close">Apply Changes</Button>
+      </>
+    )}
+  >
+    <p className="text-body-sm text-on-surface m-0">
+      Sheets slide smoothly from viewport edges using React Aria scroll-snap overlays and handle focus trapping and swipe dismissal natively.
+    </p>
+  </Sheet>
+</ComponentPreview>
+
+```tsx
+import { Button, Sheet } from '@pact-design/react'
+
+<Sheet
+  trigger={<Button variant="secondary">Open Inspector Sheet</Button>}
+  position="right"
+  size="md"
+  title="Token Inspector"
+  description="Inspect resolved light and dark theme token overrides."
+  footer={(
+    <>
+      <Button variant="ghost" size="sm" slot="close">Cancel</Button>
+      <Button variant="primary" size="sm" slot="close">Apply Changes</Button>
+    </>
+  )}
+>
+  <p>Sheets slide smoothly from viewport edges with swipe dismissal and focus trapping.</p>
+</Sheet>
+```
+
+## API Reference
+
+Built on React Aria `SheetTrigger`, `SheetOverlay`, `SheetBackdrop`, `Sheet`, and `SheetContent`. Exports `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetBackdrop`, `SheetPanel`, `SheetContent`, `SheetHeader`, `SheetBody`, and `SheetFooter`.
+
+### Sheet
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `trigger` | `ReactNode` | `—` | Pressable element that toggles opening the sheet. |
+| `title` | `ReactNode` | `—` | Header heading rendered inside `SheetHeader`. |
+| `description` | `ReactNode` | `—` | Subtitle rendered underneath `title`. |
+| `footer` | `ReactNode` | `—` | Footer controls rendered inside `SheetFooter`. |
+| `position` | `'right' \| 'left' \| 'top' \| 'bottom' \| 'start' \| 'end' \| 'center'` | `'right'` | Viewport anchor edge or centered presentation. |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'md'` | Drawer max-width (horizontal edges) or max-height (top/bottom edges). |
+| `isDismissable` | `boolean` | `true` | Allows dismissing via backdrop click or swipe gesture. |
+| `preventDismissal` | `boolean` | `!isDismissable` | Explicitly blocks user swipe/backdrop dismissal. |
+| `swipeDirection` | `'left' \| 'right' \| 'up' \| 'down' \| 'none'` | Inferred from `position` | Overrides swipe-to-dismiss direction. |
+| `snapPoints` | `Array<number \| string>` | `—` | Scroll-snap points supported by React Aria `SheetOverlay`. |
+| `isOpen` / `defaultOpen` | `boolean` | `—` | Controlled or initial open state. |
+| `onOpenChange` | `(isOpen: boolean) => void` | `—` | Handler called when sheet open state changes. |
+
+## Examples
+
+### Position
+
+Anchor drawers to `left`, `right`, `top`, `bottom`, or `center`.
+
+<ComponentPreview>
+  <Sheet
+    trigger={<Button variant="secondary" size="sm">Left Edge</Button>}
+    position="left"
+    size="sm"
+    title="Navigation Drawer"
+  >
+    <p className="text-body-sm text-on-surface m-0">Anchored to the left viewport edge.</p>
+  </Sheet>
+  <Sheet
+    trigger={<Button variant="secondary" size="sm">Bottom Sheet</Button>}
+    position="bottom"
+    size="sm"
+    title="Quick Actions"
+    footer={<Button variant="primary" size="sm" slot="close">Done</Button>}
+  >
+    <p className="text-body-sm text-on-surface m-0">Slides upward from the bottom edge (`max-h-[35dvh]` for size `sm`).</p>
+  </Sheet>
+  <Sheet
+    trigger={<Button variant="secondary" size="sm">Top Drawer</Button>}
+    position="top"
+    size="sm"
+    title="System Announcement"
+  >
+    <p className="text-body-sm text-on-surface m-0">Slides down cleanly from the top viewport edge.</p>
+  </Sheet>
+</ComponentPreview>
+
+```tsx
+<Sheet trigger={<Button>Left Edge</Button>} position="left" size="sm" title="Navigation Drawer">
+  <p>Anchored to the left viewport edge.</p>
+</Sheet>
+<Sheet trigger={<Button>Bottom Sheet</Button>} position="bottom" size="sm" title="Quick Actions">
+  <p>Slides upward from the bottom edge.</p>
+</Sheet>
+```
+
+### Composable Subcomponents
+
+Use `SheetTrigger`, `SheetOverlay`, `SheetPanel`, `SheetContent`, `SheetHeader`, `SheetBody`, and `SheetFooter` for custom layout chrome.
+
+<ComponentPreview>
+  <SheetTrigger>
+    <Button variant="subtle">Custom Sheet Composition</Button>
+    <SheetOverlay position="right">
+      <SheetPanel position="right" size="md">
+        <SheetContent>
+          <SheetHeader title="Custom Layout" description="Composed directly with Sheet parts." />
+          <SheetBody>
+            <p className="text-body-sm text-on-surface m-0">
+              Directly control panel, overlay, and backdrop classes per slot.
+            </p>
+          </SheetBody>
+          <SheetFooter>
+            <Button variant="primary" size="sm" slot="close">Close Drawer</Button>
+          </SheetFooter>
+        </SheetContent>
+      </SheetPanel>
+    </SheetOverlay>
+  </SheetTrigger>
+</ComponentPreview>
+
+```tsx
+import {
+  Button,
+  SheetBody,
+  SheetContent,
+  SheetFooter,
+  SheetHeader,
+  SheetOverlay,
+  SheetPanel,
+  SheetTrigger
+} from '@pact-design/react'
+
+<SheetTrigger>
+  <Button variant="subtle">Custom Sheet Composition</Button>
+  <SheetOverlay position="right">
+    <SheetPanel position="right" size="md">
+      <SheetContent>
+        <SheetHeader title="Custom Layout" />
+        <SheetBody>...</SheetBody>
+        <SheetFooter>
+          <Button variant="primary" size="sm" slot="close">Close Drawer</Button>
+        </SheetFooter>
+      </SheetContent>
+    </SheetPanel>
+  </SheetOverlay>
+</SheetTrigger>
+```

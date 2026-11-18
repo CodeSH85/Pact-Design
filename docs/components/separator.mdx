@@ -1,0 +1,91 @@
+---
+title: "Separator"
+eyebrow: "Components · React Aria"
+description: "Semantic horizontal or vertical hairline divider supporting subtle, default, and strong border contrast tones."
+---
+
+<ComponentPreview align="stretch">
+  <div className="flex flex-col gap-sm">
+    <span className="text-label-sm text-on-surface">Design System Architecture</span>
+    <Separator tone="default" />
+    <span className="text-body-sm text-on-surface-muted">
+      Tokens flow cleanly from Global primitives to System semantics and Component slots.
+    </span>
+  </div>
+</ComponentPreview>
+
+```tsx
+import { Separator } from '@pact-design/react'
+
+<div className="flex flex-col gap-sm">
+  <span>Design System Architecture</span>
+  <Separator tone="default" />
+  <span>Tokens flow cleanly from Global primitives to System semantics.</span>
+</div>
+```
+
+## API Reference
+
+Built on React Aria `Separator` (`AriaSeparatorProps`).
+
+### Separator
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Sets full-width `h-px` horizontal rule or stretching `w-px` vertical divider. |
+| `tone` | `'subtle' \| 'default' \| 'strong'` | `'subtle'` | Maps hairline fill to semantic `border-*` contrast tokens. |
+| `elementType` | `string` | `'hr'` (horizontal) / `'div'` (vertical) | Underlying semantic DOM element managed by React Aria. |
+| `className` | `string` | `—` | Additional CSS classes merged via `cn()`. |
+
+## Examples
+
+### Tone
+
+Compare `subtle`, `default`, and `strong` border tones against surface layers.
+
+<ComponentPreview align="stretch">
+  <div className="flex flex-col gap-md">
+    <div className="flex flex-col gap-2xs">
+      <span className="text-caption-sm text-on-surface-muted">Subtle</span>
+      <Separator tone="subtle" />
+    </div>
+    <div className="flex flex-col gap-2xs">
+      <span className="text-caption-sm text-on-surface-muted">Default</span>
+      <Separator tone="default" />
+    </div>
+    <div className="flex flex-col gap-2xs">
+      <span className="text-caption-sm text-on-surface-muted">Strong</span>
+      <Separator tone="strong" />
+    </div>
+  </div>
+</ComponentPreview>
+
+```tsx
+<Separator tone="subtle" />
+<Separator tone="default" />
+<Separator tone="strong" />
+```
+
+### Vertical Toolbar Divider
+
+Set `orientation="vertical"` inside flex rows or navigation toolbars.
+
+<ComponentPreview>
+  <div className="inline-flex items-center gap-sm h-control-md px-sm rounded-xs bg-layer-1 border border-border-subtle">
+    <span className="text-label-sm text-on-surface">Tokens</span>
+    <Separator orientation="vertical" tone="default" />
+    <span className="text-label-sm text-on-surface">Components</span>
+    <Separator orientation="vertical" tone="default" />
+    <span className="text-label-sm text-on-surface-muted">Docs</span>
+  </div>
+</ComponentPreview>
+
+```tsx
+<div className="inline-flex items-center gap-sm h-control-md px-sm">
+  <span>Tokens</span>
+  <Separator orientation="vertical" tone="default" />
+  <span>Components</span>
+  <Separator orientation="vertical" tone="default" />
+  <span>Docs</span>
+</div>
+```

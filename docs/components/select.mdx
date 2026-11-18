@@ -1,0 +1,137 @@
+---
+title: "Select"
+eyebrow: "Components · React Aria"
+description: "Accessible dropdown select button displaying an elevated ListBox menu with active selection indicators."
+---
+
+<ComponentPreview>
+  <div className="w-full max-w-64">
+    <Select
+      label="Assigned Role"
+      description="Choose access level for workspace collaborator"
+      defaultSelectedKey="admin"
+    >
+      <SelectItem id="viewer">Viewer (Read-only)</SelectItem>
+      <SelectItem id="editor">Editor (Edit tokens)</SelectItem>
+      <SelectItem id="admin">Administrator (Full access)</SelectItem>
+    </Select>
+  </div>
+</ComponentPreview>
+
+```tsx
+import { Select, SelectItem } from '@pact-design/react'
+
+<Select
+  label="Assigned Role"
+  description="Choose access level for workspace collaborator"
+  defaultSelectedKey="admin"
+>
+  <SelectItem id="viewer">Viewer (Read-only)</SelectItem>
+  <SelectItem id="editor">Editor (Edit tokens)</SelectItem>
+  <SelectItem id="admin">Administrator (Full access)</SelectItem>
+</Select>
+```
+
+## API Reference
+
+Built on React Aria `Select` and `ListBox`. Exports `Select`, `SelectItem`, `SelectSection`, `SelectHeader`, `SelectSeparator`, `SelectTrigger`, `SelectValue`, `SelectPopover`, and `SelectListBox`.
+
+### Select
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | Accessible label rendered above the trigger button. |
+| `description` | `ReactNode` | `—` | Supporting caption displayed below the select button. |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Error text shown when validation fails. |
+| `placeholder` | `string` | `'Select an option'` (React Aria default) | Placeholder displayed when no key is selected. |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`) applied to `SelectTrigger`. |
+| `items` | `Iterable<T>` | `—` | Optional dynamic item collection paired with a render function child. |
+| `selectedKey` / `defaultSelectedKey` | `Key \| null` | `—` | Controlled or initial selected option key. |
+| `onSelectionChange` | `(key: Key \| null) => void` | `—` | Handler fired when an option is selected. |
+| `triggerProps` | `AriaButtonProps` | `—` | Additional props passed to `SelectTrigger`. |
+| `popoverProps` | `SelectPopoverProps` | `—` | Additional props passed to `SelectPopover`. |
+| `listBoxProps` | `AriaListBoxProps<T>` | `—` | Additional props passed to `SelectListBox`. |
+| `isDisabled` | `boolean` | `false` | Disables opening the select menu. |
+
+## Examples
+
+### Size
+
+Match compact filter bars (`xs`/`sm`) or form inputs (`md`/`lg`).
+
+<ComponentPreview align="stretch">
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-md">
+    <Select label="Compact (sm)" size="sm" defaultSelectedKey="all">
+      <SelectItem id="all">All Tiers</SelectItem>
+      <SelectItem id="global">Global</SelectItem>
+      <SelectItem id="system">System</SelectItem>
+    </Select>
+    <Select label="Default (md)" size="md" defaultSelectedKey="all">
+      <SelectItem id="all">All Tiers</SelectItem>
+      <SelectItem id="global">Global</SelectItem>
+      <SelectItem id="system">System</SelectItem>
+    </Select>
+    <Select label="Comfortable (lg)" size="lg" defaultSelectedKey="all">
+      <SelectItem id="all">All Tiers</SelectItem>
+      <SelectItem id="global">Global</SelectItem>
+      <SelectItem id="system">System</SelectItem>
+    </Select>
+  </div>
+</ComponentPreview>
+
+```tsx
+<Select label="Compact (sm)" size="sm" defaultSelectedKey="all">
+  <SelectItem id="all">All Tiers</SelectItem>
+  <SelectItem id="global">Global</SelectItem>
+  <SelectItem id="system">System</SelectItem>
+</Select>
+```
+
+### Grouped Sections & Disabled
+
+Group options with `SelectSection`, `SelectHeader`, and `SelectSeparator`.
+
+<ComponentPreview>
+  <div className="w-full max-w-64 flex flex-col gap-md">
+    <Select label="Contrast Standard" placeholder="Choose standard...">
+      <SelectSection>
+        <SelectHeader>APCA-W3</SelectHeader>
+        <SelectItem id="lc-90">Lc 90+ (Body Fluent)</SelectItem>
+        <SelectItem id="lc-60">Lc 60+ (UI Labels)</SelectItem>
+      </SelectSection>
+      <SelectSeparator />
+      <SelectSection>
+        <SelectHeader>WCAG 2.1</SelectHeader>
+        <SelectItem id="aaa">7.0:1 (AAA)</SelectItem>
+        <SelectItem id="aa">4.5:1 (AA)</SelectItem>
+      </SelectSection>
+    </Select>
+    <Select label="Locked Picker" isDisabled defaultSelectedKey="locked">
+      <SelectItem id="locked">Read-only Preset</SelectItem>
+    </Select>
+  </div>
+</ComponentPreview>
+
+```tsx
+import {
+  Select,
+  SelectHeader,
+  SelectItem,
+  SelectSection,
+  SelectSeparator
+} from '@pact-design/react'
+
+<Select label="Contrast Standard" placeholder="Choose standard...">
+  <SelectSection>
+    <SelectHeader>APCA-W3</SelectHeader>
+    <SelectItem id="lc-90">Lc 90+ (Body Fluent)</SelectItem>
+    <SelectItem id="lc-60">Lc 60+ (UI Labels)</SelectItem>
+  </SelectSection>
+  <SelectSeparator />
+  <SelectSection>
+    <SelectHeader>WCAG 2.1</SelectHeader>
+    <SelectItem id="aaa">7.0:1 (AAA)</SelectItem>
+    <SelectItem id="aa">4.5:1 (AA)</SelectItem>
+  </SelectSection>
+</Select>
+```
