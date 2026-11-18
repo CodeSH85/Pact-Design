@@ -20,42 +20,35 @@ import {
   type SeparatorProps as AriaSeparatorProps
 } from 'react-aria-components'
 import { RiArrowDownSLine, RiCheckLine } from '@remixicon/react'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn, composeTailwindRenderProps, focusRing, focusRingInset } from '../../utils/index.ts'
-import { FieldDescription, FieldError, Label } from '../Field/index.ts'
+import { type VariantProps } from 'class-variance-authority'
+import {
+  cn,
+  collectionHeaderClasses,
+  collectionItemVariants,
+  collectionSectionClasses,
+  collectionSeparatorClasses,
+  composeTailwindRenderProps,
+  fieldWrapperClasses,
+  focusRing,
+  listBoxClasses,
+  type FieldSharedProps
+} from '../../utils/index.ts'
+import { FieldDescription, FieldError, fieldGroupVariants, Label } from '../Field/index.ts'
 import { popoverContentClasses } from '../Popover/index.ts'
 
-export const selectTriggerVariants = cva(
-  [
-    'group inline-flex items-center justify-between w-full select-none cursor-pointer',
-    'bg-field-bg border border-field-border rounded-field-sm text-field-text',
-    'transition-colors duration-fast ease-default',
-    'hover:border-field-border-hover',
-    'data-[focused]:border-field-border-focus data-[focus-visible]:border-field-border-focus',
-    'data-[open]:border-field-border-focus',
-    'data-[invalid]:border-field-border-invalid data-[invalid]:hover:border-field-border-invalid-hover',
-    'data-[disabled]:bg-field-bg-disabled data-[disabled]:border-field-border-disabled data-[disabled]:text-field-text-disabled data-[disabled]:cursor-not-allowed',
+export function selectTriggerVariants(
+  variants?: VariantProps<typeof fieldGroupVariants>
+) {
+  return cn(
+    fieldGroupVariants(variants),
+    'group justify-between cursor-pointer data-[open]:border-field-border-focus',
     focusRing
-  ].join(' '),
-  {
-    variants: {
-      size: {
-        xs: 'h-field-xs px-field-padding-x-xs gap-field-gap-xs text-label-xs rounded-field-xs',
-        sm: 'h-field-sm px-field-padding-x-sm gap-field-gap-sm text-label-sm rounded-field-sm',
-        md: 'h-field-md px-field-padding-x-md gap-field-gap-md text-label-md rounded-field-md',
-        lg: 'h-field-lg px-field-padding-x-lg gap-field-gap-lg text-label-lg rounded-field-lg',
-        xl: 'h-field-xl px-field-padding-x-xl gap-field-gap-xl text-label-xl rounded-field-xl'
-      }
-    },
-    defaultVariants: {
-      size: 'md'
-    }
-  }
-)
+  )
+}
 
 export interface SelectTriggerProps
   extends AriaButtonProps,
-  VariantProps<typeof selectTriggerVariants> {
+  VariantProps<typeof fieldGroupVariants> {
   className?: string
   children?: ReactNode
 }
@@ -85,7 +78,7 @@ export function SelectValue<T extends object = object>({ className, ...props }: 
     <AriaSelectValue
       className={composeTailwindRenderProps(
         className,
-        'truncate text-inherit data-[placeholder]:text-on-surface-disabled'
+        'truncate text-inherit data-[placeholder]:text-field-text-placeholder'
       )}
       {...props}
     />
@@ -100,18 +93,7 @@ export interface SelectItemProps extends AriaListBoxItemProps {
 export function SelectItem({ className, children, ...props }: SelectItemProps) {
   return (
     <AriaListBoxItem
-      className={composeTailwindRenderProps(
-        className,
-        [
-          'flex items-center justify-between gap-md',
-          'h-control-sm px-sm rounded-xs',
-          'text-label-sm text-on-surface select-none cursor-pointer',
-          focusRingInset,
-          'data-[focused]:bg-layer-2-hover data-[hovered]:bg-layer-2-hover',
-          'data-[selected]:font-medium data-[selected]:text-on-surface',
-          'data-[disabled]:text-on-surface-disabled data-[disabled]:cursor-not-allowed'
-        ].join(' ')
-      )}
+      className={composeTailwindRenderProps(className, collectionItemVariants())}
       {...props}
     >
       {(renderProps) => (
@@ -136,7 +118,11 @@ export function SelectPopover({ className, children, ...props }: SelectPopoverPr
   return (
     <AriaPopover
       offset={6}
-      className={composeTailwindRenderProps(className, popoverContentClasses)}
+      className={composeTailwindRenderProps(
+        className,
+        popoverContentClasses,
+        'min-w-[var(--trigger-width)]'
+      )}
       {...props}
     >
       {children}
@@ -151,10 +137,7 @@ export function SelectListBox<T extends object = object>({
 }: AriaListBoxProps<T>) {
   return (
     <AriaListBox
-      className={composeTailwindRenderProps(
-        className,
-        'outline-none flex flex-col gap-3xs max-h-popover-listbox overflow-auto p-2xs'
-      )}
+      className={composeTailwindRenderProps(className, listBoxClasses)}
       {...props}
     >
       {children}
@@ -165,10 +148,7 @@ export function SelectListBox<T extends object = object>({
 export function SelectHeader({ className, children, ...props }: AriaHeaderProps) {
   return (
     <AriaHeader
-      className={cn(
-        'px-sm py-2xs text-caption-sm font-medium text-on-surface-muted select-none',
-        className
-      )}
+      className={cn(collectionHeaderClasses, className)}
       {...props}
     >
       {children}
@@ -179,7 +159,7 @@ export function SelectHeader({ className, children, ...props }: AriaHeaderProps)
 export function SelectSeparator({ className, ...props }: AriaSeparatorProps) {
   return (
     <AriaSeparator
-      className={cn('my-2xs h-px bg-border-subtle border-0', className)}
+      className={cn(collectionSeparatorClasses, className)}
       {...props}
     />
   )
@@ -191,7 +171,7 @@ export function SelectSection<T extends object = object>({
   ...props
 }: AriaListBoxSectionProps<T>) {
   return (
-    <AriaListBoxSection className={cn('flex flex-col gap-3xs', className)} {...props}>
+    <AriaListBoxSection className={cn(collectionSectionClasses, className)} {...props}>
       {children}
     </AriaListBoxSection>
   )
@@ -199,10 +179,8 @@ export function SelectSection<T extends object = object>({
 
 export interface SelectProps<T extends object = object>
   extends Omit<AriaSelectProps<T>, 'children'>,
-  VariantProps<typeof selectTriggerVariants> {
-  label?: ReactNode
-  description?: ReactNode
-  errorMessage?: ReactNode
+  VariantProps<typeof fieldGroupVariants>,
+  FieldSharedProps {
   placeholder?: string
   items?: Iterable<T>
   triggerProps?: AriaButtonProps
@@ -228,7 +206,7 @@ export function Select<T extends object = object>({
 }: SelectProps<T>) {
   return (
     <AriaSelect
-      className={composeTailwindRenderProps(className, 'relative flex flex-col gap-xs w-full')}
+      className={composeTailwindRenderProps(className, fieldWrapperClasses)}
       placeholder={placeholder}
       {...props}
     >
@@ -243,13 +221,13 @@ export function Select<T extends object = object>({
       >
         <SelectValue />
         <RiArrowDownSLine
-          className="w-icon-xs h-icon-xs text-on-surface-muted transition-transform duration-normal ease-default group-data-[open]:rotate-180 shrink-0"
+          className="w-icon-xs h-icon-xs text-field-text-muted transition-transform duration-normal ease-default group-data-[open]:rotate-180 shrink-0"
           aria-hidden="true"
         />
       </AriaButton>
 
       {description && <FieldDescription>{description}</FieldDescription>}
-      {errorMessage && <FieldError>{errorMessage}</FieldError>}
+      <FieldError>{errorMessage}</FieldError>
 
       <SelectPopover {...popoverProps}>
         <SelectListBox items={items} {...listBoxProps}>

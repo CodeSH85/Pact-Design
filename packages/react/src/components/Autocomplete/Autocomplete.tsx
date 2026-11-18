@@ -14,7 +14,16 @@ import {
 } from 'react-aria-components'
 import { RiCheckLine, RiCloseLine, RiSearchLine } from '@remixicon/react'
 import { type VariantProps } from 'class-variance-authority'
-import { cn, composeTailwindRenderProps, focusRingInset } from '../../utils/index.ts'
+import {
+  cn,
+  collectionItemVariants,
+  composeTailwindRenderProps,
+  fieldIconButtonClasses,
+  fieldInputClasses,
+  fieldWrapperClasses,
+  listBoxClasses,
+  type FieldSharedProps
+} from '../../utils/index.ts'
 import { FieldDescription, FieldError, FieldGroup, fieldGroupVariants, Label } from '../Field/index.ts'
 
 export interface AutocompleteItemProps extends AriaListBoxItemProps {
@@ -25,18 +34,7 @@ export interface AutocompleteItemProps extends AriaListBoxItemProps {
 export function AutocompleteItem({ className, children, ...props }: AutocompleteItemProps) {
   return (
     <AriaListBoxItem
-      className={composeTailwindRenderProps(
-        className,
-        [
-          'flex items-center justify-between gap-md',
-          'h-control-sm px-sm rounded-xs',
-          'text-label-sm text-on-surface select-none cursor-pointer',
-          focusRingInset,
-          'data-[focused]:bg-layer-2-hover data-[hovered]:bg-layer-2-hover',
-          'data-[selected]:font-medium data-[selected]:text-on-surface',
-          'data-[disabled]:text-on-surface-disabled data-[disabled]:cursor-not-allowed'
-        ].join(' ')
-      )}
+      className={composeTailwindRenderProps(className, collectionItemVariants())}
       {...props}
     >
       {(renderProps) => (
@@ -55,10 +53,8 @@ export function AutocompleteItem({ className, children, ...props }: Autocomplete
 
 export interface AutocompleteSearchFieldProps
   extends Omit<AriaSearchFieldProps, 'children'>,
-  VariantProps<typeof fieldGroupVariants> {
-  label?: ReactNode
-  description?: ReactNode
-  errorMessage?: ReactNode
+  VariantProps<typeof fieldGroupVariants>,
+  FieldSharedProps {
   placeholder?: string
   className?: string
 }
@@ -74,22 +70,22 @@ export function AutocompleteSearchField({
 }: AutocompleteSearchFieldProps) {
   return (
     <AriaSearchField
-      className={composeTailwindRenderProps(className, 'flex flex-col gap-xs w-full')}
+      className={composeTailwindRenderProps(className, 'group', fieldWrapperClasses)}
       {...props}
     >
       {label && <Label>{label}</Label>}
       <FieldGroup size={size} className="gap-xs">
-        <RiSearchLine className="w-icon-xs h-icon-xs text-on-surface-muted shrink-0" aria-hidden="true" />
+        <RiSearchLine className="w-icon-xs h-icon-xs text-field-text-muted shrink-0" aria-hidden="true" />
         <AriaInput
           placeholder={placeholder}
-          className="w-full bg-transparent border-0 outline-none p-0 text-inherit placeholder:text-on-surface-disabled"
+          className={fieldInputClasses}
         />
-        <AriaButton className="group-data-[empty]:hidden inline-flex items-center justify-center p-3xs rounded-2xs text-on-surface-muted hover:text-on-surface cursor-pointer">
+        <AriaButton className={cn(fieldIconButtonClasses, 'group-data-[empty]:hidden')}>
           <RiCloseLine className="w-icon-xs h-icon-xs" aria-hidden="true" />
         </AriaButton>
       </FieldGroup>
       {description && <FieldDescription>{description}</FieldDescription>}
-      {errorMessage && <FieldError>{errorMessage}</FieldError>}
+      <FieldError>{errorMessage}</FieldError>
     </AriaSearchField>
   )
 }
@@ -107,7 +103,8 @@ export function AutocompleteListBox<T extends object = object>({
     <AriaListBox
       className={composeTailwindRenderProps(
         className,
-        'outline-none flex flex-col gap-3xs max-h-popover-listbox overflow-auto p-2xs bg-layer-1 border border-border-default rounded-sm shadow-elevation-sm'
+        listBoxClasses,
+        'bg-layer-1 border border-border-default rounded-sm shadow-elevation-sm'
       )}
       {...props}
     >
@@ -117,10 +114,8 @@ export function AutocompleteListBox<T extends object = object>({
 }
 
 export interface AutocompleteProps<T extends object = object>
-  extends Omit<AriaAutocompleteProps<T>, 'children'> {
-  label?: ReactNode
-  description?: ReactNode
-  errorMessage?: ReactNode
+  extends Omit<AriaAutocompleteProps<T>, 'children'>,
+  FieldSharedProps {
   placeholder?: string
   size?: VariantProps<typeof fieldGroupVariants>['size']
   searchFieldProps?: Partial<AutocompleteSearchFieldProps>
@@ -146,7 +141,7 @@ export function Autocomplete<T extends object = object>({
   const resolvedFilter = filter ?? contains
 
   return (
-    <div className={cn('flex flex-col gap-xs w-full', className)}>
+    <div className={cn(fieldWrapperClasses, className)}>
       <AriaAutocomplete filter={resolvedFilter} {...props}>
         {label || placeholder || searchFieldProps ? (
           <>

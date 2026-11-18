@@ -24,7 +24,14 @@ import {
 } from 'react-aria-components'
 import { RiArrowLeftSLine, RiArrowRightSLine, RiCalendarLine } from '@remixicon/react'
 import { type VariantProps } from 'class-variance-authority'
-import { cn, composeTailwindRenderProps, focusRing } from '../../utils/index.ts'
+import {
+  cn,
+  composeTailwindRenderProps,
+  fieldIconButtonClasses,
+  fieldWrapperClasses,
+  focusRing,
+  type FieldSharedProps
+} from '../../utils/index.ts'
 import { DateInput, type DateInputProps } from '../DateField/index.ts'
 import { FieldDescription, FieldError, FieldGroup, fieldGroupVariants, Label } from '../Field/index.ts'
 import { popoverContentClasses } from '../Popover/index.ts'
@@ -152,10 +159,8 @@ export interface DatePickerPopoverProps extends AriaPopoverProps {
 
 export interface DatePickerProps<T extends DateValue>
   extends AriaDatePickerProps<T>,
-  VariantProps<typeof fieldGroupVariants> {
-  label?: ReactNode
-  description?: ReactNode
-  errorMessage?: ReactNode
+  VariantProps<typeof fieldGroupVariants>,
+  FieldSharedProps {
   dateInputProps?: DateInputProps
   popoverProps?: DatePickerPopoverProps
   calendarProps?: Partial<CalendarProps<T>>
@@ -177,7 +182,7 @@ export function DatePicker<T extends DateValue>({
 }: DatePickerProps<T>) {
   return (
     <AriaDatePicker
-      className={composeTailwindRenderProps(className, 'relative flex flex-col gap-xs w-full')}
+      className={composeTailwindRenderProps(className, fieldWrapperClasses)}
       {...props}
     >
       {label && <Label>{label}</Label>}
@@ -188,7 +193,7 @@ export function DatePicker<T extends DateValue>({
             <DateInput {...dateInputProps} />
             <AriaButton
               aria-label="Open calendar"
-              className="inline-flex items-center justify-center p-3xs rounded-2xs text-on-surface-muted hover:text-on-surface cursor-pointer outline-none"
+              className={fieldIconButtonClasses}
             >
               <RiCalendarLine className="w-icon-xs h-icon-xs" aria-hidden="true" />
             </AriaButton>
@@ -208,7 +213,7 @@ export function DatePicker<T extends DateValue>({
       )}
 
       {description && <FieldDescription>{description}</FieldDescription>}
-      {errorMessage && <FieldError>{errorMessage}</FieldError>}
+      <FieldError>{errorMessage}</FieldError>
     </AriaDatePicker>
   )
 }
