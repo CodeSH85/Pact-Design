@@ -1,0 +1,118 @@
+---
+title: "Menu"
+eyebrow: "Components · React Aria"
+description: "Accessible dropdown action menu supporting declarative item arrays with shortcuts or compound menu primitives."
+---
+
+<ComponentPreview>
+  <Menu
+    triggerLabel="Token Actions"
+    items={[
+      {
+        type: 'group',
+        label: 'Operations',
+        items: [
+          { label: 'Inspect CSS Variables', shortcut: '⌘I' },
+          { label: 'Copy UnoCSS Class', shortcut: '⌘C' }
+        ]
+      },
+      { type: 'separator' },
+      { label: 'Sync Tier (Disabled)', disabled: true },
+      { type: 'separator' },
+      { label: 'Reset All Changes', tone: 'danger', shortcut: '⌘⌫' }
+    ]}
+  />
+</ComponentPreview>
+
+```tsx
+import { Menu } from '@pact-design/react'
+
+<Menu
+  triggerLabel="Token Actions"
+  items={[
+    {
+      type: 'group',
+      label: 'Operations',
+      items: [
+        { label: 'Inspect CSS Variables', shortcut: '⌘I', onClick: () => {} },
+        { label: 'Copy UnoCSS Class', shortcut: '⌘C', onClick: () => {} }
+      ]
+    },
+    { type: 'separator' },
+    { label: 'Reset All Changes', tone: 'danger', shortcut: '⌘⌫', onClick: () => {} }
+  ]}
+/>
+```
+
+## API Reference
+
+Built on React Aria `MenuTrigger`, `Menu`, `MenuItem`, `MenuSection`, `Header`, and `Separator`. Exports `Menu`, `MenuTrigger`, `MenuPopover`, `MenuList`, `MenuItem`, `MenuSection`, `MenuHeader`, and `MenuSeparator`.
+
+### Menu
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `items` | `MenuItemData[]` | `—` | Declarative menu items, sections (`type: 'group'`), and dividers (`type: 'separator'`). |
+| `trigger` | `ReactNode` | Default secondary `Button` | Custom pressable trigger element replacing the default button. |
+| `triggerLabel` | `string` | `'Actions'` | Button text used when neither `trigger` nor custom `children` are provided. |
+| `placement` | `PopoverProps['placement']` | `'bottom start'` | Popover positioning relative to the trigger button. |
+| `offset` | `number` | `6` | Spacing gap (in pixels) between trigger and popover. |
+| `triggerType` | `'press' \| 'longPress'` | `'press'` | Interaction mode that opens the menu. |
+
+### MenuItem
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `tone` | `'default' \| 'danger'` | `'default'` | Applies danger semantic hover/text styling for destructive actions. |
+| `shortcut` | `string` | `—` | Keyboard shortcut hint rendered with right-aligned `Keyboard`. |
+| `isDisabled` | `boolean` | `false` | Disables action activation and keyboard focus. |
+| `onAction` | `() => void` | `—` | Callback fired when the menu item is chosen. |
+
+## Examples
+
+### Compound Subcomponents
+
+Compose `Menu`, `MenuPopover`, `MenuList`, `MenuSection`, `MenuHeader`, `MenuItem`, and `MenuSeparator` directly for custom triggers or selection modes.
+
+<ComponentPreview>
+  <Menu trigger={<Button variant="primary">Custom Trigger</Button>}>
+    <MenuPopover placement="bottom end">
+      <MenuList>
+        <MenuSection>
+          <MenuHeader>View Density</MenuHeader>
+          <MenuItem id="compact" shortcut="⌘1">Compact (28px)</MenuItem>
+          <MenuItem id="default" shortcut="⌘2">Default (32px)</MenuItem>
+        </MenuSection>
+        <MenuSeparator />
+        <MenuItem id="delete" tone="danger">Clear Workspace Cache</MenuItem>
+      </MenuList>
+    </MenuPopover>
+  </Menu>
+</ComponentPreview>
+
+```tsx
+import {
+  Button,
+  Menu,
+  MenuHeader,
+  MenuItem,
+  MenuList,
+  MenuPopover,
+  MenuSection,
+  MenuSeparator
+} from '@pact-design/react'
+
+<Menu trigger={<Button variant="primary">Custom Trigger</Button>}>
+  <MenuPopover placement="bottom end">
+    <MenuList>
+      <MenuSection>
+        <MenuHeader>View Density</MenuHeader>
+        <MenuItem id="compact" shortcut="⌘1">Compact (28px)</MenuItem>
+        <MenuItem id="default" shortcut="⌘2">Default (32px)</MenuItem>
+      </MenuSection>
+      <MenuSeparator />
+      <MenuItem id="delete" tone="danger">Clear Workspace Cache</MenuItem>
+    </MenuList>
+  </MenuPopover>
+</Menu>
+```

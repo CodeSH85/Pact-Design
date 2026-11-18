@@ -1,0 +1,98 @@
+---
+title: "Form"
+eyebrow: "Components · React Aria"
+description: "Structured form container paired with semantic FormSection blocks and aligned FormActions footers."
+---
+
+<ComponentPreview align="stretch">
+  <Form onSubmit={(e) => e.preventDefault()}>
+    <FormSection
+      title="Workspace Profile"
+      description="Configure organization identifiers and contrast policies."
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+        <TextField label="Workspace Name" defaultValue="Pact Core Design" isRequired />
+        <TextField label="Package Scope" defaultValue="@pact-design" />
+      </div>
+    </FormSection>
+    <FormActions>
+      <Button type="reset" variant="ghost">Reset</Button>
+      <Button type="submit" variant="primary">Save Settings</Button>
+    </FormActions>
+  </Form>
+</ComponentPreview>
+
+```tsx
+import { Button, Form, FormActions, FormSection, TextField } from '@pact-design/react'
+
+<Form onSubmit={(e) => e.preventDefault()}>
+  <FormSection
+    title="Workspace Profile"
+    description="Configure organization identifiers and contrast policies."
+  >
+    <TextField label="Workspace Name" defaultValue="Pact Core Design" isRequired />
+    <TextField label="Package Scope" defaultValue="@pact-design" />
+  </FormSection>
+  <FormActions>
+    <Button type="reset" variant="ghost">Reset</Button>
+    <Button type="submit" variant="primary">Save Settings</Button>
+  </FormActions>
+</Form>
+```
+
+## API Reference
+
+Built on React Aria `Form`. Exports `Form`, `FormSection`, `FormActions`, `FormContext`, and `formVariants`.
+
+### Form
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `gap` | `'sm' \| 'md' \| 'lg'` | `'md'` | Vertical spacing scale between sections and fields. |
+| `validationErrors` | `Record<string, string \| string[]>` | `—` | Server/external validation errors keyed by field `name`. |
+| `validationBehavior` | `'native' \| 'aria'` | `'native'` | Controls native HTML vs ARIA constraint reporting. |
+| `onSubmit` | `(e: FormEvent<HTMLFormElement>) => void` | `—` | Form submission callback. |
+| `className` | `string` | `—` | Additional CSS classes merged with the form stack. |
+
+### FormSection
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `title` | `ReactNode` | `—` | Section heading (`h3`). |
+| `description` | `ReactNode` | `—` | Supporting caption displayed under `title`. |
+| `className` | `string` | `—` | Additional CSS classes for the section block. |
+
+### FormActions
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `align` | `'start' \| 'center' \| 'end' \| 'between'` | `'end'` | Horizontal alignment for action buttons. |
+| `className` | `string` | `—` | Additional CSS classes for the footer action bar. |
+
+## Examples
+
+### Footer Alignment & Compact Gap
+
+Combine `gap="sm"` on `Form` with `align="between"` on `FormActions` for compact dialogs or property inspectors.
+
+<ComponentPreview align="stretch">
+  <Form gap="sm" onSubmit={(e) => e.preventDefault()}>
+    <TextField label="Branch Prefix" size="sm" defaultValue="feat/" />
+    <Checkbox defaultChecked label="Enforce commitlint rules" />
+    <FormActions align="between">
+      <Button type="button" variant="subtle" size="sm">Test Connection</Button>
+      <Button type="submit" variant="primary" size="sm">Apply</Button>
+    </FormActions>
+  </Form>
+</ComponentPreview>
+
+```tsx
+<Form gap="sm" onSubmit={(e) => e.preventDefault()}>
+  <TextField label="Branch Prefix" size="sm" defaultValue="feat/" />
+  <Checkbox defaultChecked label="Enforce commitlint rules" />
+  <FormActions align="between">
+    <Button type="button" variant="subtle" size="sm">Test Connection</Button>
+    <Button type="submit" variant="primary" size="sm">Apply</Button>
+  </FormActions>
+</Form>
+```

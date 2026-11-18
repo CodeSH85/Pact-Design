@@ -1,0 +1,93 @@
+---
+title: "Radio"
+eyebrow: "Components · React Aria"
+description: "Mutually exclusive single-choice radio selection items arranged cleanly in vertical or horizontal RadioGroup layouts."
+---
+
+<ComponentPreview align="start">
+  <RadioGroup
+    label="Token Tier Scope"
+    description="Choose which token architecture layer to inspect"
+    defaultValue="system"
+  >
+    <Radio
+      value="global"
+      label="Global Primitives"
+      description="Raw OKLCH color palettes, spacing dimensions, and motion curves."
+    />
+    <Radio
+      value="system"
+      label="System Semantic"
+      description="Theme-aware background, surface, border, and contrast roles."
+    />
+    <Radio
+      value="component"
+      label="Component Slots"
+      description="Scoped button, field, and overlay token overrides."
+    />
+  </RadioGroup>
+</ComponentPreview>
+
+```tsx
+import { Radio, RadioGroup } from '@pact-design/react'
+
+<RadioGroup
+  label="Token Tier Scope"
+  description="Choose which token architecture layer to inspect"
+  defaultValue="system"
+>
+  <Radio value="global" label="Global Primitives" description="Raw OKLCH palettes and dimensions." />
+  <Radio value="system" label="System Semantic" description="Theme-aware surface and ink roles." />
+  <Radio value="component" label="Component Slots" description="Scoped component overrides." />
+</RadioGroup>
+```
+
+## API Reference
+
+Built on React Aria `RadioGroup` and `Radio`. Exports `Radio` and `RadioGroup`.
+
+### RadioGroup
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | Accessible group heading label. |
+| `description` | `ReactNode` | `—` | Supporting text displayed above radio options. |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Validation error text when required or invalid. |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | Layout axis for nested `Radio` controls. |
+| `value` / `defaultValue` | `string` | `—` | Controlled or initial selected option value. |
+| `onChange` | `(value: string) => void` | `—` | Handler called when selected radio value changes. |
+| `isDisabled` | `boolean` | `false` | Disables all options in the group. |
+
+### Radio
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `string` | Required | Option value emitted by enclosing `RadioGroup`. |
+| `label` | `ReactNode` | `—` | Primary label shown next to the radio circle. |
+| `description` | `ReactNode` | `—` | Secondary description text below `label`. |
+| `isDisabled` / `disabled` | `boolean` | `false` | Disables individual radio selection. |
+| `className` | `string` | `—` | Optional CSS classes for the root radio label. |
+
+## Examples
+
+### Orientation & Disabled Options
+
+Arrange options horizontally with `orientation="horizontal"` or lock specific choices via `disabled`.
+
+<ComponentPreview align="start">
+  <div className="flex flex-col gap-lg">
+    <RadioGroup label="Theme Target" orientation="horizontal" defaultValue="light">
+      <Radio value="light" label="Light Mode" />
+      <Radio value="dark" label="Dark Mode" />
+      <Radio value="high-contrast" label="High Contrast (Soon)" disabled />
+    </RadioGroup>
+  </div>
+</ComponentPreview>
+
+```tsx
+<RadioGroup label="Theme Target" orientation="horizontal" defaultValue="light">
+  <Radio value="light" label="Light Mode" />
+  <Radio value="dark" label="Dark Mode" />
+  <Radio value="high-contrast" label="High Contrast (Soon)" disabled />
+</RadioGroup>
+```
