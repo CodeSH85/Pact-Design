@@ -11,7 +11,6 @@ import {
   type MenuSectionProps as AriaMenuSectionProps,
   MenuTrigger as AriaMenuTrigger,
   type MenuTriggerProps as AriaMenuTriggerProps,
-  Popover as AriaPopover,
   type PopoverProps as AriaPopoverProps,
   Separator as AriaSeparator,
   type SeparatorProps as AriaSeparatorProps
@@ -26,7 +25,7 @@ import {
   composeTailwindRenderProps
 } from '../../utils/index.ts'
 import { Button, buttonVariants } from '../Button/index.ts'
-import { popoverContentClasses } from '../Popover/index.ts'
+import { PopoverContent } from '../Popover/index.ts'
 
 export const menuItemClasses = collectionItemVariants({ tone: 'default' })
 export const menuDangerItemClasses = collectionItemVariants({ tone: 'danger' })
@@ -107,15 +106,11 @@ export function MenuList<T extends object>({ className, children, ...props }: Ar
   )
 }
 
-export function MenuPopover({ className, children, ...props }: AriaPopoverProps) {
+export function MenuPopover({ children, ...props }: AriaPopoverProps) {
   return (
-    <AriaPopover
-      offset={6}
-      className={composeTailwindRenderProps(className, popoverContentClasses)}
-      {...props}
-    >
+    <PopoverContent {...props}>
       {children}
-    </AriaPopover>
+    </PopoverContent>
   )
 }
 
@@ -162,7 +157,7 @@ export function Menu({
           </Button>
         )}
 
-        <AriaPopover placement={placement} offset={offset} className={popoverContentClasses}>
+        <PopoverContent placement={placement} offset={offset}>
           <AriaMenu className={cn('outline-none', collectionSectionClasses)}>
             {items.map((item, idx) => {
               if (item.type === 'separator') {
@@ -203,7 +198,7 @@ export function Menu({
               )
             })}
           </AriaMenu>
-        </AriaPopover>
+        </PopoverContent>
       </AriaMenuTrigger>
     )
   }

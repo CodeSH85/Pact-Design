@@ -1,54 +1,35 @@
 import { type ReactNode } from 'react'
 import {
   Autocomplete as AriaAutocomplete,
-  Button as AriaButton,
-  Input as AriaInput,
-  ListBox as AriaListBox,
-  ListBoxItem as AriaListBoxItem,
   SearchField as AriaSearchField,
   useFilter,
   type AutocompleteProps as AriaAutocompleteProps,
-  type ListBoxItemProps as AriaListBoxItemProps,
   type ListBoxProps as AriaListBoxProps,
   type SearchFieldProps as AriaSearchFieldProps
 } from 'react-aria-components'
-import { RiCheckLine, RiCloseLine, RiSearchLine } from '@remixicon/react'
+import { RiCloseLine, RiSearchLine } from '@remixicon/react'
 import { type VariantProps } from 'class-variance-authority'
 import {
   cn,
-  collectionItemVariants,
   composeTailwindRenderProps,
-  fieldIconButtonClasses,
-  fieldInputClasses,
   fieldWrapperClasses,
-  listBoxClasses,
   type FieldSharedProps
 } from '../../utils/index.ts'
-import { FieldDescription, FieldError, FieldGroup, fieldGroupVariants, Label } from '../Field/index.ts'
+import {
+  FieldButton,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  fieldGroupVariants,
+  Input,
+  Label
+} from '../Field/index.ts'
+import { ListBox, ListBoxItem, type ListBoxItemProps } from '../ListBox/index.ts'
 
-export interface AutocompleteItemProps extends AriaListBoxItemProps {
-  className?: string
-  children?: ReactNode | AriaListBoxItemProps['children']
-}
+export type AutocompleteItemProps = ListBoxItemProps
 
-export function AutocompleteItem({ className, children, ...props }: AutocompleteItemProps) {
-  return (
-    <AriaListBoxItem
-      className={composeTailwindRenderProps(className, collectionItemVariants())}
-      {...props}
-    >
-      {(renderProps) => (
-        <>
-          <span className="truncate">
-            {typeof children === 'function' ? children(renderProps) : children}
-          </span>
-          {renderProps.isSelected && (
-            <RiCheckLine className="w-icon-xs h-icon-xs text-primary shrink-0 ml-auto" aria-hidden="true" />
-          )}
-        </>
-      )}
-    </AriaListBoxItem>
-  )
+export function AutocompleteItem(props: AutocompleteItemProps) {
+  return <ListBoxItem {...props} />
 }
 
 export interface AutocompleteSearchFieldProps
@@ -76,13 +57,10 @@ export function AutocompleteSearchField({
       {label && <Label>{label}</Label>}
       <FieldGroup size={size} className="gap-xs">
         <RiSearchLine className="w-icon-xs h-icon-xs text-field-text-muted shrink-0" aria-hidden="true" />
-        <AriaInput
-          placeholder={placeholder}
-          className={fieldInputClasses}
-        />
-        <AriaButton className={cn(fieldIconButtonClasses, 'group-data-[empty]:hidden')}>
+        <Input placeholder={placeholder} />
+        <FieldButton className="group-data-[empty]:hidden">
           <RiCloseLine className="w-icon-xs h-icon-xs" aria-hidden="true" />
-        </AriaButton>
+        </FieldButton>
       </FieldGroup>
       {description && <FieldDescription>{description}</FieldDescription>}
       <FieldError>{errorMessage}</FieldError>
@@ -95,21 +73,13 @@ export interface AutocompleteListBoxProps<T extends object = object> extends Ari
 }
 
 export function AutocompleteListBox<T extends object = object>({
-  className,
   children,
   ...props
 }: AutocompleteListBoxProps<T>) {
   return (
-    <AriaListBox
-      className={composeTailwindRenderProps(
-        className,
-        listBoxClasses,
-        'bg-layer-1 border border-border-default rounded-sm shadow-elevation-sm'
-      )}
-      {...props}
-    >
+    <ListBox surface="bordered" {...props}>
       {children}
-    </AriaListBox>
+    </ListBox>
   )
 }
 

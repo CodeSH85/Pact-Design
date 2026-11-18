@@ -1,17 +1,10 @@
 import { type ReactNode } from 'react'
 import {
   Button as AriaButton,
-  Header as AriaHeader,
-  ListBox as AriaListBox,
-  ListBoxItem as AriaListBoxItem,
-  ListBoxSection as AriaListBoxSection,
-  Popover as AriaPopover,
   Select as AriaSelect,
   SelectValue as AriaSelectValue,
-  Separator as AriaSeparator,
   type ButtonProps as AriaButtonProps,
   type HeaderProps as AriaHeaderProps,
-  type ListBoxItemProps as AriaListBoxItemProps,
   type ListBoxProps as AriaListBoxProps,
   type ListBoxSectionProps as AriaListBoxSectionProps,
   type PopoverProps as AriaPopoverProps,
@@ -19,22 +12,25 @@ import {
   type SelectValueProps as AriaSelectValueProps,
   type SeparatorProps as AriaSeparatorProps
 } from 'react-aria-components'
-import { RiArrowDownSLine, RiCheckLine } from '@remixicon/react'
+import { RiArrowDownSLine } from '@remixicon/react'
 import { type VariantProps } from 'class-variance-authority'
 import {
   cn,
-  collectionHeaderClasses,
-  collectionItemVariants,
-  collectionSectionClasses,
-  collectionSeparatorClasses,
   composeTailwindRenderProps,
   fieldWrapperClasses,
   focusRing,
-  listBoxClasses,
   type FieldSharedProps
 } from '../../utils/index.ts'
 import { FieldDescription, FieldError, fieldGroupVariants, Label } from '../Field/index.ts'
-import { popoverContentClasses } from '../Popover/index.ts'
+import {
+  ListBox,
+  ListBoxHeader,
+  ListBoxItem,
+  ListBoxSection,
+  ListBoxSeparator,
+  type ListBoxItemProps
+} from '../ListBox/index.ts'
+import { PopoverContent } from '../Popover/index.ts'
 
 export function selectTriggerVariants(
   variants?: VariantProps<typeof fieldGroupVariants>
@@ -49,7 +45,6 @@ export function selectTriggerVariants(
 export interface SelectTriggerProps
   extends AriaButtonProps,
   VariantProps<typeof fieldGroupVariants> {
-  className?: string
   children?: ReactNode
 }
 
@@ -85,96 +80,45 @@ export function SelectValue<T extends object = object>({ className, ...props }: 
   )
 }
 
-export interface SelectItemProps extends AriaListBoxItemProps {
-  className?: string
-  children?: ReactNode | AriaListBoxItemProps['children']
+export type SelectItemProps = ListBoxItemProps
+
+export function SelectItem(props: SelectItemProps) {
+  return <ListBoxItem {...props} />
 }
 
-export function SelectItem({ className, children, ...props }: SelectItemProps) {
-  return (
-    <AriaListBoxItem
-      className={composeTailwindRenderProps(className, collectionItemVariants())}
-      {...props}
-    >
-      {(renderProps) => (
-        <>
-          <span className="truncate">
-            {typeof children === 'function' ? children(renderProps) : children}
-          </span>
-          {renderProps.isSelected && (
-            <RiCheckLine className="w-icon-xs h-icon-xs text-primary shrink-0 ml-auto" aria-hidden="true" />
-          )}
-        </>
-      )}
-    </AriaListBoxItem>
-  )
-}
-
-export interface SelectPopoverProps extends AriaPopoverProps {
-  className?: string
-}
+export type SelectPopoverProps = AriaPopoverProps
 
 export function SelectPopover({ className, children, ...props }: SelectPopoverProps) {
   return (
-    <AriaPopover
-      offset={6}
-      className={composeTailwindRenderProps(
-        className,
-        popoverContentClasses,
-        'min-w-[var(--trigger-width)]'
-      )}
+    <PopoverContent
+      className={composeTailwindRenderProps(className, 'min-w-[var(--trigger-width)]')}
       {...props}
     >
       {children}
-    </AriaPopover>
+    </PopoverContent>
   )
 }
 
 export function SelectListBox<T extends object = object>({
-  className,
   children,
   ...props
 }: AriaListBoxProps<T>) {
-  return (
-    <AriaListBox
-      className={composeTailwindRenderProps(className, listBoxClasses)}
-      {...props}
-    >
-      {children}
-    </AriaListBox>
-  )
+  return <ListBox {...props}>{children}</ListBox>
 }
 
-export function SelectHeader({ className, children, ...props }: AriaHeaderProps) {
-  return (
-    <AriaHeader
-      className={cn(collectionHeaderClasses, className)}
-      {...props}
-    >
-      {children}
-    </AriaHeader>
-  )
+export function SelectHeader({ children, ...props }: AriaHeaderProps) {
+  return <ListBoxHeader {...props}>{children}</ListBoxHeader>
 }
 
-export function SelectSeparator({ className, ...props }: AriaSeparatorProps) {
-  return (
-    <AriaSeparator
-      className={cn(collectionSeparatorClasses, className)}
-      {...props}
-    />
-  )
+export function SelectSeparator(props: AriaSeparatorProps) {
+  return <ListBoxSeparator {...props} />
 }
 
 export function SelectSection<T extends object = object>({
-  className,
   children,
   ...props
 }: AriaListBoxSectionProps<T>) {
-  return (
-    <AriaListBoxSection className={cn(collectionSectionClasses, className)} {...props}>
-      {children}
-    </AriaListBoxSection>
-  )
+  return <ListBoxSection {...props}>{children}</ListBoxSection>
 }
 
 export interface SelectProps<T extends object = object>
@@ -212,19 +156,13 @@ export function Select<T extends object = object>({
     >
       {label && <Label>{label}</Label>}
 
-      <AriaButton
-        className={composeTailwindRenderProps(
-          triggerProps?.className,
-          selectTriggerVariants({ size })
-        )}
-        {...triggerProps}
-      >
+      <SelectTrigger size={size} {...triggerProps}>
         <SelectValue />
         <RiArrowDownSLine
           className="w-icon-xs h-icon-xs text-field-text-muted transition-transform duration-normal ease-default group-data-[open]:rotate-180 shrink-0"
           aria-hidden="true"
         />
-      </AriaButton>
+      </SelectTrigger>
 
       {description && <FieldDescription>{description}</FieldDescription>}
       <FieldError>{errorMessage}</FieldError>

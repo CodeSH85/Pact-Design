@@ -1,88 +1,58 @@
 import { type ReactNode } from 'react'
 import {
-  Button as AriaButton,
   ComboBox as AriaComboBox,
   type ComboBoxProps as AriaComboBoxProps,
-  Input as AriaInput,
   type InputProps as AriaInputProps,
-  ListBox as AriaListBox,
-  ListBoxItem as AriaListBoxItem,
-  type ListBoxItemProps as AriaListBoxItemProps,
   type ListBoxProps as AriaListBoxProps,
-  ListBoxSection as AriaListBoxSection,
-  Popover as AriaPopover,
   type PopoverProps as AriaPopoverProps
 } from 'react-aria-components'
-import { RiArrowDownSLine, RiCheckLine } from '@remixicon/react'
+import { RiArrowDownSLine } from '@remixicon/react'
 import { type VariantProps } from 'class-variance-authority'
 import {
-  collectionItemVariants,
   composeTailwindRenderProps,
-  fieldIconButtonClasses,
-  fieldInputClasses,
   fieldWrapperClasses,
-  listBoxClasses,
   type FieldSharedProps
 } from '../../utils/index.ts'
-import { FieldDescription, FieldError, FieldGroup, fieldGroupVariants, Label } from '../Field/index.ts'
-import { popoverContentClasses } from '../Popover/index.ts'
+import {
+  FieldButton,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  fieldGroupVariants,
+  Input,
+  Label
+} from '../Field/index.ts'
+import {
+  ListBox,
+  ListBoxItem,
+  ListBoxSection,
+  type ListBoxItemProps
+} from '../ListBox/index.ts'
+import { PopoverContent } from '../Popover/index.ts'
 
-export interface ComboBoxItemProps extends AriaListBoxItemProps {
-  className?: string
-  children?: ReactNode | AriaListBoxItemProps['children']
+export type ComboBoxItemProps = ListBoxItemProps
+
+export function ComboBoxItem(props: ComboBoxItemProps) {
+  return <ListBoxItem {...props} />
 }
 
-export function ComboBoxItem({ className, children, ...props }: ComboBoxItemProps) {
-  return (
-    <AriaListBoxItem
-      className={composeTailwindRenderProps(className, collectionItemVariants())}
-      {...props}
-    >
-      {(renderProps) => (
-        <>
-          <span className="truncate">
-            {typeof children === 'function' ? children(renderProps) : children}
-          </span>
-          {renderProps.isSelected && (
-            <RiCheckLine className="w-icon-xs h-icon-xs text-primary shrink-0 ml-auto" aria-hidden="true" />
-          )}
-        </>
-      )}
-    </AriaListBoxItem>
-  )
-}
+export const ComboBoxSection = ListBoxSection
 
-export const ComboBoxSection = AriaListBoxSection
-
-export interface ComboBoxPopoverProps extends AriaPopoverProps {
-  className?: string
-}
+export type ComboBoxPopoverProps = AriaPopoverProps
 
 export function ComboBoxPopover({ className, children, ...props }: ComboBoxPopoverProps) {
   return (
-    <AriaPopover
-      offset={6}
-      className={composeTailwindRenderProps(
-        className,
-        popoverContentClasses,
-        'min-w-[var(--trigger-width)]'
-      )}
+    <PopoverContent
+      className={composeTailwindRenderProps(className, 'min-w-[var(--trigger-width)]')}
       {...props}
     >
       {children}
-    </AriaPopover>
+    </PopoverContent>
   )
 }
 
-export function ComboBoxListBox<T extends object>({ className, children, ...props }: AriaListBoxProps<T>) {
-  return (
-    <AriaListBox
-      className={composeTailwindRenderProps(className, listBoxClasses)}
-      {...props}
-    >
-      {children}
-    </AriaListBox>
-  )
+export function ComboBoxListBox<T extends object>({ children, ...props }: AriaListBoxProps<T>) {
+  return <ListBox {...props}>{children}</ListBox>
 }
 
 export interface ComboBoxProps<T extends object>
@@ -120,14 +90,10 @@ export function ComboBox<T extends object>({
       {label && <Label>{label}</Label>}
 
       <FieldGroup size={size} className="pr-2xs">
-        <AriaInput
-          placeholder={placeholder}
-          className={fieldInputClasses}
-          {...inputProps}
-        />
-        <AriaButton className={fieldIconButtonClasses}>
+        <Input placeholder={placeholder} {...inputProps} />
+        <FieldButton>
           <RiArrowDownSLine className="w-icon-xs h-icon-xs" aria-hidden="true" />
-        </AriaButton>
+        </FieldButton>
       </FieldGroup>
 
       {description && <FieldDescription>{description}</FieldDescription>}
