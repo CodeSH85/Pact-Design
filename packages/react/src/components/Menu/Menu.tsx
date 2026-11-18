@@ -1,6 +1,5 @@
 import { type ReactNode } from 'react'
 import {
-  Button as AriaButton,
   Header as AriaHeader,
   type HeaderProps as AriaHeaderProps,
   Keyboard as AriaKeyboard,
@@ -26,7 +25,7 @@ import {
   collectionSeparatorClasses,
   composeTailwindRenderProps
 } from '../../utils/index.ts'
-import { buttonVariants } from '../Button/index.ts'
+import { Button, buttonVariants } from '../Button/index.ts'
 import { popoverContentClasses } from '../Popover/index.ts'
 
 export const menuItemClasses = collectionItemVariants({ tone: 'default' })
@@ -157,10 +156,10 @@ export function Menu({
     return (
       <AriaMenuTrigger trigger={triggerType} {...props}>
         {trigger ?? (
-          <AriaButton className={menuTriggerButtonClasses}>
+          <Button variant="secondary" size="md">
             <span>{triggerLabel}</span>
             <RiArrowDownSLine className="w-icon-xs h-icon-xs text-on-surface-muted" aria-hidden="true" />
-          </AriaButton>
+          </Button>
         )}
 
         <AriaPopover placement={placement} offset={offset} className={popoverContentClasses}>

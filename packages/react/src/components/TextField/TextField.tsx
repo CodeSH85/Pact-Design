@@ -1,6 +1,5 @@
 import { type ReactNode } from 'react'
 import {
-  Input as AriaInput,
   type InputProps as AriaInputProps,
   TextField as AriaTextField,
   type TextFieldProps as AriaTextFieldProps
@@ -8,11 +7,17 @@ import {
 import { type VariantProps } from 'class-variance-authority'
 import {
   composeTailwindRenderProps,
-  fieldInputClasses,
   fieldWrapperClasses,
   type FieldSharedProps
 } from '../../utils/index.ts'
-import { FieldDescription, FieldError, FieldGroup, fieldGroupVariants, Label } from '../Field/index.ts'
+import {
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  fieldGroupVariants,
+  Input,
+  Label
+} from '../Field/index.ts'
 
 export interface TextFieldProps
   extends AriaTextFieldProps,
@@ -49,11 +54,7 @@ export function TextField({
       {children ?? (
         <FieldGroup size={size}>
           {prefix && <span className="inline-flex items-center text-field-text-muted shrink-0">{prefix}</span>}
-          <AriaInput
-            placeholder={placeholder}
-            className={fieldInputClasses}
-            {...inputProps}
-          />
+          <Input placeholder={placeholder} {...inputProps} />
           {suffix && <span className="inline-flex items-center text-field-text-muted shrink-0">{suffix}</span>}
         </FieldGroup>
       )}

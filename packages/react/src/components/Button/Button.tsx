@@ -12,13 +12,23 @@ import {
   type DisableableProps
 } from '../../utils/index.ts'
 
+export const buttonBaseClasses = [
+  'inline-flex items-center justify-center select-none cursor-pointer',
+  'transition-colors duration-fast ease-default',
+  focusRing,
+  disabledStyles
+].join(' ')
+
+export const buttonSizeVariants = {
+  xs: 'h-button-xs px-button-padding-x-xs gap-button-gap-xs text-label-xs rounded-button-xs',
+  sm: 'h-button-sm px-button-padding-x-sm gap-button-gap-sm text-label-sm rounded-button-sm',
+  md: 'h-button-md px-button-padding-x-md gap-button-gap-md text-label-md rounded-button-md',
+  lg: 'h-button-lg px-button-padding-x-lg gap-button-gap-lg text-label-lg rounded-button-lg',
+  xl: 'h-button-xl px-button-padding-x-xl gap-button-gap-xl text-label-xl rounded-button-xl'
+} as const
+
 export const buttonVariants = cva(
-  [
-    'inline-flex items-center justify-center select-none cursor-pointer',
-    'transition-colors duration-fast ease-default',
-    focusRing,
-    disabledStyles
-  ].join(' '),
+  buttonBaseClasses,
   {
     variants: {
       variant: {
@@ -48,13 +58,7 @@ export const buttonVariants = cva(
           'active:bg-button-subtle-bg-active data-[pressed]:bg-button-subtle-bg-active'
         ].join(' ')
       },
-      size: {
-        xs: 'h-button-xs px-button-padding-x-xs gap-button-gap-xs text-label-xs rounded-button-xs',
-        sm: 'h-button-sm px-button-padding-x-sm gap-button-gap-sm text-label-sm rounded-button-sm',
-        md: 'h-button-md px-button-padding-x-md gap-button-gap-md text-label-md rounded-button-md',
-        lg: 'h-button-lg px-button-padding-x-lg gap-button-gap-lg text-label-lg rounded-button-lg',
-        xl: 'h-button-xl px-button-padding-x-xl gap-button-gap-xl text-label-xl rounded-button-xl'
-      }
+      size: buttonSizeVariants
     },
     defaultVariants: {
       variant: 'primary',

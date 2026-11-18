@@ -1,16 +1,27 @@
 import { type ReactNode } from 'react'
 import {
+  Button as AriaButton,
+  type ButtonProps as AriaButtonProps,
   FieldError as AriaFieldError,
   type FieldErrorProps as AriaFieldErrorProps,
   Group as AriaGroup,
   type GroupProps as AriaGroupProps,
+  Input as AriaInput,
+  type InputProps as AriaInputProps,
   Label as AriaLabel,
   type LabelProps as AriaLabelProps,
   Text as AriaText,
   type TextProps as AriaTextProps
 } from 'react-aria-components'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn, composeTailwindRenderProps } from '../../utils/index.ts'
+import {
+  cn,
+  composeTailwindRenderProps,
+  fieldIconButtonClasses,
+  fieldInputClasses,
+  resolveDisabled,
+  type DisableableProps
+} from '../../utils/index.ts'
 
 export interface LabelProps extends AriaLabelProps {
   className?: string
@@ -110,5 +121,40 @@ export function FieldGroup({ size = 'md', className, children, ...props }: Field
     >
       {children}
     </AriaGroup>
+  )
+}
+
+export type InputProps = AriaInputProps
+
+export function Input({ className, ...props }: InputProps) {
+  return (
+    <AriaInput
+      className={composeTailwindRenderProps(className, fieldInputClasses)}
+      {...props}
+    />
+  )
+}
+
+export interface FieldButtonProps
+  extends Omit<AriaButtonProps, 'children'>,
+  DisableableProps {
+  children?: ReactNode | AriaButtonProps['children']
+}
+
+export function FieldButton({
+  disabled,
+  isDisabled,
+  className,
+  children,
+  ...props
+}: FieldButtonProps) {
+  return (
+    <AriaButton
+      isDisabled={resolveDisabled({ disabled, isDisabled })}
+      className={composeTailwindRenderProps(className, fieldIconButtonClasses)}
+      {...props}
+    >
+      {children}
+    </AriaButton>
   )
 }
