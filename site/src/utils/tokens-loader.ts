@@ -18,18 +18,25 @@ import {
   resolveValue,
   toPx
 } from 'pact-design/utils/token.js'
+import type { Token, TokenFiles, TokenGroupJson } from '../types/tokens'
 
-const rawTokenModules = import.meta.glob('../../../packages/tokens/src/**/*.json', {
+const rawTokenModules = import.meta.glob<TokenGroupJson>('../../../packages/tokens/src/**/*.json', {
   eager: true,
   import: 'default'
 })
 
-let cachedData = null
+export interface TokenCatalog {
+  files: TokenFiles
+  lightTokens: Map<string, Token>
+  darkTokens: Map<string, Token>
+}
 
-export function loadTokenCatalog() {
+let cachedData: TokenCatalog | null = null
+
+export function loadTokenCatalog(): TokenCatalog {
   if (cachedData) return cachedData
 
-  const files = {}
+  const files: TokenFiles = {}
   for (const [relPath, json] of Object.entries(rawTokenModules)) {
     const cleanKey = relPath.replace(/^.*\/src\/(.*)$/, 'src/$1')
     files[cleanKey] = json

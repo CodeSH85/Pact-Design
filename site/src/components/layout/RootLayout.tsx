@@ -8,16 +8,18 @@ import {
   ToggleButton,
   ToggleButtonGroup
 } from '@pact-design/react'
-import { navSections } from '../../config/navigation.js'
+import { navSections } from '../../config/navigation'
+import type { ThemeMode } from '../../types/tokens'
 
 export function RootLayout() {
   const navigate = useNavigate()
   const pathname = useRouterState({ select: (s) => s.location.pathname })
   const isTokenPlayground = pathname.endsWith('/playground')
 
-  const [theme, setTheme] = useState(() => {
+  const [theme, setTheme] = useState<ThemeMode>(() => {
     if (typeof document !== 'undefined') {
-      return document.documentElement.getAttribute('data-theme') || 'light'
+      const attr = document.documentElement.getAttribute('data-theme')
+      return attr === 'dark' ? 'dark' : 'light'
     }
     return 'light'
   })
@@ -25,12 +27,12 @@ export function RootLayout() {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem('pact-theme', theme)
-    window.dispatchEvent(new CustomEvent('pact:theme-change', { detail: { theme } }))
+    window.dispatchEvent(new CustomEvent<{ theme: ThemeMode }>('pact:theme-change', { detail: { theme } }))
   }, [theme])
 
   useEffect(() => {
-    const onThemeSync = (e) => {
-      const next = e.detail?.theme
+    const onThemeSync = (e: Event) => {
+      const next = (e as CustomEvent<{ theme?: ThemeMode }>).detail?.theme
       if ((next === 'light' || next === 'dark') && next !== theme) {
         setTheme(next)
       }
@@ -109,24 +111,37 @@ export function RootLayout() {
                   panelProps={{ className: 'p-0' }}
                 >
                   <div className="flex flex-col">
-                    {section.items.map((item) => (
-                      <Link
-                        key={item.label}
-                        to={item.to}
-                        params={item.params}
-                        activeOptions={{ exact: true }}
-                        className="hover-bg-layer-1-hover py-2xs px-md text-body-sm"
-                        activeProps={{
+                    {section.items.map((item) => {
+                      const sharedLinkProps = {
+                        activeOptions: { exact: true },
+                        className: 'hover-bg-layer-1-hover py-2xs px-md text-body-sm',
+                        activeProps: {
                           className: 'bg-layer-1-selected hover-bg-layer-1-selected-hover ring-sm ring-inset ring-border-default text-on-surface font-medium',
-                          'aria-current': 'page'
-                        }}
-                        inactiveProps={{
+                          'aria-current': 'page' as const
+                        },
+                        inactiveProps: {
                           className: 'text-on-surface-default'
-                        }}
-                      >
-                        <span>{item.label}</span>
-                      </Link>
-                    ))}
+                        }
+                      }
+                      return item.to === '/foundations/$id' ? (
+                        <Link
+                          key={item.label}
+                          to={item.to}
+                          params={item.params}
+                          {...sharedLinkProps}
+                        >
+                          <span>{item.label}</span>
+                        </Link>
+                      ) : (
+                        <Link
+                          key={item.label}
+                          to={item.to}
+                          {...sharedLinkProps}
+                        >
+                          <span>{item.label}</span>
+                        </Link>
+                      )
+                    })}
                   </div>
                 </Disclosure>
               ))}

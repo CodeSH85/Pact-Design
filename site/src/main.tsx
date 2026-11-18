@@ -4,9 +4,14 @@ import { RouterProvider } from '@tanstack/react-router'
 import '@unocss/reset/tailwind.css'
 import 'virtual:uno.css'
 import './styles/global.css'
-import { router } from './router.jsx'
+import { router } from './router'
 
-createRoot(document.getElementById('root')).render(
+const rootElement = document.getElementById('root')
+if (!rootElement) {
+  throw new Error('Root element #root not found')
+}
+
+createRoot(rootElement).render(
   <StrictMode>
     <RouterProvider router={router} />
   </StrictMode>

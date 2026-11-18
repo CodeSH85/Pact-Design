@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { clone, same } from 'pact-design/utils/helper.js'
 import * as T from 'pact-design/utils/token.js'
-import { loadTokenCatalog } from '../../utils/tokens-loader.js'
+import { loadTokenCatalog } from '../../utils/tokens-loader'
 import {
   Button,
   ModalContent,
@@ -10,34 +10,56 @@ import {
   ModalHeader,
   toast
 } from '@pact-design/react'
-import { CATEGORY_ORDER, TokenEditor } from './TokenEditor.jsx'
-import { TokenPreview } from './TokenPreview.jsx'
+import { CATEGORY_ORDER, TokenEditor } from './TokenEditor'
+import { TokenPreview } from './TokenPreview'
+import type {
+  ContrastMode,
+  ResolvedTokenEntry,
+  ThemeMode,
+  Token,
+  TokenFiles,
+  TokenIssue,
+  TokenLevel
+} from '../../types/tokens'
+
+type ActiveModalType = 'css' | 'issues' | null
+
+interface TokensApiGetResponse {
+  files: TokenFiles
+  errors?: Record<string, string>
+}
+
+interface TokensApiPutResponse {
+  written?: string[]
+  error?: string
+}
 
 export function TokenPlayground() {
-  const [files, setFiles] = useState({})
-  const [original, setOriginal] = useState({})
-  const [loadErrors, setLoadErrors] = useState({})
-  const [canWriteToDisk, setCanWriteToDisk] = useState(false)
-  const [revision, setRevision] = useState(0)
+  const [files, setFiles] = useState<TokenFiles>({})
+  const [original, setOriginal] = useState<TokenFiles>({})
+  const [loadErrors, setLoadErrors] = useState<Record<string, string>>({})
+  const [canWriteToDisk, setCanWriteToDisk] = useState<boolean>(false)
+  const [revision, setRevision] = useState<number>(0)
 
-  const [theme, setTheme] = useState(() => {
+  const [theme, setTheme] = useState<ThemeMode>(() => {
     if (typeof document !== 'undefined') {
-      return document.documentElement.getAttribute('data-theme') || 'light'
+      const attr = document.documentElement.getAttribute('data-theme')
+      return attr === 'dark' ? 'dark' : 'light'
     }
     return 'light'
   })
-  const [category, setCategory] = useState('color')
-  const [query, setQuery] = useState('')
-  const [level, setLevel] = useState('all')
-  const [selectedShade, setSelectedShade] = useState({})
-  const [paletteTools, setPaletteTools] = useState(() => new Set())
-  const [swatchContrastMode, setSwatchContrastMode] = useState('lc-white')
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [category, setCategory] = useState<string>('color')
+  const [query, setQuery] = useState<string>('')
+  const [level, setLevel] = useState<TokenLevel>('all')
+  const [selectedShade, setSelectedShade] = useState<Record<string, string>>({})
+  const [paletteTools, setPaletteTools] = useState<Set<string>>(() => new Set())
+  const [swatchContrastMode, setSwatchContrastMode] = useState<ContrastMode>('lc-white')
+  const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false)
 
-  const [activeModal, setActiveModal] = useState(null) // 'css' | 'issues' | null
-  const [flashedId, setFlashedId] = useState(null)
+  const [activeModal, setActiveModal] = useState<ActiveModalType>(null)
+  const [flashedId, setFlashedId] = useState<string | null>(null)
 
-  const showToast = useCallback((message, isError = false) => {
+  const showToast = useCallback((message: string, isError = false) => {
     if (isError) {
       toast.danger(message, undefined, { timeout: 2200 })
     } else {
@@ -51,8 +73,8 @@ export function TokenPlayground() {
 
   // Sync with site header theme toggle
   useEffect(() => {
-    const onSiteThemeChange = (e) => {
-      const nextTheme = e.detail?.theme
+    const onSiteThemeChange = (e: Event) => {
+      const nextTheme = (e as CustomEvent<{ theme?: ThemeMode }>).detail?.theme
       if (nextTheme === 'light' || nextTheme === 'dark') {
         setTheme(nextTheme)
       }
@@ -61,12 +83,12 @@ export function TokenPlayground() {
     return () => window.removeEventListener('pact:theme-change', onSiteThemeChange)
   }, [])
 
-  const handleThemeChange = useCallback((nextTheme) => {
+  const handleThemeChange = useCallback((nextTheme: ThemeMode) => {
     setTheme(nextTheme)
     if (typeof document !== 'undefined') {
       document.documentElement.setAttribute('data-theme', nextTheme)
       localStorage.setItem('pact-theme', nextTheme)
-      window.dispatchEvent(new CustomEvent('pact:theme-change', { detail: { theme: nextTheme } }))
+      window.dispatchEvent(new CustomEvent<{ theme: ThemeMode }>('pact:theme-change', { detail: { theme: nextTheme } }))
     }
   }, [])
 
@@ -77,7 +99,7 @@ export function TokenPlayground() {
       try {
         const res = await fetch('/api/tokens')
         if (!res.ok) throw new Error(`${res.status}`)
-        const data = await res.json()
+        const data = (await res.json()) as TokensApiGetResponse
         if (cancelled) return
         setFiles(clone(data.files))
         setOriginal(clone(data.files))
@@ -98,7 +120,7 @@ export function TokenPlayground() {
     }
   }, [])
 
-  const originalTokensByTheme = useMemo(() => {
+  const originalTokensByTheme = useMemo<Record<ThemeMode, Map<string, Token>>>(() => {
     if (!Object.keys(original).length) {
       return { light: new Map(), dark: new Map() }
     }
@@ -115,7 +137,7 @@ export function TokenPlayground() {
     const darkFlat = T.flatten(files, 'dark')
     const activeFlat = theme === 'dark' ? darkFlat : lightFlat
 
-    const parityIssues = []
+    const parityIssues: TokenIssue[] = []
     for (const t of lightFlat.tokens.values()) {
       if (T.themeOf(t.file) === 'light' && !darkFlat.tokens.has(t.id)) {
         parityIssues.push({
@@ -136,17 +158,17 @@ export function TokenPlayground() {
     }
 
     const tokens = activeFlat.tokens
-    const originalTokens = originalTokensByTheme[theme] ?? new Map()
+    const originalTokens = originalTokensByTheme[theme] ?? new Map<string, Token>()
     const issues = [...activeFlat.issues, ...parityIssues]
     const usage = T.buildUsage(tokens)
-    const resolved = new Map(
+    const resolved = new Map<string, ResolvedTokenEntry>(
       [...tokens.values()].map((t) => [t.id, T.tryResolve(t, tokens)])
     )
     const { css, errors } = T.buildCss(lightFlat.tokens, darkFlat.tokens)
-    const errorsById = new Map(errors.map((e) => [e.id, e.message]))
+    const errorsById = new Map<string, string>(errors.map((e) => [e.id, e.message]))
 
     const dirtyFilesList = Object.keys(files).filter((f) => !same(files[f], original[f]))
-    const allIssues = [
+    const allIssues: TokenIssue[] = [
       ...Object.entries(loadErrors).map(([file, message]) => ({
         id: file,
         file,
@@ -174,7 +196,7 @@ export function TokenPlayground() {
     setRevision((r) => r + 1)
   }, [])
 
-  const handleSelectCategory = useCallback((cat) => {
+  const handleSelectCategory = useCallback((cat: string) => {
     setCategory(cat)
     const editorBody = document.getElementById('playground-editor-body')
     if (editorBody) editorBody.scrollTop = 0
@@ -182,11 +204,11 @@ export function TokenPlayground() {
     if (previewSec) previewSec.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }, [])
 
-  const handleSelectShade = useCallback((parentId, tokenId) => {
+  const handleSelectShade = useCallback((parentId: string, tokenId: string) => {
     setSelectedShade((prev) => ({ ...prev, [parentId]: tokenId }))
   }, [])
 
-  const handleTogglePaletteTools = useCallback((parentId) => {
+  const handleTogglePaletteTools = useCallback((parentId: string) => {
     setPaletteTools((prev) => {
       const next = new Set(prev)
       if (next.has(parentId)) next.delete(parentId)
@@ -195,7 +217,7 @@ export function TokenPlayground() {
     })
   }, [])
 
-  const handleJump = useCallback((id) => {
+  const handleJump = useCallback((id?: string) => {
     if (!id) return
     const token = derived.tokens.get(id)
     if (!token) return
@@ -238,13 +260,14 @@ export function TokenPlayground() {
           files: Object.fromEntries(dirty.map((f) => [f, files[f]]))
         })
       })
-      const data = await res.json()
+      const data = (await res.json()) as TokensApiPutResponse
       if (!res.ok) throw new Error(data.error ?? res.statusText)
       setOriginal(clone(files))
-      showToast(`已寫入 ${data.written.length} 個檔案`)
+      showToast(`已寫入 ${data.written?.length ?? 0} 個檔案`)
     // eslint-disable-next-line @stylistic/space-before-function-paren
-    } catch (err) {
-      showToast(`儲存失敗：${err.message}`, true)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err)
+      showToast(`儲存失敗：${message}`, true)
     }
   }, [derived.dirtyFilesList, derived.errors.length, files, showToast])
 
@@ -269,7 +292,7 @@ export function TokenPlayground() {
 
   // Keyboard shortcuts & beforeunload guard
   useEffect(() => {
-    const onKeyDown = (e) => {
+    const onKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') {
         e.preventDefault()
         handleSave()
@@ -279,7 +302,7 @@ export function TokenPlayground() {
         setSidebarCollapsed((prev) => !prev)
       }
     }
-    const onBeforeUnload = (e) => {
+    const onBeforeUnload = (e: BeforeUnloadEvent) => {
       if (derived.dirtyFilesList.length > 0) {
         e.preventDefault()
       }
@@ -372,15 +395,19 @@ export function TokenPlayground() {
           >
             全部重設
           </Button>
-          <Button
-            variant="primary"
-            size="xs"
-            disabled={!isDirty || !canWriteToDisk}
+          <span
             title={canWriteToDisk ? '寫入變更至 src/ 目錄 (⌘S)' : '靜態預覽模式請使用「下載 JSON」'}
-            onPress={handleSave}
+            className="inline-flex"
           >
-            儲存至 src/
-          </Button>
+            <Button
+              variant="primary"
+              size="xs"
+              disabled={!isDirty || !canWriteToDisk}
+              onPress={handleSave}
+            >
+              儲存至 src/
+            </Button>
+          </span>
         </div>
       </header>
 

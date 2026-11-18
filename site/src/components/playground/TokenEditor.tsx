@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ChangeEvent, type ReactNode } from 'react'
 import * as C from 'pact-design/utils/color.js'
 import { apcaContrast, apcaLevel, contrast, readableOn, wcagLevel } from 'pact-design/utils/contrast.js'
 import { clone, round, same } from 'pact-design/utils/helper.js'
@@ -13,8 +13,18 @@ import {
   TextField,
   ToggleButton
 } from '@pact-design/react'
+import type {
+  ColorObjectValue,
+  DimensionObjectValue,
+  ResolvedTokenEntry,
+  ThemeMode,
+  Token,
+  TokenFiles,
+  TokenLevel,
+  TokenValue
+} from '../../types/tokens'
 
-export const CATEGORY_LABELS = {
+export const CATEGORY_LABELS: Record<string, string> = {
   color: '色彩',
   typography: '字體',
   spacing: '間距',
@@ -43,30 +53,46 @@ const SELECT_CLASS = [
   'focus:border-border-focus'
 ].join(' ')
 
-function candidatesFor(type, self, hint, tokens) {
+type OklchTuple = [number, number, number]
+
+function candidatesFor(
+  type: string | undefined,
+  self: Token,
+  hint: string | undefined,
+  tokens: Map<string, Token>
+): Token[] {
   let list = [...tokens.values()].filter(
     (t) => t.type === type && t.id !== self.id && !T.dependsOn(t.id, self.id, tokens)
   )
-  const narrow = (pred) => {
+  const narrow = (pred: (t: Token) => boolean) => {
     const filtered = list.filter(pred)
     if (filtered.length) list = filtered
   }
   if (hint) narrow((t) => t.id.includes(hint))
   else narrow((t) => T.categoryOf(t.file) === T.categoryOf(self.file))
-  const rank = (t) => (t.path[0] === self.path[0] ? 1 : 0)
+  const rank = (t: Token) => (t.path[0] === self.path[0] ? 1 : 0)
   return list.sort((a, b) => rank(a) - rank(b))
 }
 
-function setOklchOnNode(node, [L, Cv, H]) {
-  const comps = [round(L), round(Math.max(0, Cv)), round(((H % 360) + 360) % 360)]
-  const hex = C.oklchToHex(...comps)
+function setOklchOnNode(node: Token['node'], [L, Cv, H]: OklchTuple): void {
+  const comps: OklchTuple = [round(L), round(Math.max(0, Cv)), round(((H % 360) + 360) % 360)]
+  const hex = C.oklchToHex(...comps) ?? '#000000'
   const prev = node.$value
-  node.$value = typeof prev === 'string'
-    ? hex
-    : { ...prev, colorSpace: 'oklch', components: comps, alpha: prev?.alpha ?? 1, hex }
+  if (typeof prev === 'string') {
+    node.$value = hex
+  } else {
+    const prevColor = prev as Partial<ColorObjectValue>
+    node.$value = {
+      ...prevColor,
+      colorSpace: 'oklch',
+      components: comps,
+      alpha: prevColor.alpha ?? 1,
+      hex
+    }
+  }
 }
 
-function lchGradients(L, Cv, H) {
+function lchGradients(L: number, Cv: number, H: number): Record<'L' | 'C' | 'H', string> {
   const hueStops = Array.from({ length: 13 }, (_, i) => `oklch(${L} ${Cv} ${i * 30})`).join(', ')
   return {
     L: `linear-gradient(to right, oklch(0 ${Cv} ${H}), oklch(0.5 ${Cv} ${H}), oklch(1 ${Cv} ${H}))`,
@@ -75,7 +101,7 @@ function lchGradients(L, Cv, H) {
   }
 }
 
-export function apcaBadgeClasses(cssTier) {
+export function apcaBadgeClasses(cssTier: string): string {
   switch (cssTier) {
     case 'Lc-90':
     case 'Lc-75':
@@ -90,20 +116,45 @@ export function apcaBadgeClasses(cssTier) {
   }
 }
 
-function AliasSelect({ currentValue, type, self, hint, tokens, resolved, onChange, onToast }) {
+interface AliasSelectProps {
+  currentValue: TokenValue
+  type: string | undefined
+  self: Token
+  hint?: string
+  tokens: Map<string, Token>
+  resolved: Map<string, ResolvedTokenEntry>
+  onChange: (val: TokenValue) => void
+  onToast: (message: string, isError?: boolean) => void
+}
+
+function AliasSelect({
+  currentValue,
+  type,
+  self,
+  hint,
+  tokens,
+  resolved,
+  onChange,
+  onToast
+}: AliasSelectProps) {
   const ref = T.refOf(currentValue) || ''
   const list = candidatesFor(type, self, hint, tokens)
-  const groups = new Map()
+  const groups = new Map<string, Token[]>()
   for (const t of list) {
     const parent = t.path.slice(0, -1).join('.')
-    if (!groups.has(parent)) groups.set(parent, [])
-    groups.get(parent).push(t)
+    const bucket = groups.get(parent)
+    if (bucket) {
+      bucket.push(t)
+    } else {
+      groups.set(parent, [t])
+    }
   }
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const nextVal = e.target.value
     if (nextVal === '__detach__') {
-      const r = resolved.get(ref) ?? (tokens.has(ref) ? T.tryResolve(tokens.get(ref), tokens) : {})
+      const refToken = tokens.get(ref)
+      const r: ResolvedTokenEntry = resolved.get(ref) ?? (refToken ? T.tryResolve(refToken, tokens) : {})
       if (r.error || r.value === undefined) {
         onToast('引用無法解析，無法轉為自訂值', true)
         return
@@ -142,14 +193,20 @@ function AliasSelect({ currentValue, type, self, hint, tokens, resolved, onChang
   )
 }
 
-function DimensionControl({ value, onChange, label }) {
+interface DimensionControlProps {
+  value: TokenValue
+  onChange: (val: TokenValue) => void
+  label?: string
+}
+
+function DimensionControl({ value, onChange, label }: DimensionControlProps) {
   const parsed = T.parseDimension(value)
-  const isObject = value && typeof value === 'object'
+  const isObject = Boolean(value && typeof value === 'object' && !Array.isArray(value))
   const num = parsed.value
   const unit = parsed.unit
   const isTime = unit === 'ms' || unit === 's'
 
-  const getBounds = (currentNum, currentUnit) => {
+  const getBounds = (currentNum: number, currentUnit: string) => {
     const abs = Math.abs(currentNum)
     if (currentUnit === 'ms') return { min: 0, max: Math.max(500, Math.ceil(abs * 2)), step: 5 }
     if (currentUnit === 's') return { min: 0, max: Math.max(1, +(abs * 2).toFixed(2)), step: 0.05 }
@@ -160,20 +217,21 @@ function DimensionControl({ value, onChange, label }) {
 
   const [bounds, setBounds] = useState(() => getBounds(num, unit))
 
-  const emit = (nextNum, nextUnit) => {
-    if (!isObject) {
+  const emit = (nextNum: number, nextUnit: string) => {
+    if (!isObject || typeof value !== 'object' || value === null) {
       onChange(`${nextNum}${nextUnit}`)
       return
     }
-    const keys = Object.keys(value)
+    const record = value as unknown as Record<string, unknown>
+    const keys = Object.keys(record)
     onChange(
       Object.fromEntries(
-        keys.map((k) => [k, k === 'unit' ? nextUnit : k === 'value' ? nextNum : value[k]])
-      )
+        keys.map((k) => [k, k === 'unit' ? nextUnit : k === 'value' ? nextNum : record[k]])
+      ) as unknown as DimensionObjectValue
     )
   }
 
-  const handleUnitChange = (e) => {
+  const handleUnitChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const nextUnit = e.target.value
     let nextNum = num
     if (unit === 'px' && nextUnit === 'rem') nextNum = +(num / 16).toFixed(4)
@@ -224,17 +282,26 @@ function DimensionControl({ value, onChange, label }) {
   )
 }
 
-function ColorRawControl({ value, onChange, label }) {
+interface ColorRawControlProps {
+  value: TokenValue
+  onChange: (val: TokenValue) => void
+  label?: string
+}
+
+function ColorRawControl({ value, onChange, label }: ColorRawControlProps) {
   const hex = C.colorValueToHex(value)
   const [textHex, setTextHex] = useState(hex)
   useEffect(() => {
     setTextHex(hex)
   }, [hex])
 
-  const alpha = value && typeof value === 'object' && value.alpha !== undefined ? Number(value.alpha) : 1
-  const hasAlpha = value && typeof value === 'object' && value.alpha !== undefined && value.alpha < 1
+  const colorObj = value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Partial<ColorObjectValue>)
+    : null
+  const alpha = colorObj && colorObj.alpha !== undefined ? Number(colorObj.alpha) : 1
+  const hasAlpha = Boolean(colorObj && colorObj.alpha !== undefined && colorObj.alpha < 1)
 
-  const emit = (rgbHex, nextAlpha = alpha) => {
+  const emit = (rgbHex: string, nextAlpha = alpha) => {
     const rgb = C.hexToRgb(rgbHex)
     if (!rgb) return
     const normalized = C.rgbToHex(rgb)
@@ -243,7 +310,7 @@ function ColorRawControl({ value, onChange, label }) {
       return
     }
     onChange({
-      ...value,
+      ...(colorObj ?? {}),
       colorSpace: 'oklch',
       components: C.rgbToOklch(rgb),
       alpha: nextAlpha,
@@ -312,7 +379,14 @@ function ColorRawControl({ value, onChange, label }) {
   )
 }
 
-function RawControl({ type, value, onChange, label }) {
+interface RawControlProps {
+  type: string | undefined
+  value: TokenValue
+  onChange: (val: TokenValue) => void
+  label?: string
+}
+
+function RawControl({ type, value, onChange, label }: RawControlProps) {
   if (type === 'color') {
     return <ColorRawControl value={value} onChange={onChange} label={label} />
   }
@@ -413,7 +487,13 @@ function RawControl({ type, value, onChange, label }) {
   return <JsonRawControl value={value} onChange={onChange} label={label} />
 }
 
-function JsonRawControl({ value, onChange, label }) {
+interface JsonRawControlProps {
+  value: TokenValue
+  onChange: (val: TokenValue) => void
+  label?: string
+}
+
+function JsonRawControl({ value, onChange, label }: JsonRawControlProps) {
   const [text, setText] = useState(() => JSON.stringify(value))
   const [invalid, setInvalid] = useState(false)
 
@@ -432,7 +512,7 @@ function JsonRawControl({ value, onChange, label }) {
         onChange={(e) => setText(e.target.value)}
         onBlur={() => {
           try {
-            onChange(JSON.parse(text))
+            onChange(JSON.parse(text) as TokenValue)
             setInvalid(false)
           } catch {
             setInvalid(true)
@@ -443,6 +523,16 @@ function JsonRawControl({ value, onChange, label }) {
   )
 }
 
+interface RowHeaderProps {
+  token: Token
+  linkable?: boolean
+  isDirty: boolean
+  users: string[]
+  onLinkToAlias: (token: Token) => void
+  onResetToken: (id: string) => void
+  onToast: (message: string, isError?: boolean) => void
+}
+
 function RowHeader({
   token,
   linkable = true,
@@ -451,7 +541,7 @@ function RowHeader({
   onLinkToAlias,
   onResetToken,
   onToast
-}) {
+}: RowHeaderProps) {
   const isAlias = !!T.refOf(token.node.$value)
   const cssVar = `var(${T.cssName(token.path)})`
 
@@ -488,35 +578,43 @@ function RowHeader({
       )}
       <div className={`flex items-center gap-3xs ${users.length > 0 ? '' : 'ml-auto'}`}>
         {linkable && !isAlias && token.type !== 'typography' && token.type !== 'shadow' && token.path[0] !== 'global' && (
-          <Button
-            variant="secondary"
-            size="xs"
-            aria-label="改為引用其他 token"
-            title="改為引用其他 token"
-            onPress={() => onLinkToAlias(token)}
-            className="px-2xs"
-          >
-            🔗
-          </Button>
+          <span title="改為引用其他 token" className="inline-flex">
+            <Button
+              variant="secondary"
+              size="xs"
+              aria-label="改為引用其他 token"
+              onPress={() => onLinkToAlias(token)}
+              className="px-2xs"
+            >
+              🔗
+            </Button>
+          </span>
         )}
         {isDirty && (
-          <Button
-            variant="subtle"
-            size="xs"
-            aria-label="重設為檔案中的值"
-            title="重設為檔案中的值"
-            onPress={() => onResetToken(token.id)}
-            className="px-2xs bg-warning-subtle hover:bg-warning text-on-warning-subtle hover:text-on-warning border-warning-border"
-          >
-            ↺
-          </Button>
+          <span title="重設為檔案中的值" className="inline-flex">
+            <Button
+              variant="subtle"
+              size="xs"
+              aria-label="重設為檔案中的值"
+              onPress={() => onResetToken(token.id)}
+              className="px-2xs bg-warning-subtle hover:bg-warning text-on-warning-subtle hover:text-on-warning border-warning-border"
+            >
+              ↺
+            </Button>
+          </span>
         )}
       </div>
     </div>
   )
 }
 
-function ResolvedFooter({ token, resolvedEntry, errorMsg }) {
+interface ResolvedFooterProps {
+  token: Token
+  resolvedEntry?: ResolvedTokenEntry
+  errorMsg?: string
+}
+
+function ResolvedFooter({ token, resolvedEntry, errorMsg }: ResolvedFooterProps) {
   const error = resolvedEntry?.error ?? errorMsg
   if (error) {
     return (
@@ -542,6 +640,20 @@ function ResolvedFooter({ token, resolvedEntry, errorMsg }) {
   )
 }
 
+interface TokenRowProps {
+  token: Token
+  tokens: Map<string, Token>
+  resolved: Map<string, ResolvedTokenEntry>
+  errorsById: Map<string, string>
+  usage: Map<string, string[]>
+  isDirty: boolean
+  isFlashed: boolean
+  onMutate: () => void
+  onLinkToAlias: (token: Token) => void
+  onResetToken: (id: string) => void
+  onToast: (message: string, isError?: boolean) => void
+}
+
 function TokenRow({
   token,
   tokens,
@@ -554,9 +666,9 @@ function TokenRow({
   onLinkToAlias,
   onResetToken,
   onToast
-}) {
+}: TokenRowProps) {
   const node = token.node
-  const setVal = (v) => {
+  const setVal = (v: TokenValue) => {
     node.$value = v
     onMutate()
   }
@@ -571,6 +683,10 @@ function TokenRow({
   const resolvedEntry = resolved.get(token.id)
   const errorMsg = errorsById.get(token.id)
   const hasError = !!(resolvedEntry?.error || errorMsg)
+
+  const compositeObj = compositeProps && node.$value && typeof node.$value === 'object' && !Array.isArray(node.$value)
+    ? (node.$value as Record<string, TokenValue | undefined>)
+    : null
 
   return (
     <div
@@ -596,13 +712,13 @@ function TokenRow({
         onToast={onToast}
       />
 
-      {compositeProps && node.$value && typeof node.$value === 'object' ? (
+      {compositeProps && compositeObj ? (
         <div className="flex flex-col gap-2xs">
           {Object.entries(compositeProps).map(([prop, meta]) => {
-            const current = node.$value[prop]
+            const current = compositeObj[prop]
             if (current === undefined) return null
-            const setProp = (v) => {
-              node.$value[prop] = v
+            const setProp = (v: TokenValue) => {
+              compositeObj[prop] = v
               onMutate()
             }
             return T.refOf(current) ? (
@@ -657,6 +773,18 @@ function TokenRow({
   )
 }
 
+interface ShadeEditorProps {
+  token: Token
+  resolved: Map<string, ResolvedTokenEntry>
+  errorsById: Map<string, string>
+  usage: Map<string, string[]>
+  isDirty: boolean
+  isFlashed: boolean
+  onMutate: () => void
+  onResetToken: (id: string) => void
+  onToast: (message: string, isError?: boolean) => void
+}
+
 function ShadeEditor({
   token,
   resolved,
@@ -667,7 +795,7 @@ function ShadeEditor({
   onMutate,
   onResetToken,
   onToast
-}) {
+}: ShadeEditorProps) {
   const node = token.node
   const [L, Cv, H] = C.colorValueToOklch(node.$value)
   const hex = C.colorValueToHex(node.$value)
@@ -680,14 +808,14 @@ function ShadeEditor({
   const gradients = lchGradients(L, Cv, H)
   const inGamut = C.oklchToRgb(L, Cv, H).inGamut
 
-  const specs = [
+  const specs: Array<{ key: 'L' | 'C' | 'H'; min: number; max: number; step: number; val: number }> = [
     { key: 'L', min: 0, max: 1, step: 0.001, val: L },
     { key: 'C', min: 0, max: 0.37, step: 0.001, val: Cv },
     { key: 'H', min: 0, max: 360, step: 0.1, val: H }
   ]
 
-  const updateChannel = (index, nextNum) => {
-    const nextLch = [L, Cv, H]
+  const updateChannel = (index: number, nextNum: number) => {
+    const nextLch: OklchTuple = [L, Cv, H]
     nextLch[index] = nextNum
     setOklchOnNode(node, nextLch)
     onMutate()
@@ -781,7 +909,7 @@ function ShadeEditor({
       </div>
 
       <div className="flex flex-wrap items-center gap-2xs">
-        {[['#ffffff', 'W'], ['#000000', 'B']].map(([bg, letter]) => {
+        {([['#ffffff', 'W'], ['#000000', 'B']] as const).map(([bg, letter]) => {
           const lc = apcaContrast(node.$value, bg)
           const apca = apcaLevel(lc)
           const ratio = contrast(node.$value, bg)
@@ -817,23 +945,29 @@ function ShadeEditor({
   )
 }
 
-function PaletteBatchTools({ list, onMutate }) {
-  const snapshotRef = useRef(null)
+interface PaletteBatchToolsProps {
+  list: Token[]
+  onMutate: () => void
+}
+
+function PaletteBatchTools({ list, onMutate }: PaletteBatchToolsProps) {
+  const snapshotRef = useRef<OklchTuple[] | null>(null)
   const [hueDelta, setHueDelta] = useState(0)
   const [chromaMult, setChromaMult] = useState(1)
   const [lightDelta, setLightDelta] = useState(0)
 
-  const applyBatch = (amount, transformFn) => {
+  const applyBatch = (amount: number, transformFn: (lch: OklchTuple, k: number) => OklchTuple) => {
     if (!snapshotRef.current) {
       snapshotRef.current = list.map((t) => C.colorValueToOklch(t.node.$value))
     }
+    const snapshot = snapshotRef.current
     list.forEach((t, i) => {
-      setOklchOnNode(t.node, transformFn(snapshotRef.current[i], amount))
+      setOklchOnNode(t.node, transformFn(snapshot[i], amount))
     })
     onMutate()
   }
 
-  const releaseBatch = (resetFn) => {
+  const releaseBatch = (resetFn: () => void) => {
     snapshotRef.current = null
     resetFn()
   }
@@ -913,6 +1047,23 @@ function PaletteBatchTools({ list, onMutate }) {
   )
 }
 
+interface PaletteWidgetProps {
+  parentId: string
+  list: Token[]
+  resolved: Map<string, ResolvedTokenEntry>
+  errorsById: Map<string, string>
+  usage: Map<string, string[]>
+  selectedShadeId?: string
+  showTools: boolean
+  flashedId: string | null
+  isTokenDirty: (id: string) => boolean
+  onSelectShade: (parentId: string, tokenId: string) => void
+  onToggleTools: (parentId: string) => void
+  onMutate: () => void
+  onResetToken: (id: string) => void
+  onToast: (message: string, isError?: boolean) => void
+}
+
 function PaletteWidget({
   parentId,
   list,
@@ -928,8 +1079,8 @@ function PaletteWidget({
   onMutate,
   onResetToken,
   onToast
-}) {
-  const activeId = list.some((t) => t.id === selectedShadeId)
+}: PaletteWidgetProps) {
+  const activeId = selectedShadeId && list.some((t) => t.id === selectedShadeId)
     ? selectedShadeId
     : list[Math.floor((list.length - 1) / 2)].id
 
@@ -1012,6 +1163,37 @@ function PaletteWidget({
   )
 }
 
+export interface TokenEditorProps {
+  files: TokenFiles
+  tokens: Map<string, Token>
+  originalTokens: Map<string, Token>
+  resolved: Map<string, ResolvedTokenEntry>
+  errorsById: Map<string, string>
+  usage: Map<string, string[]>
+  theme: ThemeMode
+  category: string
+  query: string
+  level: TokenLevel
+  selectedShade: Record<string, string>
+  paletteTools: Set<string>
+  dirtyFilesList: string[]
+  flashedId: string | null
+  onSelectCategory: (cat: string) => void
+  onQueryChange: (query: string) => void
+  onLevelChange: (level: TokenLevel) => void
+  onSelectShade: (parentId: string, tokenId: string) => void
+  onTogglePaletteTools: (parentId: string) => void
+  onMutate: () => void
+  onToast: (message: string, isError?: boolean) => void
+}
+
+function alphaOf(value: TokenValue): number {
+  if (typeof value === 'object' && value !== null && !Array.isArray(value) && 'alpha' in value) {
+    return typeof value.alpha === 'number' ? value.alpha : 1
+  }
+  return 1
+}
+
 export function TokenEditor({
   files,
   tokens,
@@ -1034,7 +1216,7 @@ export function TokenEditor({
   onTogglePaletteTools,
   onMutate,
   onToast
-}) {
+}: TokenEditorProps) {
   const categories = [...new Set(Object.keys(files).map(T.categoryOf))].sort((a, b) => {
     const ia = CATEGORY_ORDER.indexOf(a)
     const ib = CATEGORY_ORDER.indexOf(b)
@@ -1044,13 +1226,13 @@ export function TokenEditor({
   const activeCategory = category ?? categories[0]
   const dirtyCategories = new Set(dirtyFilesList.map(T.categoryOf))
 
-  const isTokenDirty = (id) => {
+  const isTokenDirty = (id: string): boolean => {
     const cur = tokens.get(id)
     const orig = originalTokens.get(id)
     return !orig || !cur || !same(cur.node.$value, orig.node.$value)
   }
 
-  const handleLinkToAlias = (token) => {
+  const handleLinkToAlias = (token: Token) => {
     const list = candidatesFor(token.type, token, undefined, tokens)
     if (!list.length) {
       onToast('沒有可引用的同類型 token', true)
@@ -1062,7 +1244,7 @@ export function TokenEditor({
     onMutate()
   }
 
-  const handleResetToken = (id) => {
+  const handleResetToken = (id: string) => {
     const orig = originalTokens.get(id)
     const cur = tokens.get(id)
     if (!orig || !cur) return
@@ -1070,7 +1252,7 @@ export function TokenEditor({
     onMutate()
   }
 
-  const matchesQuery = (token) => {
+  const matchesQuery = (token: Token): boolean => {
     if (!query) return true
     const q = query.toLowerCase()
     return token.id.toLowerCase().includes(q) || T.cssName(token.path).includes(q)
@@ -1079,29 +1261,33 @@ export function TokenEditor({
   const matchingFiles = Object.keys(files)
     .filter((f) => T.categoryOf(f) === activeCategory && (!T.themeOf(f) || T.themeOf(f) === theme))
     .sort((a, b) => {
-      const ia = LEVEL_ORDER.indexOf(T.levelOf(a))
-      const ib = LEVEL_ORDER.indexOf(T.levelOf(b))
+      const ia = LEVEL_ORDER.indexOf(T.levelOf(a) ?? '')
+      const ib = LEVEL_ORDER.indexOf(T.levelOf(b) ?? '')
       return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib) || a.localeCompare(b)
     })
 
-  const fileSections = []
+  const fileSections: ReactNode[] = []
   for (const file of matchingFiles) {
     if (level !== 'all' && T.levelOf(file) !== level) continue
     const fileTokens = [...tokens.values()].filter((t) => t.file === file)
-    const groups = new Map()
+    const groups = new Map<string, Token[]>()
     for (const t of fileTokens) {
       const parent = t.path.slice(0, -1).join('.')
-      if (!groups.has(parent)) groups.set(parent, [])
-      groups.get(parent).push(t)
+      const bucket = groups.get(parent)
+      if (bucket) {
+        bucket.push(t)
+      } else {
+        groups.set(parent, [t])
+      }
     }
 
-    const groupBlocks = []
+    const groupBlocks: ReactNode[] = []
     for (const [parent, list] of groups) {
       const visible = list.filter(matchesQuery)
       if (!visible.length) continue
       const isPalette =
         list.length >= 3 &&
-        list.every((t) => t.type === 'color' && !T.refOf(t.node.$value) && (t.node.$value?.alpha ?? 1) === 1)
+        list.every((t) => t.type === 'color' && !T.refOf(t.node.$value) && alphaOf(t.node.$value) === 1)
 
       if (isPalette) {
         const shadeId = visible.length === 1 ? (selectedShade[parent] ?? visible[0].id) : selectedShade[parent]
@@ -1153,8 +1339,9 @@ export function TokenEditor({
 
     if (groupBlocks.length > 0) {
       const themeTag = T.themeOf(file) ? ` · ${T.themeOf(file)}` : ''
+      const fileLevel = T.levelOf(file)
       const sectionLabel =
-        T.levelOf(file) === 'component' ? `component · ${T.fileStemOf(file)}` : T.levelOf(file)
+        fileLevel === 'component' ? `component · ${T.fileStemOf(file)}` : fileLevel
       fileSections.push(
         <section key={file} className="flex flex-col gap-xs">
           <div className="flex items-center justify-between px-xs py-2xs rounded-2xs bg-layer-2 border-sm border-border-default">
@@ -1226,7 +1413,12 @@ export function TokenEditor({
           size="sm"
           aria-label="Token 層級"
           selectedKey={level}
-          onSelectionChange={(key) => onLevelChange(String(key))}
+          onSelectionChange={(key) => {
+            const next = String(key)
+            if (next === 'all' || next === 'global' || next === 'system' || next === 'component') {
+              onLevelChange(next)
+            }
+          }}
           className="w-28 shrink-0"
         >
           <SelectItem id="all">全部層級</SelectItem>

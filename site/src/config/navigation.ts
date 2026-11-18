@@ -1,4 +1,25 @@
-export const navSections = [
+export type NavItem =
+  | {
+    id: string
+    label: string
+    title: string
+    to: '/' | '/components'
+    params?: undefined
+  }
+  | {
+    id: string
+    label: string
+    title: string
+    to: '/foundations/$id'
+    params: { id: string }
+  }
+
+export interface NavSection {
+  title: string
+  items: NavItem[]
+}
+
+export const navSections: NavSection[] = [
   {
     title: 'Pact Design',
     items: [
@@ -25,9 +46,14 @@ export const navSections = [
   }
 ]
 
-export const flatNavItems = navSections.flatMap((section) => section.items)
+export const flatNavItems: NavItem[] = navSections.flatMap((section) => section.items)
 
-export function getDocSiblings(currentIdOrPath) {
+export interface DocSiblings {
+  prev: NavItem | null
+  next: NavItem | null
+}
+
+export function getDocSiblings(currentIdOrPath?: string): DocSiblings {
   if (!currentIdOrPath) return { prev: null, next: null }
 
   const normalized = currentIdOrPath.replace(/\/$/, '') || '/'
