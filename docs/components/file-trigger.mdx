@@ -1,0 +1,70 @@
+---
+title: "FileTrigger"
+eyebrow: "Components · React Aria"
+description: "Accessible native file input trigger that attaches OS file or directory selection dialogs to any Pact button or trigger element."
+---
+
+<ComponentPreview>
+  <FileTrigger acceptedFileTypes={['.json', '.svg', '.png']} />
+</ComponentPreview>
+
+```tsx
+import { FileTrigger } from '@pact-design/react'
+
+<FileTrigger
+  acceptedFileTypes={['.json', '.svg', '.png']}
+  onSelect={(files) => console.log(files)}
+/>
+```
+
+## API Reference
+
+Built on React Aria `FileTrigger`. Defaults to rendering a `Button` with an upload icon (`RiUpload2Line`) when `children` is omitted.
+
+### FileTrigger
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `'Choose file'` | Button label when using the default trigger button. |
+| `variant` | `'primary' \| 'secondary' \| 'subtle' \| 'ghost' \| 'danger'` | `'secondary'` | Variant applied to the default `Button`. |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height applied to the default `Button`. |
+| `icon` | `ReactNode` | `RiUpload2Line` | Replaces the default upload icon in the built-in button. |
+| `acceptedFileTypes` | `string[]` | `—` | Allowed MIME types or extensions (e.g. `['.json', 'image/*']`). |
+| `allowsMultiple` | `boolean` | `false` | Allows choosing multiple files simultaneously. |
+| `acceptDirectory` | `boolean` | `false` | Allows choosing directories rather than individual files. |
+| `onSelect` | `(files: FileList \| null) => void` | `—` | Callback fired after files are chosen in the file picker. |
+| `children` | `ReactNode` | `—` | Custom pressable trigger element replacing the default button. |
+
+## Examples
+
+### Variant & Size
+
+Customize the built-in trigger button using `variant`, `size`, and `label`.
+
+<ComponentPreview>
+  <FileTrigger variant="primary" size="sm" label="Import Tokens (.json)" acceptedFileTypes={['.json']} />
+  <FileTrigger variant="subtle" size="md" label="Upload Assets" allowsMultiple />
+</ComponentPreview>
+
+```tsx
+<FileTrigger variant="primary" size="sm" label="Import Tokens (.json)" acceptedFileTypes={['.json']} />
+<FileTrigger variant="subtle" size="md" label="Upload Assets" allowsMultiple />
+```
+
+### Custom Trigger Child
+
+Wrap any pressable React Aria control (such as a custom `Button`) to attach file picking without default icons.
+
+<ComponentPreview>
+  <FileTrigger acceptedFileTypes={['.svg']}>
+    <Button variant="ghost" size="sm">Attach SVG Icon...</Button>
+  </FileTrigger>
+</ComponentPreview>
+
+```tsx
+import { Button, FileTrigger } from '@pact-design/react'
+
+<FileTrigger acceptedFileTypes={['.svg']}>
+  <Button variant="ghost" size="sm">Attach SVG Icon...</Button>
+</FileTrigger>
+```

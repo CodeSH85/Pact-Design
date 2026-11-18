@@ -1,0 +1,80 @@
+---
+title: "Popover"
+eyebrow: "Components · React Aria"
+description: "Floating contextual container anchored relative to a trigger element with optional directional arrow and elevation shadow."
+---
+
+<ComponentPreview>
+  <Popover trigger={<Button variant="secondary">Open Inspector</Button>}>
+    <div className="flex flex-col gap-xs p-xs max-w-64">
+      <span className="text-label-sm font-semibold text-on-surface">Floating Inspector</span>
+      <p className="text-caption-md text-on-surface-muted m-0">
+        Popovers render on elevated surfaces with collision detection and Escape dismissal.
+      </p>
+    </div>
+  </Popover>
+</ComponentPreview>
+
+```tsx
+import { Button, Popover } from '@pact-design/react'
+
+<Popover trigger={<Button variant="secondary">Open Inspector</Button>}>
+  <div className="flex flex-col gap-xs p-xs">
+    <span className="text-label-sm font-semibold text-on-surface">Floating Inspector</span>
+    <p>Popovers render on elevated surfaces with collision detection.</p>
+  </div>
+</Popover>
+```
+
+## API Reference
+
+Built on React Aria `DialogTrigger`, `Popover`, and `OverlayArrow`. Exports `Popover`, `PopoverTrigger`, `PopoverContent`, and `PopoverDialog`.
+
+### Popover
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `trigger` | `ReactNode` | `—` | Trigger element wired with `DialogTrigger`. When omitted, composes manual trigger/content children. |
+| `contentProps` | `Omit<PopoverContentProps, 'children'>` | `—` | Placement, offset, and `showArrow` options forwarded to `PopoverContent`. |
+| `dialogProps` | `PopoverDialogProps` | `—` | Props forwarded to inner `PopoverDialog`. |
+| `isOpen` / `defaultOpen` | `boolean` | `—` | Controlled or initial open state. |
+| `onOpenChange` | `(isOpen: boolean) => void` | `—` | Callback fired when popover opens or closes. |
+
+### PopoverContent
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `placement` | `AriaPopoverProps['placement']` | `'bottom'` (React Aria default) | Preferred positioning (`'top'`, `'bottom start'`, `'right'`, etc.). |
+| `offset` | `number` | `6` | Pixel offset between trigger and popover surface. |
+| `showArrow` | `boolean` | `false` | Renders an SVG `OverlayArrow` aligned toward the trigger. |
+| `className` | `string \| ((props) => string)` | `—` | Optional CSS classes merged onto the popover panel. |
+
+## Examples
+
+### Arrow & Placement
+
+Enable `showArrow` and customize `placement` via `contentProps`.
+
+<ComponentPreview>
+  <Popover
+    trigger={<Button variant="secondary" size="sm">Top Arrow</Button>}
+    contentProps={{ placement: 'top', showArrow: true, offset: 10 }}
+  >
+    <div className="p-xs text-caption-md text-on-surface">Anchored above with OverlayArrow.</div>
+  </Popover>
+  <Popover
+    trigger={<Button variant="secondary" size="sm">Right Placement</Button>}
+    contentProps={{ placement: 'right', offset: 8 }}
+  >
+    <div className="p-xs text-caption-md text-on-surface">Aligned to the right edge.</div>
+  </Popover>
+</ComponentPreview>
+
+```tsx
+<Popover
+  trigger={<Button variant="secondary">Top Arrow</Button>}
+  contentProps={{ placement: 'top', showArrow: true, offset: 10 }}
+>
+  <div className="p-xs">Anchored above with OverlayArrow.</div>
+</Popover>
+```

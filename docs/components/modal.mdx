@@ -1,0 +1,153 @@
+---
+title: "Modal"
+eyebrow: "Components · React Aria"
+description: "Portal modal dialog with scrim backdrop, focus trapping, Escape dismissal, and responsive content widths."
+---
+
+<ComponentPreview>
+  <Modal
+    trigger={<Button variant="primary">Launch Modal</Button>}
+    title="Design System Calibration"
+    description="Inspect system tokens and APCA contrast thresholds before deployment."
+    footer={(
+      <>
+        <Button variant="ghost" size="sm" slot="close">Cancel</Button>
+        <Button variant="primary" size="sm" slot="close">Confirm Changes</Button>
+      </>
+    )}
+  >
+    <p className="text-body-sm text-on-surface m-0">
+      Modal renders over a full-viewport backdrop scrim with centered elevation shadow styling.
+    </p>
+  </Modal>
+</ComponentPreview>
+
+```tsx
+import { Button, Modal } from '@pact-design/react'
+
+<Modal
+  trigger={<Button variant="primary">Launch Modal</Button>}
+  title="Design System Calibration"
+  description="Inspect system tokens and APCA contrast thresholds before deployment."
+  footer={(
+    <>
+      <Button variant="ghost" size="sm" slot="close">Cancel</Button>
+      <Button variant="primary" size="sm" slot="close">Confirm Changes</Button>
+    </>
+  )}
+>
+  <p>Modal renders over a full-viewport backdrop scrim with centered elevation styling.</p>
+</Modal>
+```
+
+## API Reference
+
+Built on React Aria `ModalOverlay`, `Modal`, and Pact `Dialog` primitives. Exports `Modal`, `ModalTrigger`, `ModalContent`, `ModalDialog`, `ModalHeader`, and `ModalFooter`.
+
+### Modal
+
+When `trigger` is provided, renders an uncontrolled or controlled `DialogTrigger` paired with `ModalContent`, `ModalDialog`, `ModalHeader`, and `ModalFooter`.
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `trigger` | `ReactNode` | `—` | Button or pressable element that opens the modal dialog. |
+| `title` | `ReactNode` | `—` | Title text rendered inside `ModalHeader`. |
+| `description` | `ReactNode` | `—` | Description paragraph rendered beneath `title`. |
+| `footer` | `ReactNode` | `—` | Action controls rendered inside `ModalFooter`. |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'md'` | Max width preset for the modal panel. |
+| `isDismissable` | `boolean` | `true` | Allows dismissing the modal by clicking the backdrop scrim. |
+| `isOpen` / `defaultOpen` | `boolean` | `—` | Controlled or initial open state. |
+| `onOpenChange` | `(isOpen: boolean) => void` | `—` | Callback fired when open state changes. |
+
+### ModalContent
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'md'` | Controls max-width sizing tokens. |
+| `isDismissable` | `boolean` | `true` | Dismisses modal on outside backdrop click. |
+| `overlayClassName` | `string` | `—` | Additional classes for `ModalOverlay`. |
+| `className` | `string` | `—` | Additional classes for `Modal` container. |
+
+## Examples
+
+### Size
+
+Choose `sm`, `md`, `lg`, `xl`, or `full` to fit confirmation prompts or scrollable inspection content.
+
+<ComponentPreview>
+  <Modal
+    size="sm"
+    trigger={<Button variant="secondary" size="sm">Small Modal</Button>}
+    title="Delete Snapshot?"
+    description="This action cannot be undone."
+    footer={<Button variant="danger" size="sm" slot="close">Delete</Button>}
+  >
+    <p className="text-body-sm text-on-surface m-0">Compact `sm` modal width for quick confirmations.</p>
+  </Modal>
+  <Modal
+    size="lg"
+    trigger={<Button variant="secondary" size="sm">Large Modal</Button>}
+    title="Generated CSS Tokens"
+    footer={<Button variant="primary" size="sm" slot="close">Done</Button>}
+  >
+    <pre className="m-0 p-sm rounded-xs bg-layer-2 border border-border-default text-mono-xs">
+      {':root {\n  --pd-system-primary: oklch(0.55 0.22 264);\n}'}
+    </pre>
+  </Modal>
+</ComponentPreview>
+
+```tsx
+<Modal size="sm" trigger={<Button variant="secondary">Small Modal</Button>} title="Delete Snapshot?" />
+<Modal size="lg" trigger={<Button variant="secondary">Large Modal</Button>} title="Generated CSS Tokens" />
+```
+
+### Non-Dismissable Backdrop Composition
+
+Use `ModalTrigger` + `ModalContent` with `isDismissable={false}` for explicit user confirmation flows.
+
+<ComponentPreview>
+  <ModalTrigger>
+    <Button variant="subtle">Explicit Action Modal</Button>
+    <ModalContent size="sm" isDismissable={false}>
+      <ModalDialog>
+        <ModalHeader
+          title="Save Uncommitted Tokens?"
+          description="Backdrop clicks are disabled; select an explicit button below."
+          showCloseButton={false}
+        />
+        <ModalFooter>
+          <Button variant="ghost" size="sm" slot="close">Discard</Button>
+          <Button variant="primary" size="sm" slot="close">Save to Disk</Button>
+        </ModalFooter>
+      </ModalDialog>
+    </ModalContent>
+  </ModalTrigger>
+</ComponentPreview>
+
+```tsx
+import {
+  Button,
+  ModalContent,
+  ModalDialog,
+  ModalFooter,
+  ModalHeader,
+  ModalTrigger
+} from '@pact-design/react'
+
+<ModalTrigger>
+  <Button variant="subtle">Explicit Action Modal</Button>
+  <ModalContent size="sm" isDismissable={false}>
+    <ModalDialog>
+      <ModalHeader
+        title="Save Uncommitted Tokens?"
+        description="Backdrop clicks are disabled."
+        showCloseButton={false}
+      />
+      <ModalFooter>
+        <Button variant="ghost" size="sm" slot="close">Discard</Button>
+        <Button variant="primary" size="sm" slot="close">Save to Disk</Button>
+      </ModalFooter>
+    </ModalDialog>
+  </ModalContent>
+</ModalTrigger>
+```

@@ -1,0 +1,116 @@
+---
+title: "ListBox"
+eyebrow: "Components · React Aria"
+description: "Accessible vertical list collection supporting single or multiple selection, keyboard navigation, and optional bordered surfaces."
+---
+
+<ComponentPreview>
+  <div className="w-full max-w-64">
+    <ListBox
+      aria-label="System color roles"
+      surface="bordered"
+      selectionMode="single"
+      defaultSelectedKeys={['primary']}
+    >
+      <ListBoxItem id="primary">system.primary</ListBoxItem>
+      <ListBoxItem id="success">system.success</ListBoxItem>
+      <ListBoxItem id="warning">system.warning</ListBoxItem>
+      <ListBoxItem id="danger">system.danger</ListBoxItem>
+    </ListBox>
+  </div>
+</ComponentPreview>
+
+```tsx
+import { ListBox, ListBoxItem } from '@pact-design/react'
+
+<ListBox
+  aria-label="System color roles"
+  surface="bordered"
+  selectionMode="single"
+  defaultSelectedKeys={['primary']}
+>
+  <ListBoxItem id="primary">system.primary</ListBoxItem>
+  <ListBoxItem id="success">system.success</ListBoxItem>
+  <ListBoxItem id="warning">system.warning</ListBoxItem>
+  <ListBoxItem id="danger">system.danger</ListBoxItem>
+</ListBox>
+```
+
+## API Reference
+
+Built on React Aria `ListBox`, `ListBoxItem`, `ListBoxSection`, `Header`, and `Separator`. Also shared internally by `Select`, `ComboBox`, and `Autocomplete`.
+
+### ListBox
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `surface` | `'plain' \| 'bordered'` | `'plain'` | Plain padding container (for popovers) or standalone bordered card. |
+| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | Controls item check indicator behavior. |
+| `selectedKeys` / `defaultSelectedKeys` | `'all' \| Iterable<Key>` | `—` | Controlled or initial selected item keys. |
+| `onSelectionChange` | `(keys: Selection) => void` | `—` | Callback fired when item selection changes. |
+| `onAction` | `(key: Key) => void` | `—` | Callback fired when an item is activated. |
+| `disabledKeys` | `Iterable<Key>` | `—` | Disables specific items by key. |
+
+### Parts
+
+- **`ListBoxItem`**: Renders collection item states and a trailing `RiCheckLine` indicator when `isSelected`.
+- **`ListBoxSection`**: Groups related options with vertical section spacing.
+- **`ListBoxHeader`**: Uppercase caption heading inside a `ListBoxSection`.
+- **`ListBoxSeparator`**: Subtle horizontal hairline divider between sections or items.
+
+## Examples
+
+### Multiple Selection & Sections
+
+Enable `selectionMode="multiple"` and organize choices with `ListBoxSection`, `ListBoxHeader`, and `ListBoxSeparator`.
+
+<ComponentPreview>
+  <div className="w-full max-w-64">
+    <ListBox
+      aria-label="Export targets"
+      surface="bordered"
+      selectionMode="multiple"
+      defaultSelectedKeys={['css', 'uno']}
+    >
+      <ListBoxSection>
+        <ListBoxHeader>Build Targets</ListBoxHeader>
+        <ListBoxItem id="css">CSS Custom Properties</ListBoxItem>
+        <ListBoxItem id="uno">UnoCSS Preset</ListBoxItem>
+      </ListBoxSection>
+      <ListBoxSeparator />
+      <ListBoxSection>
+        <ListBoxHeader>Experimental</ListBoxHeader>
+        <ListBoxItem id="swift">SwiftUI Colors</ListBoxItem>
+        <ListBoxItem id="compose" isDisabled>Jetpack Compose (WIP)</ListBoxItem>
+      </ListBoxSection>
+    </ListBox>
+  </div>
+</ComponentPreview>
+
+```tsx
+import {
+  ListBox,
+  ListBoxHeader,
+  ListBoxItem,
+  ListBoxSection,
+  ListBoxSeparator
+} from '@pact-design/react'
+
+<ListBox
+  aria-label="Export targets"
+  surface="bordered"
+  selectionMode="multiple"
+  defaultSelectedKeys={['css', 'uno']}
+>
+  <ListBoxSection>
+    <ListBoxHeader>Build Targets</ListBoxHeader>
+    <ListBoxItem id="css">CSS Custom Properties</ListBoxItem>
+    <ListBoxItem id="uno">UnoCSS Preset</ListBoxItem>
+  </ListBoxSection>
+  <ListBoxSeparator />
+  <ListBoxSection>
+    <ListBoxHeader>Experimental</ListBoxHeader>
+    <ListBoxItem id="swift">SwiftUI Colors</ListBoxItem>
+  </ListBoxSection>
+</ListBox>
+```

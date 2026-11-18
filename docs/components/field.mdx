@@ -1,0 +1,136 @@
+---
+title: "Field"
+eyebrow: "Components · React Aria"
+description: "Low-level form field primitives shared across Pact inputs, date controls, and pickers."
+---
+
+<ComponentPreview>
+  <div className="w-full max-w-80">
+    <TextField defaultValue="system.primary">
+      <Label>Token Identifier</Label>
+      <FieldGroup size="md">
+        <Input placeholder="e.g. system.primary" />
+        <FieldButton aria-label="Copy token identifier">Copy</FieldButton>
+      </FieldGroup>
+      <FieldDescription>Compose custom inputs cleanly using Field primitives.</FieldDescription>
+      <FieldError />
+    </TextField>
+  </div>
+</ComponentPreview>
+
+```tsx
+import {
+  FieldButton,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  Input,
+  Label,
+  TextField
+} from '@pact-design/react'
+
+<TextField defaultValue="system.primary">
+  <Label>Token Identifier</Label>
+  <FieldGroup size="md">
+    <Input placeholder="e.g. system.primary" />
+    <FieldButton aria-label="Copy token identifier">Copy</FieldButton>
+  </FieldGroup>
+  <FieldDescription>Compose custom inputs cleanly using Field primitives.</FieldDescription>
+  <FieldError />
+</TextField>
+```
+
+## API Reference
+
+Built on React Aria `Label`, `Group`, `Input`, `Button`, `Text`, and `FieldError`.
+
+### Parts
+
+- **`Label`**: Accessible field label with medium weight and default cursor.
+- **`FieldGroup`**: Token-styled input container supporting focus-within, invalid, and disabled states.
+- **`Input`**: Transparent flex-1 input reset nested cleanly inside `FieldGroup`.
+- **`FieldButton`**: Compact action button styled to sit inside `FieldGroup` edges.
+- **`FieldDescription`**: Caption text mapped with `slot="description"`.
+- **`FieldError`**: Error message primitive rendered when parent field validation fails.
+
+### FieldGroup
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`), padding, and border radius. |
+| `isDisabled` | `boolean` | `false` | Applies disabled surface styling to the group container. |
+| `isInvalid` | `boolean` | `false` | Applies invalid danger border tokens. |
+| `className` | `string \| ((props) => string)` | `—` | Optional CSS classes merged onto the group container. |
+
+### FieldButton
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `isDisabled` / `disabled` | `boolean` | `false` | Disables interaction and pointer clicks. |
+| `onPress` | `(e: PressEvent) => void` | `—` | Unified mouse, touch, and keyboard activation callback. |
+| `className` | `string \| ((props) => string)` | `—` | Optional CSS classes merged with inline field button styles. |
+
+## Examples
+
+### Size
+
+`FieldGroup` scales seamlessly from `xs` (24px) to `xl` (40px) while keeping inner `Input` and `FieldButton` aligned.
+
+<ComponentPreview align="stretch">
+  <div className="flex flex-col gap-md">
+    <TextField aria-label="Field XS">
+      <FieldGroup size="xs">
+        <Input placeholder="FieldGroup size='xs' (24px)" />
+      </FieldGroup>
+    </TextField>
+    <TextField aria-label="Field SM">
+      <FieldGroup size="sm">
+        <Input placeholder="FieldGroup size='sm' (28px)" />
+      </FieldGroup>
+    </TextField>
+    <TextField aria-label="Field MD">
+      <FieldGroup size="md">
+        <Input placeholder="FieldGroup size='md' (32px)" />
+      </FieldGroup>
+    </TextField>
+    <TextField aria-label="Field LG">
+      <FieldGroup size="lg">
+        <Input placeholder="FieldGroup size='lg' (36px)" />
+      </FieldGroup>
+    </TextField>
+  </div>
+</ComponentPreview>
+
+```tsx
+<TextField aria-label="Field SM">
+  <FieldGroup size="sm">
+    <Input placeholder="FieldGroup size='sm' (28px)" />
+  </FieldGroup>
+</TextField>
+```
+
+### Validation Error State
+
+Pass `isInvalid` on the parent field so `FieldGroup` highlights in danger border tokens and renders `FieldError`.
+
+<ComponentPreview>
+  <div className="w-full max-w-80">
+    <TextField isInvalid defaultValue="invalid hex">
+      <Label>Primary Color HEX</Label>
+      <FieldGroup size="md">
+        <Input />
+      </FieldGroup>
+      <FieldError>Value must be a valid 6-digit hex code.</FieldError>
+    </TextField>
+  </div>
+</ComponentPreview>
+
+```tsx
+<TextField isInvalid defaultValue="invalid hex">
+  <Label>Primary Color HEX</Label>
+  <FieldGroup size="md">
+    <Input />
+  </FieldGroup>
+  <FieldError>Value must be a valid 6-digit hex code.</FieldError>
+</TextField>
+```
