@@ -3,8 +3,11 @@ declare module '@pact-design/tokens/uno' {
     colors: Record<string, string>
     spacing: Record<string, string>
     width: Record<string, string>
+    minWidth: Record<string, string>
+    maxWidth: Record<string, string>
     height: Record<string, string>
     minHeight: Record<string, string>
+    maxHeight: Record<string, string>
     borderRadius: Record<string, string>
     borderWidth: Record<string, string>
     lineWidth: Record<string, string>

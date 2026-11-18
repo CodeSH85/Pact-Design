@@ -7,8 +7,11 @@ const colorKeys = Object.keys(pactTheme.colors)
 const fontSizeKeys = Object.keys(pactTheme.fontSize)
 const spacingKeys = Object.keys(pactTheme.spacing)
 const widthKeys = Object.keys(pactTheme.width)
+const minWidthKeys = Object.keys(pactTheme.minWidth)
+const maxWidthKeys = Object.keys(pactTheme.maxWidth)
 const heightKeys = Object.keys(pactTheme.height)
 const minHeightKeys = Object.keys(pactTheme.minHeight)
+const maxHeightKeys = Object.keys(pactTheme.maxHeight)
 const radiusKeys = Object.keys(pactTheme.borderRadius)
 const borderWidthKeys = Object.keys(pactTheme.borderWidth)
 const shadowKeys = Object.keys(pactTheme.boxShadow)
@@ -31,8 +34,11 @@ export const customTwMerge = extendTailwindMerge({
       rounded: [{ rounded: radiusKeys }],
       shadow: [{ shadow: shadowKeys }],
       w: [{ w: widthKeys }],
+      'min-w': [{ 'min-w': minWidthKeys }],
+      'max-w': [{ 'max-w': maxWidthKeys }],
       h: [{ h: heightKeys }],
       'min-h': [{ 'min-h': minHeightKeys }],
+      'max-h': [{ 'max-h': maxHeightKeys }],
       z: [{ z: zIndexKeys }],
       duration: [{ duration: durationKeys }],
       ease: [{ ease: easingKeys }]
