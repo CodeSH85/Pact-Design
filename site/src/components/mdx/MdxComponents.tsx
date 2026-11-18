@@ -1,8 +1,8 @@
 import type { ComponentPropsWithoutRef } from 'react'
-import type { MDXComponents } from 'mdx/types'
+import type { useMDXComponents } from '@mdx-js/react'
 import { ColorPalette } from '../demos/ColorPalette'
 
-export const mdxComponents: MDXComponents = {
+export const mdxComponents: ReturnType<typeof useMDXComponents> = {
   h2: (props: ComponentPropsWithoutRef<'h2'>) => (
     <h2 className="my-sm text-heading-xs text-on-surface-default scroll-mt-xl" {...props} />
   ),

@@ -1,6 +1,5 @@
 import { useEffect, type ComponentType } from 'react'
-import { MDXProvider } from '@mdx-js/react'
-import type { MDXComponents } from 'mdx/types'
+import { MDXProvider, type useMDXComponents } from '@mdx-js/react'
 import { mdxComponents } from './MdxComponents'
 import { DocFooter } from '../layout/DocFooter'
 import { TableOfContents } from '../layout/TableOfContents'
@@ -12,7 +11,7 @@ interface SpecFrontmatter {
 }
 
 interface MdxSpecModule {
-  default: ComponentType<{ components?: MDXComponents }>
+  default: ComponentType<{ components?: ReturnType<typeof useMDXComponents> }>
   frontmatter?: SpecFrontmatter
 }
 
