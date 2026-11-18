@@ -8,13 +8,53 @@ import {
   ToggleButton,
   ToggleButtonGroup
 } from '@pact-design/react'
-import { navSections } from '../../config/navigation'
+import { navSections, type NavItem } from '../../config/navigation'
 import type { ThemeMode } from '../../types/tokens'
+
+const SHARED_NAV_LINK_PROPS = {
+  activeOptions: { exact: true },
+  className: 'hover-bg-layer-1-hover py-2xs px-md text-body-sm',
+  activeProps: {
+    className: 'bg-layer-1-selected hover-bg-layer-1-selected-hover ring-sm ring-inset ring-border-default text-on-surface font-medium',
+    'aria-current': 'page' as const
+  },
+  inactiveProps: {
+    className: 'text-on-surface-default'
+  }
+}
+
+function SideNavLink({ item }: { item: NavItem }) {
+  if (item.to === '/foundations/$id') {
+    return (
+      <Link to="/foundations/$id" params={item.params} {...SHARED_NAV_LINK_PROPS}>
+        <span>{item.label}</span>
+      </Link>
+    )
+  }
+
+  if (item.to === '/components/$id') {
+    return (
+      <Link to="/components/$id" params={item.params} {...SHARED_NAV_LINK_PROPS}>
+        <span>{item.label}</span>
+      </Link>
+    )
+  }
+
+  return (
+    <Link to={item.to} {...SHARED_NAV_LINK_PROPS}>
+      <span>{item.label}</span>
+    </Link>
+  )
+}
 
 export function RootLayout() {
   const navigate = useNavigate()
   const pathname = useRouterState({ select: (s) => s.location.pathname })
-  const isTokenPlayground = pathname.endsWith('/playground')
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '')
+  const routePath = basePath && pathname.startsWith(basePath)
+    ? pathname.slice(basePath.length) || '/'
+    : pathname
+  const isTokenPlayground = routePath === '/playground' || routePath === '/playground/'
 
   const [theme, setTheme] = useState<ThemeMode>(() => {
     if (typeof document !== 'undefined') {
@@ -94,13 +134,13 @@ export function RootLayout() {
       <div className="flex flex-1 min-h-0 overflow-hidden">
         {!isTokenPlayground && (
           <aside
-            className="flex flex-col min-w-12rem bg-layer-1 border-r border-border-default overflow-y-auto"
+            className="flex flex-col min-w-12rem shrink-0 bg-layer-1 border-r border-border-default overflow-y-auto"
             aria-label="Documentation Navigation"
           >
             <DisclosureGroup
               allowsMultipleExpanded
               defaultExpandedKeys={navSections.map((section) => section.title)}
-              className="gap-0"
+              className="gap-0 shrink-0"
             >
               {navSections.map((section) => (
                 <Disclosure
@@ -111,37 +151,9 @@ export function RootLayout() {
                   panelProps={{ className: 'p-0' }}
                 >
                   <div className="flex flex-col">
-                    {section.items.map((item) => {
-                      const sharedLinkProps = {
-                        activeOptions: { exact: true },
-                        className: 'hover-bg-layer-1-hover py-2xs px-md text-body-sm',
-                        activeProps: {
-                          className: 'bg-layer-1-selected hover-bg-layer-1-selected-hover ring-sm ring-inset ring-border-default text-on-surface font-medium',
-                          'aria-current': 'page' as const
-                        },
-                        inactiveProps: {
-                          className: 'text-on-surface-default'
-                        }
-                      }
-                      return item.to === '/foundations/$id' ? (
-                        <Link
-                          key={item.label}
-                          to={item.to}
-                          params={item.params}
-                          {...sharedLinkProps}
-                        >
-                          <span>{item.label}</span>
-                        </Link>
-                      ) : (
-                        <Link
-                          key={item.label}
-                          to={item.to}
-                          {...sharedLinkProps}
-                        >
-                          <span>{item.label}</span>
-                        </Link>
-                      )
-                    })}
+                    {section.items.map((item) => (
+                      <SideNavLink key={item.id} item={item} />
+                    ))}
                   </div>
                 </Disclosure>
               ))}
