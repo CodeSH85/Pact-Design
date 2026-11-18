@@ -1,0 +1,98 @@
+---
+title: "Checkbox"
+eyebrow: "Components · React Aria"
+description: "Compact binary or indeterminate selection control paired with CheckboxGroup for multi-select form options."
+---
+
+<ComponentPreview>
+  <Checkbox defaultChecked label="Enable compact layout" description="Uses 4px base grid and 28px–32px control heights." />
+</ComponentPreview>
+
+```tsx
+import { Checkbox } from '@pact-design/react'
+
+<Checkbox
+  defaultChecked
+  label="Enable compact layout"
+  description="Uses 4px base grid and 28px–32px control heights."
+/>
+```
+
+## API Reference
+
+Built on React Aria `Checkbox` and `CheckboxGroup`. Accepts both React Aria toggle props (`isSelected`, `defaultSelected`, `onChange`) and native aliases (`checked`, `defaultChecked`, `onCheckedChange`).
+
+### Checkbox
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | Primary label displayed beside the checkbox indicator. |
+| `description` | `ReactNode` | `—` | Supporting text displayed beneath the label. |
+| `isSelected` / `checked` | `boolean` | `—` | Controlled selection state. |
+| `defaultSelected` / `defaultChecked` | `boolean` | `false` | Initial selection state for uncontrolled usage. |
+| `isIndeterminate` | `boolean` | `false` | Displays an indeterminate minus icon indicator. |
+| `isDisabled` / `disabled` | `boolean` | `false` | Disables pointer and keyboard selection. |
+| `onChange` / `onCheckedChange` | `(isSelected: boolean) => void` | `—` | Handler called when checked state changes. |
+| `value` | `string` | `—` | Option value when nested inside a `CheckboxGroup`. |
+| `className` | `string` | `—` | Optional CSS classes for the root label container. |
+
+### CheckboxGroup
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | Group heading label. |
+| `description` | `ReactNode` | `—` | Group-level help text. |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Validation message when group is invalid. |
+| `value` | `string[]` | `—` | Controlled array of selected item values. |
+| `defaultValue` | `string[]` | `—` | Initial selected values for uncontrolled groups. |
+| `onChange` | `(value: string[]) => void` | `—` | Callback fired when the selected values array changes. |
+
+## Examples
+
+### Group Selection
+
+Group related checkboxes with shared labels and descriptions via `CheckboxGroup`.
+
+<ComponentPreview align="start">
+  <CheckboxGroup
+    label="UI Density Options"
+    description="Select active system guards"
+    defaultValue={['compact', 'apca']}
+  >
+    <Checkbox value="compact" label="Enable compact layout" description="4px base grid and tight surface padding." />
+    <Checkbox value="apca" label="Enforce APCA contrast guard" description="Requires |Lc| >= 60 on solid pairings." />
+    <Checkbox value="telemetry" label="Stream live token telemetry" />
+  </CheckboxGroup>
+</ComponentPreview>
+
+```tsx
+import { Checkbox, CheckboxGroup } from '@pact-design/react'
+
+<CheckboxGroup
+  label="UI Density Options"
+  description="Select active system guards"
+  defaultValue={['compact', 'apca']}
+>
+  <Checkbox value="compact" label="Enable compact layout" />
+  <Checkbox value="apca" label="Enforce APCA contrast guard" />
+  <Checkbox value="telemetry" label="Stream live token telemetry" />
+</CheckboxGroup>
+```
+
+### Indeterminate & Disabled
+
+Display partial selection and disabled states.
+
+<ComponentPreview align="start">
+  <div className="flex flex-col gap-sm">
+    <Checkbox isIndeterminate label="Partially selected tokens" />
+    <Checkbox disabled defaultChecked label="Locked system policy" />
+    <Checkbox disabled label="Unavailable legacy tier" />
+  </div>
+</ComponentPreview>
+
+```tsx
+<Checkbox isIndeterminate label="Partially selected tokens" />
+<Checkbox disabled defaultChecked label="Locked system policy" />
+<Checkbox disabled label="Unavailable legacy tier" />
+```

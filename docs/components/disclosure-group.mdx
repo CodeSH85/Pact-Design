@@ -1,0 +1,97 @@
+---
+title: "DisclosureGroup"
+eyebrow: "Components · React Aria"
+description: "Accordion container managing single or multiple expanded Disclosure panels in separated or grouped layouts."
+---
+
+<ComponentPreview align="stretch">
+  <DisclosureGroup defaultExpandedKeys={['tokens']}>
+    <Disclosure id="tokens" title="1. Design Token Architecture">
+      Global primitives, System semantic roles, and Component overrides form a single source of truth.
+    </Disclosure>
+    <Disclosure id="contrast" title="2. Perceptual Contrast Standard">
+      Calibrated against APCA-W3 ensuring |Lc| &gt;= 60 for foreground text pairs.
+    </Disclosure>
+    <Disclosure id="density" title="3. Information Density">
+      Control heights span 24px (xs) to 40px (xl) for enterprise dashboards and inspectors.
+    </Disclosure>
+  </DisclosureGroup>
+</ComponentPreview>
+
+```tsx
+import { Disclosure, DisclosureGroup } from '@pact-design/react'
+
+<DisclosureGroup defaultExpandedKeys={['tokens']}>
+  <Disclosure id="tokens" title="1. Design Token Architecture">
+    Global primitives, System semantic roles, and Component overrides.
+  </Disclosure>
+  <Disclosure id="contrast" title="2. Perceptual Contrast Standard">
+    Calibrated against APCA-W3 ensuring |Lc| >= 60 for foreground text pairs.
+  </Disclosure>
+</DisclosureGroup>
+```
+
+## API Reference
+
+Built on React Aria `DisclosureGroup`. Exports `DisclosureGroup`, `disclosureGroupVariants`, and `DisclosureGroupItemData`.
+
+### DisclosureGroup
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'separated' \| 'grouped'` | `'separated'` | Separated bordered items with gaps, or a unified container with `divide-y` hairlines. |
+| `items` | `DisclosureGroupItemData[]` | `—` | Data-driven items array (`{ id, title, content, isDisabled? }`). |
+| `allowsMultipleExpanded` | `boolean` | `false` | Permits more than one `Disclosure` panel to stay expanded simultaneously. |
+| `expandedKeys` / `defaultExpandedKeys` | `Iterable<Key>` | `—` | Controlled or initial set of expanded item IDs. |
+| `onExpandedChange` | `(keys: Set<Key>) => void` | `—` | Handler fired when expanded keys change. |
+| `isDisabled` | `boolean` | `false` | Disables all child disclosures. |
+
+## Examples
+
+### Grouped Variant & Multi-Expand
+
+Set `variant="grouped"` to collapse outer item borders into one crisp divided surface, and enable `allowsMultipleExpanded` when panels can remain open together.
+
+<ComponentPreview align="stretch">
+  <DisclosureGroup variant="grouped" allowsMultipleExpanded defaultExpandedKeys={['global', 'system']}>
+    <Disclosure id="global" title="Global Layer">
+      Raw OKLCH palettes, numeric dimensions, durations, and easing curves.
+    </Disclosure>
+    <Disclosure id="system" title="System Layer">
+      Light and dark theme semantic surfaces, ink contrast roles, and focus rings.
+    </Disclosure>
+    <Disclosure id="component" title="Component Layer">
+      Scoped component height, padding, and state overrides referencing System tokens.
+    </Disclosure>
+  </DisclosureGroup>
+</ComponentPreview>
+
+```tsx
+<DisclosureGroup variant="grouped" allowsMultipleExpanded defaultExpandedKeys={['global', 'system']}>
+  <Disclosure id="global" title="Global Layer">...</Disclosure>
+  <Disclosure id="system" title="System Layer">...</Disclosure>
+  <Disclosure id="component" title="Component Layer">...</Disclosure>
+</DisclosureGroup>
+```
+
+### Data-Driven Items
+
+Pass an `items` array directly for concise accordion lists.
+
+<ComponentPreview align="stretch">
+  <DisclosureGroup
+    items={[
+      { id: 'css', title: 'CSS Variables Output', content: 'Emits Light and Dark blocks to _variables.css.' },
+      { id: 'uno', title: 'UnoCSS Theme Preset', content: 'Maps Pact tokens into atomic utility classes.' }
+    ]}
+  />
+</ComponentPreview>
+
+```tsx
+<DisclosureGroup
+  items={[
+    { id: 'css', title: 'CSS Variables Output', content: 'Emits Light and Dark blocks to _variables.css.' },
+    { id: 'uno', title: 'UnoCSS Theme Preset', content: 'Maps Pact tokens into atomic utility classes.' }
+  ]}
+/>
+```

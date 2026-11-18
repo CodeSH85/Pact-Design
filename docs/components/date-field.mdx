@@ -1,0 +1,87 @@
+---
+title: "DateField"
+eyebrow: "Components · React Aria"
+description: "Segmented keyboard-accessible date input using tabular monospace numerals powered by @internationalized/date."
+---
+
+import { parseDate } from '@internationalized/date'
+
+<ComponentPreview>
+  <div className="w-full max-w-64">
+    <DateField
+      label="Audit Date"
+      description="APCA contrast certification date"
+      defaultValue={parseDate('2026-11-18')}
+    />
+  </div>
+</ComponentPreview>
+
+```tsx
+import { parseDate } from '@internationalized/date'
+import { DateField } from '@pact-design/react'
+
+<DateField
+  label="Audit Date"
+  description="APCA contrast certification date"
+  defaultValue={parseDate('2026-11-18')}
+/>
+```
+
+## API Reference
+
+Built on React Aria `DateField`, `DateInput`, and `DateSegment`. Exports `DateField`, `DateInput`, `DateSegment`, and type `DateValue`.
+
+### DateField
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | Field label above the segmented date input. |
+| `description` | `ReactNode` | `—` | Supporting text beneath the input. |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Error text shown when the entered date fails validation. |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`) applied to `FieldGroup`. |
+| `value` / `defaultValue` | `DateValue` | `—` | Controlled or initial date value. |
+| `onChange` | `(value: DateValue \| null) => void` | `—` | Fired when the date value changes. |
+| `minValue` / `maxValue` | `DateValue` | `—` | Valid selectable date range bounds. |
+| `granularity` | `'day' \| 'hour' \| 'minute' \| 'second'` | `'day'` | Smallest editable segment precision. |
+| `isDisabled` | `boolean` | `false` | Disables segment editing. |
+| `isReadOnly` | `boolean` | `false` | Prevents user edits while remaining focusable. |
+| `dateInputProps` | `DateInputProps` | `—` | Props forwarded to the default `DateInput`. |
+
+### Parts
+
+- **`DateInput`**: Flex row rendering `DateSegment` items inside `FieldGroup`.
+- **`DateSegment`**: Individual interactive year, month, day, or literal segment formatted with `tabular-nums font-mono`.
+
+## Examples
+
+### Size
+
+Scale the date field across compact (`sm`) and spacious (`lg`) form densities.
+
+<ComponentPreview align="stretch">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+    <DateField label="Compact (sm)" size="sm" defaultValue={parseDate('2026-11-18')} />
+    <DateField label="Comfortable (lg)" size="lg" defaultValue={parseDate('2026-11-18')} />
+  </div>
+</ComponentPreview>
+
+```tsx
+<DateField label="Compact (sm)" size="sm" defaultValue={parseDate('2026-11-18')} />
+<DateField label="Comfortable (lg)" size="lg" defaultValue={parseDate('2026-11-18')} />
+```
+
+### Granularity & Disabled
+
+Use `granularity="minute"` with `parseDateTime` or disable input with `isDisabled`.
+
+<ComponentPreview align="stretch">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+    <DateField label="Hourly Precision" granularity="hour" />
+    <DateField label="Disabled Field" isDisabled defaultValue={parseDate('2026-11-18')} />
+  </div>
+</ComponentPreview>
+
+```tsx
+<DateField label="Hourly Precision" granularity="hour" />
+<DateField label="Disabled Field" isDisabled defaultValue={parseDate('2026-11-18')} />
+```

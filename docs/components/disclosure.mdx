@@ -1,0 +1,90 @@
+---
+title: "Disclosure"
+eyebrow: "Components · React Aria"
+description: "Accessible expandable content panel with a rotating chevron trigger and bordered or ghost surface styles."
+---
+
+<ComponentPreview align="stretch">
+  <Disclosure id="architecture" title="Three-Tier Token Architecture" defaultExpanded>
+    Pact Design separates Global primitives, System semantic roles, and Component-scoped slots so themes swap without rewriting component CSS.
+  </Disclosure>
+</ComponentPreview>
+
+```tsx
+import { Disclosure } from '@pact-design/react'
+
+<Disclosure id="architecture" title="Three-Tier Token Architecture" defaultExpanded>
+  Pact Design separates Global primitives, System semantic roles, and Component-scoped slots.
+</Disclosure>
+```
+
+## API Reference
+
+Built on React Aria `Disclosure`, `DisclosurePanel`, `Heading`, and `Button` (`slot="trigger"`). Exports `Disclosure`, `DisclosureHeader`, and `DisclosurePanel`.
+
+### Disclosure
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `title` | `ReactNode` | `—` | When provided, renders `DisclosureHeader` and wraps `children` in `DisclosurePanel` automatically. |
+| `variant` | `'bordered' \| 'ghost'` | `'bordered'` (inherits from `DisclosureGroup` when grouped) | Bordered card or bottom-divider ghost style. |
+| `isExpanded` / `defaultExpanded` | `boolean` | `false` | Controlled or initial expanded state. |
+| `onExpandedChange` | `(isExpanded: boolean) => void` | `—` | Callback fired when expansion state toggles. |
+| `isDisabled` | `boolean` | `false` | Disables toggling the panel. |
+| `panelProps` | `DisclosurePanelProps` | `—` | Props forwarded to `DisclosurePanel` when `title` shorthand is used. |
+| `className` | `string` | `—` | Optional CSS classes for the root disclosure container. |
+
+### Parts
+
+- **`DisclosureHeader`**: Wraps `AriaHeading` + `AriaButton` (`slot="trigger"`) with rotating `RiArrowRightSLine` chevron.
+- **`DisclosurePanel`**: Collapsible region hidden via `aria-hidden:hidden`.
+
+## Examples
+
+### Variant
+
+Switch between `bordered` standalone cards and `ghost` divider rows (ideal for sidebars).
+
+<ComponentPreview align="stretch">
+  <div className="flex flex-col gap-md">
+    <Disclosure variant="bordered" title="Bordered Card Variant" defaultExpanded>
+      Uses bordered surface framing and rounded container corners.
+    </Disclosure>
+    <Disclosure variant="ghost" title="Ghost Divider Variant">
+      Transparent background with a bottom border divider, well suited for dense navigation panels.
+    </Disclosure>
+  </div>
+</ComponentPreview>
+
+```tsx
+<Disclosure variant="bordered" title="Bordered Card Variant" defaultExpanded>
+  Uses bordered surface framing and rounded container corners.
+</Disclosure>
+<Disclosure variant="ghost" title="Ghost Divider Variant">
+  Transparent background with a bottom border divider.
+</Disclosure>
+```
+
+### Custom Panel Composition
+
+Omit `title` and compose `DisclosureHeader` + `DisclosurePanel` directly for full control over header markup and panel padding.
+
+<ComponentPreview align="stretch">
+  <Disclosure>
+    <DisclosureHeader>Custom Header Trigger</DisclosureHeader>
+    <DisclosurePanel className="bg-layer-2">
+      Custom content container styled independently via <code>DisclosurePanel</code>.
+    </DisclosurePanel>
+  </Disclosure>
+</ComponentPreview>
+
+```tsx
+import { Disclosure, DisclosureHeader, DisclosurePanel } from '@pact-design/react'
+
+<Disclosure>
+  <DisclosureHeader>Custom Header Trigger</DisclosureHeader>
+  <DisclosurePanel className="bg-layer-2">
+    Custom content container styled independently.
+  </DisclosurePanel>
+</Disclosure>
+```
