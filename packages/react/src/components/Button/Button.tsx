@@ -4,7 +4,13 @@ import {
   type ButtonProps as AriaButtonProps
 } from 'react-aria-components'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { composeTailwindRenderProps, disabledStyles, focusRing } from '../../utils/index.ts'
+import {
+  composeTailwindRenderProps,
+  disabledStyles,
+  focusRing,
+  resolveDisabled,
+  type DisableableProps
+} from '../../utils/index.ts'
 
 export const buttonVariants = cva(
   [
@@ -59,8 +65,8 @@ export const buttonVariants = cva(
 
 export interface ButtonProps
   extends Omit<AriaButtonProps, 'children'>,
-  VariantProps<typeof buttonVariants> {
-  disabled?: boolean
+  VariantProps<typeof buttonVariants>,
+  DisableableProps {
   children?: ReactNode | AriaButtonProps['children']
 }
 
@@ -75,7 +81,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <AriaButton
-      isDisabled={isDisabled ?? disabled}
+      isDisabled={resolveDisabled({ disabled, isDisabled })}
       className={composeTailwindRenderProps(
         className,
         buttonVariants({ variant, size })
