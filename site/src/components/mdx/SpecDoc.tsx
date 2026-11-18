@@ -4,6 +4,8 @@ import { mdxComponents } from './MdxComponents'
 import { DocFooter } from '../layout/DocFooter'
 import { TableOfContents } from '../layout/TableOfContents'
 
+export type DocCategory = 'spec' | 'components'
+
 interface SpecFrontmatter {
   title?: string
   eyebrow?: string
@@ -23,25 +25,35 @@ interface SpecRegistryEntry {
 
 export interface SpecDocProps {
   id: string
+  category?: DocCategory
   showHeader?: boolean
 }
 
-const mdxModules = import.meta.glob<MdxSpecModule>('../../../../docs/spec/*.mdx', { eager: true })
+const specModules = import.meta.glob<MdxSpecModule>('../../../../docs/spec/*.mdx', { eager: true })
+const componentModules = import.meta.glob<MdxSpecModule>('../../../../docs/components/*.mdx', { eager: true })
 
-const specRegistry: Record<string, SpecRegistryEntry> = {}
-for (const [filePath, mod] of Object.entries(mdxModules)) {
-  const fileName = filePath.split('/').pop()
-  if (!fileName) continue
-  const id = fileName.replace(/\.mdx$/, '')
-  specRegistry[id] = {
-    id,
-    Content: mod.default,
-    frontmatter: mod.frontmatter ?? {}
+function buildRegistry(modules: Record<string, MdxSpecModule>): Record<string, SpecRegistryEntry> {
+  const registry: Record<string, SpecRegistryEntry> = {}
+  for (const [filePath, mod] of Object.entries(modules)) {
+    const fileName = filePath.split('/').pop()
+    if (!fileName) continue
+    const id = fileName.replace(/\.mdx$/, '')
+    registry[id] = {
+      id,
+      Content: mod.default,
+      frontmatter: mod.frontmatter ?? {}
+    }
   }
+  return registry
 }
 
-export function SpecDoc({ id, showHeader = true }: SpecDocProps) {
-  const entry = specRegistry[id]
+const registries: Record<DocCategory, Record<string, SpecRegistryEntry>> = {
+  spec: buildRegistry(specModules),
+  components: buildRegistry(componentModules)
+}
+
+export function SpecDoc({ id, category = 'spec', showHeader = true }: SpecDocProps) {
+  const entry = registries[category][id]
   const title = entry?.frontmatter.title || 'Pact Design'
 
   useEffect(() => {
@@ -53,7 +65,7 @@ export function SpecDoc({ id, showHeader = true }: SpecDocProps) {
   if (!entry) {
     return (
       <div className="p-md bg-danger-subtle text-on-danger-subtle border border-danger-border rounded-xs text-body-sm">
-        Spec markdown entry &ldquo;{id}&rdquo; not found in <code>docs/spec/{id}.mdx</code>
+        Doc markdown entry &ldquo;{id}&rdquo; not found in <code>docs/{category}/{id}.mdx</code>
       </div>
     )
   }

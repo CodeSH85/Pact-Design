@@ -30,11 +30,23 @@ function FooterNavLink({ item, direction }: { item: NavItem; direction: 'prev' |
     </>
   )
 
-  return item.to === '/foundations/$id' ? (
-    <Link to={item.to} params={item.params} className={linkClassName}>
-      {content}
-    </Link>
-  ) : (
+  if (item.to === '/foundations/$id') {
+    return (
+      <Link to="/foundations/$id" params={item.params} className={linkClassName}>
+        {content}
+      </Link>
+    )
+  }
+
+  if (item.to === '/components/$id') {
+    return (
+      <Link to="/components/$id" params={item.params} className={linkClassName}>
+        {content}
+      </Link>
+    )
+  }
+
+  return (
     <Link to={item.to} className={linkClassName}>
       {content}
     </Link>

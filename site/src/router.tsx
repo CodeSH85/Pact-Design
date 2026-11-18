@@ -2,7 +2,8 @@ import { useEffect } from 'react'
 import {
   createRootRoute,
   createRoute,
-  createRouter
+  createRouter,
+  redirect
 } from '@tanstack/react-router'
 import { RootLayout } from './components/layout/RootLayout'
 import { DocFooter } from './components/layout/DocFooter'
@@ -37,10 +38,27 @@ const playgroundRoute = createRoute({
   component: TokenPlayground
 })
 
-const componentsRoute = createRoute({
+const componentsIndexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/components',
-  component: function ComponentsPage() {
+  beforeLoad: () => {
+    throw redirect({ to: '/components/playground' })
+  }
+})
+
+const componentDocRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/components/$id',
+  component: function ComponentDocPage() {
+    const { id } = componentDocRoute.useParams()
+    return <SpecDoc category="components" id={id} />
+  }
+})
+
+const componentPlaygroundRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/components/playground',
+  component: function ComponentPlaygroundPage() {
     useEffect(() => {
       document.title = 'React Aria Components Playground | Pact Design'
     }, [])
@@ -57,7 +75,7 @@ const componentsRoute = createRoute({
 
         <ComponentPlayground />
 
-        <DocFooter currentId="components" />
+        <DocFooter currentId="components-playground" />
       </div>
     )
   }
@@ -67,7 +85,9 @@ const routeTree = rootRoute.addChildren([
   indexRoute,
   foundationRoute,
   playgroundRoute,
-  componentsRoute
+  componentsIndexRoute,
+  componentPlaygroundRoute,
+  componentDocRoute
 ])
 
 export const router = createRouter({
