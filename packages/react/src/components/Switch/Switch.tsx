@@ -4,14 +4,23 @@ import {
   type SwitchProps as AriaSwitchProps
 } from 'react-aria-components'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { composeTailwindRenderProps, focusRing } from '../../utils/index.ts'
+import {
+  composeTailwindRenderProps,
+  groupFocusRing,
+  resolveToggleProps,
+  selectionControlDescriptionClasses,
+  selectionControlLabelClasses,
+  selectionControlLabelStackClasses,
+  selectionControlRootClasses,
+  type ToggleControlProps
+} from '../../utils/index.ts'
 
 export const switchTrackVariants = cva(
   [
     'relative inline-flex shrink-0 items-center rounded-switch-track-radius cursor-pointer',
     'bg-switch-track-bg-unchecked border border-switch-track-border-unchecked',
     'transition-colors duration-normal ease-default',
-    focusRing,
+    groupFocusRing,
     'group-data-[selected]:bg-switch-track-bg-checked group-data-[selected]:border-switch-track-border-checked',
     'group-data-[disabled]:bg-switch-track-bg-disabled group-data-[disabled]:border-switch-track-border-disabled group-data-[disabled]:cursor-not-allowed'
   ].join(' '),
@@ -48,13 +57,8 @@ export const switchThumbVariants = cva(
 
 export interface SwitchProps
   extends Omit<AriaSwitchProps, 'children'>,
-  VariantProps<typeof switchTrackVariants> {
-  label?: ReactNode
-  description?: ReactNode
-  disabled?: boolean
-  checked?: boolean
-  defaultChecked?: boolean
-  onCheckedChange?: (isSelected: boolean) => void
+  VariantProps<typeof switchTrackVariants>,
+  ToggleControlProps {
   children?: ReactNode | AriaSwitchProps['children']
 }
 
@@ -62,34 +66,16 @@ export function Switch({
   size = 'md',
   label,
   description,
-  disabled,
-  isDisabled,
-  checked,
-  isSelected,
-  defaultChecked,
-  defaultSelected,
-  onCheckedChange,
-  onChange,
   className,
   children,
   ...props
 }: SwitchProps) {
-  const resolvedDisabled = isDisabled ?? disabled
-  const resolvedSelected = isSelected ?? checked
-  const resolvedDefault = defaultSelected ?? defaultChecked
-  const resolvedOnChange = onChange ?? onCheckedChange
+  const ariaProps = resolveToggleProps(props)
 
   return (
     <AriaSwitch
-      isSelected={resolvedSelected}
-      defaultSelected={resolvedDefault}
-      isDisabled={resolvedDisabled}
-      onChange={resolvedOnChange}
-      className={composeTailwindRenderProps(
-        className,
-        'group relative inline-flex items-start gap-xs select-none cursor-pointer data-[disabled]:cursor-not-allowed'
-      )}
-      {...props}
+      {...ariaProps}
+      className={composeTailwindRenderProps(className, selectionControlRootClasses)}
     >
       {(renderProps) => {
         if (typeof children === 'function') {
@@ -100,6 +86,8 @@ export function Switch({
           return children
         }
 
+        const { isDisabled: itemDisabled } = renderProps
+
         return (
           <>
             <span className={switchTrackVariants({ size })}>
@@ -107,22 +95,14 @@ export function Switch({
             </span>
 
             {(label || description) && (
-              <span className="flex flex-col gap-3xs">
+              <span className={selectionControlLabelStackClasses}>
                 {label && (
-                  <span
-                    className={`text-label-md leading-tight ${
-                      resolvedDisabled ? 'text-on-surface-disabled' : 'text-on-surface'
-                    }`}
-                  >
+                  <span className={selectionControlLabelClasses(itemDisabled)}>
                     {label}
                   </span>
                 )}
                 {description && (
-                  <span
-                    className={`text-caption-md ${
-                      resolvedDisabled ? 'text-on-surface-disabled' : 'text-on-surface-muted'
-                    }`}
-                  >
+                  <span className={selectionControlDescriptionClasses(itemDisabled)}>
                     {description}
                   </span>
                 )}

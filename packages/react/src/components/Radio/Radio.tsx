@@ -5,13 +5,33 @@ import {
   RadioGroup as AriaRadioGroup,
   type RadioGroupProps as AriaRadioGroupProps
 } from 'react-aria-components'
-import { composeTailwindRenderProps, groupFocusRing } from '../../utils/index.ts'
+import {
+  composeTailwindRenderProps,
+  groupFocusRing,
+  resolveDisabled,
+  selectionControlDescriptionClasses,
+  selectionControlLabelClasses,
+  selectionControlLabelStackClasses,
+  selectionControlRootClasses,
+  type FieldSharedProps,
+  type SelectionControlProps
+} from '../../utils/index.ts'
 import { FieldDescription, FieldError, Label } from '../Field/index.ts'
 
-export interface RadioProps extends Omit<AriaRadioProps, 'children'> {
-  label?: ReactNode
-  description?: ReactNode
-  disabled?: boolean
+export const radioCircleClasses = [
+  'inline-flex shrink-0 items-center justify-center',
+  'w-radio-size h-radio-size rounded-radio-radius',
+  'border border-radio-border bg-radio-bg',
+  'transition-colors duration-fast ease-default',
+  'group-hover:border-radio-border-hover group-data-[hovered]:border-radio-border-hover',
+  groupFocusRing,
+  'group-data-[selected]:bg-radio-bg-selected group-data-[selected]:border-radio-border-selected',
+  'group-data-[disabled]:bg-radio-bg-disabled group-data-[disabled]:border-radio-border-disabled'
+].join(' ')
+
+export interface RadioProps
+  extends Omit<AriaRadioProps, 'children'>,
+  SelectionControlProps {
   className?: string
   children?: ReactNode | AriaRadioProps['children']
 }
@@ -25,26 +45,10 @@ export function Radio({
   children,
   ...props
 }: RadioProps) {
-  const resolvedDisabled = isDisabled ?? disabled
-
-  const circleClasses = [
-    'inline-flex shrink-0 items-center justify-center',
-    'w-radio-size h-radio-size rounded-radio-radius',
-    'border border-radio-border bg-radio-bg',
-    'transition-colors duration-fast ease-default',
-    'group-hover:border-radio-border-hover group-data-[hovered]:border-radio-border-hover',
-    groupFocusRing,
-    'group-data-[selected]:bg-radio-bg-selected group-data-[selected]:border-radio-border-selected',
-    'group-data-[disabled]:bg-radio-bg-disabled group-data-[disabled]:border-radio-border-disabled'
-  ].join(' ')
-
   return (
     <AriaRadio
-      isDisabled={resolvedDisabled}
-      className={composeTailwindRenderProps(
-        className,
-        'group relative inline-flex items-start gap-xs select-none outline-none cursor-pointer data-[disabled]:cursor-not-allowed'
-      )}
+      isDisabled={resolveDisabled({ disabled, isDisabled })}
+      className={composeTailwindRenderProps(className, selectionControlRootClasses)}
       {...props}
     >
       {(renderProps) => {
@@ -60,7 +64,7 @@ export function Radio({
 
         return (
           <>
-            <span className={circleClasses}>
+            <span className={radioCircleClasses}>
               {isSelected && (
                 <span
                   className={`w-radio-dot-size h-radio-dot-size rounded-radio-radius ${
@@ -71,22 +75,14 @@ export function Radio({
             </span>
 
             {(label || description) && (
-              <span className="flex flex-col gap-3xs">
+              <span className={selectionControlLabelStackClasses}>
                 {label && (
-                  <span
-                    className={`text-label-md leading-tight ${
-                      itemDisabled ? 'text-on-surface-disabled' : 'text-on-surface'
-                    }`}
-                  >
+                  <span className={selectionControlLabelClasses(itemDisabled)}>
                     {label}
                   </span>
                 )}
                 {description && (
-                  <span
-                    className={`text-caption-md ${
-                      itemDisabled ? 'text-on-surface-disabled' : 'text-on-surface-muted'
-                    }`}
-                  >
+                  <span className={selectionControlDescriptionClasses(itemDisabled)}>
                     {description}
                   </span>
                 )}
@@ -99,10 +95,9 @@ export function Radio({
   )
 }
 
-export interface RadioGroupProps extends Omit<AriaRadioGroupProps, 'children'> {
-  label?: ReactNode
-  description?: ReactNode
-  errorMessage?: ReactNode
+export interface RadioGroupProps
+  extends Omit<AriaRadioGroupProps, 'children'>,
+  FieldSharedProps {
   orientation?: 'vertical' | 'horizontal'
   className?: string
   children?: ReactNode
@@ -137,7 +132,7 @@ export function RadioGroup({
       >
         {children}
       </div>
-      {errorMessage && <FieldError>{errorMessage}</FieldError>}
+      <FieldError>{errorMessage}</FieldError>
     </AriaRadioGroup>
   )
 }

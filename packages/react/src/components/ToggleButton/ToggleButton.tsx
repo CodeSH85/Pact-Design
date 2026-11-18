@@ -6,7 +6,13 @@ import {
   type ToggleButtonGroupProps as AriaToggleButtonGroupProps
 } from 'react-aria-components'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { composeTailwindRenderProps, disabledStyles, focusRing } from '../../utils/index.ts'
+import {
+  composeTailwindRenderProps,
+  disabledStyles,
+  focusRing,
+  resolveDisabled,
+  type DisableableProps
+} from '../../utils/index.ts'
 
 export const toggleButtonVariants = cva(
   [
@@ -54,8 +60,8 @@ export const toggleButtonVariants = cva(
 
 export interface ToggleButtonProps
   extends Omit<AriaToggleButtonProps, 'children'>,
-  VariantProps<typeof toggleButtonVariants> {
-  disabled?: boolean
+  VariantProps<typeof toggleButtonVariants>,
+  DisableableProps {
   children?: ReactNode | AriaToggleButtonProps['children']
 }
 
@@ -70,7 +76,7 @@ export function ToggleButton({
 }: ToggleButtonProps) {
   return (
     <AriaToggleButton
-      isDisabled={isDisabled ?? disabled}
+      isDisabled={resolveDisabled({ disabled, isDisabled })}
       className={composeTailwindRenderProps(
         className,
         toggleButtonVariants({ variant, size })
