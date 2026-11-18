@@ -9,7 +9,11 @@ import {
   type DateValue
 } from 'react-aria-components'
 import { type VariantProps } from 'class-variance-authority'
-import { composeTailwindRenderProps } from '../../utils/index.ts'
+import {
+  composeTailwindRenderProps,
+  fieldWrapperClasses,
+  type FieldSharedProps
+} from '../../utils/index.ts'
 import { FieldDescription, FieldError, FieldGroup, fieldGroupVariants, Label } from '../Field/index.ts'
 
 export interface DateSegmentProps extends AriaDateSegmentProps {
@@ -23,7 +27,7 @@ export function DateSegment({ className, ...props }: DateSegmentProps) {
         className,
         [
           'px-3xs rounded-2xs tabular-nums font-mono text-inherit outline-none',
-          'data-[placeholder]:text-on-surface-disabled',
+          'data-[placeholder]:text-field-text-placeholder',
           'data-[focused]:bg-primary data-[focused]:text-on-primary',
           'data-[invalid]:data-[focused]:bg-danger data-[invalid]:data-[focused]:text-on-danger'
         ].join(' ')
@@ -54,10 +58,8 @@ export function DateInput({ className, children, ...props }: DateInputProps) {
 
 export interface DateFieldProps<T extends DateValue>
   extends AriaDateFieldProps<T>,
-  VariantProps<typeof fieldGroupVariants> {
-  label?: ReactNode
-  description?: ReactNode
-  errorMessage?: ReactNode
+  VariantProps<typeof fieldGroupVariants>,
+  FieldSharedProps {
   dateInputProps?: DateInputProps
   className?: string
   children?: ReactNode
@@ -75,7 +77,7 @@ export function DateField<T extends DateValue>({
 }: DateFieldProps<T>) {
   return (
     <AriaDateField
-      className={composeTailwindRenderProps(className, 'relative flex flex-col gap-xs w-full')}
+      className={composeTailwindRenderProps(className, fieldWrapperClasses)}
       {...props}
     >
       {label && <Label>{label}</Label>}
@@ -87,7 +89,7 @@ export function DateField<T extends DateValue>({
       )}
 
       {description && <FieldDescription>{description}</FieldDescription>}
-      {errorMessage && <FieldError>{errorMessage}</FieldError>}
+      <FieldError>{errorMessage}</FieldError>
     </AriaDateField>
   )
 }

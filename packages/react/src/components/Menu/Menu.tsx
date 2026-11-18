@@ -18,36 +18,20 @@ import {
   type SeparatorProps as AriaSeparatorProps
 } from 'react-aria-components'
 import { RiArrowDownSLine } from '@remixicon/react'
-import { cn, composeTailwindRenderProps, focusRing, focusRingInset } from '../../utils/index.ts'
+import {
+  cn,
+  collectionHeaderClasses,
+  collectionItemVariants,
+  collectionSectionClasses,
+  collectionSeparatorClasses,
+  composeTailwindRenderProps
+} from '../../utils/index.ts'
+import { buttonVariants } from '../Button/index.ts'
 import { popoverContentClasses } from '../Popover/index.ts'
 
-export const menuItemClasses = [
-  'flex items-center justify-between gap-popover-item-gap',
-  'h-popover-item-height px-popover-item-padding-x rounded-popover-item-radius',
-  'text-label-sm text-popover-item-text select-none cursor-pointer',
-  focusRingInset,
-  'data-[focused]:bg-popover-item-bg-hover data-[hovered]:bg-popover-item-bg-hover',
-  'data-[disabled]:text-popover-item-text-disabled data-[disabled]:cursor-not-allowed'
-].join(' ')
-
-export const menuDangerItemClasses = [
-  'flex items-center justify-between gap-popover-item-gap',
-  'h-popover-item-height px-popover-item-padding-x rounded-popover-item-radius',
-  'text-label-sm text-popover-item-text-danger select-none cursor-pointer',
-  focusRingInset,
-  'data-[focused]:bg-popover-item-bg-danger-hover data-[hovered]:bg-popover-item-bg-danger-hover',
-  'data-[disabled]:text-popover-item-text-disabled data-[disabled]:cursor-not-allowed'
-].join(' ')
-
-export const menuTriggerButtonClasses = [
-  'inline-flex items-center justify-center select-none cursor-pointer',
-  'h-control-md px-md gap-xs rounded-sm',
-  'bg-layer-1 text-on-surface text-label-md border border-border-default',
-  'transition-colors duration-fast ease-default',
-  'hover:bg-layer-1-hover data-[hovered]:bg-layer-1-hover',
-  'active:bg-layer-1-active data-[pressed]:bg-layer-1-selected data-[pressed]:border-border-strong',
-  focusRing
-].join(' ')
+export const menuItemClasses = collectionItemVariants({ tone: 'default' })
+export const menuDangerItemClasses = collectionItemVariants({ tone: 'danger' })
+export const menuTriggerButtonClasses = buttonVariants({ variant: 'secondary', size: 'md' })
 
 export interface MenuItemProps extends AriaMenuItemProps {
   tone?: 'default' | 'danger'
@@ -63,11 +47,9 @@ export function MenuItem({
   children,
   ...props
 }: MenuItemProps) {
-  const baseClasses = tone === 'danger' ? menuDangerItemClasses : menuItemClasses
-
   return (
     <AriaMenuItem
-      className={composeTailwindRenderProps(className, baseClasses)}
+      className={composeTailwindRenderProps(className, collectionItemVariants({ tone }))}
       {...props}
     >
       {(renderProps) => (
@@ -87,7 +69,7 @@ export function MenuItem({
 export function MenuSeparator({ className, ...props }: AriaSeparatorProps) {
   return (
     <AriaSeparator
-      className={cn('my-2xs h-px bg-border-subtle border-0', className)}
+      className={cn(collectionSeparatorClasses, className)}
       {...props}
     />
   )
@@ -96,10 +78,7 @@ export function MenuSeparator({ className, ...props }: AriaSeparatorProps) {
 export function MenuHeader({ className, children, ...props }: AriaHeaderProps) {
   return (
     <AriaHeader
-      className={cn(
-        'px-sm py-2xs text-caption-sm font-medium text-on-surface-muted select-none',
-        className
-      )}
+      className={cn(collectionHeaderClasses, className)}
       {...props}
     >
       {children}
@@ -110,7 +89,7 @@ export function MenuHeader({ className, children, ...props }: AriaHeaderProps) {
 export function MenuSection<T extends object>({ className, children, ...props }: AriaMenuSectionProps<T>) {
   return (
     <AriaMenuSection
-      className={cn('flex flex-col gap-3xs', className)}
+      className={cn(collectionSectionClasses, className)}
       {...props}
     >
       {children}
@@ -121,7 +100,7 @@ export function MenuSection<T extends object>({ className, children, ...props }:
 export function MenuList<T extends object>({ className, children, ...props }: AriaMenuProps<T>) {
   return (
     <AriaMenu
-      className={composeTailwindRenderProps(className, 'outline-none flex flex-col gap-3xs')}
+      className={composeTailwindRenderProps(className, 'outline-none', collectionSectionClasses)}
       {...props}
     >
       {children}
@@ -185,7 +164,7 @@ export function Menu({
         )}
 
         <AriaPopover placement={placement} offset={offset} className={popoverContentClasses}>
-          <AriaMenu className="outline-none flex flex-col gap-3xs">
+          <AriaMenu className={cn('outline-none', collectionSectionClasses)}>
             {items.map((item, idx) => {
               if (item.type === 'separator') {
                 return <MenuSeparator key={`sep-${idx}`} />

@@ -21,7 +21,7 @@ export function Label({ className, children, ...props }: LabelProps) {
   return (
     <AriaLabel
       className={cn(
-        'text-label-sm font-medium text-on-surface select-none cursor-default',
+        'text-label-sm font-medium text-field-label-text select-none cursor-default',
         className
       )}
       {...props}
@@ -41,7 +41,7 @@ export function FieldDescription({ className, children, ...props }: FieldDescrip
     <AriaText
       slot="description"
       className={cn(
-        'text-caption-md text-on-surface-muted',
+        'text-caption-md text-field-description-text',
         className
       )}
       {...props}
@@ -61,7 +61,7 @@ export function FieldError({ className, children, ...props }: FieldErrorProps) {
     <AriaFieldError
       className={composeTailwindRenderProps(
         className,
-        'text-caption-md text-on-danger-subtle'
+        'text-caption-md text-field-error-text'
       )}
       {...props}
     >
