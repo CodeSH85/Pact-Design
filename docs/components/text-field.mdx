@@ -1,0 +1,117 @@
+---
+title: "TextField"
+eyebrow: "Components · React Aria"
+description: "Single-line text input with optional prefix/suffix slots, labels, descriptions, validation error text, and control size scale."
+---
+
+<ComponentPreview>
+  <div className="w-full max-w-80">
+    <TextField
+      label="Workspace Title"
+      description="Enter a domain-neutral workspace identifier"
+      placeholder="e.g. Core Engineering"
+      defaultValue="Pact Design System"
+    />
+  </div>
+</ComponentPreview>
+
+```tsx
+import { TextField } from '@pact-design/react'
+
+<TextField
+  label="Workspace Title"
+  description="Enter a domain-neutral workspace identifier"
+  placeholder="e.g. Core Engineering"
+  defaultValue="Pact Design System"
+/>
+```
+
+## API Reference
+
+Built on React Aria `TextField`, composing `Label`, `FieldGroup`, `Input`, `FieldDescription`, and `FieldError`.
+
+### TextField
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | Accessible label rendered above the input group. |
+| `description` | `ReactNode` | `—` | Helper caption shown underneath `FieldGroup`. |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Error text displayed when `isInvalid` or native validation fails. |
+| `prefix` | `ReactNode` | `—` | Leading adornment (icon or static text) rendered inside `FieldGroup`. |
+| `suffix` | `ReactNode` | `—` | Trailing adornment (unit, domain, or indicator) inside `FieldGroup`. |
+| `placeholder` | `string` | `—` | Placeholder string forwarded to inner `Input`. |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`) applied to `FieldGroup`. |
+| `value` / `defaultValue` | `string` | `—` | Controlled or initial text value. |
+| `onChange` | `(value: string) => void` | `—` | Fired whenever the input string changes. |
+| `inputProps` | `AriaInputProps` | `—` | Low-level HTML input props such as `type` or `autoComplete`. |
+| `isDisabled` | `boolean` | `false` | Disables editing and applies disabled surface styles. |
+| `isInvalid` | `boolean` | `false` | Marks field invalid and styles danger focus/border states. |
+| `isReadOnly` | `boolean` | `false` | Makes text non-editable while preserving focusability. |
+
+## Examples
+
+### Prefix, Suffix & Size
+
+Embed units or domain prefixes directly via `prefix` and `suffix`, and choose control heights (`xs`–`xl`).
+
+<ComponentPreview align="stretch">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+    <TextField
+      label="Package Slug (sm)"
+      size="sm"
+      prefix={<span className="text-mono-xs">@pact/</span>}
+      defaultValue="react"
+    />
+    <TextField
+      label="Contrast Target (lg)"
+      size="lg"
+      suffix={<span className="text-mono-xs">Lc</span>}
+      defaultValue="60"
+    />
+  </div>
+</ComponentPreview>
+
+```tsx
+<TextField
+  label="Package Slug (sm)"
+  size="sm"
+  prefix={<span className="text-mono-xs">@pact/</span>}
+  defaultValue="react"
+/>
+<TextField
+  label="Contrast Target (lg)"
+  size="lg"
+  suffix={<span className="text-mono-xs">Lc</span>}
+  defaultValue="60"
+/>
+```
+
+### Validation & Disabled States
+
+Combine `isInvalid` + `errorMessage` for constraint errors or `isDisabled` / `isReadOnly` for locked inputs.
+
+<ComponentPreview align="stretch">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+    <TextField
+      label="CSS Prefix"
+      isInvalid
+      defaultValue="123 invalid"
+      errorMessage="Prefix must start with a lowercase letter."
+    />
+    <TextField
+      label="Package Registry"
+      isDisabled
+      defaultValue="npm.pkg.github.com"
+    />
+  </div>
+</ComponentPreview>
+
+```tsx
+<TextField
+  label="CSS Prefix"
+  isInvalid
+  defaultValue="123 invalid"
+  errorMessage="Prefix must start with a lowercase letter."
+/>
+<TextField label="Package Registry" isDisabled defaultValue="npm.pkg.github.com" />
+```

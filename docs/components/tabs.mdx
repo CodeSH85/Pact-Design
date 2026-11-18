@@ -1,0 +1,133 @@
+---
+title: "Tabs"
+eyebrow: "Components · React Aria"
+description: "Multi-panel tabbed navigation supporting underline, segmented, and pill styles in horizontal or vertical orientations."
+---
+
+<ComponentPreview align="stretch">
+  <Tabs defaultSelectedKey="tokens">
+    <TabList aria-label="Architecture sections">
+      <Tab id="tokens">Design Tokens</Tab>
+      <Tab id="components">React Components</Tab>
+      <Tab id="contrast">APCA Contrast</Tab>
+    </TabList>
+    <TabPanel id="tokens">
+      Three-tier architecture separating Global primitives, System semantics, and Component slot overrides.
+    </TabPanel>
+    <TabPanel id="components">
+      29 accessible React Aria component modules styled dynamically via Pact Design UnoCSS presets.
+    </TabPanel>
+    <TabPanel id="contrast">
+      Automated Light and Dark contrast verification calibrated against APCA-W3 perceptual lightness.
+    </TabPanel>
+  </Tabs>
+</ComponentPreview>
+
+```tsx
+import { Tab, TabList, TabPanel, Tabs } from '@pact-design/react'
+
+<Tabs defaultSelectedKey="tokens">
+  <TabList aria-label="Architecture sections">
+    <Tab id="tokens">Design Tokens</Tab>
+    <Tab id="components">React Components</Tab>
+    <Tab id="contrast">APCA Contrast</Tab>
+  </TabList>
+  <TabPanel id="tokens">Three-tier token architecture.</TabPanel>
+  <TabPanel id="components">Accessible React Aria components.</TabPanel>
+  <TabPanel id="contrast">Verified APCA-W3 readability.</TabPanel>
+</Tabs>
+```
+
+## API Reference
+
+Built on React Aria `Tabs`, `TabList`, `Tab`, `TabPanels`, and `TabPanel`. Styling context (`variant` and `size`) propagates automatically from `Tabs` down to `TabList` and `Tab`.
+
+### Tabs
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'underline' \| 'segmented' \| 'pill'` | `'underline'` | Visual tab indicator style propagated via `TabContext`. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Controls trigger height, padding, and label typography scale. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout axis for tabs and content panels. |
+| `items` | `TabItemData[]` | `—` | Data-driven alternative (`{ id, label, content, isDisabled? }`). |
+| `selectedKey` / `defaultSelectedKey` | `Key` | `—` | Controlled or initial selected tab key. |
+| `onSelectionChange` | `(key: Key) => void` | `—` | Callback fired when active tab changes. |
+| `isDisabled` | `boolean` | `false` | Disables interaction across all tabs. |
+
+### Parts
+
+- **`TabList`**: Container wrapping `Tab` triggers with variant borders/tracks.
+- **`Tab`**: Interactive tab trigger supporting `isDisabled`.
+- **`TabPanels`** & **`TabPanel`**: Focus-safe panel region rendered for the active tab key.
+
+## Examples
+
+### Variant
+
+Switch seamlessly between `underline`, `segmented`, and `pill` presentations.
+
+<ComponentPreview align="stretch">
+  <div className="flex flex-col gap-lg">
+    <Tabs variant="segmented" defaultSelectedKey="preview">
+      <TabList aria-label="Segmented tabs">
+        <Tab id="preview">Interactive Preview</Tab>
+        <Tab id="tsx">TSX Source</Tab>
+        <Tab id="api">API</Tab>
+      </TabList>
+      <TabPanel id="preview">Segmented control variant with elevated active indicator.</TabPanel>
+      <TabPanel id="tsx">Clean TSX snippet output.</TabPanel>
+      <TabPanel id="api">Complete component prop tables.</TabPanel>
+    </Tabs>
+
+    <Tabs variant="pill" defaultSelectedKey="all">
+      <TabList aria-label="Pill tabs">
+        <Tab id="all">All Tokens</Tab>
+        <Tab id="color">Color</Tab>
+        <Tab id="motion">Motion</Tab>
+      </TabList>
+      <TabPanel id="all">Pill variant uses rounded interactive badges.</TabPanel>
+      <TabPanel id="color">Color scale and semantic tokens.</TabPanel>
+      <TabPanel id="motion">Duration and cubic-bezier easing curves.</TabPanel>
+    </Tabs>
+  </div>
+</ComponentPreview>
+
+```tsx
+<Tabs variant="segmented" defaultSelectedKey="preview">
+  <TabList>
+    <Tab id="preview">Interactive Preview</Tab>
+    <Tab id="tsx">TSX Source</Tab>
+  </TabList>
+  <TabPanel id="preview">...</TabPanel>
+  <TabPanel id="tsx">...</TabPanel>
+</Tabs>
+```
+
+### Vertical Orientation & Data Items
+
+Set `orientation="vertical"` or pass `items` for side-tab navigation.
+
+<ComponentPreview align="stretch">
+  <Tabs
+    orientation="vertical"
+    variant="underline"
+    defaultSelectedKey="general"
+    items={[
+      { id: 'general', label: 'General', content: 'Workspace metadata and project identifiers.' },
+      { id: 'tokens', label: 'Tokens', content: 'Theme parity and CSS custom properties build config.' },
+      { id: 'archive', label: 'Archive', content: 'Deprecated settings.', isDisabled: true }
+    ]}
+  />
+</ComponentPreview>
+
+```tsx
+<Tabs
+  orientation="vertical"
+  defaultSelectedKey="general"
+  items={[
+    { id: 'general', label: 'General', content: 'Workspace metadata.' },
+    { id: 'tokens', label: 'Tokens', content: 'Theme parity config.' },
+    { id: 'archive', label: 'Archive', content: 'Deprecated.', isDisabled: true }
+  ]}
+/>
+```

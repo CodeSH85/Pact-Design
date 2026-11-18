@@ -1,0 +1,80 @@
+---
+title: "SearchField"
+eyebrow: "Components · React Aria"
+description: "Dedicated search input field with leading search icon and contextual clear button when text is entered."
+---
+
+<ComponentPreview>
+  <div className="w-full max-w-72">
+    <SearchField
+      label="Filter Tokens"
+      description="Search by token ID or CSS custom property"
+      placeholder="e.g. primary, layer-2, radius"
+    />
+  </div>
+</ComponentPreview>
+
+```tsx
+import { SearchField } from '@pact-design/react'
+
+<SearchField
+  label="Filter Tokens"
+  description="Search by token ID or CSS custom property"
+  placeholder="e.g. primary, layer-2, radius"
+/>
+```
+
+## API Reference
+
+Built on React Aria `SearchField`, composing `Label`, `FieldGroup`, `Input`, `FieldButton`, `FieldDescription`, and `FieldError`. Automatically displays an embedded clear button (`RiCloseLine`) whenever `data-[empty]` is absent.
+
+### SearchField
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | Accessible label rendered above the search box. |
+| `description` | `ReactNode` | `—` | Supporting caption displayed below the input. |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Validation message shown when invalid. |
+| `placeholder` | `string` | `'Search...'` | Input placeholder hint. |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`) applied to `FieldGroup`. |
+| `value` / `defaultValue` | `string` | `—` | Controlled or initial search query string. |
+| `onChange` | `(value: string) => void` | `—` | Fired whenever query text changes. |
+| `onSubmit` | `(value: string) => void` | `—` | Fired when Enter is pressed inside the input. |
+| `onClear` | `() => void` | `—` | Fired when the clear button or Escape clears the input. |
+| `isDisabled` | `boolean` | `false` | Disables text input and clear actions. |
+
+## Examples
+
+### Size
+
+Scale search fields from `xs` (24px) toolbars up to `lg` (36px) page filters.
+
+<ComponentPreview align="stretch">
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-md">
+    <SearchField label="XS (24px)" size="xs" placeholder="Quick filter..." />
+    <SearchField label="SM (28px)" size="sm" placeholder="Compact search..." />
+    <SearchField label="LG (36px)" size="lg" placeholder="Comfortable search..." />
+  </div>
+</ComponentPreview>
+
+```tsx
+<SearchField label="XS (24px)" size="xs" placeholder="Quick filter..." />
+<SearchField label="SM (28px)" size="sm" placeholder="Compact search..." />
+<SearchField label="LG (36px)" size="lg" placeholder="Comfortable search..." />
+```
+
+### Pre-filled & Disabled States
+
+The clear button appears automatically for populated search inputs unless `isDisabled` is active.
+
+<ComponentPreview align="stretch">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+    <SearchField label="With Default Query" defaultValue="blue.500" />
+    <SearchField label="Disabled Search" isDisabled defaultValue="Locked query" />
+  </div>
+</ComponentPreview>
+
+```tsx
+<SearchField label="With Default Query" defaultValue="blue.500" />
+<SearchField label="Disabled Search" isDisabled defaultValue="Locked query" />
+```
