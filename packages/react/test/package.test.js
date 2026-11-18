@@ -3,7 +3,14 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { describe, it } from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { cn } from '../src/utils/cn.ts'
+import {
+  cn,
+  collectionItemVariants,
+  resolveDisabled,
+  resolveToggleProps,
+  selectionControlDescriptionClasses,
+  selectionControlLabelClasses
+} from '../src/utils/index.ts'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -127,5 +134,58 @@ describe('@pact-design/react package integrity', () => {
       cn('shadow-elevation-sm', 'shadow-elevation-lg'),
       'shadow-elevation-lg'
     )
+
+    // Min/Max sizing: token values and arbitrary values resolve conflicts cleanly
+    assert.equal(
+      cn('min-w-popover-surface', 'min-w-[var(--trigger-width)]'),
+      'min-w-[var(--trigger-width)]'
+    )
+    assert.equal(
+      cn('max-w-modal-content-md', 'max-w-modal-content-lg'),
+      'max-w-modal-content-lg'
+    )
+    assert.equal(
+      cn('max-h-60', 'max-h-popover-listbox'),
+      'max-h-popover-listbox'
+    )
+  })
+
+  it('normalizes disabled and toggle props cleanly without leaking HTML aliases', () => {
+    assert.equal(resolveDisabled({ disabled: true }), true)
+    assert.equal(resolveDisabled({ disabled: true, isDisabled: false }), false)
+    assert.equal(resolveDisabled({}), undefined)
+
+    const onCheckedChange = () => {}
+    const onChange = () => {}
+    const normalized = resolveToggleProps({
+      id: 'agree',
+      disabled: true,
+      checked: true,
+      defaultChecked: false,
+      onCheckedChange,
+      onChange
+    })
+
+    assert.equal(normalized.id, 'agree')
+    assert.equal(normalized.isDisabled, true)
+    assert.equal(normalized.isSelected, true)
+    assert.equal(normalized.defaultSelected, false)
+    assert.equal(normalized.onChange, onChange)
+    assert.equal('disabled' in normalized, false)
+    assert.equal('checked' in normalized, false)
+    assert.equal('defaultChecked' in normalized, false)
+    assert.equal('onCheckedChange' in normalized, false)
+
+    const fallback = resolveToggleProps({ onCheckedChange })
+    assert.equal(fallback.onChange, onCheckedChange)
+  })
+
+  it('builds consistent shared collection item and selection control style presets', () => {
+    assert.match(collectionItemVariants(), /text-popover-item-text/)
+    assert.match(collectionItemVariants({ tone: 'danger' }), /text-popover-item-text-danger/)
+    assert.match(selectionControlLabelClasses(false), /text-on-surface\b/)
+    assert.match(selectionControlLabelClasses(true), /text-on-surface-disabled/)
+    assert.match(selectionControlDescriptionClasses(false), /text-on-surface-muted/)
+    assert.match(selectionControlDescriptionClasses(true), /text-on-surface-disabled/)
   })
 })

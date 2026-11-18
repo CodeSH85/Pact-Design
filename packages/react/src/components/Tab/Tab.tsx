@@ -13,7 +13,13 @@ import {
   type TabsProps as AriaTabsProps
 } from 'react-aria-components'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn, composeTailwindRenderProps, focusRing, focusRingInset } from '../../utils/index.ts'
+import {
+  cn,
+  composeTailwindRenderProps,
+  enterExitFadeClasses,
+  focusRing,
+  focusRingInset
+} from '../../utils/index.ts'
 
 export type TabVariant = 'underline' | 'segmented' | 'pill'
 export type TabSize = 'sm' | 'md' | 'lg'
@@ -167,8 +173,8 @@ export function TabPanels<T extends object = object>({
 }
 
 export const tabPanelClasses = [
-  'outline-none focus:outline-none pt-md text-body-sm text-on-surface',
-  'entering:animate-in entering:fade-in-0 exiting:animate-out exiting:fade-out-0'
+  'outline-none focus:outline-none pt-tab-panel-padding-top text-body-sm text-tab-panel-text',
+  enterExitFadeClasses
 ].join(' ')
 
 export interface TabPanelProps extends AriaTabPanelProps {

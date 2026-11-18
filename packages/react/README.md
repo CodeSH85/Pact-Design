@@ -27,7 +27,7 @@ import '@pact-design/tokens/css'
 
 ## Architecture & Exports
 
-Code is organized by task under `src/components/` and `src/utils/`. Each component lives in its own directory with a barrel `index.ts`, exposed through the root package entrypoint:
+Code is organized by task under `src/components/` and `src/utils/` (`cn.ts`, `focus.ts`, `styles.ts`, `props.ts`). Each component lives in its own directory with a barrel `index.ts`, exposed through the root package entrypoint:
 
 ```typescript
 // Import all components and utilities from root

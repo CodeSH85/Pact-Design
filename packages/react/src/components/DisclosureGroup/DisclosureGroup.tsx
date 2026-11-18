@@ -7,13 +7,14 @@ import {
 import { cva, type VariantProps } from 'class-variance-authority'
 import { composeTailwindRenderProps } from '../../utils/index.ts'
 import { Disclosure } from '../Disclosure/Disclosure.tsx'
+import { DisclosureGroupContext } from '../Disclosure/DisclosureContext.ts'
 
 export const disclosureGroupVariants = cva('w-full', {
   variants: {
     variant: {
-      separated: 'flex flex-col gap-xs',
+      separated: 'flex flex-col gap-disclosure-container-gap',
       grouped:
-        'flex flex-col border border-border-default rounded-sm divide-y divide-border-subtle overflow-hidden [&_.border]:border-0 [&_.rounded-sm]:rounded-none'
+        'flex flex-col border border-disclosure-container-border rounded-disclosure-container-radius divide-y divide-disclosure-container-divider overflow-hidden bg-disclosure-container-bg'
     }
   },
   defaultVariants: {
@@ -43,28 +44,36 @@ export function DisclosureGroup({
   children,
   ...props
 }: DisclosureGroupProps) {
+  const isGrouped = variant === 'grouped'
+
   return (
-    <AriaDisclosureGroup
-      className={composeTailwindRenderProps(
-        className,
-        disclosureGroupVariants({ variant })
-      )}
-      {...props}
+    <DisclosureGroupContext.Provider
+      value={{
+        variant: isGrouped ? 'ghost' : undefined,
+        isGrouped
+      }}
     >
-      {items
-        ? items.map((item) => (
-          <Disclosure
-            key={item.id}
-            id={item.id}
-            title={item.title}
-            isDisabled={item.isDisabled}
-            variant={variant === 'grouped' ? 'ghost' : 'bordered'}
-          >
-            {item.content}
-          </Disclosure>
-        ))
-        : children}
-    </AriaDisclosureGroup>
+      <AriaDisclosureGroup
+        className={composeTailwindRenderProps(
+          className,
+          disclosureGroupVariants({ variant })
+        )}
+        {...props}
+      >
+        {items
+          ? items.map((item) => (
+            <Disclosure
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              isDisabled={item.isDisabled}
+            >
+              {item.content}
+            </Disclosure>
+          ))
+          : children}
+      </AriaDisclosureGroup>
+    </DisclosureGroupContext.Provider>
   )
 }
 

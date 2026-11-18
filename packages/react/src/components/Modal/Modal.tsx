@@ -13,11 +13,19 @@ import {
 } from 'react-aria-components'
 import { RiCloseLine } from '@remixicon/react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn, composeTailwindRenderProps, focusRing } from '../../utils/index.ts'
+import {
+  cn,
+  composeTailwindRenderProps,
+  enterExitFadeClasses,
+  overlayCloseButtonClasses,
+  overlayFooterClasses,
+  overlayHeaderClasses,
+  type OverlaySharedProps
+} from '../../utils/index.ts'
 
 export const modalOverlayClasses = [
   'fixed inset-0 z-modal bg-modal-overlay-bg flex items-center justify-center p-modal-overlay-padding',
-  'entering:animate-in entering:fade-in-0 exiting:animate-out exiting:fade-out-0'
+  enterExitFadeClasses
 ].join(' ')
 
 export const modalContentVariants = cva(
@@ -104,7 +112,7 @@ export function ModalHeader({
   ...props
 }: ModalHeaderProps) {
   return (
-    <div className={cn('flex items-start justify-between gap-md pb-xs border-b border-border-subtle', className)}>
+    <div className={cn(overlayHeaderClasses, className)}>
       <div className="flex flex-col gap-2xs">
         {title && (
           <AriaHeading slot="title" className="text-heading-sm font-semibold text-on-surface" {...props}>
@@ -120,11 +128,7 @@ export function ModalHeader({
       {showCloseButton && (
         <AriaButton
           slot="close"
-          className={[
-            'inline-flex items-center justify-center p-2xs rounded-xs text-on-surface-muted',
-            'hover:bg-hover hover:text-on-surface active:bg-active',
-            focusRing
-          ].join(' ')}
+          className={overlayCloseButtonClasses}
           aria-label="Close"
         >
           <RiCloseLine className="w-icon-sm h-icon-sm" aria-hidden="true" />
@@ -141,7 +145,7 @@ export interface ModalFooterProps {
 
 export function ModalFooter({ className, children }: ModalFooterProps) {
   return (
-    <div className={cn('flex items-center justify-end gap-sm pt-xs border-t border-border-subtle', className)}>
+    <div className={cn(overlayFooterClasses, className)}>
       {children}
     </div>
   )
@@ -149,13 +153,10 @@ export function ModalFooter({ className, children }: ModalFooterProps) {
 
 export const ModalTrigger = AriaDialogTrigger
 
-export interface ModalProps extends Omit<AriaDialogTriggerProps, 'children'> {
-  trigger?: ReactNode
-  title?: ReactNode
-  description?: ReactNode
-  footer?: ReactNode
+export interface ModalProps
+  extends Omit<AriaDialogTriggerProps, 'children'>,
+  OverlaySharedProps {
   size?: VariantProps<typeof modalContentVariants>['size']
-  isDismissable?: boolean
   children?: ReactNode
 }
 

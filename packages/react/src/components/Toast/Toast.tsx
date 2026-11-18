@@ -19,7 +19,7 @@ import {
   RiInformationLine
 } from '@remixicon/react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn, composeTailwindRenderProps } from '../../utils/index.ts'
+import { cn, composeTailwindRenderProps, focusRing } from '../../utils/index.ts'
 
 export type ToastTone = 'default' | 'info' | 'success' | 'warning' | 'danger'
 
@@ -52,6 +52,17 @@ export const toastVariants = cva(
   }
 )
 
+const toastToneIconConfig: Record<
+  ToastTone,
+  { Icon: typeof RiInformationLine; className: string }
+> = {
+  default: { Icon: RiInformationLine, className: 'text-toast-tone-default-icon' },
+  info: { Icon: RiInformationLine, className: 'text-toast-tone-info-icon' },
+  success: { Icon: RiCheckboxCircleLine, className: 'text-toast-tone-success-icon' },
+  warning: { Icon: RiAlertLine, className: 'text-toast-tone-warning-icon' },
+  danger: { Icon: RiErrorWarningLine, className: 'text-toast-tone-danger-icon' }
+}
+
 export interface ToastProps<T extends object = ToastData>
   extends AriaToastProps<T>,
   VariantProps<typeof toastVariants> {
@@ -65,26 +76,15 @@ export function Toast<T extends object = ToastData>({
   children,
   ...props
 }: ToastProps<T>) {
+  const resolvedTone = tone ?? 'default'
+  const { Icon, className: iconToneClass } = toastToneIconConfig[resolvedTone]
+
   return (
     <AriaToast
-      className={composeTailwindRenderProps(className, toastVariants({ tone }))}
+      className={composeTailwindRenderProps(className, toastVariants({ tone: resolvedTone }))}
       {...props}
     >
-      {tone === 'info' && (
-        <RiInformationLine className="w-icon-sm h-icon-sm text-info shrink-0 mt-0.5" aria-hidden="true" />
-      )}
-      {tone === 'success' && (
-        <RiCheckboxCircleLine className="w-icon-sm h-icon-sm text-success shrink-0 mt-0.5" aria-hidden="true" />
-      )}
-      {tone === 'warning' && (
-        <RiAlertLine className="w-icon-sm h-icon-sm text-warning shrink-0 mt-0.5" aria-hidden="true" />
-      )}
-      {tone === 'danger' && (
-        <RiErrorWarningLine className="w-icon-sm h-icon-sm text-danger shrink-0 mt-0.5" aria-hidden="true" />
-      )}
-      {tone === 'default' && (
-        <RiInformationLine className="w-icon-sm h-icon-sm text-on-surface-muted shrink-0 mt-0.5" aria-hidden="true" />
-      )}
+      <Icon className={cn('w-icon-sm h-icon-sm shrink-0 mt-0.5', iconToneClass)} aria-hidden="true" />
 
       <div className="flex flex-col gap-3xs flex-1 min-w-0">
         {children}
@@ -92,7 +92,10 @@ export function Toast<T extends object = ToastData>({
 
       <AriaButton
         slot="close"
-        className="inline-flex items-center justify-center p-3xs ml-auto -mr-xs -mt-xs rounded-2xs text-on-surface-muted hover:text-on-surface hover:bg-hover cursor-pointer outline-none"
+        className={cn(
+          'inline-flex items-center justify-center p-3xs ml-auto -mr-xs -mt-xs rounded-2xs text-on-surface-muted hover:text-on-surface hover:bg-hover cursor-pointer',
+          focusRing
+        )}
       >
         <RiCloseLine className="w-icon-xs h-icon-xs" aria-hidden="true" />
       </AriaButton>
