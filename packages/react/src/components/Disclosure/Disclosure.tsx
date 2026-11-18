@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react'
+import { useContext, type ReactNode } from 'react'
 import {
   Button as AriaButton,
   Disclosure as AriaDisclosure,
@@ -9,7 +9,12 @@ import {
 } from 'react-aria-components'
 import { RiArrowRightSLine } from '@remixicon/react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { composeTailwindRenderProps, focusRingInset } from '../../utils/index.ts'
+import {
+  composeTailwindRenderProps,
+  enterExitFadeClasses,
+  focusRingInset
+} from '../../utils/index.ts'
+import { DisclosureGroupContext } from './DisclosureContext.ts'
 
 export const disclosureVariants = cva(
   'w-full transition-colors duration-fast ease-default overflow-hidden',
@@ -38,7 +43,7 @@ export const disclosureTriggerClasses = [
 export const disclosurePanelClasses = [
   'px-disclosure-panel-padding-x py-disclosure-panel-padding-y text-body-sm text-disclosure-panel-text',
   'aria-hidden:hidden',
-  'entering:animate-in entering:fade-in-0 exiting:animate-out exiting:fade-out-0'
+  enterExitFadeClasses
 ].join(' ')
 
 export interface DisclosurePanelProps extends Omit<AriaDisclosurePanelProps, 'children'> {
@@ -88,15 +93,22 @@ export interface DisclosureProps
 
 export function Disclosure({
   title,
-  variant = 'bordered',
+  variant,
   panelProps,
   className,
   children,
   ...props
 }: DisclosureProps) {
+  const groupContext = useContext(DisclosureGroupContext)
+  const resolvedVariant = variant ?? groupContext.variant ?? 'bordered'
+
   return (
     <AriaDisclosure
-      className={composeTailwindRenderProps(className, disclosureVariants({ variant }))}
+      className={composeTailwindRenderProps(
+        className,
+        disclosureVariants({ variant: resolvedVariant }),
+        groupContext.isGrouped && 'border-b-0'
+      )}
       {...props}
     >
       {title ? (
