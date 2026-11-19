@@ -130,7 +130,8 @@ export default defineConfig({
       '@pact-design/react': path.resolve(REACT_PACKAGE_DIR, 'src'),
       'react': path.dirname(require.resolve('react/package.json')),
       'react-dom': path.dirname(require.resolve('react-dom/package.json')),
-      '@mdx-js/react': path.dirname(require.resolve('@mdx-js/react'))
+      '@mdx-js/react': path.dirname(require.resolve('@mdx-js/react')),
+      '@internationalized/date': path.resolve(path.dirname(require.resolve('@internationalized/date')), '..')
     }
   },
   plugins: [
