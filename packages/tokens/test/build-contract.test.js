@@ -10,6 +10,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const ROOT_DIR = path.resolve(__dirname, '..')
 const CSS_VARS_PATH = path.join(ROOT_DIR, 'build/css/_variables.css')
+const META_PATH = path.join(ROOT_DIR, 'build/meta/tokens.json')
 const UNO_PRESET_PATH = path.join(ROOT_DIR, 'build/uno/preset.js')
 const UNO_TYPES_PATH = path.join(ROOT_DIR, 'build/uno/preset.d.ts')
 
@@ -103,6 +104,22 @@ describe('Build Contract (CSS Variables + UnoCSS Preset)', () => {
     assert.ok(dts.includes('export interface PactTheme'), 'Expected PactTheme interface in preset.d.ts')
     assert.ok(dts.includes('export declare const pactTheme: PactTheme'), 'Expected pactTheme declaration in preset.d.ts')
     assert.ok(dts.includes('export declare function pactPreset(): PactPreset'), 'Expected pactPreset declaration in preset.d.ts')
+  })
+
+  it('emits build/meta/tokens.json matching every generated CSS custom property', () => {
+    const entries = JSON.parse(fs.readFileSync(META_PATH, 'utf-8'))
+    assert.ok(Array.isArray(entries) && entries.length > 0, 'Expected non-empty token metadata array')
+
+    const missing = []
+    for (const entry of entries) {
+      assert.equal(typeof entry.name, 'string')
+      assert.ok(Array.isArray(entry.path) && entry.path.length > 0)
+      if (!lightRaw.has(`--${entry.name}`)) {
+        missing.push(`${entry.path.join('.')} -> --${entry.name}`)
+      }
+    }
+
+    assert.deepEqual(missing, [], `Metadata entries missing from _variables.css:\n${missing.join('\n')}`)
   })
 
   it('keeps source token definitions pure without target-specific $extensions', () => {

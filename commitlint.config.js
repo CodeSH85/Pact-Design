@@ -37,6 +37,7 @@ export default {
       'always',
       [
         'tokens',
+        'styles',
         'react',
         'vue',
         'site',

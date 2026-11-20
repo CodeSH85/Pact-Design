@@ -1,6 +1,7 @@
 import type { Config, DesignTokens, Dictionary } from 'style-dictionary/types'
 import { cssTransformList, customTransforms } from './transforms/dtcg.ts'
 import { formatThemedCss } from './formats/css.ts'
+import { formatTokenMeta } from './formats/meta.ts'
 import { formatUnoPreset, formatUnoTypes } from './formats/uno.ts'
 
 export const TOKEN_PREFIX = 'pd'
@@ -39,6 +40,7 @@ export function createLightConfig(
       transforms: customTransforms,
       formats: {
         'css/variables-themed': formatThemedCss,
+        'meta/json': formatTokenMeta,
         'uno/preset': formatUnoPreset,
         'uno/types': formatUnoTypes
       }
@@ -57,6 +59,17 @@ export function createLightConfig(
               darkDictionary,
               themedPaths
             }
+          }
+        ]
+      },
+      meta: {
+        prefix: TOKEN_PREFIX,
+        transforms: cssTransformList,
+        buildPath: 'build/meta/',
+        files: [
+          {
+            destination: 'tokens.json',
+            format: 'meta/json'
           }
         ]
       },
