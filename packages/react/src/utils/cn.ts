@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from 'clsx'
 import { composeRenderProps } from 'react-aria-components'
 import { extendTailwindMerge } from 'tailwind-merge'
-import { pactTheme } from '@pact-design/tokens/uno'
+import { pactTheme } from '@pact-design/styles/uno'
 
 const colorKeys = Object.keys(pactTheme.colors)
 const fontSizeKeys = Object.keys(pactTheme.fontSize)

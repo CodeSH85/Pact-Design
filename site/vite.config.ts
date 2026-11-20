@@ -14,6 +14,7 @@ const require = createRequire(import.meta.url)
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const TOKENS_PACKAGE_DIR = path.join(ROOT, 'packages/tokens')
+const STYLES_PACKAGE_DIR = path.join(ROOT, 'packages/styles')
 const REACT_PACKAGE_DIR = path.join(ROOT, 'packages/react')
 
 export default defineConfig({
@@ -25,12 +26,14 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      'pact-design/css': path.resolve(TOKENS_PACKAGE_DIR, 'build/css/_variables.css'),
-      'pact-design/uno': path.resolve(TOKENS_PACKAGE_DIR, 'build/uno/preset.js'),
       'pact-design': TOKENS_PACKAGE_DIR,
       '@pact-design/tokens/css': path.resolve(TOKENS_PACKAGE_DIR, 'build/css/_variables.css'),
-      '@pact-design/tokens/uno': path.resolve(TOKENS_PACKAGE_DIR, 'build/uno/preset.js'),
+      '@pact-design/tokens/meta': path.resolve(TOKENS_PACKAGE_DIR, 'build/meta/tokens.json'),
       '@pact-design/tokens': TOKENS_PACKAGE_DIR,
+      '@pact-design/styles/css/theme': path.resolve(STYLES_PACKAGE_DIR, 'build/css/theme.css'),
+      '@pact-design/styles/css': path.resolve(STYLES_PACKAGE_DIR, 'build/css/index.css'),
+      '@pact-design/styles/uno': path.resolve(STYLES_PACKAGE_DIR, 'build/uno/preset.js'),
+      '@pact-design/styles': STYLES_PACKAGE_DIR,
       '@pact-design/react$': path.resolve(REACT_PACKAGE_DIR, 'src/index.ts'),
       '@pact-design/react': path.resolve(REACT_PACKAGE_DIR, 'src'),
       'react': path.dirname(require.resolve('react/package.json')),

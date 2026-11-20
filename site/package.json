@@ -13,6 +13,7 @@
     "@internationalized/date": "^3.12.4",
     "@mdx-js/react": "^3.1.1",
     "@pact-design/react": "workspace:*",
+    "@pact-design/styles": "workspace:*",
     "@pact-design/tokens": "workspace:*",
     "@tanstack/react-router": "^1.170.46",
     "pact-design": "workspace:@pact-design/tokens@*",

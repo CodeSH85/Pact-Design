@@ -62,7 +62,7 @@ describe('@pact-design/react package integrity', () => {
   })
 
   it('declares required dependencies and peerDependencies', () => {
-    assert.ok(packageJson.dependencies['@pact-design/tokens'], 'must depend on @pact-design/tokens')
+    assert.ok(packageJson.dependencies['@pact-design/styles'], 'must depend on @pact-design/styles')
     assert.ok(packageJson.dependencies['react-aria-components'], 'must depend on react-aria-components')
     assert.ok(packageJson.dependencies.clsx, 'must depend on clsx')
     assert.ok(packageJson.dependencies['tailwind-merge'], 'must depend on tailwind-merge')

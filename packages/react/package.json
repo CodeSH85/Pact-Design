@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@internationalized/date": "^3.12.4",
-    "@pact-design/tokens": "workspace:*",
+    "@pact-design/styles": "workspace:*",
     "@remixicon/react": "^4.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
