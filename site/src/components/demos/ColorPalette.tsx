@@ -27,7 +27,7 @@ interface ColorPaletteGroup {
 
 const { files, lightTokens } = loadTokenCatalog()
 
-const colorGlobalRoot = files['src/global/color.json']
+const colorGlobalRoot = files['tokens/global/color.json']
 const colorGlobalJson = (
   colorGlobalRoot && typeof colorGlobalRoot === 'object' && 'global' in colorGlobalRoot
     ? colorGlobalRoot.global

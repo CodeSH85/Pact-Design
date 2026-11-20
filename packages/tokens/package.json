@@ -5,9 +5,12 @@
   "type": "module",
   "exports": {
     "./css": "./build/css/_variables.css",
-    "./uno": "./build/uno/preset.js",
+    "./uno": {
+      "types": "./build/uno/preset.d.ts",
+      "default": "./build/uno/preset.js"
+    },
     "./src/*": "./src/*",
-    "./tokens/*": "./src/*",
+    "./tokens/*": "./build/tokens/*",
     "./utils/*": "./utils/*"
   },
   "files": [
@@ -17,7 +20,8 @@
   ],
   "scripts": {
     "build": "pnpm build:sd",
-    "build:sd": "style-dictionary build --config ./scripts/sd.config.js && pnpm test",
+    "build:sd": "node ./scripts/build.ts && pnpm test",
+    "typecheck": "tsc --noEmit",
     "test": "node --test 'test/**/*.test.js'",
     "check:tokens": "node utils/color.js"
   },
