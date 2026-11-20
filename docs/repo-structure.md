@@ -9,7 +9,7 @@ This document records the repository structure decision for **Pact Design** as i
 We adopt the **Standard `packages/*` Monorepo Layout** managed by **`pnpm` workspaces** inside a **single Git repository**:
 
 - **Root directory (`Pact-Design/`)**: Strictly a private workspace orchestrator (`"private": true`) managing repo-wide scripts, linting, and lockfiles—never published to npm.
-- **`packages/*`**: Contains all **publishable** npm packages (`@pact-design/tokens`, `@pact-design/react`, `@pact-design/vue`).
+- **`packages/*`**: Contains all **publishable** npm packages (`@pact-design/tokens`, `@pact-design/styles`, `@pact-design/react`, `@pact-design/vue`).
 - **`site/` & `docs/`**: Contains **internal/non-published** documentation specifications (`docs/`) and the interactive web application (`site/`).
 
 ---
@@ -35,12 +35,18 @@ Pact-Design/
 │   └── src/
 └── packages/                    # All publishable npm packages live here
     ├── tokens/                  # @pact-design/tokens
-    │   ├── package.json         # exports: "./css", "./uno", "./tokens/*", "./utils/*"
-    │   ├── src/                 # W3C DTCG 2025.10 JSON files (border, color, elevation, motion, sizing, spacing, typography)
-    │   ├── scripts/             # Style Dictionary config (sd.config.js) & UnoCSS preset generator (unoCss.js)
+    │   ├── package.json         # exports: "./css", "./meta", "./src/*", "./utils/*"
+    │   ├── src/                 # W3C DTCG 2025.10 TypeScript DSL (dsl, global, system, component)
+    │   ├── scripts/             # Style Dictionary config & CSS/metadata formats
     │   ├── utils/               # Isomorphic color, APCA/WCAG contrast, and DTCG token utilities
-    │   ├── test/                # Automated APCA contrast & token schema tests
-    │   └── build/               # Generated outputs (_variables.css, uno/preset.js)
+    │   ├── test/                # Automated APCA contrast & token contract tests
+    │   └── build/               # Generated outputs (css/_variables.css, meta/tokens.json)
+    ├── styles/                  # @pact-design/styles — Web styling layer
+    │   ├── package.json         # exports: "./css", "./css/theme", "./uno"
+    │   ├── src/                 # Theme CSS (color-scheme) & UnoCSS preset rules/generator
+    │   ├── scripts/             # Composed CSS layer & UnoCSS preset builder
+    │   ├── test/                # CSS layer & UnoCSS build contract tests
+    │   └── build/               # Generated outputs (css/index.css, css/theme.css, uno/preset.{js,d.ts})
     ├── react/                   # @pact-design/react — React component library
     │   ├── package.json
     │   └── src/
@@ -97,13 +103,16 @@ All workspace packages share the `@pact-design/*` namespace:
 
 ```mermaid
 flowchart TD
-    Tokens["@pact-design/tokens<br/>(CSS Variables, UnoCSS Preset, DTCG JSON, Utils)"]
+    Tokens["@pact-design/tokens<br/>(Pure DTCG, CSS Variables, Meta, Utils)"]
+    Styles["@pact-design/styles<br/>(CSS Theme/Layers, UnoCSS Preset)"]
     React["@pact-design/react<br/>(React Components)"]
     Vue["@pact-design/vue<br/>(Vue Components)"]
     Site["@pact-design/site<br/>(Docs + Token Playground)"]
 
-    Tokens --> React
-    Tokens --> Vue
+    Tokens --> Styles
+    Styles --> React
+    Styles --> Vue
+    Styles --> Site
     Tokens --> Site
     React --> Site
 ```
@@ -111,9 +120,10 @@ flowchart TD
 | Package | Directory | Published to npm? | Internal Dependencies |
 | :--- | :--- | :---: | :--- |
 | `@pact-design/tokens` | `packages/tokens` | Yes | None |
-| `@pact-design/react` | `packages/react` | Yes | `@pact-design/tokens` (`workspace:*`) |
-| `@pact-design/vue` | `packages/vue` | Yes | `@pact-design/tokens` (`workspace:*`) |
-| `@pact-design/site` | `site` | No (`private: true`) | `@pact-design/tokens`, `@pact-design/react` (`workspace:*`) |
+| `@pact-design/styles` | `packages/styles` | Yes | `@pact-design/tokens` (`workspace:*`) |
+| `@pact-design/react` | `packages/react` | Yes | `@pact-design/styles` (`workspace:*`) |
+| `@pact-design/vue` | `packages/vue` | Yes | `@pact-design/styles` (`workspace:*`) |
+| `@pact-design/site` | `site` | No (`private: true`) | `@pact-design/tokens`, `@pact-design/styles`, `@pact-design/react` (`workspace:*`) |
 
 ---
 
