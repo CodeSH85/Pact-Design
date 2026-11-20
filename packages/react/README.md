@@ -13,14 +13,14 @@
 ## Installation
 
 ```bash
-pnpm add @pact-design/react @pact-design/tokens react-aria-components
+pnpm add @pact-design/react @pact-design/styles react-aria-components
 ```
 
-Ensure Pact Design tokens CSS variables or UnoCSS preset is loaded in your application:
+Ensure Pact Design styles CSS or UnoCSS preset is loaded in your application:
 
 ```javascript
 // main.jsx
-import '@pact-design/tokens/css'
+import '@pact-design/styles/css'
 ```
 
 ---
