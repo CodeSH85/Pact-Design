@@ -43,53 +43,10 @@ export interface ShadowValue {
   color: string
 }
 
-export type UnoSlot =
-  | 'colors'
-  | 'spacing'
-  | 'width'
-  | 'height'
-  | 'minWidth'
-  | 'maxWidth'
-  | 'minHeight'
-  | 'maxHeight'
-  | 'borderRadius'
-  | 'borderWidth'
-  | 'lineWidth'
-  | 'ringWidth'
-  | 'boxShadow'
-  | 'zIndex'
-  | 'fontFamily'
-  | 'fontSize'
-  | 'fontWeight'
-  | 'lineHeight'
-  | 'letterSpacing'
-  | 'duration'
-  | 'easing'
-
-export interface PactUnoRule {
-  slots: UnoSlot[]
-  keyFrom?: 'tier' | 'category' | 'category-sub' | 'scale-kebab' | 'self'
-  prefix?: string
-  stripSegment?: string | string[]
-  defaultAlias?: 'strip' | 'DEFAULT'
-  defaultFor?: string
-  extraKeys?: string[]
-  extraKeyFrom?: 'category'
-  typographyTuple?: boolean
-}
-
-export interface PactExtension {
-  uno: false | PactUnoRule | PactUnoRule[]
-}
-
 export interface DtcgToken<T extends DtcgType = DtcgType, V = unknown> {
   $value: V
   $type: T
   $description?: string
-  $extensions?: {
-    pact?: PactExtension
-    [key: string]: unknown
-  }
 }
 
 export interface ThemedToken<T extends DtcgToken = DtcgToken> {

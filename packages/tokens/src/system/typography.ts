@@ -1,4 +1,4 @@
-import { typography, withUno } from '../dsl/index.ts'
+import { typography } from '../dsl/index.ts'
 import type { GlobalRefPath } from '../global/index.ts'
 
 type FontSizeStep = '01' | '02' | '03' | '04' | '05' | '06' | '07' | '08' | '09' | '10' | '11' | '12' | '13'
@@ -29,7 +29,7 @@ function typeStyle(
 }
 
 export const systemTypography = {
-  font: withUno({ slots: ['fontSize'], keyFrom: 'category', typographyTuple: true }, {
+  font: {
     display: {
       sm: typeStyle('11', '05', '02', '03'),
       md: typeStyle('12', '05', '01', '02'),
@@ -71,5 +71,5 @@ export const systemTypography = {
       sm: typeStyle('04', '02', '06', '05', 'mono'),
       md: typeStyle('05', '02', '07', '05', 'mono')
     }
-  })
+  }
 } as const

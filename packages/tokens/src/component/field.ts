@@ -1,10 +1,9 @@
-import { componentUno } from '../dsl/index.ts'
 import { colorMap, controlGeometry } from './helpers.ts'
 
 export const fieldTokens = {
   field: {
     ...controlGeometry(),
-    color: componentUno.color({
+    color: {
       bg: colorMap({
         default: 'system.background.layer-1',
         disabled: 'system.background.disabled'
@@ -32,6 +31,6 @@ export const fieldTokens = {
       error: colorMap({
         text: 'system.semantic.on-danger-subtle'
       })
-    })
+    }
   }
 } as const

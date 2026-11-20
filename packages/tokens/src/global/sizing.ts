@@ -1,6 +1,6 @@
-import { internal, rem, scale } from '../dsl/index.ts'
+import { rem, scale } from '../dsl/index.ts'
 
-export const globalSizing = internal({
+export const globalSizing = {
   size: scale(
     {
       '01': 0.25,
@@ -25,4 +25,4 @@ export const globalSizing = internal({
     },
     rem
   )
-})
+} as const

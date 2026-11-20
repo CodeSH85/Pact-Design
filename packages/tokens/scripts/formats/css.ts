@@ -140,13 +140,17 @@ export async function formatThemedCss({ dictionary, file, options }: FormatFnArg
   const lightVars = expandAndFormatTokens(dictionary, { outputReferences, usesDtcg })
 
   const darkDictionary = options.darkDictionary as Dictionary | undefined
+  const themedPaths = options.themedPaths as ReadonlySet<string> | undefined
   if (!darkDictionary) {
     throw new Error('css/variables-themed format requires `options.darkDictionary`')
+  }
+  if (!themedPaths) {
+    throw new Error('css/variables-themed format requires `options.themedPaths`')
   }
 
   const darkOnlyDict: Dictionary = {
     ...darkDictionary,
-    allTokens: darkDictionary.allTokens.filter((t) => t.filePath.endsWith('.dark.json'))
+    allTokens: darkDictionary.allTokens.filter((t) => themedPaths.has(t.path.join('.')))
   }
   const darkVars = expandAndFormatTokens(darkOnlyDict, { outputReferences, usesDtcg })
 

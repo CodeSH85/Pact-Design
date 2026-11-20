@@ -71,3 +71,96 @@ export function splitModes(tree: TokenGroup): SplitModesResult {
     dark: (extract(tree, 'dark') as Record<string, unknown> | undefined) ?? null
   }
 }
+
+export type ThemeMode = 'light' | 'dark'
+
+/**
+ * Resolves a token tree for a single theme mode, turning every `ThemedToken`
+ * into its `light` or `dark` `DtcgToken` leaf.
+ */
+export function resolveModeTree(node: unknown, mode: ThemeMode): Record<string, unknown> {
+  function walk(value: unknown): unknown {
+    if (isThemedToken(value)) {
+      return mode === 'light' ? value.light : value.dark
+    }
+    if (isDtcgToken(value)) {
+      return value
+    }
+    if (!value || typeof value !== 'object' || Array.isArray(value)) {
+      return value
+    }
+    const out: Record<string, unknown> = {}
+    for (const [k, v] of Object.entries(value)) {
+      out[k] = walk(v)
+    }
+    return out
+  }
+
+  return walk(node) as Record<string, unknown>
+}
+
+function deepMergeTokenTrees(
+  target: Record<string, unknown>,
+  source: Record<string, unknown>
+): Record<string, unknown> {
+  for (const [k, v] of Object.entries(source)) {
+    const existing = target[k]
+    if (
+      existing &&
+      typeof existing === 'object' &&
+      !Array.isArray(existing) &&
+      !isDtcgToken(existing) &&
+      v &&
+      typeof v === 'object' &&
+      !Array.isArray(v) &&
+      !isDtcgToken(v)
+    ) {
+      deepMergeTokenTrees(
+        existing as Record<string, unknown>,
+        v as Record<string, unknown>
+      )
+    } else {
+      target[k] = v
+    }
+  }
+  return target
+}
+
+/**
+ * Assembles all token modules into a single in-memory W3C DTCG token tree for
+ * the given theme mode (`'light'` or `'dark'`), ready for Style Dictionary.
+ */
+export function assembleTokens(
+  modules: Record<string, TokenGroup>,
+  mode: ThemeMode
+): Record<string, unknown> {
+  const merged: Record<string, unknown> = {}
+  for (const tree of Object.values(modules)) {
+    deepMergeTokenTrees(merged, resolveModeTree(tree, mode))
+  }
+  return merged
+}
+
+/**
+ * Collects the dot-paths of all `ThemedToken` leaves across `modules` so CSS
+ * output can emit `[data-theme="dark"]` overrides without relying on filenames.
+ */
+export function collectThemedPaths(modules: Record<string, TokenGroup>): Set<string> {
+  const paths = new Set<string>()
+  function walk(node: unknown, trail: string[]): void {
+    if (isThemedToken(node)) {
+      paths.add(trail.join('.'))
+      return
+    }
+    if (isDtcgToken(node) || !node || typeof node !== 'object' || Array.isArray(node)) {
+      return
+    }
+    for (const [k, v] of Object.entries(node)) {
+      walk(v, [...trail, k])
+    }
+  }
+  for (const tree of Object.values(modules)) {
+    walk(tree, [])
+  }
+  return paths
+}

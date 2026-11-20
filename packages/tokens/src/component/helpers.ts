@@ -1,4 +1,4 @@
-import { colorLiteral, componentUno, ref, refMap } from '../dsl/index.ts'
+import { colorLiteral, ref, refMap } from '../dsl/index.ts'
 import type { FoundationRefPath } from '../system/index.ts'
 
 export type ColorRefInput = FoundationRefPath<'color'> | 'transparent'
@@ -24,33 +24,33 @@ export const colorMap = <K extends string>(entries: Record<K, ColorRefInput>) =>
  */
 export function controlGeometry() {
   return {
-    height: componentUno.height(dimMap({
+    height: dimMap({
       xs: 'system.control.height.xs',
       sm: 'system.control.height.sm',
       md: 'system.control.height.md',
       lg: 'system.control.height.lg',
       xl: 'system.control.height.xl'
-    })),
-    'padding-x': componentUno.spacing(dimMap({
+    }),
+    'padding-x': dimMap({
       xs: 'system.spacing.xs',
       sm: 'system.spacing.sm',
       md: 'system.spacing.md',
       lg: 'system.spacing.lg',
       xl: 'system.spacing.xl'
-    })),
-    gap: componentUno.spacing(dimMap({
+    }),
+    gap: dimMap({
       xs: 'system.spacing.2xs',
       sm: 'system.spacing.xs',
       md: 'system.spacing.xs',
       lg: 'system.spacing.sm',
       xl: 'system.spacing.sm'
-    })),
-    radius: componentUno.radius(dimMap({
+    }),
+    radius: dimMap({
       xs: 'system.radius.xs',
       sm: 'system.radius.sm',
       md: 'system.radius.sm',
       lg: 'system.radius.md',
       xl: 'system.radius.md'
-    }))
+    })
   }
 }

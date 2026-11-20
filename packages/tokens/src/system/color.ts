@@ -1,4 +1,4 @@
-import { internal, ref, themed, withUno } from '../dsl/index.ts'
+import { ref, themed } from '../dsl/index.ts'
 import type { GlobalRefPath } from '../global/index.ts'
 
 type ColorPaletteName = 'indigo' | 'blue' | 'green' | 'red' | 'orange' | 'coolGray'
@@ -28,7 +28,7 @@ function semanticRole<R extends string>(
 }
 
 export const systemColor = {
-  background: withUno({ slots: ['colors'], keyFrom: 'category' }, {
+  background: {
     base: tColor('global.gray.200', 'global.gray.1200'),
     'layer-1': tColor('global.white', 'global.gray.1100'),
     'layer-1-hover': tColor('global.gray.100', 'global.gray.1000'),
@@ -47,23 +47,20 @@ export const systemColor = {
     selected: tColor('global.gray.200', 'global.gray.900'),
     'selected-hover': tColor('global.gray.300', 'global.gray.800'),
     disabled: tColor('global.gray.200', 'global.gray.1000')
-  }),
-  'on-surface': withUno(
-    { slots: ['colors'], keyFrom: 'category', prefix: 'on-surface-', defaultAlias: 'strip' },
-    {
-      default: tColor('global.gray.1100', 'global.gray.200'),
-      secondary: tColor('global.gray.900', 'global.gray.300'),
-      muted: tColor('global.gray.700', 'global.gray.400'),
-      disabled: tColor('global.gray.500', 'global.gray.600')
-    }
-  ),
-  border: withUno({ slots: ['colors'], keyFrom: 'category', prefix: 'border-' }, {
+  },
+  'on-surface': {
+    default: tColor('global.gray.1100', 'global.gray.200'),
+    secondary: tColor('global.gray.900', 'global.gray.300'),
+    muted: tColor('global.gray.700', 'global.gray.400'),
+    disabled: tColor('global.gray.500', 'global.gray.600')
+  },
+  border: {
     subtle: tColor('global.gray.200', 'global.gray.900'),
     default: tColor('global.gray.300', 'global.gray.800'),
     strong: tColor('global.gray.500', 'global.gray.400'),
     focus: tColor('system.semantic.primary', 'global.indigo.400')
-  }),
-  semantic: withUno({ slots: ['colors'], keyFrom: 'category' }, {
+  },
+  semantic: {
     ...semanticRole('primary', 'indigo'),
     ...semanticRole('secondary', 'blue', ['700', '800', '900']),
     ...semanticRole('success', 'green'),
@@ -71,8 +68,8 @@ export const systemColor = {
     ...semanticRole('warning', 'orange'),
     ...semanticRole('info', 'blue'),
     ...semanticRole('neutral', 'coolGray', ['700', '800', '900'])
-  }),
-  util: internal({
+  },
+  util: {
     black: tColor('global.black', 'global.black')
-  })
+  }
 } as const

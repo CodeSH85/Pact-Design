@@ -1,10 +1,9 @@
-import { componentUno } from '../dsl/index.ts'
 import { colorMap, controlGeometry } from './helpers.ts'
 
 export const buttonTokens = {
   button: {
     ...controlGeometry(),
-    color: componentUno.color({
+    color: {
       primary: colorMap({
         bg: 'system.semantic.primary',
         'bg-hover': 'system.semantic.primary-hover',
@@ -50,6 +49,6 @@ export const buttonTokens = {
         text: 'system.on-surface.disabled',
         border: 'transparent'
       })
-    })
+    }
   }
 } as const

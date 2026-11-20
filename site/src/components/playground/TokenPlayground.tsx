@@ -24,16 +24,9 @@ import type {
 
 type ActiveModalType = 'css' | 'issues' | null
 
-interface TokensApiGetResponse {
-  files: TokenFiles
-  errors?: Record<string, string>
-  readOnly?: boolean
-}
-
 export function TokenPlayground() {
-  const [files, setFiles] = useState<TokenFiles>({})
-  const [original, setOriginal] = useState<TokenFiles>({})
-  const [loadErrors, setLoadErrors] = useState<Record<string, string>>({})
+  const [files, setFiles] = useState<TokenFiles>(() => clone(loadTokenCatalog().files))
+  const [original] = useState<TokenFiles>(() => clone(loadTokenCatalog().files))
   const [revision, setRevision] = useState<number>(0)
 
   const [theme, setTheme] = useState<ThemeMode>(() => {
@@ -87,32 +80,6 @@ export function TokenPlayground() {
     }
   }, [])
 
-  // Load tokens from /api/tokens (Vite dev middleware) or fallback to bundled tokens
-  useEffect(() => {
-    let cancelled = false
-    async function load() {
-      try {
-        const res = await fetch('/api/tokens')
-        if (!res.ok) throw new Error(`${res.status}`)
-        const data = (await res.json()) as TokensApiGetResponse
-        if (cancelled) return
-        setFiles(clone(data.files))
-        setOriginal(clone(data.files))
-        setLoadErrors(data.errors ?? {})
-      } catch {
-        if (cancelled) return
-        const catalog = loadTokenCatalog()
-        setFiles(clone(catalog.files))
-        setOriginal(clone(catalog.files))
-        setLoadErrors({})
-      }
-    }
-    load()
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
   const originalTokensByTheme = useMemo<Record<ThemeMode, Map<string, Token>>>(() => {
     if (!Object.keys(original).length) {
       return { light: new Map(), dark: new Map() }
@@ -162,11 +129,6 @@ export function TokenPlayground() {
 
     const dirtyFilesList = Object.keys(files).filter((f) => !same(files[f], original[f]))
     const allIssues: TokenIssue[] = [
-      ...Object.entries(loadErrors).map(([file, message]) => ({
-        id: file,
-        file,
-        message: `JSON 解析失敗：${message}`
-      })),
       ...issues,
       ...errors
     ]
@@ -183,7 +145,7 @@ export function TokenPlayground() {
       dirtyFilesList,
       allIssues
     }
-  }, [files, original, loadErrors, theme, revision, originalTokensByTheme])
+  }, [files, original, theme, revision, originalTokensByTheme])
 
   const triggerMutate = useCallback(() => {
     setRevision((r) => r + 1)

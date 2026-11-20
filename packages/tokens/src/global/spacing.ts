@@ -1,6 +1,6 @@
-import { internal, px, rem, scale } from '../dsl/index.ts'
+import { px, rem, scale } from '../dsl/index.ts'
 
-export const globalSpacing = internal({
+export const globalSpacing = {
   spacing: {
     '00': px(0),
     ...scale(
@@ -22,4 +22,4 @@ export const globalSpacing = internal({
       rem
     )
   }
-})
+} as const

@@ -1,15 +1,14 @@
-import type { Config, Dictionary } from 'style-dictionary/types'
+import type { Config, DesignTokens, Dictionary } from 'style-dictionary/types'
 import { cssTransformList, customTransforms } from './transforms/dtcg.ts'
 import { formatThemedCss } from './formats/css.ts'
 import { formatUnoPreset, formatUnoTypes } from './formats/uno.ts'
 
 export const TOKEN_PREFIX = 'pd'
-export const GENERATED_TOKENS_DIR = 'build/tokens'
 
-export function createDarkConfig(sourceDir = GENERATED_TOKENS_DIR): Config {
+export function createDarkConfig(tokens: DesignTokens): Config {
   return {
     usesDtcg: true,
-    source: [`${sourceDir}/**/!(*.light).json`],
+    tokens,
     hooks: {
       transforms: customTransforms
     },
@@ -23,11 +22,19 @@ export function createDarkConfig(sourceDir = GENERATED_TOKENS_DIR): Config {
 }
 
 export function createLightConfig(
-  { darkDictionary, sourceDir = GENERATED_TOKENS_DIR }: { darkDictionary: Dictionary, sourceDir?: string }
+  {
+    tokens,
+    darkDictionary,
+    themedPaths
+  }: {
+    tokens: DesignTokens
+    darkDictionary: Dictionary
+    themedPaths: ReadonlySet<string>
+  }
 ): Config {
   return {
     usesDtcg: true,
-    source: [`${sourceDir}/**/!(*.dark).json`],
+    tokens,
     hooks: {
       transforms: customTransforms,
       formats: {
@@ -47,7 +54,8 @@ export function createLightConfig(
             format: 'css/variables-themed',
             options: {
               outputReferences: true,
-              darkDictionary
+              darkDictionary,
+              themedPaths
             }
           }
         ]
