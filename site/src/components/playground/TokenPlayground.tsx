@@ -27,18 +27,13 @@ type ActiveModalType = 'css' | 'issues' | null
 interface TokensApiGetResponse {
   files: TokenFiles
   errors?: Record<string, string>
-}
-
-interface TokensApiPutResponse {
-  written?: string[]
-  error?: string
+  readOnly?: boolean
 }
 
 export function TokenPlayground() {
   const [files, setFiles] = useState<TokenFiles>({})
   const [original, setOriginal] = useState<TokenFiles>({})
   const [loadErrors, setLoadErrors] = useState<Record<string, string>>({})
-  const [canWriteToDisk, setCanWriteToDisk] = useState<boolean>(false)
   const [revision, setRevision] = useState<number>(0)
 
   const [theme, setTheme] = useState<ThemeMode>(() => {
@@ -104,14 +99,12 @@ export function TokenPlayground() {
         setFiles(clone(data.files))
         setOriginal(clone(data.files))
         setLoadErrors(data.errors ?? {})
-        setCanWriteToDisk(true)
       } catch {
         if (cancelled) return
         const catalog = loadTokenCatalog()
         setFiles(clone(catalog.files))
         setOriginal(clone(catalog.files))
         setLoadErrors({})
-        setCanWriteToDisk(false)
       }
     }
     load()
@@ -246,31 +239,6 @@ export function TokenPlayground() {
     }, 1500)
   }, [derived.tokens])
 
-  const handleSave = useCallback(async() => {
-    const dirty = derived.dirtyFilesList
-    if (!dirty.length) return
-    if (derived.errors.length && !window.confirm(`目前有 ${derived.errors.length} 個 token 無法解析，仍要儲存嗎？`)) {
-      return
-    }
-    try {
-      const res = await fetch('/api/tokens', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          files: Object.fromEntries(dirty.map((f) => [f, files[f]]))
-        })
-      })
-      const data = (await res.json()) as TokensApiPutResponse
-      if (!res.ok) throw new Error(data.error ?? res.statusText)
-      setOriginal(clone(files))
-      showToast(`已寫入 ${data.written?.length ?? 0} 個檔案`)
-    // eslint-disable-next-line @stylistic/space-before-function-paren
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err)
-      showToast(`儲存失敗：${message}`, true)
-    }
-  }, [derived.dirtyFilesList, derived.errors.length, files, showToast])
-
   const handleDownload = useCallback(() => {
     for (const f of derived.dirtyFilesList) {
       const blob = new Blob([T.stringifyTokens(files[f]) + '\n'], { type: 'application/json' })
@@ -295,7 +263,9 @@ export function TokenPlayground() {
     const onKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 's') {
         e.preventDefault()
-        handleSave()
+        if (derived.dirtyFilesList.length > 0) {
+          handleDownload()
+        }
       }
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b') {
         e.preventDefault()
@@ -313,7 +283,7 @@ export function TokenPlayground() {
       document.removeEventListener('keydown', onKeyDown)
       window.removeEventListener('beforeunload', onBeforeUnload)
     }
-  }, [handleSave, derived.dirtyFilesList.length])
+  }, [handleDownload, derived.dirtyFilesList.length])
 
   // Ensure default category is valid once files load
   useEffect(() => {
@@ -383,31 +353,18 @@ export function TokenPlayground() {
             variant="secondary"
             size="xs"
             disabled={!isDirty}
-            onPress={handleDownload}
-          >
-            下載 JSON
-          </Button>
-          <Button
-            variant="secondary"
-            size="xs"
-            disabled={!isDirty}
             onPress={handleResetAll}
           >
             全部重設
           </Button>
-          <span
-            title={canWriteToDisk ? '寫入變更至 src/ 目錄 (⌘S)' : '靜態預覽模式請使用「下載 JSON」'}
-            className="inline-flex"
+          <Button
+            variant="primary"
+            size="xs"
+            disabled={!isDirty}
+            onPress={handleDownload}
           >
-            <Button
-              variant="primary"
-              size="xs"
-              disabled={!isDirty || !canWriteToDisk}
-              onPress={handleSave}
-            >
-              儲存至 src/
-            </Button>
-          </span>
+            下載 JSON (⌘S)
+          </Button>
         </div>
       </header>
 

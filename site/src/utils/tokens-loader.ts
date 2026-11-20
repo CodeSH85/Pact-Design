@@ -20,7 +20,7 @@ import {
 } from 'pact-design/utils/token.js'
 import type { Token, TokenFiles, TokenGroupJson } from '../types/tokens'
 
-const rawTokenModules = import.meta.glob<TokenGroupJson>('../../../packages/tokens/src/**/*.json', {
+const rawTokenModules = import.meta.glob<TokenGroupJson>('../../../packages/tokens/build/tokens/**/*.json', {
   eager: true,
   import: 'default'
 })
@@ -38,7 +38,7 @@ export function loadTokenCatalog(): TokenCatalog {
 
   const files: TokenFiles = {}
   for (const [relPath, json] of Object.entries(rawTokenModules)) {
-    const cleanKey = relPath.replace(/^.*\/src\/(.*)$/, 'src/$1')
+    const cleanKey = relPath.replace(/^.*\/build\/tokens\/(.*)$/, 'tokens/$1')
     files[cleanKey] = json
   }
 

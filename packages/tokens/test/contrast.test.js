@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const ROOT_DIR = path.resolve(__dirname, '..')
 const CSS_VARS_PATH = path.join(ROOT_DIR, 'build/css/_variables.css')
-const GLOBAL_COLOR_PATH = path.join(ROOT_DIR, 'src/global/color.json')
+const GLOBAL_COLOR_PATH = path.join(ROOT_DIR, 'build/tokens/global/color.json')
 
 const SEMANTIC_ROLES = [
   'primary',

@@ -1,4 +1,3 @@
-import { Buffer } from 'node:buffer'
 import fs from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import path from 'node:path'
@@ -11,19 +10,13 @@ import remarkGfm from 'remark-gfm'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import UnoCSS from 'unocss/vite'
 import { defineConfig, type Plugin } from 'vite'
-import { stringifyTokens } from '../packages/tokens/utils/token.js'
 
 const require = createRequire(import.meta.url)
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const TOKENS_PACKAGE_DIR = path.join(ROOT, 'packages/tokens')
-const TOKENS_DIR = path.join(TOKENS_PACKAGE_DIR, 'src')
+const TOKENS_DIR = path.join(TOKENS_PACKAGE_DIR, 'build/tokens')
 const REACT_PACKAGE_DIR = path.join(ROOT, 'packages/react')
-
-const isInside = (parent: string, child: string): boolean => {
-  const rel = path.relative(parent, child)
-  return Boolean(rel) && !rel.startsWith('..') && !path.isAbsolute(rel)
-}
 
 async function listJsonFiles(dir: string): Promise<string[]> {
   const entries = await fs.readdir(dir, { withFileTypes: true })
@@ -38,7 +31,7 @@ async function listJsonFiles(dir: string): Promise<string[]> {
 }
 
 const toRel = (abs: string): string =>
-  path.relative(TOKENS_PACKAGE_DIR, abs).split(path.sep).join('/')
+  `tokens/${path.relative(TOKENS_DIR, abs).split(path.sep).join('/')}`
 
 interface MinimalResponse {
   writeHead: (status: number, headers: Record<string, string>) => void
@@ -51,12 +44,6 @@ function sendJson(res: MinimalResponse, status: number, body: unknown): void {
     'Cache-Control': 'no-store'
   })
   res.end(JSON.stringify(body))
-}
-
-async function readBody(req: AsyncIterable<Uint8Array>): Promise<string> {
-  const chunks: Uint8Array[] = []
-  for await (const chunk of req) chunks.push(chunk)
-  return Buffer.concat(chunks).toString('utf-8')
 }
 
 function tokensApiPlugin(): Plugin {
@@ -77,27 +64,14 @@ function tokensApiPlugin(): Plugin {
                 errors[toRel(abs)] = err instanceof Error ? err.message : String(err)
               }
             }
-            sendJson(res, 200, { files, errors })
+            sendJson(res, 200, { files, errors, readOnly: true })
             return
           }
 
           if (req.method === 'PUT') {
-            const parsed = JSON.parse(await readBody(req)) as { files?: Record<string, unknown> }
-            const written: string[] = []
-            for (const [rel, json] of Object.entries(parsed.files ?? {})) {
-              const abs = path.resolve(TOKENS_PACKAGE_DIR, rel)
-              if (!isInside(TOKENS_DIR, abs) || !abs.endsWith('.json')) {
-                sendJson(res, 400, { error: `Refusing to write outside src/: ${rel}` })
-                return
-              }
-              const original = await fs.readFile(abs, 'utf-8').catch(() => '')
-              const eol = original.includes('\r\n') ? '\r\n' : '\n'
-              const trailing = original === '' || /\r?\n$/.test(original) ? eol : ''
-              const content = stringifyTokens(json).replace(/\n/g, eol) + trailing
-              await fs.writeFile(abs, content, 'utf-8')
-              written.push(rel)
-            }
-            sendJson(res, 200, { written })
+            sendJson(res, 405, {
+              error: 'Generated DTCG JSON is read-only. Edit TypeScript token sources in packages/tokens/src/.'
+            })
             return
           }
 
