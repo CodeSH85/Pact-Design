@@ -1,12 +1,11 @@
-import { componentUno } from '../dsl/index.ts'
 import { colorMap, dim } from './helpers.ts'
 
 export const checkboxTokens = {
   checkbox: {
-    size: componentUno.size(dim('system.icon.size.md')),
-    'icon-size': componentUno.size(dim('system.icon.size.xs')),
-    radius: componentUno.radius(dim('system.radius.2xs')),
-    color: componentUno.color(colorMap({
+    size: dim('system.icon.size.md'),
+    'icon-size': dim('system.icon.size.xs'),
+    radius: dim('system.radius.2xs'),
+    color: colorMap({
       bg: 'system.background.layer-1',
       border: 'system.border.strong',
       'border-hover': 'system.semantic.primary',
@@ -16,6 +15,6 @@ export const checkboxTokens = {
       'border-disabled': 'system.border.subtle',
       icon: 'system.semantic.on-primary',
       'icon-disabled': 'system.on-surface.disabled'
-    }))
+    })
   }
 } as const

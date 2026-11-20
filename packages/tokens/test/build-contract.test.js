@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { describe, it } from 'node:test'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { isDtcgToken, isThemedToken, tokenModules } from '../src/index.ts'
 import { parseCssVariables } from '../utils/contrast.js'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -11,7 +12,6 @@ const ROOT_DIR = path.resolve(__dirname, '..')
 const CSS_VARS_PATH = path.join(ROOT_DIR, 'build/css/_variables.css')
 const UNO_PRESET_PATH = path.join(ROOT_DIR, 'build/uno/preset.js')
 const UNO_TYPES_PATH = path.join(ROOT_DIR, 'build/uno/preset.d.ts')
-const GENERATED_TOKENS_DIR = path.join(ROOT_DIR, 'build/tokens')
 
 const EXPECTED_THEME_SLOTS = [
   'colors',
@@ -98,15 +98,34 @@ describe('Build Contract (CSS Variables + UnoCSS Preset)', () => {
     assert.deepEqual(orphans, [], `Dark theme defines variables missing from light theme:\n${orphans.join('\n')}`)
   })
 
-  it('generates DTCG JSON files in build/tokens/ and TypeScript declarations in build/uno/preset.d.ts', () => {
-    assert.ok(fs.existsSync(path.join(GENERATED_TOKENS_DIR, 'global/color.json')), 'Expected generated global/color.json')
-    assert.ok(fs.existsSync(path.join(GENERATED_TOKENS_DIR, 'system/color.light.json')), 'Expected generated system/color.light.json')
-    assert.ok(fs.existsSync(path.join(GENERATED_TOKENS_DIR, 'system/color.dark.json')), 'Expected generated system/color.dark.json')
-    assert.ok(fs.existsSync(path.join(GENERATED_TOKENS_DIR, 'component/button.json')), 'Expected generated component/button.json')
-
+  it('generates TypeScript declarations in build/uno/preset.d.ts', () => {
     const dts = fs.readFileSync(UNO_TYPES_PATH, 'utf-8')
     assert.ok(dts.includes('export interface PactTheme'), 'Expected PactTheme interface in preset.d.ts')
     assert.ok(dts.includes('export declare const pactTheme: PactTheme'), 'Expected pactTheme declaration in preset.d.ts')
     assert.ok(dts.includes('export declare function pactPreset(): PactPreset'), 'Expected pactPreset declaration in preset.d.ts')
+  })
+
+  it('keeps source token definitions pure without target-specific $extensions', () => {
+    const withExtensions = []
+    function inspect(node, trail) {
+      if (isThemedToken(node)) {
+        inspect(node.light, `${trail}[light]`)
+        inspect(node.dark, `${trail}[dark]`)
+        return
+      }
+      if (isDtcgToken(node)) {
+        if ('$extensions' in node) withExtensions.push(trail)
+        return
+      }
+      if (node && typeof node === 'object') {
+        for (const [k, v] of Object.entries(node)) {
+          inspect(v, trail ? `${trail}.${k}` : k)
+        }
+      }
+    }
+    for (const [mod, tree] of Object.entries(tokenModules)) {
+      inspect(tree, mod)
+    }
+    assert.deepEqual(withExtensions, [], `Unexpected $extensions in source tokens:\n${withExtensions.join('\n')}`)
   })
 })

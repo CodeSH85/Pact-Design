@@ -1,6 +1,6 @@
-import { oklch, oklchPalette, withUno } from '../dsl/index.ts'
+import { oklch, oklchPalette } from '../dsl/index.ts'
 
-const palettes = withUno({ slots: ['colors'], keyFrom: 'scale-kebab' }, {
+export const globalColor = {
   gray: oklchPalette({
     100: [0.968, 0, 0],
     200: [0.93, 0, 0],
@@ -186,16 +186,7 @@ const palettes = withUno({ slots: ['colors'], keyFrom: 'scale-kebab' }, {
   scrim: oklchPalette({
     '01': [0, 0, 0, 0.48],
     '02': [0, 0, 0, 0.68]
-  })
-})
-
-const neutrals = withUno({ slots: ['colors'], keyFrom: 'self' }, {
+  }),
   white: oklch(1, 0, 0),
   black: oklch(0, 0, 0)
-})
-
-export const globalColor = {
-  ...palettes,
-  white: neutrals.white,
-  black: neutrals.black
 } as const

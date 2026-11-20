@@ -1,6 +1,6 @@
-import { cubicBezier, internal, ms, scale } from '../dsl/index.ts'
+import { cubicBezier, ms, scale } from '../dsl/index.ts'
 
-export const globalMotion = internal({
+export const globalMotion = {
   duration: scale({ '00': 0, '01': 50, '02': 100, '03': 150, '04': 200 }, ms),
   easing: {
     linear: cubicBezier(0, 0, 1, 1),
@@ -8,4 +8,4 @@ export const globalMotion = internal({
     enter: cubicBezier(0, 0, 0.15, 1),
     exit: cubicBezier(0.3, 0, 1, 1)
   }
-})
+} as const

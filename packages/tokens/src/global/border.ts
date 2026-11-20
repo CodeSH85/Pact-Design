@@ -1,6 +1,6 @@
-import { internal, px, rem, scale, strokeStyle } from '../dsl/index.ts'
+import { px, rem, scale, strokeStyle } from '../dsl/index.ts'
 
-export const globalBorder = internal({
+export const globalBorder = {
   border: {
     width: scale({ '00': 0, '01': 1, '02': 2, '03': 3, '04': 4, '05': 5, '06': 6 }, px),
     style: {
@@ -18,4 +18,4 @@ export const globalBorder = internal({
       rem
     )
   }
-})
+} as const

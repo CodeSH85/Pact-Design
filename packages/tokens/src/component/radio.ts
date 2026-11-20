@@ -1,14 +1,13 @@
-import { componentUno } from '../dsl/index.ts'
 import { colorMap, dim } from './helpers.ts'
 
 export const radioTokens = {
   radio: {
-    size: componentUno.size(dim('system.icon.size.md')),
+    size: dim('system.icon.size.md'),
     dot: {
-      size: componentUno.size(dim('global.size.02'))
+      size: dim('global.size.02')
     },
-    radius: componentUno.radius(dim('system.radius.full')),
-    color: componentUno.color(colorMap({
+    radius: dim('system.radius.full'),
+    color: colorMap({
       bg: 'system.background.layer-1',
       border: 'system.border.strong',
       'border-hover': 'system.semantic.primary',
@@ -18,6 +17,6 @@ export const radioTokens = {
       'border-disabled': 'system.border.subtle',
       dot: 'system.semantic.on-primary',
       'dot-disabled': 'system.on-surface.disabled'
-    }))
+    })
   }
 } as const

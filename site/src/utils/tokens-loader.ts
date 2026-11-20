@@ -1,3 +1,4 @@
+import { splitModes, tokenModules } from '@pact-design/tokens/src/index.ts'
 import {
   colorValueToCss,
   colorValueToHex,
@@ -20,11 +21,6 @@ import {
 } from 'pact-design/utils/token.js'
 import type { Token, TokenFiles, TokenGroupJson } from '../types/tokens'
 
-const rawTokenModules = import.meta.glob<TokenGroupJson>('../../../packages/tokens/build/tokens/**/*.json', {
-  eager: true,
-  import: 'default'
-})
-
 export interface TokenCatalog {
   files: TokenFiles
   lightTokens: Map<string, Token>
@@ -37,9 +33,11 @@ export function loadTokenCatalog(): TokenCatalog {
   if (cachedData) return cachedData
 
   const files: TokenFiles = {}
-  for (const [relPath, json] of Object.entries(rawTokenModules)) {
-    const cleanKey = relPath.replace(/^.*\/build\/tokens\/(.*)$/, 'tokens/$1')
-    files[cleanKey] = json
+  for (const [moduleKey, tree] of Object.entries(tokenModules)) {
+    const { base, light, dark } = splitModes(tree)
+    if (base) files[`tokens/${moduleKey}.json`] = base as TokenGroupJson
+    if (light) files[`tokens/${moduleKey}.light.json`] = light as TokenGroupJson
+    if (dark) files[`tokens/${moduleKey}.dark.json`] = dark as TokenGroupJson
   }
 
   const light = flatten(files, 'light')

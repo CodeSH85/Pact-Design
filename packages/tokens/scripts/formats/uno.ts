@@ -1,7 +1,7 @@
 import type { FormatFnArguments, TransformedToken } from 'style-dictionary/types'
 import { fileHeader } from 'style-dictionary/utils'
-import type { PactExtension, PactUnoRule, UnoSlot } from '../../src/dsl/types.ts'
 import { kebab } from '../../utils/helper.js'
+import { resolveUnoRule, type UnoRule, type UnoSlot } from './uno-rules.ts'
 
 export type FontSizeValue = string | [string, Record<string, string>]
 
@@ -55,7 +55,7 @@ function createEmptyTheme(): UnoTheme {
   }
 }
 
-function resolveBaseKey(path: string[], keyFrom: PactUnoRule['keyFrom'] = 'category'): string {
+function resolveBaseKey(path: string[], keyFrom: UnoRule['keyFrom'] = 'category'): string {
   const [, category, ...rest] = path
   switch (keyFrom) {
     case 'self':
@@ -71,7 +71,7 @@ function resolveBaseKey(path: string[], keyFrom: PactUnoRule['keyFrom'] = 'categ
   }
 }
 
-function resolveKeys(path: string[], rule: PactUnoRule): string[] {
+function resolveKeys(path: string[], rule: UnoRule): string[] {
   const [, category, ...rest] = path
   const baseKey = resolveBaseKey(path, rule.keyFrom)
   const primary = `${rule.prefix ?? ''}${baseKey}`
@@ -92,10 +92,6 @@ function resolveKeys(path: string[], rule: PactUnoRule): string[] {
     keys.push('DEFAULT')
   }
 
-  if (rule.extraKeyFrom === 'category') {
-    keys.push(category)
-  }
-
   if (rule.extraKeys) {
     keys.push(...rule.extraKeys)
   }
@@ -103,31 +99,23 @@ function resolveKeys(path: string[], rule: PactUnoRule): string[] {
   return keys
 }
 
-function getPactExtension(token: TransformedToken): PactExtension | undefined {
-  const ext = (token.$extensions ?? token.original?.$extensions) as
-    | { pact?: PactExtension }
-    | undefined
-  return ext?.pact
-}
-
 /**
- * Data-driven UnoCSS / Tailwind theme extractor.
- * Reads `$extensions.pact.uno` stamped by the TypeScript token DSL and fails
- * fast if any token is missing classification.
+ * Declarative UnoCSS / Tailwind theme extractor.
+ * Resolves rules from `uno-rules.ts` and fails fast if any token is unrecognized.
  */
 export function extractUnoTheme(allTokens: TransformedToken[]): UnoTheme {
   const theme = createEmptyTheme()
   const unclassified: string[] = []
 
   for (const token of allTokens) {
-    const pact = getPactExtension(token)
-    if (pact?.uno === undefined) {
+    const resolved = resolveUnoRule(token)
+    if (resolved === undefined) {
       unclassified.push(token.path.join('.'))
       continue
     }
-    if (pact.uno === false) continue
+    if (resolved === false) continue
 
-    const rules = Array.isArray(pact.uno) ? pact.uno : [pact.uno]
+    const rules = Array.isArray(resolved) ? resolved : [resolved]
 
     for (const rule of rules) {
       const keys = resolveKeys(token.path, rule)
@@ -154,7 +142,7 @@ export function extractUnoTheme(allTokens: TransformedToken[]): UnoTheme {
 
   if (unclassified.length > 0) {
     throw new Error(
-      `Unclassified tokens missing $extensions.pact.uno:\n  - ${unclassified.join('\n  - ')}`
+      `Unclassified tokens missing a rule in scripts/formats/uno-rules.ts:\n  - ${unclassified.join('\n  - ')}`
     )
   }
 

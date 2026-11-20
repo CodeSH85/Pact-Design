@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { describe, it } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { globalColor } from '../src/global/color.ts'
 import { kebab } from '../utils/helper.js'
 import {
   evaluateWCAG,
@@ -14,7 +15,6 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const ROOT_DIR = path.resolve(__dirname, '..')
 const CSS_VARS_PATH = path.join(ROOT_DIR, 'build/css/_variables.css')
-const GLOBAL_COLOR_PATH = path.join(ROOT_DIR, 'build/tokens/global/color.json')
 
 const SEMANTIC_ROLES = [
   'primary',
@@ -74,9 +74,8 @@ describe('CSS Variables Build Output (build/css/_variables.css)', () => {
 describe('Global Color Scale Midpoint (600) Contrast Audit', () => {
   const cssContent = fs.readFileSync(CSS_VARS_PATH, 'utf-8')
   const { lightRaw } = parseCssVariables(cssContent)
-  const globalTokens = JSON.parse(fs.readFileSync(GLOBAL_COLOR_PATH, 'utf-8')).global
 
-  const palettes = Object.entries(globalTokens).filter(
+  const palettes = Object.entries(globalColor).filter(
     ([, group]) => group && typeof group === 'object' && '600' in group
   )
 

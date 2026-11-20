@@ -10,7 +10,6 @@
       "default": "./build/uno/preset.js"
     },
     "./src/*": "./src/*",
-    "./tokens/*": "./build/tokens/*",
     "./utils/*": "./utils/*"
   },
   "files": [

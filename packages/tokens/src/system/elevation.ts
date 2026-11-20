@@ -1,4 +1,4 @@
-import { internal, ref, refMap, shadow, themed, withUno } from '../dsl/index.ts'
+import { ref, refMap, shadow, themed } from '../dsl/index.ts'
 import type { GlobalRefPath } from '../global/index.ts'
 
 type ElevationLevel = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
@@ -25,7 +25,7 @@ const tShadowColor = (light: GlobalRefPath<'color'>, dark: GlobalRefPath<'color'
   themed(ref('color', light), ref('color', dark))
 
 export const systemElevation = {
-  elevation: withUno({ slots: ['boxShadow'], keyFrom: 'category', prefix: 'elevation-' }, {
+  elevation: {
     xs: elevationShadow('xs', {
       offsetX: 'global.offset.00',
       offsetY: 'global.offset.01',
@@ -56,21 +56,18 @@ export const systemElevation = {
       blur: 'global.blur.05',
       spread: 'global.spread.03'
     })
-  }),
-  'z-index': withUno(
-    { slots: ['zIndex'], keyFrom: 'category' },
-    refMap('number', {
-      base: 'global.z-index.00',
-      docked: 'global.z-index.01',
-      dropdown: 'global.z-index.02',
-      sticky: 'global.z-index.03',
-      drawer: 'global.z-index.04',
-      modal: 'global.z-index.05',
-      popover: 'global.z-index.06',
-      toast: 'global.z-index.07'
-    } as Record<string, GlobalRefPath<'number'>>)
-  ),
-  shadow: internal({
+  },
+  'z-index': refMap('number', {
+    base: 'global.z-index.00',
+    docked: 'global.z-index.01',
+    dropdown: 'global.z-index.02',
+    sticky: 'global.z-index.03',
+    drawer: 'global.z-index.04',
+    modal: 'global.z-index.05',
+    popover: 'global.z-index.06',
+    toast: 'global.z-index.07'
+  } as Record<string, GlobalRefPath<'number'>>),
+  shadow: {
     color: {
       xs: tShadowColor('global.shadow.color.01', 'global.shadow.color.06'),
       sm: tShadowColor('global.shadow.color.02', 'global.shadow.color.07'),
@@ -78,5 +75,5 @@ export const systemElevation = {
       lg: tShadowColor('global.shadow.color.04', 'global.shadow.color.09'),
       xl: tShadowColor('global.shadow.color.05', 'global.shadow.color.10')
     }
-  })
+  }
 } as const
