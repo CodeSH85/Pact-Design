@@ -1,0 +1,26 @@
+{
+  "name": "@pact-design/styles",
+  "version": "0.1.0",
+  "description": "Framework-agnostic CSS layers, theme color-scheme rules, and UnoCSS preset for Pact Design",
+  "type": "module",
+  "exports": {
+    "./css": "./build/css/index.css",
+    "./css/theme": "./build/css/theme.css",
+    "./uno": {
+      "types": "./build/uno/preset.d.ts",
+      "default": "./build/uno/preset.js"
+    }
+  },
+  "files": [
+    "build",
+    "src"
+  ],
+  "scripts": {
+    "build": "node ./scripts/build.ts && pnpm test",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test 'test/**/*.test.js'"
+  },
+  "dependencies": {
+    "@pact-design/tokens": "workspace:*"
+  }
+}
