@@ -1,21 +1,18 @@
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
+import { createRequire } from 'node:module'
 import path from 'node:path'
 import { describe, it } from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { pactTheme } from '@pact-design/styles/uno'
 import {
-  cn,
-  collectionItemVariants,
   resolveDisabled,
-  resolveToggleProps,
-  selectionControlDescriptionClasses,
-  selectionControlLabelClasses
+  resolveToggleProps
 } from '../src/utils/index.ts'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const PACKAGE_ROOT = path.resolve(__dirname, '..')
+const require = createRequire(import.meta.url)
 
 const COMPONENTS = [
   'Button',
@@ -64,14 +61,14 @@ describe('@pact-design/react package integrity', () => {
     assert.ok(fs.existsSync(path.join(PACKAGE_ROOT, 'src/styles.css')), 'src/styles.css must exist')
   })
 
-  it('declares required dependencies and peerDependencies', () => {
+  it('declares required dependencies without utility-CSS runtime packages', () => {
     assert.ok(packageJson.dependencies['@pact-design/styles'], 'must depend on @pact-design/styles')
     assert.ok(packageJson.dependencies['react-aria-components'], 'must depend on react-aria-components')
     assert.ok(packageJson.dependencies.clsx, 'must depend on clsx')
-    assert.ok(packageJson.dependencies['tailwind-merge'], 'must depend on tailwind-merge')
-    assert.ok(packageJson.dependencies['class-variance-authority'], 'must depend on class-variance-authority')
     assert.ok(packageJson.dependencies['@remixicon/react'], 'must depend on @remixicon/react')
     assert.ok(packageJson.dependencies['@internationalized/date'], 'must depend on @internationalized/date')
+    assert.equal(packageJson.dependencies['tailwind-merge'], undefined, 'must not depend on tailwind-merge')
+    assert.equal(packageJson.dependencies['class-variance-authority'], undefined, 'must not depend on class-variance-authority')
     assert.ok(packageJson.peerDependencies.react, 'must declare react peerDependency')
     assert.ok(packageJson.peerDependencies['react-dom'], 'must declare react-dom peerDependency')
   })
@@ -111,52 +108,6 @@ describe('@pact-design/react package integrity', () => {
     }
   })
 
-  it('verifies cn() resolves Pact Design token conflicts dynamically', () => {
-    // Control heights: h-control-md should be replaced by h-control-xs
-    assert.equal(
-      cn('h-control-md px-md', 'h-control-xs'),
-      'px-md h-control-xs'
-    )
-
-    // Typography scales: text-label-md should be replaced by text-label-sm
-    assert.equal(
-      cn('text-label-md font-medium', 'text-label-sm'),
-      'font-medium text-label-sm'
-    )
-
-    // Semantic background colors: bg-layer-1 should be replaced by bg-primary
-    assert.equal(
-      cn('bg-layer-1 text-on-surface', 'bg-primary text-on-primary'),
-      'bg-primary text-on-primary'
-    )
-
-    // Radii: rounded-sm should be replaced by rounded-md
-    assert.equal(
-      cn('rounded-sm border', 'rounded-md'),
-      'border rounded-md'
-    )
-
-    // Shadows: shadow-elevation-sm should be replaced by shadow-elevation-lg
-    assert.equal(
-      cn('shadow-elevation-sm', 'shadow-elevation-lg'),
-      'shadow-elevation-lg'
-    )
-
-    // Min/Max sizing: token values and arbitrary values resolve conflicts cleanly
-    assert.equal(
-      cn('min-w-popover-surface', 'min-w-[var(--trigger-width)]'),
-      'min-w-[var(--trigger-width)]'
-    )
-    assert.equal(
-      cn('max-w-modal-content-md', 'max-w-modal-content-lg'),
-      'max-w-modal-content-lg'
-    )
-    assert.equal(
-      cn('max-h-60', 'max-h-popover-listbox'),
-      'max-h-popover-listbox'
-    )
-  })
-
   it('normalizes disabled and toggle props cleanly without leaking HTML aliases', () => {
     assert.equal(resolveDisabled({ disabled: true }), true)
     assert.equal(resolveDisabled({ disabled: true, isDisabled: false }), false)
@@ -187,143 +138,37 @@ describe('@pact-design/react package integrity', () => {
     assert.equal(fallback.onChange, onCheckedChange)
   })
 
-  it('builds consistent shared collection item and selection control style presets', () => {
-    assert.match(collectionItemVariants(), /text-popover-item-text/)
-    assert.match(collectionItemVariants({ tone: 'danger' }), /text-popover-item-text-danger/)
-    assert.match(selectionControlLabelClasses(false), /text-on-surface\b/)
-    assert.match(selectionControlLabelClasses(true), /text-on-surface-disabled/)
-    assert.match(selectionControlDescriptionClasses(false), /text-on-surface-muted/)
-    assert.match(selectionControlDescriptionClasses(true), /text-on-surface-disabled/)
-  })
+  it('verifies all 29 components use semantic pd-* CSS classes defined in @pact-design/styles/css', () => {
+    const stylesCssPath = require.resolve('@pact-design/styles/css')
+    const stylesCss = fs.readFileSync(stylesCssPath, 'utf-8')
+    const definedClasses = new Set(
+      Array.from(stylesCss.matchAll(/\.(pd-[a-z0-9-]+)/g), (m) => m[1])
+    )
+    const missing = []
 
-  it('verifies all 29 components use semantic pd-* CSS classes without cva or tailwind-merge', () => {
     for (const name of COMPONENTS) {
       const compPath = path.join(PACKAGE_ROOT, 'src/components', name, `${name}.tsx`)
       const source = fs.readFileSync(compPath, 'utf-8')
       assert.doesNotMatch(source, /class-variance-authority/, `${name}.tsx must not depend on cva`)
-      assert.doesNotMatch(source, /composeTailwindRenderProps/, `${name}.tsx must not depend on tailwind-merge`)
-      assert.match(source, /pd-[a-z-]+/, `${name}.tsx must apply semantic pd-* CSS classes`)
-    }
-  })
+      assert.doesNotMatch(source, /tailwind-merge/, `${name}.tsx must not depend on tailwind-merge`)
 
-  it('verifies every component token, radius, and shadow utility in src/ resolves in pactTheme', () => {
-    const srcRoot = path.join(PACKAGE_ROOT, 'src')
-    const componentNamespaces = new Set([
-      'button',
-      'checkbox',
-      'disclosure',
-      'field',
-      'modal',
-      'popover',
-      'radio',
-      'switch',
-      'tab',
-      'toast'
-    ])
+      const referencedClasses = Array.from(source.matchAll(/['"`]([^'"`\n]*pd-[a-z0-9-]+[^'"`\n]*)['"`]/g))
+        .flatMap((m) => m[1].split(/\s+/))
+        .filter((cls) => cls.startsWith('pd-'))
 
-    const prefixToSlots = [
-      ['translate-x-', ['spacing']],
-      ['translate-y-', ['spacing']],
-      ['min-w-', ['minWidth', 'spacing']],
-      ['max-w-', ['maxWidth', 'spacing']],
-      ['min-h-', ['minHeight', 'spacing']],
-      ['max-h-', ['maxHeight', 'spacing']],
-      ['gap-x-', ['spacing']],
-      ['gap-y-', ['spacing']],
-      ['rounded-', ['borderRadius']],
-      ['shadow-', ['boxShadow']],
-      ['border-', ['colors', 'borderWidth']],
-      ['outline-', ['colors']],
-      ['divide-', ['colors']],
-      ['stroke-', ['colors']],
-      ['ring-', ['colors', 'ringWidth']],
-      ['fill-', ['colors']],
-      ['text-', ['colors', 'fontSize']],
-      ['bg-', ['colors']],
-      ['gap-', ['spacing']],
-      ['px-', ['spacing']],
-      ['py-', ['spacing']],
-      ['pt-', ['spacing']],
-      ['pb-', ['spacing']],
-      ['pl-', ['spacing']],
-      ['pr-', ['spacing']],
-      ['mx-', ['spacing']],
-      ['my-', ['spacing']],
-      ['mt-', ['spacing']],
-      ['mb-', ['spacing']],
-      ['ml-', ['spacing']],
-      ['mr-', ['spacing']],
-      ['p-', ['spacing']],
-      ['m-', ['spacing']],
-      ['h-', ['height', 'spacing']],
-      ['w-', ['width', 'spacing']],
-      ['z-', ['zIndex']]
-    ]
+      assert.ok(referencedClasses.length > 0, `${name}.tsx must reference semantic pd-* CSS classes`)
 
-    function collectFiles(dir) {
-      const result = []
-      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-        const fullPath = path.join(dir, entry.name)
-        if (entry.isDirectory()) {
-          result.push(...collectFiles(fullPath))
-        } else if (/\.(ts|tsx)$/.test(entry.name) && entry.name !== 'cn.ts') {
-          result.push(fullPath)
-        }
-      }
-      return result
-    }
-
-    const unresolved = []
-    const stringLiteralRe = /['"`]([^'"`\n]+)['"`]/g
-
-    for (const filePath of collectFiles(srcRoot)) {
-      const relPath = path.relative(srcRoot, filePath)
-      const source = fs.readFileSync(filePath, 'utf-8')
-
-      for (const match of source.matchAll(stringLiteralRe)) {
-        for (const rawToken of match[1].split(/\s+/)) {
-          if (!rawToken || rawToken.includes('${') || rawToken.includes('(')) continue
-
-          const base = rawToken.split(':').pop()?.replace(/^-/, '')
-          if (!base) continue
-
-          const matchedPrefix = prefixToSlots.find(([prefix]) => base.startsWith(prefix))
-          if (!matchedPrefix) continue
-
-          const [prefix, slots] = matchedPrefix
-          let key = base.slice(prefix.length)
-          if (!key || key.startsWith('[')) continue
-
-          if (prefix === 'rounded-') {
-            key = key.replace(/^(?:tl|tr|bl|br|ss|se|es|ee|[tblrse])-/, '')
-            if (!(key in pactTheme.borderRadius)) {
-              unresolved.push(`${relPath}: ${rawToken} (missing borderRadius.${key})`)
-            }
-            continue
-          }
-
-          if (prefix === 'shadow-') {
-            if (key !== 'none' && !(key in pactTheme.boxShadow)) {
-              unresolved.push(`${relPath}: ${rawToken} (missing boxShadow.${key})`)
-            }
-            continue
-          }
-
-          const firstSegment = key.split('-')[0]
-          if (!componentNamespaces.has(firstSegment)) continue
-
-          const exists = slots.some((slot) => key in pactTheme[slot])
-          if (!exists) {
-            unresolved.push(`${relPath}: ${rawToken} (missing ${slots.join('|')}.${key})`)
-          }
+      for (const cls of new Set(referencedClasses)) {
+        if (!definedClasses.has(cls)) {
+          missing.push(`${name}.tsx -> .${cls}`)
         }
       }
     }
 
     assert.deepEqual(
-      unresolved,
+      missing,
       [],
-      `Unresolved Pact token utility classes in @pact-design/react:\n${unresolved.join('\n')}`
+      `Semantic pd-* classes referenced in @pact-design/react but missing in @pact-design/styles/css:\n${missing.join('\n')}`
     )
   })
 })

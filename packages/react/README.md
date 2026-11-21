@@ -30,10 +30,10 @@ All 29 components are styled entirely with pre-compiled static CSS and require *
 
 ## Architecture & Exports
 
-Code is organized by task under `src/components/` and `src/utils/` (`cn.ts`, `focus.ts`, `styles.ts`, `props.ts`). Each component lives in its own directory with a barrel `index.ts`, exposed through the root package entrypoint:
+Code is organized by component under `src/components/` and shared prop utilities under `src/utils/` (`props.ts`). Each component lives in its own directory with a barrel `index.ts`, exposed through the root package entrypoint:
 
 ```typescript
-// Import all components and utilities from root
+// Import all components from root
 import {
   Autocomplete,
   Breadcrumbs,
@@ -65,15 +65,13 @@ import {
   ToastRegion,
   ToggleButton,
   Tree,
-  toast,
-  cn
+  toast
 } from '@pact-design/react'
 
 // Or import specific component subpaths
 import { Button } from '@pact-design/react/Button'
 import { Select } from '@pact-design/react/Select'
 import { Modal } from '@pact-design/react/Modal'
-import { cn } from '@pact-design/react/utils'
 ```
 
 ---
@@ -123,4 +121,4 @@ import { cn } from '@pact-design/react/utils'
 - **Compact Density**: Sized for data-intensive tools, dashboards, and enterprise workspaces (`24px`–`40px` control heights).
 - **Accessibility by Default**: Built on React Aria primitives with complete ARIA attributes and focus management.
 - **Token Driven**: 100% styled using Pact Design system tokens (colors, control heights, radii, elevation, focus offsets).
-- **Type-Safe Variants**: Built with `class-variance-authority` (CVA) and custom `tailwind-merge` dynamically synced to `pactTheme`.
+- **Zero Utility-CSS Lock-in**: Styled with pre-compiled semantic `.pd-*` CSS from `@pact-design/styles` using `:where()` modifiers and `data-*` attributes—works with plain CSS, CSS Modules, Tailwind, or UnoCSS.
