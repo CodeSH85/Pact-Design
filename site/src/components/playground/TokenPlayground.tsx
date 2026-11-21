@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { clone, same } from 'pact-design/utils/helper.js'
-import * as T from 'pact-design/utils/token.js'
+import { clone, same } from '@pact-design/tokens/utils/helper.js'
+import * as T from '@pact-design/tokens/utils/token.js'
 import { loadTokenCatalog } from '../../utils/tokens-loader'
 import {
   Button,

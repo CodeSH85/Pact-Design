@@ -26,7 +26,6 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      'pact-design': TOKENS_PACKAGE_DIR,
       '@pact-design/tokens/css': path.resolve(TOKENS_PACKAGE_DIR, 'build/css/_variables.css'),
       '@pact-design/tokens/meta': path.resolve(TOKENS_PACKAGE_DIR, 'build/meta/tokens.json'),
       '@pact-design/tokens': TOKENS_PACKAGE_DIR,

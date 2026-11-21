@@ -1,7 +1,7 @@
 import { useState, type CSSProperties, type ReactNode } from 'react'
-import { colorValueToHex } from 'pact-design/utils/color.js'
-import { apcaContrast, apcaLevel, contrast, readableOn, wcagLevel } from 'pact-design/utils/contrast.js'
-import { cssName, formatValue, refOf } from 'pact-design/utils/token.js'
+import { colorValueToHex } from '@pact-design/tokens/utils/color.js'
+import { apcaContrast, apcaLevel, contrast, readableOn, wcagLevel } from '@pact-design/tokens/utils/contrast.js'
+import { cssName, formatValue, refOf } from '@pact-design/tokens/utils/token.js'
 import {
   Button,
   Checkbox,
