@@ -56,18 +56,12 @@ importers:
       '@remixicon/react':
         specifier: ^4.9.0
         version: 4.9.0(react@19.3.1)
-      class-variance-authority:
-        specifier: ^0.7.1
-        version: 0.7.1
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
       react-aria-components:
         specifier: ^1.22.1
         version: 1.22.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
-      tailwind-merge:
-        specifier: ^3.7.0
-        version: 3.7.0
     devDependencies:
       '@types/react':
         specifier: ^19.3.0
@@ -1373,9 +1367,6 @@ packages:
 
   chroma-js@3.1.2:
     resolution: {integrity: sha512-IJnETTalXbsLx1eKEgx19d5L6SRM7cH4vINw/99p/M11HCuXGRWL+6YmCm7FWFGIo6dtWuQoQi1dc5yQ7ESIHg==}
-
-  class-variance-authority@0.7.1:
-    resolution: {integrity: sha512-Ka+9Trutv7G8M6WT6SeiRWz792K5qEqIGEGzXKhAE6xOWAY6pPH8U+9IY3oCMv6kqTmLsv7Xh/2w2RigkePMsg==}
 
   client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
@@ -2854,9 +2845,6 @@ packages:
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
-
-  tailwind-merge@3.7.0:
-    resolution: {integrity: sha512-XPPUyAc+cvspz3lHTcR/QgPfW2A0lv/xQNIjX3HGhLR+Nq2lHaLq5MtTesHn8GUr3W3DguT2KT5x3NVgRtYwmA==}
 
   thingies@2.6.1:
     resolution: {integrity: sha512-cV/CMGTK3M4MlnJ/0At6ismOw/A0EEniDNScajjz/Br3c1sqE72YD01rGpPTKwd27wAxI5Pr+6+0w8yofzFRYw==}
@@ -4395,10 +4383,6 @@ snapshots:
       readdirp: 5.1.1
 
   chroma-js@3.1.2: {}
-
-  class-variance-authority@0.7.1:
-    dependencies:
-      clsx: 2.1.1
 
   client-only@0.0.1: {}
 
@@ -6464,8 +6448,6 @@ snapshots:
       inline-style-parser: 0.2.9
 
   supports-preserve-symlinks-flag@1.0.0: {}
-
-  tailwind-merge@3.7.0: {}
 
   thingies@2.6.1(tslib@2.8.1):
     dependencies:
