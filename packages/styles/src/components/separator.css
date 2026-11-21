@@ -1,0 +1,27 @@
+.pd-separator {
+  border: 0;
+  flex-shrink: 0;
+
+  &:where([data-orientation="horizontal"], :not([data-orientation])) {
+    width: 100%;
+    height: var(--pd-system-border-width-sm);
+  }
+
+  &:where([data-orientation="vertical"]) {
+    width: var(--pd-system-border-width-sm);
+    height: 100%;
+    align-self: stretch;
+  }
+
+  &:where([data-tone="subtle"], :not([data-tone])) {
+    background-color: var(--pd-system-border-subtle);
+  }
+
+  &:where([data-tone="default"]) {
+    background-color: var(--pd-system-border-default);
+  }
+
+  &:where([data-tone="strong"]) {
+    background-color: var(--pd-system-border-strong);
+  }
+}

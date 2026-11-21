@@ -1,0 +1,69 @@
+.pd-switch-track {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  cursor: pointer;
+  border-radius: var(--pd-component-switch-track-radius);
+  padding: var(--pd-component-switch-track-padding);
+  background-color: var(--pd-component-switch-track-color-bg-unchecked);
+  border: var(--pd-system-border-width-sm) solid var(--pd-component-switch-track-color-border-unchecked);
+  transition-property: color, background-color, border-color;
+  transition-duration: var(--pd-system-motion-duration-normal);
+  transition-timing-function: var(--pd-system-motion-easing-default);
+
+  &:where([data-size="sm"]) {
+    width: var(--pd-component-switch-track-width-sm);
+    height: var(--pd-component-switch-track-height-sm);
+  }
+
+  &:where([data-size="md"], :not([data-size])) {
+    width: var(--pd-component-switch-track-width-md);
+    height: var(--pd-component-switch-track-height-md);
+  }
+}
+
+:where(.pd-switch[data-focus-visible]) .pd-switch-track {
+  outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
+  outline-offset: var(--pd-system-focus-offset-default);
+}
+
+:where(.pd-switch[data-selected]) .pd-switch-track {
+  background-color: var(--pd-component-switch-track-color-bg-checked);
+  border-color: var(--pd-component-switch-track-color-border-checked);
+}
+
+:where(.pd-switch[data-disabled]) .pd-switch-track {
+  background-color: var(--pd-component-switch-track-color-bg-disabled);
+  border-color: var(--pd-component-switch-track-color-border-disabled);
+  cursor: not-allowed;
+}
+
+.pd-switch-thumb {
+  pointer-events: none;
+  display: block;
+  border-radius: var(--pd-component-switch-thumb-radius);
+  background-color: var(--pd-component-switch-thumb-color-bg);
+  box-shadow: var(--pd-component-switch-thumb-shadow);
+  transition-property: transform;
+  transition-duration: var(--pd-system-motion-duration-normal);
+  transition-timing-function: var(--pd-system-motion-easing-default);
+
+  &:where([data-size="sm"]) {
+    width: var(--pd-component-switch-thumb-size-sm);
+    height: var(--pd-component-switch-thumb-size-sm);
+  }
+
+  &:where([data-size="md"], :not([data-size])) {
+    width: var(--pd-component-switch-thumb-size-md);
+    height: var(--pd-component-switch-thumb-size-md);
+  }
+}
+
+:where(.pd-switch[data-selected]) .pd-switch-thumb:where([data-size="sm"]) {
+  transform: translateX(var(--pd-component-switch-thumb-translate-sm));
+}
+
+:where(.pd-switch[data-selected]) .pd-switch-thumb:where([data-size="md"], :not([data-size])) {
+  transform: translateX(var(--pd-component-switch-thumb-translate-md));
+}

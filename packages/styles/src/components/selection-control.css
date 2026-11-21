@@ -1,0 +1,40 @@
+.pd-selection-control {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--pd-system-spacing-xs);
+  user-select: none;
+  outline: none;
+  cursor: pointer;
+
+  &:where([data-disabled]) {
+    cursor: not-allowed;
+  }
+}
+
+.pd-selection-control-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pd-system-spacing-3xs);
+}
+
+.pd-selection-control-label {
+  font: var(--pd-system-font-label-md);
+  letter-spacing: var(--pd-system-font-label-md-letter-spacing);
+  line-height: 1.25;
+  color: var(--pd-system-on-surface-default);
+}
+
+:where(.pd-selection-control[data-disabled]) .pd-selection-control-label {
+  color: var(--pd-system-on-surface-disabled);
+}
+
+.pd-selection-control-description {
+  font: var(--pd-system-font-caption-md);
+  letter-spacing: var(--pd-system-font-caption-md-letter-spacing);
+  color: var(--pd-system-on-surface-muted);
+}
+
+:where(.pd-selection-control[data-disabled]) .pd-selection-control-description {
+  color: var(--pd-system-on-surface-disabled);
+}
