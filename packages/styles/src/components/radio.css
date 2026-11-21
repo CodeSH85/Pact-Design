@@ -1,0 +1,63 @@
+.pd-radio-circle {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--pd-component-radio-size);
+  height: var(--pd-component-radio-size);
+  border-radius: var(--pd-component-radio-radius);
+  border: var(--pd-system-border-width-sm) solid var(--pd-component-radio-color-border);
+  background-color: var(--pd-component-radio-color-bg);
+  transition-property: color, background-color, border-color;
+  transition-duration: var(--pd-system-motion-duration-fast);
+  transition-timing-function: var(--pd-system-motion-easing-default);
+}
+
+:where(.pd-radio:hover, .pd-radio[data-hovered]) .pd-radio-circle {
+  border-color: var(--pd-component-radio-color-border-hover);
+}
+
+:where(.pd-radio[data-focus-visible]) .pd-radio-circle {
+  outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
+  outline-offset: var(--pd-system-focus-offset-default);
+}
+
+:where(.pd-radio[data-selected]) .pd-radio-circle {
+  background-color: var(--pd-component-radio-color-bg-selected);
+  border-color: var(--pd-component-radio-color-border-selected);
+}
+
+:where(.pd-radio[data-disabled]) .pd-radio-circle {
+  background-color: var(--pd-component-radio-color-bg-disabled);
+  border-color: var(--pd-component-radio-color-border-disabled);
+}
+
+.pd-radio-dot {
+  width: var(--pd-component-radio-dot-size);
+  height: var(--pd-component-radio-dot-size);
+  border-radius: var(--pd-component-radio-radius);
+  background-color: var(--pd-component-radio-color-dot);
+}
+
+:where(.pd-radio[data-disabled]) .pd-radio-dot {
+  background-color: var(--pd-component-radio-color-dot-disabled);
+}
+
+.pd-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pd-system-spacing-xs);
+}
+
+.pd-radio-group-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pd-system-spacing-sm);
+
+  &:where([data-orientation="horizontal"]) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--pd-system-spacing-md);
+  }
+}

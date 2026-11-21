@@ -1,0 +1,52 @@
+.pd-checkbox-box {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--pd-component-checkbox-size);
+  height: var(--pd-component-checkbox-size);
+  border-radius: var(--pd-component-checkbox-radius);
+  border: var(--pd-system-border-width-sm) solid var(--pd-component-checkbox-color-border);
+  background-color: var(--pd-component-checkbox-color-bg);
+  color: var(--pd-component-checkbox-color-icon);
+  transition-property: color, background-color, border-color;
+  transition-duration: var(--pd-system-motion-duration-fast);
+  transition-timing-function: var(--pd-system-motion-easing-default);
+}
+
+:where(.pd-checkbox:hover, .pd-checkbox[data-hovered]) .pd-checkbox-box {
+  border-color: var(--pd-component-checkbox-color-border-hover);
+}
+
+:where(.pd-checkbox[data-focus-visible]) .pd-checkbox-box {
+  outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
+  outline-offset: var(--pd-system-focus-offset-default);
+}
+
+:where(.pd-checkbox[data-selected], .pd-checkbox[data-indeterminate]) .pd-checkbox-box {
+  background-color: var(--pd-component-checkbox-color-bg-selected);
+  border-color: var(--pd-component-checkbox-color-border-selected);
+}
+
+:where(.pd-checkbox[data-disabled]) .pd-checkbox-box {
+  background-color: var(--pd-component-checkbox-color-bg-disabled);
+  border-color: var(--pd-component-checkbox-color-border-disabled);
+  color: var(--pd-component-checkbox-color-icon-disabled);
+}
+
+.pd-checkbox-icon {
+  width: var(--pd-component-checkbox-icon-size);
+  height: var(--pd-component-checkbox-icon-size);
+}
+
+.pd-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pd-system-spacing-xs);
+}
+
+.pd-checkbox-group-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pd-system-spacing-sm);
+}

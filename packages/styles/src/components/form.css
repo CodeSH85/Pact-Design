@@ -1,0 +1,67 @@
+.pd-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &:where([data-gap="sm"]) {
+    gap: var(--pd-system-spacing-sm);
+  }
+
+  &:where([data-gap="md"], :not([data-gap])) {
+    gap: var(--pd-system-spacing-md);
+  }
+
+  &:where([data-gap="lg"]) {
+    gap: var(--pd-system-spacing-lg);
+  }
+}
+
+.pd-form-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pd-system-spacing-sm);
+}
+
+.pd-form-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pd-system-spacing-3xs);
+}
+
+.pd-form-section-title {
+  font: var(--pd-system-font-label-md);
+  letter-spacing: var(--pd-system-font-label-md-letter-spacing);
+  font-weight: var(--pd-global-font-weight-04);
+  color: var(--pd-system-on-surface-default);
+  margin: 0;
+}
+
+.pd-form-section-description {
+  font: var(--pd-system-font-caption-md);
+  letter-spacing: var(--pd-system-font-caption-md-letter-spacing);
+  color: var(--pd-system-on-surface-muted);
+  margin: 0;
+}
+
+.pd-form-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--pd-system-spacing-sm);
+  padding-top: var(--pd-system-spacing-xs);
+
+  &:where([data-align="start"]) {
+    justify-content: flex-start;
+  }
+
+  &:where([data-align="center"]) {
+    justify-content: center;
+  }
+
+  &:where([data-align="end"], :not([data-align])) {
+    justify-content: flex-end;
+  }
+
+  &:where([data-align="between"]) {
+    justify-content: space-between;
+  }
+}

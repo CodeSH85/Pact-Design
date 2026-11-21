@@ -83,7 +83,17 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
     assert.match(componentsCss, /\.pd-toggle-button-group\s*\{/)
     assert.doesNotMatch(componentsCss, /&/, 'Expected Lightning CSS to flatten nested selectors in components.css')
 
-    for (const fileName of ['button.css', 'toggle-button.css']) {
+    for (const fileName of [
+      'button.css',
+      'toggle-button.css',
+      'selection-control.css',
+      'checkbox.css',
+      'radio.css',
+      'switch.css',
+      'separator.css',
+      'field.css',
+      'form.css'
+    ]) {
       const singlePath = path.join(COMPONENTS_DIR_PATH, fileName)
       assert.ok(fs.existsSync(singlePath), `Expected granular component stylesheet ${fileName}`)
       const singleCss = fs.readFileSync(singlePath, 'utf-8')
