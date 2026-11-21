@@ -168,6 +168,23 @@ export function ComponentPlayground() {
             </Button>
           </div>
         </div>
+
+        <div className="flex flex-col gap-sm pt-xs border-t border-border-subtle">
+          <span className="text-caption-sm text-on-surface-muted font-medium">Radius Overrides (data-radius)</span>
+          <div className="flex flex-wrap items-center gap-sm">
+            {(['none', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', 'full'] as const).map((radius) => (
+              <Button
+                key={radius}
+                variant="secondary"
+                size="sm"
+                radius={radius}
+                onPress={() => setLastAction(`Radius: ${radius}`)}
+              >
+                {radius}
+              </Button>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* 2. ToggleButton & ToggleButtonGroup */}
