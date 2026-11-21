@@ -4,9 +4,9 @@ export {
   ListBoxItem,
   ListBoxSection,
   ListBoxSeparator,
-  listBoxVariants,
   type ListBoxItemProps,
-  type ListBoxProps
+  type ListBoxProps,
+  type ListBoxSurface
 } from './ListBox.tsx'
 
 export { default } from './ListBox.tsx'

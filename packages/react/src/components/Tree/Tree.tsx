@@ -1,7 +1,9 @@
 import { type CSSProperties, type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
   Button as AriaButton,
   Collection as AriaCollection,
+  composeRenderProps,
   Tree as AriaTree,
   TreeHeader as AriaTreeHeader,
   TreeItem as AriaTreeItem,
@@ -12,33 +14,14 @@ import {
   TreeSection as AriaTreeSection
 } from 'react-aria-components'
 import { RiArrowRightSLine } from '@remixicon/react'
-import { composeTailwindRenderProps, focusRingInset } from '../../utils/index.ts'
 import { Checkbox } from '../Checkbox/index.ts'
 
-export const treeClasses = [
-  'relative flex flex-col gap-3xs p-2xs rounded-sm bg-layer-1 border border-border-default',
-  'outline-none select-none overflow-auto',
-  'data-[empty]:p-md data-[empty]:text-body-sm data-[empty]:text-on-surface-muted data-[empty]:text-center',
-  focusRingInset
-].join(' ')
-
-export const treeItemClasses = [
-  'group relative flex items-center gap-xs h-control-sm pr-xs rounded-xs',
-  'text-label-sm text-on-surface select-none cursor-pointer',
-  focusRingInset,
-  'hover:bg-layer-2-hover data-[hovered]:bg-layer-2-hover data-[focused]:bg-layer-2-hover',
-  'data-[selected]:bg-layer-1-selected data-[selected]:hover:bg-layer-1-selected-hover data-[selected]:font-medium',
-  'data-[disabled]:text-on-surface-disabled data-[disabled]:cursor-not-allowed'
-].join(' ')
-
-export interface TreeProps<T extends object = object> extends AriaTreeProps<T> {
-  className?: string
-}
+export type TreeProps<T extends object = object> = AriaTreeProps<T>
 
 export function Tree<T extends object = object>({ className, children, ...props }: TreeProps<T>) {
   return (
     <AriaTree
-      className={composeTailwindRenderProps(className, treeClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-tree', cn))}
       {...props}
     >
       {children}
@@ -46,8 +29,7 @@ export function Tree<T extends object = object>({ className, children, ...props 
   )
 }
 
-export interface TreeItemProps<T extends object = object> extends AriaTreeItemProps<T> {
-  className?: string
+export interface TreeItemProps<T extends object = object> extends Omit<AriaTreeItemProps<T>, 'children'> {
   children: ReactNode
 }
 
@@ -59,7 +41,7 @@ export function TreeItem<T extends object = object>({
 }: TreeItemProps<T>) {
   return (
     <AriaTreeItem
-      className={composeTailwindRenderProps(className, treeItemClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-tree-item', cn))}
       style={(renderProps): CSSProperties => ({
         ...renderProps.defaultStyle,
         paddingInlineStart: `calc(${(renderProps.level - 1) * 1}rem + 0.5rem)`,
@@ -80,7 +62,7 @@ export function TreeItemContent({ children, ...props }: TreeItemContentProps) {
   return (
     <AriaTreeItemContent {...props}>
       {(renderProps) => (
-        <div className="flex items-center gap-xs flex-1 min-w-0">
+        <div className="pd-tree-item-content">
           {renderProps.selectionMode === 'multiple' && (
             <Checkbox slot="selection" />
           )}
@@ -88,20 +70,19 @@ export function TreeItemContent({ children, ...props }: TreeItemContentProps) {
           {renderProps.hasChildItems ? (
             <AriaButton
               slot="chevron"
-              className="inline-flex items-center justify-center w-control-xs h-control-xs -ml-2xs rounded-2xs text-on-surface-muted hover:text-on-surface hover:bg-hover cursor-pointer outline-none shrink-0"
+              className="pd-reset pd-tree-chevron-btn"
             >
               <RiArrowRightSLine
-                className={`w-icon-xs h-icon-xs transition-transform duration-fast ease-default ${
-                  renderProps.isExpanded ? 'rotate-90' : ''
-                }`}
+                className="pd-tree-chevron-icon"
+                data-expanded={renderProps.isExpanded ? '' : undefined}
                 aria-hidden="true"
               />
             </AriaButton>
           ) : (
-            <span className="w-control-xs -ml-2xs shrink-0" aria-hidden="true" />
+            <span className="pd-tree-chevron-spacer" aria-hidden="true" />
           )}
 
-          <span className="flex-1 min-w-0 truncate">
+          <span className="pd-tree-item-label">
             {typeof children === 'function' ? children(renderProps) : children}
           </span>
         </div>

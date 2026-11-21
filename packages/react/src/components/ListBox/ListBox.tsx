@@ -1,5 +1,7 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
+  composeRenderProps,
   Header as AriaHeader,
   type HeaderProps as AriaHeaderProps,
   ListBox as AriaListBox,
@@ -12,33 +14,11 @@ import {
   type SeparatorProps as AriaSeparatorProps
 } from 'react-aria-components'
 import { RiCheckLine } from '@remixicon/react'
-import { cva, type VariantProps } from 'class-variance-authority'
-import {
-  cn,
-  collectionHeaderClasses,
-  collectionItemVariants,
-  collectionSectionClasses,
-  collectionSeparatorClasses,
-  composeTailwindRenderProps,
-  listBoxClasses
-} from '../../utils/index.ts'
 
-export const listBoxVariants = cva(listBoxClasses, {
-  variants: {
-    surface: {
-      plain: '',
-      bordered: 'bg-layer-1 border border-border-default rounded-sm shadow-elevation-sm'
-    }
-  },
-  defaultVariants: {
-    surface: 'plain'
-  }
-})
+export type ListBoxSurface = 'plain' | 'bordered'
 
-export interface ListBoxProps<T extends object = object>
-  extends AriaListBoxProps<T>,
-  VariantProps<typeof listBoxVariants> {
-  className?: AriaListBoxProps<T>['className']
+export interface ListBoxProps<T extends object = object> extends AriaListBoxProps<T> {
+  surface?: ListBoxSurface
 }
 
 export function ListBox<T extends object = object>({
@@ -49,7 +29,8 @@ export function ListBox<T extends object = object>({
 }: ListBoxProps<T>) {
   return (
     <AriaListBox
-      className={composeTailwindRenderProps(className, listBoxVariants({ surface }))}
+      data-surface={surface}
+      className={composeRenderProps(className, (cn) => clsx('pd-listbox', cn))}
       {...props}
     >
       {children}
@@ -57,8 +38,7 @@ export function ListBox<T extends object = object>({
   )
 }
 
-export interface ListBoxItemProps<T extends object = object> extends AriaListBoxItemProps<T> {
-  className?: string
+export interface ListBoxItemProps<T extends object = object> extends Omit<AriaListBoxItemProps<T>, 'children'> {
   children?: ReactNode | AriaListBoxItemProps<T>['children']
 }
 
@@ -69,16 +49,16 @@ export function ListBoxItem<T extends object = object>({
 }: ListBoxItemProps<T>) {
   return (
     <AriaListBoxItem
-      className={composeTailwindRenderProps(className, collectionItemVariants())}
+      className={composeRenderProps(className, (cn) => clsx('pd-collection-item', cn))}
       {...props}
     >
       {(renderProps) => (
         <>
-          <span className="truncate">
+          <span className="pd-collection-item-label">
             {typeof children === 'function' ? children(renderProps) : children}
           </span>
           {renderProps.isSelected && (
-            <RiCheckLine className="w-icon-xs h-icon-xs text-primary shrink-0 ml-auto" aria-hidden="true" />
+            <RiCheckLine className="pd-collection-item-check" aria-hidden="true" />
           )}
         </>
       )}
@@ -92,7 +72,7 @@ export function ListBoxSection<T extends object = object>({
   ...props
 }: AriaListBoxSectionProps<T>) {
   return (
-    <AriaListBoxSection className={cn(collectionSectionClasses, className)} {...props}>
+    <AriaListBoxSection className={clsx('pd-collection-section', className)} {...props}>
       {children}
     </AriaListBoxSection>
   )
@@ -100,7 +80,7 @@ export function ListBoxSection<T extends object = object>({
 
 export function ListBoxHeader({ className, children, ...props }: AriaHeaderProps) {
   return (
-    <AriaHeader className={cn(collectionHeaderClasses, className)} {...props}>
+    <AriaHeader className={clsx('pd-collection-header', className)} {...props}>
       {children}
     </AriaHeader>
   )
@@ -108,7 +88,7 @@ export function ListBoxHeader({ className, children, ...props }: AriaHeaderProps
 
 export function ListBoxSeparator({ className, ...props }: AriaSeparatorProps) {
   return (
-    <AriaSeparator className={cn(collectionSeparatorClasses, className)} {...props} />
+    <AriaSeparator className={clsx('pd-collection-separator', className)} {...props} />
   )
 }
 

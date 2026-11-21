@@ -1,33 +1,19 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
-  Breadcrumbs as AriaBreadcrumbs,
   Breadcrumb as AriaBreadcrumb,
+  Breadcrumbs as AriaBreadcrumbs,
+  composeRenderProps,
   Link as AriaLink,
-  type BreadcrumbsProps as AriaBreadcrumbsProps,
   type BreadcrumbProps as AriaBreadcrumbProps,
   type BreadcrumbRenderProps as AriaBreadcrumbRenderProps,
-  type LinkProps as AriaLinkProps,
-  type Key
+  type BreadcrumbsProps as AriaBreadcrumbsProps,
+  type Key,
+  type LinkProps as AriaLinkProps
 } from 'react-aria-components'
 import { RiArrowRightSLine } from '@remixicon/react'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn, composeTailwindRenderProps, focusRing } from '../../utils/index.ts'
 
-export const breadcrumbsVariants = cva(
-  'flex items-center flex-wrap list-none m-0 p-0',
-  {
-    variants: {
-      size: {
-        sm: 'text-label-xs gap-3xs',
-        md: 'text-label-sm gap-2xs',
-        lg: 'text-label-md gap-xs'
-      }
-    },
-    defaultVariants: {
-      size: 'md'
-    }
-  }
-)
+export type BreadcrumbsSize = 'sm' | 'md' | 'lg'
 
 export interface BreadcrumbSeparatorProps {
   className?: string
@@ -37,35 +23,22 @@ export interface BreadcrumbSeparatorProps {
 export function BreadcrumbSeparator({ className, children }: BreadcrumbSeparatorProps) {
   return (
     <span
-      className={cn(
-        'inline-flex items-center text-on-surface-disabled shrink-0 select-none',
-        className
-      )}
+      className={clsx('pd-breadcrumb-separator', className)}
       aria-hidden="true"
     >
-      {children ?? <RiArrowRightSLine className="w-icon-xs h-icon-xs" />}
+      {children ?? <RiArrowRightSLine className="pd-breadcrumb-separator-icon" />}
     </span>
   )
 }
 
-export interface BreadcrumbLinkProps extends AriaLinkProps {
-  className?: string
+export interface BreadcrumbLinkProps extends Omit<AriaLinkProps, 'children'> {
   children?: ReactNode
 }
 
 export function BreadcrumbLink({ className, children, ...props }: BreadcrumbLinkProps) {
   return (
     <AriaLink
-      className={composeTailwindRenderProps(
-        className,
-        [
-          'inline-flex items-center transition-colors duration-fast rounded-xs outline-none',
-          'text-inherit text-on-surface-muted hover:text-on-surface hover:underline cursor-pointer',
-          'data-[current]:text-on-surface data-[current]:font-medium data-[current]:no-underline data-[current]:cursor-default data-[current]:pointer-events-none',
-          'data-[disabled]:text-on-surface-disabled data-[disabled]:cursor-not-allowed',
-          focusRing
-        ].join(' ')
-      )}
+      className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-breadcrumb-link', cn))}
       {...props}
     >
       {children}
@@ -73,9 +46,8 @@ export function BreadcrumbLink({ className, children, ...props }: BreadcrumbLink
   )
 }
 
-export interface BreadcrumbProps extends AriaBreadcrumbProps {
+export interface BreadcrumbProps extends Omit<AriaBreadcrumbProps, 'children'> {
   separator?: ReactNode | boolean
-  className?: string
   children?: ReactNode | ((renderProps: AriaBreadcrumbRenderProps) => ReactNode)
 }
 
@@ -87,7 +59,7 @@ export function Breadcrumb({
 }: BreadcrumbProps) {
   return (
     <AriaBreadcrumb
-      className={composeTailwindRenderProps(className, 'inline-flex items-center gap-2xs')}
+      className={composeRenderProps(className, (cn) => clsx('pd-breadcrumb', cn))}
       {...props}
     >
       {(renderProps) => (
@@ -110,8 +82,8 @@ export interface BreadcrumbItemData {
 }
 
 export interface BreadcrumbsProps<T extends object = object>
-  extends Omit<AriaBreadcrumbsProps<T>, 'children' | 'items'>,
-  VariantProps<typeof breadcrumbsVariants> {
+  extends Omit<AriaBreadcrumbsProps<T>, 'children' | 'items'> {
+  size?: BreadcrumbsSize
   items?: BreadcrumbItemData[]
   className?: string
   children?: ReactNode | ((item: T) => ReactNode)
@@ -126,7 +98,8 @@ export function Breadcrumbs<T extends object = object>({
 }: BreadcrumbsProps<T>) {
   return (
     <AriaBreadcrumbs
-      className={cn(breadcrumbsVariants({ size }), className)}
+      data-size={size}
+      className={clsx('pd-breadcrumbs', className)}
       {...props}
     >
       {items

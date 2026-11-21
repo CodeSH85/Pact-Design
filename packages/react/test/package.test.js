@@ -213,7 +213,7 @@ describe('@pact-design/react package integrity', () => {
       assert.doesNotMatch(source, /composeTailwindRenderProps/, `${relPath} must not depend on tailwind-merge`)
     }
 
-    const phase2a = [
+    const phase2 = [
       ['Checkbox/Checkbox.tsx', 'pd-checkbox'],
       ['Radio/Radio.tsx', 'pd-radio'],
       ['Switch/Switch.tsx', 'pd-switch'],
@@ -221,10 +221,16 @@ describe('@pact-design/react package integrity', () => {
       ['TextField/TextField.tsx', 'pd-field'],
       ['SearchField/SearchField.tsx', 'pd-search-field'],
       ['FileTrigger/FileTrigger.tsx', 'pd-field-icon'],
-      ['Form/Form.tsx', 'pd-form']
+      ['Form/Form.tsx', 'pd-form'],
+      ['Tab/Tab.tsx', 'pd-tabs'],
+      ['Breadcrumbs/Breadcrumbs.tsx', 'pd-breadcrumbs'],
+      ['Disclosure/Disclosure.tsx', 'pd-disclosure'],
+      ['DisclosureGroup/DisclosureGroup.tsx', 'pd-disclosure-group'],
+      ['ListBox/ListBox.tsx', 'pd-listbox'],
+      ['Tree/Tree.tsx', 'pd-tree']
     ]
 
-    for (const [relPath, className] of phase2a) {
+    for (const [relPath, className] of phase2) {
       const source = fs.readFileSync(path.join(PACKAGE_ROOT, 'src/components', relPath), 'utf-8')
       assert.ok(source.includes(className), `${relPath} must apply ${className}`)
       assert.doesNotMatch(source, /class-variance-authority/, `${relPath} must not depend on cva`)

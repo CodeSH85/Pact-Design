@@ -1,17 +1,15 @@
 export {
   Disclosure,
   DisclosureGroup,
-  disclosureGroupVariants,
   DisclosureHeader,
   DisclosurePanel,
-  disclosurePanelClasses,
-  disclosureTriggerClasses,
-  disclosureVariants,
   type DisclosureGroupItemData,
   type DisclosureGroupProps,
+  type DisclosureGroupVariant,
   type DisclosureHeaderProps,
   type DisclosurePanelProps,
-  type DisclosureProps
+  type DisclosureProps,
+  type DisclosureVariant
 } from './Disclosure.tsx'
 
 export { default } from './Disclosure.tsx'
