@@ -7,6 +7,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
   content: {
+    pipeline: {
+      include: [
+        /\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/,
+        /packages\/react\/src\/.*\.ts($|\?)/
+      ]
+    },
     filesystem: [
       path.resolve(__dirname, '../packages/react/src/**/*.{js,jsx,ts,tsx}')
     ]
