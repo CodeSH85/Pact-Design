@@ -3,8 +3,9 @@ export {
   FormActions,
   FormContext,
   FormSection,
-  formVariants,
+  type FormActionsAlign,
   type FormActionsProps,
+  type FormGap,
   type FormProps,
   type FormSectionProps
 } from './Form.tsx'

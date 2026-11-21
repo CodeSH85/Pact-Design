@@ -1,33 +1,29 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
+  composeRenderProps,
   type InputProps as AriaInputProps,
   TextField as AriaTextField,
   type TextFieldProps as AriaTextFieldProps
 } from 'react-aria-components'
-import { type VariantProps } from 'class-variance-authority'
-import {
-  composeTailwindRenderProps,
-  fieldWrapperClasses,
-  type FieldSharedProps
-} from '../../utils/index.ts'
+import { type FieldSharedProps } from '../../utils/index.ts'
 import {
   FieldDescription,
   FieldError,
   FieldGroup,
-  fieldGroupVariants,
+  type FieldSize,
   Input,
   Label
 } from '../Field/index.ts'
 
 export interface TextFieldProps
-  extends AriaTextFieldProps,
-  VariantProps<typeof fieldGroupVariants>,
+  extends Omit<AriaTextFieldProps, 'children'>,
   FieldSharedProps {
+  size?: FieldSize
   prefix?: ReactNode
   suffix?: ReactNode
   placeholder?: string
   inputProps?: AriaInputProps
-  className?: string
   children?: ReactNode
 }
 
@@ -46,16 +42,16 @@ export function TextField({
 }: TextFieldProps) {
   return (
     <AriaTextField
-      className={composeTailwindRenderProps(className, fieldWrapperClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-field', cn))}
       {...props}
     >
       {label && <Label>{label}</Label>}
 
       {children ?? (
         <FieldGroup size={size}>
-          {prefix && <span className="inline-flex items-center text-field-text-muted shrink-0">{prefix}</span>}
+          {prefix && <span className="pd-field-affix">{prefix}</span>}
           <Input placeholder={placeholder} {...inputProps} />
-          {suffix && <span className="inline-flex items-center text-field-text-muted shrink-0">{suffix}</span>}
+          {suffix && <span className="pd-field-affix">{suffix}</span>}
         </FieldGroup>
       )}
 

@@ -26,7 +26,7 @@ export function FileTrigger({
     <AriaFileTrigger {...props}>
       {children ?? (
         <Button variant={variant} size={size}>
-          {icon ?? <RiUpload2Line className="w-icon-xs h-icon-xs" aria-hidden="true" />}
+          {icon ?? <RiUpload2Line className="pd-field-icon" aria-hidden="true" />}
           <span>{label ?? 'Choose file'}</span>
         </Button>
       )}

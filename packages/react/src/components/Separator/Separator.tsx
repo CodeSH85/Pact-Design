@@ -1,31 +1,15 @@
+import { clsx } from 'clsx'
 import {
   Separator as AriaSeparator,
   type SeparatorProps as AriaSeparatorProps
 } from 'react-aria-components'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '../../utils/index.ts'
 
-export const separatorVariants = cva('border-0 shrink-0', {
-  variants: {
-    orientation: {
-      horizontal: 'w-full h-px',
-      vertical: 'w-px h-full self-stretch'
-    },
-    tone: {
-      subtle: 'bg-border-subtle',
-      default: 'bg-border-default',
-      strong: 'bg-border-strong'
-    }
-  },
-  defaultVariants: {
-    orientation: 'horizontal',
-    tone: 'subtle'
-  }
-})
+export type SeparatorOrientation = 'horizontal' | 'vertical'
+export type SeparatorTone = 'subtle' | 'default' | 'strong'
 
-export interface SeparatorProps
-  extends Omit<AriaSeparatorProps, 'orientation'>,
-  VariantProps<typeof separatorVariants> {
+export interface SeparatorProps extends Omit<AriaSeparatorProps, 'orientation'> {
+  orientation?: SeparatorOrientation
+  tone?: SeparatorTone
   className?: string
 }
 
@@ -40,7 +24,9 @@ export function Separator({
   return (
     <AriaSeparator
       orientation={resolvedOrientation}
-      className={cn(separatorVariants({ orientation: resolvedOrientation, tone }), className)}
+      data-orientation={resolvedOrientation}
+      data-tone={tone}
+      className={clsx('pd-separator', className)}
       {...props}
     />
   )

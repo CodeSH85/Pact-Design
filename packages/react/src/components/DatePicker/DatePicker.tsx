@@ -6,7 +6,6 @@ import {
   type PopoverProps as AriaPopoverProps
 } from 'react-aria-components'
 import { RiCalendarLine } from '@remixicon/react'
-import { type VariantProps } from 'class-variance-authority'
 import {
   composeTailwindRenderProps,
   fieldWrapperClasses,
@@ -32,7 +31,7 @@ import {
   FieldDescription,
   FieldError,
   FieldGroup,
-  fieldGroupVariants,
+  type FieldSize,
   Label
 } from '../Field/index.ts'
 import { PopoverContent } from '../Popover/index.ts'
@@ -57,8 +56,8 @@ export interface DatePickerPopoverProps extends AriaPopoverProps {
 
 export interface DatePickerProps<T extends DateValue>
   extends AriaDatePickerProps<T>,
-  VariantProps<typeof fieldGroupVariants>,
   FieldSharedProps {
+  size?: FieldSize
   dateInputProps?: DateInputProps
   popoverProps?: DatePickerPopoverProps
   calendarProps?: Partial<CalendarProps<T>>

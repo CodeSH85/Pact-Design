@@ -1,38 +1,22 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
+  composeRenderProps,
   Radio as AriaRadio,
   type RadioProps as AriaRadioProps,
   RadioGroup as AriaRadioGroup,
   type RadioGroupProps as AriaRadioGroupProps
 } from 'react-aria-components'
 import {
-  composeTailwindRenderProps,
-  groupFocusRing,
   resolveDisabled,
-  selectionControlDescriptionClasses,
-  selectionControlLabelClasses,
-  selectionControlLabelStackClasses,
-  selectionControlRootClasses,
   type FieldSharedProps,
   type SelectionControlProps
 } from '../../utils/index.ts'
 import { FieldDescription, FieldError, Label } from '../Field/index.ts'
 
-export const radioCircleClasses = [
-  'inline-flex shrink-0 items-center justify-center',
-  'w-radio-size h-radio-size rounded-radio-radius',
-  'border border-radio-border bg-radio-bg',
-  'transition-colors duration-fast ease-default',
-  'group-hover:border-radio-border-hover group-data-[hovered]:border-radio-border-hover',
-  groupFocusRing,
-  'group-data-[selected]:bg-radio-bg-selected group-data-[selected]:border-radio-border-selected',
-  'group-data-[disabled]:bg-radio-bg-disabled group-data-[disabled]:border-radio-border-disabled'
-].join(' ')
-
 export interface RadioProps
   extends Omit<AriaRadioProps, 'children'>,
   SelectionControlProps {
-  className?: string
   children?: ReactNode | AriaRadioProps['children']
 }
 
@@ -48,7 +32,7 @@ export function Radio({
   return (
     <AriaRadio
       isDisabled={resolveDisabled({ disabled, isDisabled })}
-      className={composeTailwindRenderProps(className, selectionControlRootClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-selection-control', 'pd-radio', cn))}
       {...props}
     >
       {(renderProps) => {
@@ -60,29 +44,23 @@ export function Radio({
           return children
         }
 
-        const { isSelected, isDisabled: itemDisabled } = renderProps
+        const { isSelected } = renderProps
 
         return (
           <>
-            <span className={radioCircleClasses}>
-              {isSelected && (
-                <span
-                  className={`w-radio-dot-size h-radio-dot-size rounded-radio-radius ${
-                    itemDisabled ? 'bg-radio-dot-disabled' : 'bg-radio-dot'
-                  }`}
-                />
-              )}
+            <span className="pd-radio-circle">
+              {isSelected && <span className="pd-radio-dot" />}
             </span>
 
             {(label || description) && (
-              <span className={selectionControlLabelStackClasses}>
+              <span className="pd-selection-control-content">
                 {label && (
-                  <span className={selectionControlLabelClasses(itemDisabled)}>
+                  <span className="pd-selection-control-label">
                     {label}
                   </span>
                 )}
                 {description && (
-                  <span className={selectionControlDescriptionClasses(itemDisabled)}>
+                  <span className="pd-selection-control-description">
                     {description}
                   </span>
                 )}
@@ -99,7 +77,6 @@ export interface RadioGroupProps
   extends Omit<AriaRadioGroupProps, 'children'>,
   FieldSharedProps {
   orientation?: 'vertical' | 'horizontal'
-  className?: string
   children?: ReactNode
 }
 
@@ -115,21 +92,12 @@ export function RadioGroup({
   return (
     <AriaRadioGroup
       orientation={orientation}
-      className={composeTailwindRenderProps(
-        className,
-        'flex flex-col gap-xs'
-      )}
+      className={composeRenderProps(className, (cn) => clsx('pd-radio-group', cn))}
       {...props}
     >
       {label && <Label>{label}</Label>}
       {description && <FieldDescription>{description}</FieldDescription>}
-      <div
-        className={
-          orientation === 'horizontal'
-            ? 'flex flex-wrap items-start gap-md'
-            : 'flex flex-col gap-sm'
-        }
-      >
+      <div className="pd-radio-group-items" data-orientation={orientation}>
         {children}
       </div>
       <FieldError>{errorMessage}</FieldError>

@@ -1,24 +1,13 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
   Form as AriaForm,
   FormContext as AriaFormContext,
   type FormProps as AriaFormProps
 } from 'react-aria-components'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '../../utils/index.ts'
 
-export const formVariants = cva('flex flex-col w-full', {
-  variants: {
-    gap: {
-      sm: 'gap-sm',
-      md: 'gap-md',
-      lg: 'gap-lg'
-    }
-  },
-  defaultVariants: {
-    gap: 'md'
-  }
-})
+export type FormGap = 'sm' | 'md' | 'lg'
+export type FormActionsAlign = 'start' | 'center' | 'end' | 'between'
 
 export interface FormSectionProps {
   title?: ReactNode
@@ -29,11 +18,11 @@ export interface FormSectionProps {
 
 export function FormSection({ title, description, className, children }: FormSectionProps) {
   return (
-    <div className={cn('flex flex-col gap-sm', className)}>
+    <div className={clsx('pd-form-section', className)}>
       {(title || description) && (
-        <div className="flex flex-col gap-3xs">
-          {title && <h3 className="text-label-md font-semibold text-on-surface m-0">{title}</h3>}
-          {description && <p className="text-caption-md text-on-surface-muted m-0">{description}</p>}
+        <div className="pd-form-section-header">
+          {title && <h3 className="pd-form-section-title">{title}</h3>}
+          {description && <p className="pd-form-section-description">{description}</p>}
         </div>
       )}
       {children}
@@ -42,29 +31,21 @@ export function FormSection({ title, description, className, children }: FormSec
 }
 
 export interface FormActionsProps {
-  align?: 'start' | 'center' | 'end' | 'between'
+  align?: FormActionsAlign
   className?: string
   children?: ReactNode
 }
 
 export function FormActions({ align = 'end', className, children }: FormActionsProps) {
-  const alignmentClasses = {
-    start: 'justify-start',
-    center: 'justify-center',
-    end: 'justify-end',
-    between: 'justify-between'
-  }[align]
-
   return (
-    <div className={cn('flex items-center gap-sm pt-xs', alignmentClasses, className)}>
+    <div data-align={align} className={clsx('pd-form-actions', className)}>
       {children}
     </div>
   )
 }
 
-export interface FormProps
-  extends AriaFormProps,
-  VariantProps<typeof formVariants> {
+export interface FormProps extends AriaFormProps {
+  gap?: FormGap
   className?: string
   children?: ReactNode
 }
@@ -72,7 +53,8 @@ export interface FormProps
 export function Form({ gap = 'md', className, children, ...props }: FormProps) {
   return (
     <AriaForm
-      className={cn(formVariants({ gap }), className)}
+      data-gap={gap}
+      className={clsx('pd-form', className)}
       {...props}
     >
       {children}
