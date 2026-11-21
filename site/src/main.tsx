@@ -2,8 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider } from '@tanstack/react-router'
 import '@unocss/reset/tailwind.css'
-import 'virtual:uno.css'
 import './styles/global.css'
+import 'virtual:uno.css'
 import { router } from './router'
 
 const rootElement = document.getElementById('root')

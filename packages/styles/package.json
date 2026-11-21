@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     "./css": "./build/css/index.css",
+    "./css/layered": "./build/css/layered.css",
     "./css/tokens": "./build/css/tokens.css",
     "./css/theme": "./build/css/theme.css",
     "./css/reset": "./build/css/reset.css",
