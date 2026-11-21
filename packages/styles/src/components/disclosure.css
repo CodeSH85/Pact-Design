@@ -1,0 +1,111 @@
+.pd-disclosure {
+  width: 100%;
+  overflow: hidden;
+  transition-property: color, background-color, border-color;
+  transition-duration: var(--pd-system-motion-duration-fast);
+  transition-timing-function: var(--pd-system-motion-easing-default);
+
+  &:where([data-variant="bordered"], :not([data-variant])) {
+    border: var(--pd-system-border-width-sm) solid var(--pd-component-disclosure-container-color-border);
+    border-radius: var(--pd-component-disclosure-container-radius);
+    background-color: var(--pd-component-disclosure-container-color-bg);
+  }
+
+  &:where([data-variant="ghost"]) {
+    border-bottom: var(--pd-system-border-width-sm) solid var(--pd-component-disclosure-container-color-divider);
+    background-color: transparent;
+  }
+
+  &:where([data-grouped]) {
+    border-bottom: 0;
+  }
+}
+
+.pd-disclosure-heading {
+  margin: 0;
+}
+
+.pd-disclosure-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: var(--pd-component-disclosure-trigger-height);
+  padding-inline: var(--pd-component-disclosure-trigger-padding-x);
+  border-radius: var(--pd-component-disclosure-trigger-radius);
+  font: var(--pd-system-font-label-md);
+  letter-spacing: var(--pd-system-font-label-md-letter-spacing);
+  color: var(--pd-component-disclosure-trigger-color-text);
+  background-color: transparent;
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+  transition-property: color, background-color;
+  transition-duration: var(--pd-system-motion-duration-fast);
+  transition-timing-function: var(--pd-system-motion-easing-default);
+
+  &:where(:hover, [data-hovered]) {
+    background-color: var(--pd-component-disclosure-trigger-color-bg-hover);
+  }
+
+  &:where(:active, [data-pressed]) {
+    background-color: var(--pd-component-disclosure-trigger-color-bg-active);
+  }
+
+  &:where(:focus-visible, [data-focus-visible]) {
+    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
+    outline-offset: var(--pd-system-focus-offset-inset);
+  }
+
+  &:where(:disabled, [data-disabled]) {
+    color: var(--pd-component-disclosure-trigger-color-text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+.pd-disclosure-chevron {
+  width: var(--pd-system-icon-size-xs);
+  height: var(--pd-system-icon-size-xs);
+  color: var(--pd-system-on-surface-muted);
+  flex-shrink: 0;
+  transition-property: transform;
+  transition-duration: var(--pd-system-motion-duration-normal);
+  transition-timing-function: var(--pd-system-motion-easing-default);
+}
+
+:where(.pd-disclosure-trigger[aria-expanded="true"]) .pd-disclosure-chevron {
+  transform: rotate(90deg);
+}
+
+.pd-disclosure-panel {
+  padding-inline: var(--pd-component-disclosure-panel-padding-x);
+  padding-block: var(--pd-component-disclosure-panel-padding-y);
+  font: var(--pd-system-font-body-sm);
+  letter-spacing: var(--pd-system-font-body-sm-letter-spacing);
+  color: var(--pd-component-disclosure-panel-color-text);
+
+  &:where([aria-hidden="true"], [hidden]) {
+    display: none;
+  }
+}
+
+.pd-disclosure-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &:where([data-variant="separated"], :not([data-variant])) {
+    gap: var(--pd-component-disclosure-container-gap);
+  }
+
+  &:where([data-variant="grouped"]) {
+    border: var(--pd-system-border-width-sm) solid var(--pd-component-disclosure-container-color-border);
+    border-radius: var(--pd-component-disclosure-container-radius);
+    overflow: hidden;
+    background-color: var(--pd-component-disclosure-container-color-bg);
+  }
+}
+
+:where(.pd-disclosure-group[data-variant="grouped"]) > .pd-disclosure + .pd-disclosure {
+  border-top: var(--pd-system-border-width-sm) solid var(--pd-component-disclosure-container-color-divider);
+}

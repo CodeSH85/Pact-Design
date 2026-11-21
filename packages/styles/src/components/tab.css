@@ -1,0 +1,188 @@
+.pd-tabs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &:where([data-orientation="vertical"]) {
+    flex-direction: row;
+    gap: var(--pd-system-spacing-md);
+  }
+}
+
+.pd-tab-list {
+  transition-property: color, background-color, border-color;
+  transition-duration: var(--pd-system-motion-duration-fast);
+
+  &:where([data-variant="underline"], :not([data-variant])) {
+    display: flex;
+    border-bottom: var(--pd-system-border-width-sm) solid var(--pd-component-tab-list-underline-color-border);
+    gap: var(--pd-component-tab-list-underline-gap);
+
+    &:where([data-orientation="vertical"]) {
+      flex-direction: column;
+      border-bottom: 0;
+      border-right: var(--pd-system-border-width-sm) solid var(--pd-component-tab-list-underline-color-border);
+      gap: var(--pd-system-spacing-xs);
+    }
+  }
+
+  &:where([data-variant="segmented"]) {
+    display: inline-flex;
+    padding: var(--pd-component-tab-list-segmented-padding);
+    background-color: var(--pd-component-tab-list-segmented-color-bg);
+    border: var(--pd-system-border-width-sm) solid var(--pd-component-tab-list-segmented-color-border);
+    border-radius: var(--pd-component-tab-list-segmented-radius);
+    gap: var(--pd-component-tab-list-segmented-gap);
+
+    &:where([data-orientation="vertical"]) {
+      flex-direction: column;
+    }
+  }
+
+  &:where([data-variant="pill"]) {
+    display: inline-flex;
+    gap: var(--pd-component-tab-list-pill-gap);
+
+    &:where([data-orientation="vertical"]) {
+      flex-direction: column;
+    }
+  }
+
+  &:where([data-size="sm"]) {
+    font: var(--pd-system-font-label-sm);
+    letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
+  }
+
+  &:where([data-size="md"], :not([data-size])) {
+    font: var(--pd-system-font-label-md);
+    letter-spacing: var(--pd-system-font-label-md-letter-spacing);
+  }
+
+  &:where([data-size="lg"]) {
+    font: var(--pd-system-font-label-lg);
+    letter-spacing: var(--pd-system-font-label-lg-letter-spacing);
+  }
+}
+
+.pd-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+  transition-property: color, background-color, border-color, box-shadow;
+  transition-duration: var(--pd-system-motion-duration-fast);
+  transition-timing-function: var(--pd-system-motion-easing-default);
+
+  &:where([data-disabled]) {
+    color: var(--pd-component-tab-trigger-color-text-disabled);
+    cursor: not-allowed;
+  }
+
+  /* Variants */
+  &:where([data-variant="underline"], :not([data-variant])) {
+    position: relative;
+    border-bottom: var(--pd-system-border-width-md) solid transparent;
+    margin-bottom: -1px;
+    color: var(--pd-component-tab-trigger-color-text);
+
+    &:where(:hover, [data-hovered]) {
+      color: var(--pd-component-tab-trigger-color-text-hover);
+    }
+
+    &:where([data-selected]) {
+      color: var(--pd-component-tab-trigger-color-text-selected);
+      border-color: var(--pd-component-tab-trigger-color-border-selected);
+    }
+
+    &:where([data-orientation="vertical"]) {
+      border-bottom: 0;
+      margin-bottom: 0;
+      border-right: var(--pd-system-border-width-md) solid transparent;
+      margin-right: -1px;
+    }
+
+    &:where(:focus-visible, [data-focus-visible]) {
+      outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
+      outline-offset: var(--pd-system-focus-offset-inset);
+    }
+  }
+
+  &:where([data-variant="segmented"]) {
+    border-radius: var(--pd-system-radius-xs);
+    color: var(--pd-component-tab-trigger-color-text);
+
+    &:where(:hover, [data-hovered]) {
+      color: var(--pd-component-tab-trigger-color-text-hover);
+    }
+
+    &:where([data-selected]) {
+      background-color: var(--pd-component-tab-trigger-color-segmented-bg-selected);
+      color: var(--pd-component-tab-trigger-color-text-selected);
+      box-shadow: var(--pd-component-tab-trigger-shadow-segmented-selected);
+    }
+
+    &:where(:focus-visible, [data-focus-visible]) {
+      outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
+      outline-offset: var(--pd-system-focus-offset-default);
+    }
+  }
+
+  &:where([data-variant="pill"]) {
+    border-radius: var(--pd-system-radius-full);
+    color: var(--pd-component-tab-trigger-color-text);
+
+    &:where(:hover, [data-hovered]) {
+      color: var(--pd-component-tab-trigger-color-text-hover);
+      background-color: var(--pd-component-tab-trigger-color-pill-bg-hover);
+    }
+
+    &:where([data-selected]) {
+      background-color: var(--pd-component-tab-trigger-color-pill-bg-selected);
+      color: var(--pd-component-tab-trigger-color-pill-text-selected);
+    }
+
+    &:where(:focus-visible, [data-focus-visible]) {
+      outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
+      outline-offset: var(--pd-system-focus-offset-default);
+    }
+  }
+
+  /* Sizes */
+  &:where([data-size="sm"]) {
+    height: var(--pd-component-tab-trigger-height-sm);
+    padding-inline: var(--pd-component-tab-trigger-padding-x-sm);
+    gap: var(--pd-component-tab-trigger-gap-sm);
+    font: var(--pd-system-font-label-xs);
+    letter-spacing: var(--pd-system-font-label-xs-letter-spacing);
+  }
+
+  &:where([data-size="md"], :not([data-size])) {
+    height: var(--pd-component-tab-trigger-height-md);
+    padding-inline: var(--pd-component-tab-trigger-padding-x-md);
+    gap: var(--pd-component-tab-trigger-gap-md);
+    font: var(--pd-system-font-label-sm);
+    letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
+  }
+
+  &:where([data-size="lg"]) {
+    height: var(--pd-component-tab-trigger-height-lg);
+    padding-inline: var(--pd-component-tab-trigger-padding-x-lg);
+    gap: var(--pd-component-tab-trigger-gap-lg);
+    font: var(--pd-system-font-label-md);
+    letter-spacing: var(--pd-system-font-label-md-letter-spacing);
+  }
+}
+
+.pd-tab-panels {
+  outline: none;
+}
+
+.pd-tab-panel {
+  outline: none;
+  padding-top: var(--pd-component-tab-panel-padding-top);
+  font: var(--pd-system-font-body-sm);
+  letter-spacing: var(--pd-system-font-body-sm-letter-spacing);
+  color: var(--pd-component-tab-panel-color-text);
+}

@@ -1,0 +1,80 @@
+.pd-breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &:where([data-size="sm"]) {
+    font: var(--pd-system-font-label-xs);
+    letter-spacing: var(--pd-system-font-label-xs-letter-spacing);
+    gap: var(--pd-system-spacing-3xs);
+  }
+
+  &:where([data-size="md"], :not([data-size])) {
+    font: var(--pd-system-font-label-sm);
+    letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
+    gap: var(--pd-system-spacing-2xs);
+  }
+
+  &:where([data-size="lg"]) {
+    font: var(--pd-system-font-label-md);
+    letter-spacing: var(--pd-system-font-label-md-letter-spacing);
+    gap: var(--pd-system-spacing-xs);
+  }
+}
+
+.pd-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pd-system-spacing-2xs);
+}
+
+.pd-breadcrumb-link {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--pd-system-radius-xs);
+  outline: none;
+  color: var(--pd-system-on-surface-muted);
+  text-decoration: none;
+  cursor: pointer;
+  transition-property: color;
+  transition-duration: var(--pd-system-motion-duration-fast);
+
+  &:where(:hover, [data-hovered]) {
+    color: var(--pd-system-on-surface-default);
+    text-decoration: underline;
+  }
+
+  &:where([data-current]) {
+    color: var(--pd-system-on-surface-default);
+    font-weight: var(--pd-global-font-weight-03);
+    text-decoration: none;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  &:where([data-disabled]) {
+    color: var(--pd-system-on-surface-disabled);
+    cursor: not-allowed;
+  }
+
+  &:where(:focus-visible, [data-focus-visible]) {
+    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
+    outline-offset: var(--pd-system-focus-offset-default);
+  }
+}
+
+.pd-breadcrumb-separator {
+  display: inline-flex;
+  align-items: center;
+  color: var(--pd-system-on-surface-disabled);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.pd-breadcrumb-separator-icon {
+  width: var(--pd-system-icon-size-xs);
+  height: var(--pd-system-icon-size-xs);
+}
