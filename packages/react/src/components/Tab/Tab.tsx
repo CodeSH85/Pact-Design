@@ -72,7 +72,7 @@ export const tabVariants = cva(
           focusRing
         ].join(' '),
         pill: [
-          'rounded-pill text-tab-trigger-text hover:text-tab-trigger-text-hover hover:bg-tab-trigger-pill-bg-hover',
+          'rounded-full text-tab-trigger-text hover:text-tab-trigger-text-hover hover:bg-tab-trigger-pill-bg-hover',
           'data-[selected]:bg-tab-trigger-pill-bg-selected data-[selected]:text-tab-trigger-pill-text-selected',
           focusRing
         ].join(' ')

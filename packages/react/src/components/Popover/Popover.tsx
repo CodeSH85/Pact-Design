@@ -9,7 +9,7 @@ import { composeTailwindRenderProps, enterExitZoomClasses } from '../../utils/in
 import { Dialog, type DialogProps, DialogTrigger } from '../Dialog/index.ts'
 
 export const popoverContentClasses = [
-  'z-popover min-w-popover-surface p-popover-surface-padding rounded-popover-surface',
+  'z-popover-surface min-w-popover-surface p-popover-surface-padding rounded-popover-surface',
   'bg-popover-surface-bg text-popover-surface-text border border-popover-surface-border shadow-popover-surface-shadow',
   'outline-none origin-top transition-opacity duration-fast ease-default',
   enterExitZoomClasses

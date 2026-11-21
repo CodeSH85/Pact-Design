@@ -155,7 +155,7 @@ export function ToastRegion<T extends object = ToastData>({
       queue={queue}
       className={composeTailwindRenderProps(
         className,
-        'fixed bottom-lg right-lg z-toast flex flex-col gap-sm max-w-toast-container w-full outline-none pointer-events-none [&>*]:pointer-events-auto'
+        'fixed bottom-lg right-lg z-toast-container flex flex-col gap-sm max-w-toast-container w-full outline-none pointer-events-none [&>*]:pointer-events-auto'
       )}
       {...props}
     >

@@ -6,7 +6,6 @@ import {
 import { cva, type VariantProps } from 'class-variance-authority'
 import {
   composeTailwindRenderProps,
-  disabledStyles,
   focusRing,
   resolveDisabled,
   type DisableableProps
@@ -16,7 +15,8 @@ export const buttonBaseClasses = [
   'inline-flex items-center justify-center select-none cursor-pointer',
   'transition-colors duration-fast ease-default',
   focusRing,
-  disabledStyles
+  'data-[disabled]:bg-button-disabled-bg data-[disabled]:text-button-disabled-text data-[disabled]:border-button-disabled-border',
+  'data-[disabled]:cursor-not-allowed data-[disabled]:pointer-events-none'
 ].join(' ')
 
 export const buttonSizeVariants = {
