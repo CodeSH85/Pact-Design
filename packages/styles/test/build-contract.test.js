@@ -97,7 +97,15 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
       'breadcrumbs.css',
       'disclosure.css',
       'collection.css',
-      'tree.css'
+      'tree.css',
+      'popover.css',
+      'menu.css',
+      'select.css',
+      'dialog.css',
+      'modal.css',
+      'sheet.css',
+      'toast.css',
+      'calendar.css'
     ]) {
       const singlePath = path.join(COMPONENTS_DIR_PATH, fileName)
       assert.ok(fs.existsSync(singlePath), `Expected granular component stylesheet ${fileName}`)

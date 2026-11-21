@@ -1,0 +1,125 @@
+.pd-sheet-overlay {
+  z-index: var(--pd-system-z-index-drawer);
+}
+
+.pd-sheet-backdrop {
+  background-color: var(--pd-component-modal-overlay-color-bg);
+
+  &:where([data-entering]) {
+    animation: pd-fade-in var(--pd-system-motion-duration-fast) var(--pd-system-motion-easing-enter);
+  }
+
+  &:where([data-exiting]) {
+    animation: pd-fade-out var(--pd-system-motion-duration-fast) var(--pd-system-motion-easing-exit);
+  }
+}
+
+.pd-sheet-panel {
+  background-color: var(--pd-component-modal-content-color-bg);
+  color: var(--pd-component-modal-content-color-text);
+  border-color: var(--pd-component-modal-content-color-border);
+  box-shadow: var(--pd-component-modal-content-shadow);
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  /* Positions */
+  &:where([data-position="right"], [data-position="end"], :not([data-position])) {
+    height: 100%;
+    width: 100%;
+    border-left: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-color-border);
+    border-top-left-radius: var(--pd-system-radius-md);
+    border-bottom-left-radius: var(--pd-system-radius-md);
+  }
+
+  &:where([data-position="left"], [data-position="start"]) {
+    height: 100%;
+    width: 100%;
+    border-right: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-color-border);
+    border-top-right-radius: var(--pd-system-radius-md);
+    border-bottom-right-radius: var(--pd-system-radius-md);
+  }
+
+  &:where([data-position="bottom"]) {
+    width: 100%;
+    max-height: 85dvh;
+    border-top: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-color-border);
+    border-top-left-radius: var(--pd-system-radius-md);
+    border-top-right-radius: var(--pd-system-radius-md);
+  }
+
+  &:where([data-position="top"]) {
+    width: 100%;
+    max-height: 85dvh;
+    border-bottom: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-color-border);
+    border-bottom-left-radius: var(--pd-system-radius-md);
+    border-bottom-right-radius: var(--pd-system-radius-md);
+  }
+
+  &:where([data-position="center"]) {
+    width: 100%;
+    max-height: 90dvh;
+    border: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-color-border);
+    border-radius: var(--pd-system-radius-md);
+  }
+
+  /* Horizontal / centered sheet sizes */
+  &:where([data-position="left"], [data-position="right"], [data-position="start"], [data-position="end"], [data-position="center"], :not([data-position])) {
+    &:where([data-size="sm"]) {
+      max-width: var(--pd-component-modal-content-max-width-sm);
+    }
+
+    &:where([data-size="md"], :not([data-size])) {
+      max-width: var(--pd-component-modal-content-max-width-md);
+    }
+
+    &:where([data-size="lg"]) {
+      max-width: var(--pd-component-modal-content-max-width-lg);
+    }
+
+    &:where([data-size="xl"]) {
+      max-width: var(--pd-component-modal-content-max-width-xl);
+    }
+
+    &:where([data-size="full"]) {
+      max-width: 100%;
+    }
+  }
+
+  /* Vertical sheet sizes */
+  &:where([data-position="top"], [data-position="bottom"]) {
+    &:where([data-size="sm"]) {
+      max-height: 35dvh;
+    }
+
+    &:where([data-size="md"], :not([data-size])) {
+      max-height: 55dvh;
+    }
+
+    &:where([data-size="lg"]) {
+      max-height: 75dvh;
+    }
+
+    &:where([data-size="xl"]) {
+      max-height: 90dvh;
+    }
+
+    &:where([data-size="full"]) {
+      height: 100%;
+      max-height: 100%;
+      border-radius: 0;
+    }
+  }
+}
+
+.pd-sheet-content {
+  outline: none;
+  padding: var(--pd-system-spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--pd-system-spacing-md);
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}

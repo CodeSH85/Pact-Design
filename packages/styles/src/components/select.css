@@ -1,0 +1,47 @@
+.pd-select-trigger {
+  justify-content: space-between;
+  cursor: pointer;
+  outline: none;
+
+  &:where([data-open]) {
+    border-color: var(--pd-component-field-color-border-focus);
+  }
+
+  &:where(:focus-visible, [data-focus-visible]) {
+    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
+    outline-offset: var(--pd-system-focus-offset-default);
+  }
+}
+
+.pd-select-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+
+  &:where([data-placeholder]) {
+    color: var(--pd-component-field-color-text-placeholder);
+  }
+}
+
+.pd-select-chevron {
+  width: var(--pd-system-icon-size-xs);
+  height: var(--pd-system-icon-size-xs);
+  color: var(--pd-component-field-color-text-muted);
+  flex-shrink: 0;
+  transition-property: transform;
+  transition-duration: var(--pd-system-motion-duration-normal);
+  transition-timing-function: var(--pd-system-motion-easing-default);
+}
+
+:where(.pd-select-trigger[data-open]) .pd-select-chevron {
+  transform: rotate(180deg);
+}
+
+.pd-field-group-compact-end {
+  padding-inline-end: var(--pd-system-spacing-2xs);
+}
+
+.pd-field-group-between {
+  justify-content: space-between;
+}

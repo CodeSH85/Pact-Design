@@ -1,0 +1,82 @@
+.pd-dialog {
+  outline: none;
+}
+
+.pd-dialog-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--pd-component-modal-header-gap);
+  padding-bottom: var(--pd-component-modal-header-padding-bottom);
+  border-bottom: var(--pd-system-border-width-sm) solid var(--pd-component-modal-header-color-border);
+  flex-shrink: 0;
+}
+
+.pd-dialog-header-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pd-system-spacing-2xs);
+}
+
+.pd-dialog-title {
+  font: var(--pd-system-font-heading-sm);
+  letter-spacing: var(--pd-system-font-heading-sm-letter-spacing);
+  font-weight: var(--pd-global-font-weight-04);
+  color: var(--pd-system-on-surface-default);
+  margin: 0;
+}
+
+.pd-dialog-description {
+  font: var(--pd-system-font-body-sm);
+  letter-spacing: var(--pd-system-font-body-sm-letter-spacing);
+  color: var(--pd-system-on-surface-muted);
+  margin: 0;
+}
+
+.pd-dialog-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.pd-dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--pd-component-modal-footer-gap);
+  padding-top: var(--pd-component-modal-footer-padding-top);
+  border-top: var(--pd-system-border-width-sm) solid var(--pd-component-modal-footer-color-border);
+  flex-shrink: 0;
+}
+
+.pd-dialog-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pd-system-spacing-2xs);
+  border-radius: var(--pd-system-radius-xs);
+  color: var(--pd-system-on-surface-muted);
+  cursor: pointer;
+  outline: none;
+  transition-property: color, background-color;
+  transition-duration: var(--pd-system-motion-duration-fast);
+
+  &:where(:hover, [data-hovered]) {
+    background-color: var(--pd-system-background-hover);
+    color: var(--pd-system-on-surface-default);
+  }
+
+  &:where(:active, [data-pressed]) {
+    background-color: var(--pd-system-background-active);
+  }
+
+  &:where(:focus-visible, [data-focus-visible]) {
+    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
+    outline-offset: var(--pd-system-focus-offset-default);
+  }
+}
+
+.pd-dialog-close-icon {
+  width: var(--pd-system-icon-size-sm);
+  height: var(--pd-system-icon-size-sm);
+}
