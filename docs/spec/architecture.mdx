@@ -70,9 +70,13 @@ Pact Design 在 **System** 層級透過分離檔案實作主題切換：
 
 ---
 
-## 雙目標編譯管線
+## 雙階段編譯管線
 
-執行 `pnpm build:sd` 時，[`scripts/sd.config.js`](/scripts/sd.config.js) 與 [`scripts/unoCss.js`](/scripts/unoCss.js) 會從單一 Token 來源同步產出兩種產物：
+執行 `pnpm build:tokens` 與 `pnpm build:styles` 時，Token 定義與 Web 樣式層會依序編譯為兩組產物：
 
-1. **`build/css/_variables.css`**：包含所有 Global 與 System 層級的 CSS Custom Properties，並將複合型 Typography Token 自動展開為子屬性（`-font-family`、`-font-size`、`-font-weight`、`-line-height`、`-letter-spacing`）與 `font` 縮寫變數。
-2. **`build/uno/preset.js` (`pactPreset`)**：無硬編碼鍵名的動態 UnoCSS / Tailwind 相容主題預設集，自動將 `system.*` 與 `global.*` 映射為原子化工具類別（如 `bg-layer-1`、`text-on-surface`、`text-heading-md`、`h-control-sm`、`p-md`、`rounded-xs`、`shadow-elevation-sm`）。
+1. **`@pact-design/tokens`（`packages/tokens/scripts/build.ts` & `sd.config.ts`）**：
+   - `build/css/_variables.css`：輸出所有 Global、System 與 Component 層級的 `--pd-*` CSS Custom Properties，並將複合型 Typography Token 自動展開為子屬性（`-font-family`、`-font-size`、`-font-weight`、`-line-height`、`-letter-spacing`）與 `font` 縮寫變數。
+   - `build/meta/tokens.json`：輸出純淨的 `{ name, path, $type }` 中繼資料清單供下游工具消費。
+2. **`@pact-design/styles`（`packages/styles/scripts/build.ts`）**：
+   - `build/css/index.css` 與 `build/css/theme.css`：將 `@pact-design/tokens/css` 與深淺主題 `color-scheme` 規則整併為獨立分層的 `@layer pact.tokens, pact.theme;` 樣式表，讓原生捲軸與表單控制項自動跟隨 `[data-theme]` 切換。
+   - `build/uno/preset.js`（`pactPreset`）：讀取 `build/meta/tokens.json` 與 `src/uno/rules.ts` 動態生成 UnoCSS / Tailwind 相容主題預設集，將 `system.*` 與 `global.*` 映射為原子化工具類別（如 `bg-layer-1`、`text-on-surface`、`text-heading-md`、`h-control-sm`、`p-md`、`rounded-xs`、`shadow-elevation-sm`），並支援選擇性啟用 `pactPreset({ preflights: true })`。

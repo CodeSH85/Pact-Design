@@ -24,10 +24,11 @@ Built strictly on the **W3C Design Tokens Community Group (DTCG) 2025.10** speci
 - **Perceptually Uniform Color & APCA Contrast**:
   - Global palettes authored in **OKLCH** with synchronized lightness steps (`600` anchored at `L = 0.600`), 100% within the sRGB gamut.
   - Audited against **APCA (Accessible Perceptual Contrast Algorithm, WCAG 3.0 candidate)** as the primary readability metric across both `:root, [data-theme="light"]` and `[data-theme="dark"]` themes.
-- **Decoupled Style Dictionary v5 & UnoCSS Pipeline**:
-  - Custom DTCG transforms and formats emit `--pd-*` CSS custom properties (`build/css/_variables.css`) and a typed UnoCSS preset (`build/uno/preset.js`, `preset.d.ts`) driven by declarative rules (`scripts/formats/uno-rules.ts`), keeping source tokens free of target-specific `$extensions`.
+- **Decoupled Token & Web Styling Pipeline**:
+  - **`@pact-design/tokens`**: Compiles TypeScript DSL tokens via Style Dictionary v5 into raw `--pd-*` CSS custom properties (`build/css/_variables.css`) and a pure token metadata manifest (`build/meta/tokens.json`), keeping source tokens free of target-specific `$extensions`.
+  - **`@pact-design/styles`**: Consumes `@pact-design/tokens` to bundle self-contained layered CSS (`@layer pact.tokens, pact.theme;` with Light/Dark `color-scheme` support for native scrollbars and controls) and a typed UnoCSS preset (`build/uno/preset.js`, `preset.d.ts`) driven by declarative rules (`src/uno/rules.ts`).
 - **Precision Typography**: Pairs proportional sans-serif scales (`tabular-nums` ready for numeric alignment) with dedicated monospace tokens (`system.font.mono.*`) for technical identifiers, hashes, and version tags.
-- **Modern Monorepo Architecture**: Managed via `pnpm` workspaces separating the core token compiler/utilities (`@pact-design/tokens`), React component primitives (`@pact-design/react`), and the documentation app (`pact-site`).
+- **3-Tier Monorepo Architecture**: Managed via `pnpm` workspaces separating pure design tokens (`@pact-design/tokens`), the web styling layer (`@pact-design/styles`), React Aria component primitives (`@pact-design/react`), and the documentation app (`pact-site`).
 
 ---
 
@@ -36,13 +37,20 @@ Built strictly on the **W3C Design Tokens Community Group (DTCG) 2025.10** speci
 ```txt
 Pact-Design/
 ├── packages/
-│   ├── tokens/              # @pact-design/tokens (publishable token library)
+│   ├── tokens/              # @pact-design/tokens (publishable DTCG token package)
 │   │   ├── src/             # TypeScript token DSL (dsl/) & 3-tier definitions (global, system, component)
-│   │   ├── scripts/         # Style Dictionary v5 build, DTCG transforms, CSS & UnoCSS preset/rule generators
+│   │   ├── scripts/         # Style Dictionary v5 build, DTCG transforms, CSS & metadata formats
 │   │   ├── utils/           # Isomorphic color, APCA/WCAG contrast & token utilities
-│   │   ├── test/            # Automated APCA/WCAG contrast & build-contract tests
-│   │   └── build/           # Generated CSS variables (_variables.css) and UnoCSS preset (preset.js, preset.d.ts)
-│   └── react/               # @pact-design/react (React Aria + Pact Design token components)
+│   │   ├── test/            # Automated APCA contrast & build-contract tests
+│   │   └── build/           # Generated CSS variables (css/_variables.css) & metadata (meta/tokens.json)
+│   ├── styles/              # @pact-design/styles (publishable web styling layer)
+│   │   ├── src/             # Theme CSS (css/theme.css) & UnoCSS preset rules/generator (uno/)
+│   │   ├── scripts/         # Composed CSS layer & UnoCSS preset builder
+│   │   ├── test/            # CSS layer, color-scheme & UnoCSS build-contract tests
+│   │   └── build/           # Generated CSS layers (css/index.css, css/theme.css) & UnoCSS preset (uno/)
+│   └── react/               # @pact-design/react (React Aria + Pact Design components)
+│       ├── src/             # 29 accessible React components & style utilities
+│       └── test/            # Package export & structure contract tests
 ├── site/                    # pact-site (Interactive documentation & Token Playground)
 │   ├── src/                 # React 19 + Vite + TanStack Router + UnoCSS
 │   └── public/              # Static assets
@@ -62,58 +70,87 @@ Pact-Design/
 # 1. Install workspace dependencies
 pnpm install
 
-# 2. Build design tokens (CSS custom properties + UnoCSS preset) & run token tests
+# 2. Build design tokens (CSS custom properties + metadata manifest) & run token tests
 pnpm build:tokens
 
-# 3. Run automated APCA / WCAG contrast & build-contract test suites across packages
+# 3. Build web styles (layered CSS + theme color-scheme + UnoCSS preset) & run style tests
+pnpm build:styles
+
+# 4. Run automated test suites across all packages
 pnpm test
 
-# 4. Run TypeScript type checks across packages
+# 5. Run TypeScript type checks across all workspace packages
 pnpm typecheck
 
-# 5. Launch the Documentation & Token Playground site locally (http://localhost:5173)
+# 6. Launch the Documentation & Token Playground site locally (http://localhost:5173)
 pnpm site:dev
 
-# 6. Run ESLint across the monorepo
+# 7. Run ESLint across the monorepo
 pnpm lint
 
-# 7. Build tokens, run tests, and bundle the Documentation Site (site/dist)
+# 8. Build tokens, styles, and bundle the Documentation Site (site/dist)
 pnpm site:build
 ```
 
 ---
 
-## Consuming `@pact-design/tokens`
+## Consuming Pact Design
+
+### Styles & UnoCSS (`@pact-design/styles`)
 
 ```bash
-pnpm add @pact-design/tokens
+pnpm add @pact-design/styles
 ```
 
-### CSS Custom Properties
 ```css
-/* Import themed --pd-* CSS variables (:root, [data-theme="light"] and [data-theme="dark"]) */
-@import '@pact-design/tokens/css';
+/* Self-contained layered CSS: @layer pact.tokens, pact.theme;
+   Includes all --pd-* CSS variables and Light/Dark color-scheme rules */
+@import '@pact-design/styles/css';
+
+/* Or import only the Light/Dark color-scheme rules if loading @pact-design/tokens/css separately */
+@import '@pact-design/styles/css/theme';
 ```
 
-### UnoCSS / Tailwind Integration
 ```javascript
-// uno.config.js
+// uno.config.ts
 import { defineConfig, presetWind3 } from 'unocss'
-import { pactPreset } from '@pact-design/tokens/uno'
+import { pactPreset } from '@pact-design/styles/uno'
 
 export default defineConfig({
   presets: [
     presetWind3(),
+    // Pass { preflights: true } to inject color-scheme via UnoCSS when not importing @pact-design/styles/css
     pactPreset()
   ]
 })
 ```
 
-### Utilities & Token Modules
+### Design Tokens & Utilities (`@pact-design/tokens`)
+
+```bash
+pnpm add @pact-design/tokens
+```
+
+```css
+/* Raw --pd-* CSS variables only (without CSS layers or color-scheme rules) */
+@import '@pact-design/tokens/css';
+```
+
 ```javascript
-import { tokenModules, assembleTokens } from '@pact-design/tokens/src/index.ts'
+import { tokenModules } from '@pact-design/tokens/src/index.ts'
 import { colorValueToCss, oklchToRgb } from '@pact-design/tokens/utils/color.js'
 import { calculateAPCA } from '@pact-design/tokens/utils/contrast.js'
+```
+
+### React Components (`@pact-design/react`)
+
+```bash
+pnpm add @pact-design/react @pact-design/styles react-aria-components
+```
+
+```tsx
+import '@pact-design/styles/css'
+import { Button } from '@pact-design/react'
 ```
 
 ---

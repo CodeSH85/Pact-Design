@@ -1,6 +1,6 @@
 # Pact Design — Monorepo Structure & Architecture Decision
 
-This document records the repository structure decision for **Pact Design** as it expands from a design-token library with a documentation site into a multi-package design system (`tokens`, `react`, `vue`, and `site`).
+This document records the repository structure decision for **Pact Design** as it expands from a design-token library with a documentation site into a multi-package design system (`tokens`, `styles`, `react`, `vue`, and `site`).
 
 ---
 
@@ -71,29 +71,35 @@ Previously, the root `package.json` acted as both the monorepo root and the publ
 - **No parent-child dependency cycles**: Workspace children (`site`, `react`, `vue`) depend on a sibling (`@pact-design/tokens`), not on their own workspace root.
 - **Clean `npm publish` surface**: Each package in `packages/*` defines its own `"files"` and `"exports"` without risking bundling root configs, `docs/`, or `site/`.
 
-### 3.3 Self-Contained `@pact-design/tokens` Package
+### 3.3 Separation of `@pact-design/tokens` and `@pact-design/styles`
 
-Rather than leaving `tokens/` as raw JSON files that rely on root scripts to build, `packages/tokens` encapsulates the entire token lifecycle:
+Rather than mixing web-specific theme rules and UnoCSS presets into the pure design-token compiler, responsibilities are cleanly split across two foundation packages:
 
-- Raw DTCG JSON definitions (`src/` or `tokens/`)
-- Build pipeline (`scripts/sd.config.js`, `scripts/unoCss.js`)
-- Isomorphic utilities (`utils/color.js`, `utils/contrast.js`, `utils/token.js`, `utils/helper.js`)
-- Automated verification gate (`test/contrast.test.js`)
-- Compiled distribution (`build/css/_variables.css`, `build/uno/preset.js`)
+- **`@pact-design/tokens` (`packages/tokens`)**:
+  - TypeScript token DSL definitions (`src/dsl/`, `src/global/`, `src/system/`, `src/component/`)
+  - Style Dictionary v5 build pipeline (`scripts/build.ts`, `scripts/sd.config.ts`)
+  - Isomorphic utilities (`utils/color.js`, `utils/contrast.js`, `utils/token.js`, `utils/helper.js`)
+  - Automated verification gates (`test/contrast.test.js`, `test/build-contract.test.js`)
+  - Raw distribution (`build/css/_variables.css`, `build/meta/tokens.json`) exported via `@pact-design/tokens/css`, `@pact-design/tokens/meta`, `@pact-design/tokens/src/*`, and `@pact-design/tokens/utils/*`
+- **`@pact-design/styles` (`packages/styles`)**:
+  - Web theme stylesheet (`src/css/theme.css`) setting `color-scheme: light` / `dark`
+  - UnoCSS theme rules and generator (`src/uno/rules.ts`, `src/uno/preset.ts`)
+  - Build script (`scripts/build.ts`) and build-contract tests (`test/build-contract.test.js`)
+  - Compiled web outputs (`build/css/index.css`, `build/css/theme.css`, `build/uno/preset.{js,d.ts}`) exported via `@pact-design/styles/css`, `@pact-design/styles/css/theme`, and `@pact-design/styles/uno`
 
-This allows `@pact-design/react`, `@pact-design/vue`, and `@pact-design/site` to consume tokens, CSS variables, UnoCSS presets, and color utilities through clean package entrypoints (`@pact-design/tokens/css`, `@pact-design/tokens/uno`, `@pact-design/tokens/utils/*`).
+This allows `@pact-design/react`, `@pact-design/vue`, and `pact-site` to consume layered CSS and UnoCSS presets from `@pact-design/styles` while keeping `@pact-design/tokens` framework- and bundler-agnostic.
 
 ### 3.4 Single Git Repository vs. Multi-Repo / Submodules
 
-All packages (`site`, `packages/tokens`, `packages/react`, `packages/vue`) live inside **one Git repository** (`Pact-Design/.git`) rather than separate Git repositories or submodules:
+All packages (`site`, `packages/tokens`, `packages/styles`, `packages/react`, `packages/vue`) live inside **one Git repository** (`Pact-Design/.git`) rather than separate Git repositories or submodules:
 
-- **Atomic changes**: A single pull request can add a new token in `packages/tokens`, consume it in `packages/react` and `packages/vue`, and document it in `site/` and `docs/`.
+- **Atomic changes**: A single pull request can add a new token in `packages/tokens`, map UnoCSS/CSS rules in `packages/styles`, consume them in `packages/react` and `packages/vue`, and document them in `site/` and `docs/`.
 - **Single lockfile**: One `pnpm-lock.yaml` at the root ensures consistent dependency versions (React, Vite, UnoCSS, ESLint) across the entire workspace.
-- **Zero-publish local linking**: Changes in `packages/tokens` are immediately available to `packages/react`, `packages/vue`, and `site/` via `"workspace:*"`.
+- **Zero-publish local linking**: Changes in `packages/tokens` and `packages/styles` are immediately available to `packages/react`, `packages/vue`, and `site/` via `"workspace:*"`.
 
 ### 3.5 Lowercase Directory Naming for Cross-OS Safety
 
-All workspace package directories use strict lowercase names (`packages/react`, `packages/vue`, `packages/tokens`). While macOS uses a case-insensitive filesystem by default, Linux CI/CD runners and production build containers are strictly case-sensitive. Lowercase naming prevents broken import paths across environments.
+All workspace package directories use strict lowercase names (`packages/tokens`, `packages/styles`, `packages/react`, `packages/vue`). While macOS uses a case-insensitive filesystem by default, Linux CI/CD runners and production build containers are strictly case-sensitive. Lowercase naming prevents broken import paths across environments.
 
 ---
 
@@ -147,13 +153,18 @@ The root `package.json` is strictly an orchestrator:
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "pnpm --filter @pact-design/tokens build && pnpm --filter './packages/*' build",
+    "prepare": "husky",
+    "build": "pnpm build:tokens && pnpm build:styles && pnpm --filter pact-site build",
     "build:tokens": "pnpm --filter @pact-design/tokens build",
+    "build:styles": "pnpm --filter @pact-design/styles build",
+    "build:sd": "pnpm --filter @pact-design/tokens build:sd",
+    "pretest": "pnpm build:tokens && pnpm build:styles",
     "test": "pnpm -r test",
     "lint": "eslint .",
-    "site:dev": "pnpm --filter @pact-design/site dev",
-    "site:build": "pnpm build:tokens && pnpm --filter @pact-design/site build",
-    "site:preview": "pnpm --filter @pact-design/site preview"
+    "typecheck": "pnpm -r typecheck",
+    "site:dev": "pnpm --filter pact-site dev",
+    "site:build": "pnpm build:tokens && pnpm build:styles && pnpm --filter pact-site build",
+    "site:preview": "pnpm --filter pact-site preview"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -180,23 +191,22 @@ auto-install-peers=true
 We intentionally avoid heavy monorepo orchestrators like **Nx** at this stage:
 
 - **Fast builds**: Building `@pact-design/tokens` (Style Dictionary + APCA contrast test suite) takes `<1s`. Distributed task caching from Nx adds configuration overhead (`nx.json`, `.nx/` cache daemon) without meaningful time savings.
-- **Simple topological graph**: `pnpm --filter` and `pnpm -r` natively handle dependency-ordered execution across `@pact-design/tokens` → `@pact-design/{react,vue,site}`.
+- **Simple topological graph**: `pnpm --filter` and `pnpm -r` natively handle dependency-ordered execution across `@pact-design/tokens` → `@pact-design/styles` → `@pact-design/{react,vue,site}`.
 
 ### Future Tooling Milestones
 
 1. **When publishing packages to npm → Add [Changesets (`@changesets/cli`)](https://github.com/changesets/changesets)**:
-   Manages semantic versioning, changelogs, and coordinated releases across `@pact-design/tokens`, `@pact-design/react`, and `@pact-design/vue`.
+   Manages semantic versioning, changelogs, and coordinated releases across `@pact-design/tokens`, `@pact-design/styles`, `@pact-design/react`, and `@pact-design/vue`.
 2. **When total build/test times exceed ~30–60s → Add [Turborepo](https://turbo.build/)**:
-   If building `tokens` + `react` + `vue` + `site` grows slow in CI, add a lightweight `turbo.json` on top of `pnpm` workspaces for task pipelines (`"dependsOn": ["^build"]`) and local/remote build caching.
+   If building `tokens` + `styles` + `react` + `vue` + `site` grows slow in CI, add a lightweight `turbo.json` on top of `pnpm` workspaces for task pipelines (`"dependsOn": ["^build"]`) and local/remote build caching.
 
 ---
 
-## 7. Migration Checklist (From Current Hybrid Root to `packages/*`)
+## 7. Migration Status
 
-- [ ] Create `packages/tokens/` and move `tokens/`, `scripts/`, `utils/`, `test/`, and `build/` into `packages/tokens/`.
-- [ ] Create `packages/tokens/package.json` (`name: "@pact-design/tokens"`) with `"files": ["build", "tokens", "utils"]` and `"exports"` for `./css`, `./uno`, `./tokens/*`, and `./utils/*`.
-- [ ] Convert root `package.json` to `"private": true`, remove `"exports"` and `"main"`, and keep only root orchestration scripts and ESLint `devDependencies`.
-- [ ] Update `pnpm-workspace.yaml` to include `site` and `packages/*`.
-- [ ] Remove `node-linker=hoisted` from `.npmrc`.
-- [ ] Update imports in `site/` from `pact-design/*` to `@pact-design/tokens/*` (and configure Vite aliases in `site/vite.config.js` for raw token JSON / MDX doc globs).
-- [ ] Scaffold `packages/react/` (`@pact-design/react`) and `packages/vue/` (`@pact-design/vue`) when component library implementation begins.
+- [x] Create `packages/tokens/` (`@pact-design/tokens`) with TypeScript token DSL (`src/`), Style Dictionary pipeline (`scripts/`), `utils/`, and automated contrast/build-contract tests (`test/`).
+- [x] Convert root `package.json` to `"private": true`, keeping only root orchestration scripts and shared lint/tooling `devDependencies`.
+- [x] Update `pnpm-workspace.yaml` to include `site` and `packages/*`, and remove `node-linker=hoisted` from `.npmrc`.
+- [x] Create `packages/styles/` (`@pact-design/styles`) exporting layered CSS (`./css`), theme `color-scheme` rules (`./css/theme`), and the UnoCSS preset (`./uno`), decoupled from `@pact-design/tokens`.
+- [x] Scaffold `packages/react/` (`@pact-design/react`) consuming `@pact-design/styles` and migrate `site/` onto `@pact-design/styles` and `@pact-design/tokens`.
+- [ ] Scaffold `packages/vue/` (`@pact-design/vue`) when Vue component library implementation begins.
