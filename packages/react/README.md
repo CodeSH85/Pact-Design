@@ -16,14 +16,17 @@
 pnpm add @pact-design/react @pact-design/styles react-aria-components
 ```
 
-Ensure Pact Design styles CSS or UnoCSS preset is loaded in your application:
+Import the compiled Pact Design stylesheet once in your application entrypoint (includes `@layer pact.tokens, pact.theme, pact.reset, pact.components;`):
 
-```javascript
-// main.jsx
-import '@pact-design/styles/css'
+```typescript
+// main.tsx
+import '@pact-design/react/styles.css'
+// or: import '@pact-design/styles/css'
 ```
 
-If you use UnoCSS to scan `@pact-design/react`, include `.ts` files under `@pact-design/react` in `content.pipeline.include` (UnoCSS's default pipeline skips plain `.ts`, which would omit shared classes from `utils/styles.ts` and `utils/focus.ts`):
+Migrated components (`Button`, `ToggleButton`, `ToggleButtonGroup`) are styled entirely with pre-compiled static CSS and require **no** UnoCSS or Tailwind CSS setup.
+
+> **Migration note:** Components not yet migrated to `@pact-design/styles` component CSS still emit UnoCSS utility classes temporarily. While migration is in progress, apps using those components with UnoCSS should include `.ts` files under `@pact-design/react` in `content.pipeline.include`:
 
 ```typescript
 // uno.config.ts

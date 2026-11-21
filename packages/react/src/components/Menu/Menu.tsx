@@ -24,12 +24,11 @@ import {
   collectionSeparatorClasses,
   composeTailwindRenderProps
 } from '../../utils/index.ts'
-import { Button, buttonVariants } from '../Button/index.ts'
+import { Button } from '../Button/index.ts'
 import { PopoverContent } from '../Popover/index.ts'
 
 export const menuItemClasses = collectionItemVariants({ tone: 'default' })
 export const menuDangerItemClasses = collectionItemVariants({ tone: 'danger' })
-export const menuTriggerButtonClasses = buttonVariants({ variant: 'secondary', size: 'md' })
 
 export interface MenuItemProps extends AriaMenuItemProps {
   tone?: 'default' | 'danger'

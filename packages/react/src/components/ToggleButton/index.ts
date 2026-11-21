@@ -1,9 +1,11 @@
 export {
   ToggleButton,
   ToggleButtonGroup,
-  toggleButtonVariants,
   type ToggleButtonGroupProps,
-  type ToggleButtonProps
+  type ToggleButtonProps,
+  type ToggleButtonRadius,
+  type ToggleButtonSize,
+  type ToggleButtonVariant
 } from './ToggleButton.tsx'
 
 export { default } from './ToggleButton.tsx'

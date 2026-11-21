@@ -58,8 +58,10 @@ describe('@pact-design/react package integrity', () => {
     assert.equal(packageJson.type, 'module')
     assert.ok(packageJson.exports, 'package.json must declare exports')
     assert.equal(packageJson.exports['.'], './src/index.ts')
+    assert.equal(packageJson.exports['./styles.css'], './src/styles.css')
     assert.equal(packageJson.exports['./components'], './src/components/index.ts')
     assert.equal(packageJson.exports['./utils'], './src/utils/index.ts')
+    assert.ok(fs.existsSync(path.join(PACKAGE_ROOT, 'src/styles.css')), 'src/styles.css must exist')
   })
 
   it('declares required dependencies and peerDependencies', () => {
@@ -192,6 +194,24 @@ describe('@pact-design/react package integrity', () => {
     assert.match(selectionControlLabelClasses(true), /text-on-surface-disabled/)
     assert.match(selectionControlDescriptionClasses(false), /text-on-surface-muted/)
     assert.match(selectionControlDescriptionClasses(true), /text-on-surface-disabled/)
+  })
+
+  it('verifies migrated components use semantic pd-* CSS classes and data-* attributes without cva/cn', () => {
+    const migrated = [
+      ['Button/Button.tsx', 'pd-button'],
+      ['ToggleButton/ToggleButton.tsx', 'pd-toggle-button']
+    ]
+
+    for (const [relPath, className] of migrated) {
+      const source = fs.readFileSync(path.join(PACKAGE_ROOT, 'src/components', relPath), 'utf-8')
+      assert.ok(source.includes('\'pd-reset\''), `${relPath} must apply scoped pd-reset`)
+      assert.ok(source.includes(`'${className}'`), `${relPath} must apply ${className}`)
+      assert.match(source, /data-variant=/, `${relPath} must forward data-variant`)
+      assert.match(source, /data-size=/, `${relPath} must forward data-size`)
+      assert.match(source, /data-radius=/, `${relPath} must forward data-radius`)
+      assert.doesNotMatch(source, /class-variance-authority/, `${relPath} must not depend on cva`)
+      assert.doesNotMatch(source, /composeTailwindRenderProps/, `${relPath} must not depend on tailwind-merge`)
+    }
   })
 
   it('verifies every component token, radius, and shadow utility in src/ resolves in pactTheme', () => {
