@@ -109,13 +109,14 @@ const COMPONENT_COLOR_RULE: UnoRuleConfig = {
 }
 
 const COMPONENT_SHADOW_RULE: UnoRuleConfig = [
-  { slots: ['boxShadow'], keyFrom: 'tier' },
+  { slots: ['boxShadow'], keyFrom: 'tier', stripSegment: 'shadow' },
   { slots: ['boxShadow'], keyFrom: 'tier', prefix: 'elevation-' }
 ]
 
 const COMPONENT_ZINDEX_RULE: UnoRuleConfig = {
   slots: ['zIndex'],
-  keyFrom: 'tier'
+  keyFrom: 'tier',
+  stripSegment: 'z-index'
 }
 
 const COMPONENT_SPACING_RULE: UnoRuleConfig = {
