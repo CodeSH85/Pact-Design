@@ -1,0 +1,166 @@
+.pd-calendar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pd-system-spacing-sm);
+  width: fit-content;
+  user-select: none;
+}
+
+.pd-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pd-system-spacing-xs);
+}
+
+.pd-calendar-heading {
+  font: var(--pd-system-font-label-md);
+  letter-spacing: var(--pd-system-font-label-md-letter-spacing);
+  font-weight: var(--pd-global-font-weight-04);
+  color: var(--pd-system-on-surface-default);
+  margin: 0;
+}
+
+.pd-calendar-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pd-system-control-height-xs);
+  height: var(--pd-system-control-height-xs);
+  border-radius: var(--pd-system-radius-xs);
+  color: var(--pd-system-on-surface-secondary);
+  cursor: pointer;
+  outline: none;
+
+  &:where(:hover, [data-hovered]) {
+    color: var(--pd-system-on-surface-default);
+    background-color: var(--pd-system-background-layer-2-hover);
+  }
+
+  &:where(:disabled, [data-disabled]) {
+    color: var(--pd-system-on-surface-disabled);
+    cursor: not-allowed;
+  }
+
+  &:where(:focus-visible, [data-focus-visible]) {
+    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
+    outline-offset: var(--pd-system-focus-offset-default);
+  }
+}
+
+.pd-calendar-nav-icon {
+  width: var(--pd-system-icon-size-sm);
+  height: var(--pd-system-icon-size-sm);
+}
+
+.pd-calendar-grid {
+  border-collapse: collapse;
+}
+
+.pd-calendar-header-cell {
+  font: var(--pd-system-font-caption-sm);
+  letter-spacing: var(--pd-system-font-caption-sm-letter-spacing);
+  font-weight: var(--pd-global-font-weight-03);
+  color: var(--pd-system-on-surface-muted);
+  padding-bottom: var(--pd-system-spacing-xs);
+  width: var(--pd-system-control-height-sm);
+  text-align: center;
+}
+
+.pd-calendar-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pd-system-control-height-sm);
+  height: var(--pd-system-control-height-sm);
+  border-radius: var(--pd-system-radius-xs);
+  font: var(--pd-system-font-label-sm);
+  letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+  transition-property: color, background-color, border-color;
+  transition-duration: var(--pd-system-motion-duration-fast);
+
+  &:where(:hover, [data-hovered]) {
+    background-color: var(--pd-system-background-layer-2-hover);
+  }
+
+  &:where(:focus-visible, [data-focus-visible]) {
+    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
+    outline-offset: var(--pd-system-focus-offset-default);
+  }
+
+  &:where([data-today]) {
+    font-weight: var(--pd-global-font-weight-04);
+    border: var(--pd-system-border-width-sm) solid var(--pd-system-border-strong);
+  }
+
+  &:where([data-selected]) {
+    background-color: var(--pd-system-semantic-primary);
+    color: var(--pd-system-semantic-on-primary);
+
+    &:where(:hover, [data-hovered]) {
+      background-color: var(--pd-system-semantic-primary-hover);
+    }
+
+    &:where([data-invalid]) {
+      background-color: var(--pd-system-semantic-danger);
+      color: var(--pd-system-semantic-on-danger);
+    }
+  }
+
+  &:where([data-outside-month]) {
+    color: var(--pd-system-on-surface-disabled);
+    pointer-events: none;
+  }
+
+  &:where([data-disabled]) {
+    color: var(--pd-system-on-surface-disabled);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &:where([data-unavailable]) {
+    color: var(--pd-system-on-surface-disabled);
+    text-decoration: line-through;
+    cursor: not-allowed;
+  }
+}
+
+.pd-date-input {
+  display: flex;
+  align-items: center;
+  gap: var(--pd-system-spacing-3xs);
+  user-select: none;
+  width: 100%;
+  background-color: transparent;
+}
+
+.pd-date-segment {
+  padding-inline: var(--pd-system-spacing-3xs);
+  border-radius: var(--pd-system-radius-2xs);
+  font-variant-numeric: tabular-nums;
+  font-family: var(--pd-global-font-family-mono);
+  color: inherit;
+  outline: none;
+
+  &:where([data-placeholder]) {
+    color: var(--pd-component-field-color-text-placeholder);
+  }
+
+  &:where([data-focused]) {
+    background-color: var(--pd-system-semantic-primary);
+    color: var(--pd-system-semantic-on-primary);
+
+    &:where([data-invalid]) {
+      background-color: var(--pd-system-semantic-danger);
+      color: var(--pd-system-semantic-on-danger);
+    }
+  }
+}
+
+.pd-date-picker-dialog {
+  padding: var(--pd-system-spacing-xs);
+}

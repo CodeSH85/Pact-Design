@@ -1,0 +1,70 @@
+@keyframes pd-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pd-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes pd-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pd-zoom-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.pd-popover {
+  z-index: var(--pd-component-popover-surface-z-index);
+  min-width: var(--pd-component-popover-surface-min-width);
+  padding: var(--pd-component-popover-surface-padding);
+  border-radius: var(--pd-component-popover-surface-radius);
+  background-color: var(--pd-component-popover-surface-color-bg);
+  color: var(--pd-component-popover-surface-color-text);
+  border: var(--pd-system-border-width-sm) solid var(--pd-component-popover-surface-color-border);
+  box-shadow: var(--pd-component-popover-surface-shadow);
+  outline: none;
+  transform-origin: top center;
+
+  &:where([data-entering]) {
+    animation: pd-zoom-in var(--pd-system-motion-duration-fast) var(--pd-system-motion-easing-enter);
+  }
+
+  &:where([data-exiting]) {
+    animation: pd-zoom-out var(--pd-system-motion-duration-fast) var(--pd-system-motion-easing-exit);
+  }
+}
+
+.pd-popover-trigger-width {
+  min-width: var(--trigger-width);
+}
+
+.pd-popover-arrow {
+  fill: var(--pd-system-background-elevated);
+  stroke: var(--pd-system-border-default);
+  stroke-width: 1;
+}

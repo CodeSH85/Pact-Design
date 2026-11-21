@@ -1,0 +1,20 @@
+.pd-menu {
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pd-component-popover-listbox-gap);
+}
+
+.pd-menu-shortcut {
+  font: var(--pd-system-font-mono-xs);
+  letter-spacing: var(--pd-system-font-mono-xs-letter-spacing);
+  color: var(--pd-system-on-surface-muted);
+  margin-inline-start: auto;
+  padding-inline-start: var(--pd-system-spacing-sm);
+}
+
+.pd-menu-trigger-icon {
+  width: var(--pd-system-icon-size-xs);
+  height: var(--pd-system-icon-size-xs);
+  color: var(--pd-system-on-surface-muted);
+}
