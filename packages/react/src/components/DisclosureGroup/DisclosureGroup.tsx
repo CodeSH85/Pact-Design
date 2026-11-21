@@ -1,26 +1,15 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
+  composeRenderProps,
   DisclosureGroup as AriaDisclosureGroup,
   type DisclosureGroupProps as AriaDisclosureGroupProps,
   type Key
 } from 'react-aria-components'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { composeTailwindRenderProps } from '../../utils/index.ts'
 import { Disclosure } from '../Disclosure/Disclosure.tsx'
 import { DisclosureGroupContext } from '../Disclosure/DisclosureContext.ts'
 
-export const disclosureGroupVariants = cva('w-full', {
-  variants: {
-    variant: {
-      separated: 'flex flex-col gap-disclosure-container-gap',
-      grouped:
-        'flex flex-col border border-disclosure-container-border rounded-disclosure-container-radius divide-y divide-disclosure-container-divider overflow-hidden bg-disclosure-container-bg'
-    }
-  },
-  defaultVariants: {
-    variant: 'separated'
-  }
-})
+export type DisclosureGroupVariant = 'separated' | 'grouped'
 
 export interface DisclosureGroupItemData {
   id: Key
@@ -29,11 +18,9 @@ export interface DisclosureGroupItemData {
   isDisabled?: boolean
 }
 
-export interface DisclosureGroupProps
-  extends AriaDisclosureGroupProps,
-  VariantProps<typeof disclosureGroupVariants> {
+export interface DisclosureGroupProps extends Omit<AriaDisclosureGroupProps, 'children'> {
+  variant?: DisclosureGroupVariant
   items?: DisclosureGroupItemData[]
-  className?: string
   children?: ReactNode
 }
 
@@ -54,10 +41,8 @@ export function DisclosureGroup({
       }}
     >
       <AriaDisclosureGroup
-        className={composeTailwindRenderProps(
-          className,
-          disclosureGroupVariants({ variant })
-        )}
+        data-variant={variant}
+        className={composeRenderProps(className, (cn) => clsx('pd-disclosure-group', cn))}
         {...props}
       >
         {items

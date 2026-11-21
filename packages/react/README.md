@@ -24,7 +24,7 @@ import '@pact-design/react/styles.css'
 // or: import '@pact-design/styles/css'
 ```
 
-Migrated components (`Button`, `ToggleButton`, `ToggleButtonGroup`, `Checkbox`, `CheckboxGroup`, `Radio`, `RadioGroup`, `Switch`, `Separator`, `Field`, `TextField`, `SearchField`, `FileTrigger`, `Form`) are styled entirely with pre-compiled static CSS and require **no** UnoCSS or Tailwind CSS setup.
+Migrated components (`Button`, `ToggleButton`, `ToggleButtonGroup`, `Checkbox`, `CheckboxGroup`, `Radio`, `RadioGroup`, `Switch`, `Separator`, `Field`, `TextField`, `SearchField`, `FileTrigger`, `Form`, `Tabs`, `Breadcrumbs`, `Disclosure`, `DisclosureGroup`, `ListBox`, `Tree`) are styled entirely with pre-compiled static CSS and require **no** UnoCSS or Tailwind CSS setup.
 
 > **Migration note:** Components not yet migrated to `@pact-design/styles` component CSS still emit UnoCSS utility classes temporarily. While migration is in progress, apps using those components with UnoCSS should include `.ts` files under `@pact-design/react` in `content.pipeline.include`:
 

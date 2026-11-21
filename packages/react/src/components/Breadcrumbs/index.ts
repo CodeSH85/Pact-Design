@@ -3,12 +3,12 @@ export {
   BreadcrumbLink,
   BreadcrumbSeparator,
   Breadcrumbs,
-  breadcrumbsVariants,
   type BreadcrumbItemData,
   type BreadcrumbLinkProps,
   type BreadcrumbProps,
   type BreadcrumbSeparatorProps,
-  type BreadcrumbsProps
+  type BreadcrumbsProps,
+  type BreadcrumbsSize
 } from './Breadcrumbs.tsx'
 
 export { default } from './Breadcrumbs.tsx'
