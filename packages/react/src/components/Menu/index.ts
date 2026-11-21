@@ -9,7 +9,6 @@ export {
   MenuSection,
   MenuSeparator,
   MenuTrigger,
-  menuTriggerButtonClasses,
   type MenuItemData,
   type MenuItemProps,
   type MenuProps
