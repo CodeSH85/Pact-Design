@@ -1,7 +1,9 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
   Button as AriaButton,
   type ButtonProps as AriaButtonProps,
+  composeRenderProps,
   FieldError as AriaFieldError,
   type FieldErrorProps as AriaFieldErrorProps,
   Group as AriaGroup,
@@ -13,15 +15,13 @@ import {
   Text as AriaText,
   type TextProps as AriaTextProps
 } from 'react-aria-components'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva } from 'class-variance-authority'
 import {
-  cn,
-  composeTailwindRenderProps,
-  fieldIconButtonClasses,
-  fieldInputClasses,
   resolveDisabled,
   type DisableableProps
 } from '../../utils/index.ts'
+
+export type FieldSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
 export interface LabelProps extends AriaLabelProps {
   className?: string
@@ -31,10 +31,7 @@ export interface LabelProps extends AriaLabelProps {
 export function Label({ className, children, ...props }: LabelProps) {
   return (
     <AriaLabel
-      className={cn(
-        'text-label-sm font-medium text-field-label-text select-none cursor-default',
-        className
-      )}
+      className={clsx('pd-field-label', className)}
       {...props}
     >
       {children}
@@ -51,10 +48,7 @@ export function FieldDescription({ className, children, ...props }: FieldDescrip
   return (
     <AriaText
       slot="description"
-      className={cn(
-        'text-caption-md text-field-description-text',
-        className
-      )}
+      className={clsx('pd-field-description', className)}
       {...props}
     >
       {children}
@@ -62,18 +56,14 @@ export function FieldDescription({ className, children, ...props }: FieldDescrip
   )
 }
 
-export interface FieldErrorProps extends AriaFieldErrorProps {
-  className?: string
+export interface FieldErrorProps extends Omit<AriaFieldErrorProps, 'children'> {
   children?: ReactNode | AriaFieldErrorProps['children']
 }
 
 export function FieldError({ className, children, ...props }: FieldErrorProps) {
   return (
     <AriaFieldError
-      className={composeTailwindRenderProps(
-        className,
-        'text-caption-md text-field-error-text'
-      )}
+      className={composeRenderProps(className, (cn) => clsx('pd-field-error', cn))}
       {...props}
     >
       {children}
@@ -81,6 +71,10 @@ export function FieldError({ className, children, ...props }: FieldErrorProps) {
   )
 }
 
+/**
+ * @deprecated Temporary legacy utility preset retained for unmigrated Phase 2C components
+ * (Select, ComboBox, Autocomplete, DateField, DatePicker). Will be removed once those migrate.
+ */
 export const fieldGroupVariants = cva(
   [
     'inline-flex items-center w-full select-none',
@@ -107,16 +101,15 @@ export const fieldGroupVariants = cva(
   }
 )
 
-export interface FieldGroupProps
-  extends AriaGroupProps,
-  VariantProps<typeof fieldGroupVariants> {
-  className?: string
+export interface FieldGroupProps extends AriaGroupProps {
+  size?: FieldSize
 }
 
 export function FieldGroup({ size = 'md', className, children, ...props }: FieldGroupProps) {
   return (
     <AriaGroup
-      className={composeTailwindRenderProps(className, fieldGroupVariants({ size }))}
+      data-size={size}
+      className={composeRenderProps(className, (cn) => clsx('pd-field-group', cn))}
       {...props}
     >
       {children}
@@ -129,7 +122,7 @@ export type InputProps = AriaInputProps
 export function Input({ className, ...props }: InputProps) {
   return (
     <AriaInput
-      className={composeTailwindRenderProps(className, fieldInputClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-field-input', cn))}
       {...props}
     />
   )
@@ -151,7 +144,7 @@ export function FieldButton({
   return (
     <AriaButton
       isDisabled={resolveDisabled({ disabled, isDisabled })}
-      className={composeTailwindRenderProps(className, fieldIconButtonClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-field-button', cn))}
       {...props}
     >
       {children}

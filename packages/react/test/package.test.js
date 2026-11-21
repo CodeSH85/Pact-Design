@@ -197,12 +197,12 @@ describe('@pact-design/react package integrity', () => {
   })
 
   it('verifies migrated components use semantic pd-* CSS classes and data-* attributes without cva/cn', () => {
-    const migrated = [
+    const buttonLike = [
       ['Button/Button.tsx', 'pd-button'],
       ['ToggleButton/ToggleButton.tsx', 'pd-toggle-button']
     ]
 
-    for (const [relPath, className] of migrated) {
+    for (const [relPath, className] of buttonLike) {
       const source = fs.readFileSync(path.join(PACKAGE_ROOT, 'src/components', relPath), 'utf-8')
       assert.ok(source.includes('\'pd-reset\''), `${relPath} must apply scoped pd-reset`)
       assert.ok(source.includes(`'${className}'`), `${relPath} must apply ${className}`)
@@ -211,6 +211,29 @@ describe('@pact-design/react package integrity', () => {
       assert.match(source, /data-radius=/, `${relPath} must forward data-radius`)
       assert.doesNotMatch(source, /class-variance-authority/, `${relPath} must not depend on cva`)
       assert.doesNotMatch(source, /composeTailwindRenderProps/, `${relPath} must not depend on tailwind-merge`)
+    }
+
+    const phase2a = [
+      ['Checkbox/Checkbox.tsx', 'pd-checkbox'],
+      ['Radio/Radio.tsx', 'pd-radio'],
+      ['Switch/Switch.tsx', 'pd-switch'],
+      ['Separator/Separator.tsx', 'pd-separator'],
+      ['TextField/TextField.tsx', 'pd-field'],
+      ['SearchField/SearchField.tsx', 'pd-search-field'],
+      ['FileTrigger/FileTrigger.tsx', 'pd-field-icon'],
+      ['Form/Form.tsx', 'pd-form']
+    ]
+
+    for (const [relPath, className] of phase2a) {
+      const source = fs.readFileSync(path.join(PACKAGE_ROOT, 'src/components', relPath), 'utf-8')
+      assert.ok(source.includes(className), `${relPath} must apply ${className}`)
+      assert.doesNotMatch(source, /class-variance-authority/, `${relPath} must not depend on cva`)
+      assert.doesNotMatch(source, /composeTailwindRenderProps/, `${relPath} must not depend on tailwind-merge`)
+    }
+
+    const fieldSource = fs.readFileSync(path.join(PACKAGE_ROOT, 'src/components/Field/Field.tsx'), 'utf-8')
+    for (const cls of ['pd-field-label', 'pd-field-description', 'pd-field-error', 'pd-field-group', 'pd-field-input', 'pd-field-button']) {
+      assert.ok(fieldSource.includes(cls), `Field.tsx must apply ${cls}`)
     }
   })
 

@@ -1,64 +1,21 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
+  composeRenderProps,
   Switch as AriaSwitch,
   type SwitchProps as AriaSwitchProps
 } from 'react-aria-components'
-import { cva, type VariantProps } from 'class-variance-authority'
 import {
-  composeTailwindRenderProps,
-  groupFocusRing,
   resolveToggleProps,
-  selectionControlDescriptionClasses,
-  selectionControlLabelClasses,
-  selectionControlLabelStackClasses,
-  selectionControlRootClasses,
   type ToggleControlProps
 } from '../../utils/index.ts'
 
-export const switchTrackVariants = cva(
-  [
-    'relative inline-flex shrink-0 items-center rounded-switch-track-radius cursor-pointer',
-    'bg-switch-track-bg-unchecked border border-switch-track-border-unchecked',
-    'transition-colors duration-normal ease-default',
-    groupFocusRing,
-    'group-data-[selected]:bg-switch-track-bg-checked group-data-[selected]:border-switch-track-border-checked',
-    'group-data-[disabled]:bg-switch-track-bg-disabled group-data-[disabled]:border-switch-track-border-disabled group-data-[disabled]:cursor-not-allowed'
-  ].join(' '),
-  {
-    variants: {
-      size: {
-        sm: 'w-switch-track-sm h-switch-track-sm p-switch-track-padding',
-        md: 'w-switch-track-md h-switch-track-md p-switch-track-padding'
-      }
-    },
-    defaultVariants: {
-      size: 'md'
-    }
-  }
-)
-
-export const switchThumbVariants = cva(
-  [
-    'pointer-events-none block rounded-switch-thumb-radius bg-switch-thumb-bg shadow-switch-thumb-shadow',
-    'transition-transform duration-normal ease-default'
-  ].join(' '),
-  {
-    variants: {
-      size: {
-        sm: 'w-switch-thumb-sm h-switch-thumb-sm group-data-[selected]:translate-x-switch-thumb-translate-sm',
-        md: 'w-switch-thumb-md h-switch-thumb-md group-data-[selected]:translate-x-switch-thumb-translate-md'
-      }
-    },
-    defaultVariants: {
-      size: 'md'
-    }
-  }
-)
+export type SwitchSize = 'sm' | 'md'
 
 export interface SwitchProps
   extends Omit<AriaSwitchProps, 'children'>,
-  VariantProps<typeof switchTrackVariants>,
   ToggleControlProps {
+  size?: SwitchSize
   children?: ReactNode | AriaSwitchProps['children']
 }
 
@@ -75,7 +32,7 @@ export function Switch({
   return (
     <AriaSwitch
       {...ariaProps}
-      className={composeTailwindRenderProps(className, selectionControlRootClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-selection-control', 'pd-switch', cn))}
     >
       {(renderProps) => {
         if (typeof children === 'function') {
@@ -86,23 +43,21 @@ export function Switch({
           return children
         }
 
-        const { isDisabled: itemDisabled } = renderProps
-
         return (
           <>
-            <span className={switchTrackVariants({ size })}>
-              <span className={switchThumbVariants({ size })} />
+            <span className="pd-switch-track" data-size={size}>
+              <span className="pd-switch-thumb" data-size={size} />
             </span>
 
             {(label || description) && (
-              <span className={selectionControlLabelStackClasses}>
+              <span className="pd-selection-control-content">
                 {label && (
-                  <span className={selectionControlLabelClasses(itemDisabled)}>
+                  <span className="pd-selection-control-label">
                     {label}
                   </span>
                 )}
                 {description && (
-                  <span className={selectionControlDescriptionClasses(itemDisabled)}>
+                  <span className="pd-selection-control-description">
                     {description}
                   </span>
                 )}

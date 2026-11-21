@@ -8,13 +8,12 @@ import {
   type DateSegmentProps as AriaDateSegmentProps,
   type DateValue
 } from 'react-aria-components'
-import { type VariantProps } from 'class-variance-authority'
 import {
   composeTailwindRenderProps,
   fieldWrapperClasses,
   type FieldSharedProps
 } from '../../utils/index.ts'
-import { FieldDescription, FieldError, FieldGroup, fieldGroupVariants, Label } from '../Field/index.ts'
+import { FieldDescription, FieldError, FieldGroup, type FieldSize, Label } from '../Field/index.ts'
 
 export interface DateSegmentProps extends AriaDateSegmentProps {
   className?: string
@@ -58,8 +57,8 @@ export function DateInput({ className, children, ...props }: DateInputProps) {
 
 export interface DateFieldProps<T extends DateValue>
   extends AriaDateFieldProps<T>,
-  VariantProps<typeof fieldGroupVariants>,
   FieldSharedProps {
+  size?: FieldSize
   dateInputProps?: DateInputProps
   className?: string
   children?: ReactNode

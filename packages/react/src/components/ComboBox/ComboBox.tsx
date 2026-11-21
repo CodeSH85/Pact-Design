@@ -7,7 +7,6 @@ import {
   type PopoverProps as AriaPopoverProps
 } from 'react-aria-components'
 import { RiArrowDownSLine } from '@remixicon/react'
-import { type VariantProps } from 'class-variance-authority'
 import {
   composeTailwindRenderProps,
   fieldWrapperClasses,
@@ -18,7 +17,7 @@ import {
   FieldDescription,
   FieldError,
   FieldGroup,
-  fieldGroupVariants,
+  type FieldSize,
   Input,
   Label
 } from '../Field/index.ts'
@@ -57,8 +56,8 @@ export function ComboBoxListBox<T extends object>({ children, ...props }: AriaLi
 
 export interface ComboBoxProps<T extends object>
   extends Omit<AriaComboBoxProps<T>, 'children'>,
-  VariantProps<typeof fieldGroupVariants>,
   FieldSharedProps {
+  size?: FieldSize
   placeholder?: string
   inputProps?: AriaInputProps
   popoverProps?: ComboBoxPopoverProps

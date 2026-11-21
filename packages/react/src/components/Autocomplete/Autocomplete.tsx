@@ -5,9 +5,8 @@ import {
   type AutocompleteProps as AriaAutocompleteProps,
   type ListBoxProps as AriaListBoxProps
 } from 'react-aria-components'
-import { type VariantProps } from 'class-variance-authority'
 import { cn, fieldWrapperClasses, type FieldSharedProps } from '../../utils/index.ts'
-import { fieldGroupVariants } from '../Field/index.ts'
+import { type FieldSize } from '../Field/index.ts'
 import { ListBox, ListBoxItem, type ListBoxItemProps } from '../ListBox/index.ts'
 import { SearchField, type SearchFieldProps } from '../SearchField/index.ts'
 
@@ -42,7 +41,7 @@ export interface AutocompleteProps<T extends object = object>
   extends Omit<AriaAutocompleteProps<T>, 'children'>,
   FieldSharedProps {
   placeholder?: string
-  size?: VariantProps<typeof fieldGroupVariants>['size']
+  size?: FieldSize
   searchFieldProps?: Partial<AutocompleteSearchFieldProps>
   listBoxProps?: Partial<AutocompleteListBoxProps<T>>
   className?: string

@@ -1,8 +1,7 @@
 export {
   Switch,
-  switchThumbVariants,
-  switchTrackVariants,
-  type SwitchProps
+  type SwitchProps,
+  type SwitchSize
 } from './Switch.tsx'
 
 export { default } from './Switch.tsx'
