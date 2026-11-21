@@ -1,4 +1,4 @@
-declare module 'pact-design/utils/helper.js' {
+declare module '@pact-design/tokens/utils/helper.js' {
   export function isFalsy(param: unknown): param is null | undefined
   export function clamp01(n: number): number
   export function round(n: number, d?: number): number
@@ -8,7 +8,7 @@ declare module 'pact-design/utils/helper.js' {
   export function same(a: unknown, b: unknown): boolean
 }
 
-declare module 'pact-design/utils/color.js' {
+declare module '@pact-design/tokens/utils/color.js' {
   import type { ColorObjectValue, RgbColor, TokenValue } from '../types/tokens'
 
   export function toColor(DTCGColorToken: unknown): unknown
@@ -26,10 +26,10 @@ declare module 'pact-design/utils/color.js' {
   export function getTokenColorString(value: unknown): string | null
 }
 
-declare module 'pact-design/utils/contrast.js' {
+declare module '@pact-design/tokens/utils/contrast.js' {
   import type { ContrastLevelInfo, TokenValue } from '../types/tokens'
 
-  export { getTokenColorString } from 'pact-design/utils/color.js'
+  export { getTokenColorString } from '@pact-design/tokens/utils/color.js'
   export function calculateContrast(colorVal: TokenValue | unknown, backgroundVal?: TokenValue | unknown): number
   export const contrast: typeof calculateContrast
   export function wcagLevel(ratio: number): string
@@ -57,7 +57,7 @@ declare module 'pact-design/utils/contrast.js' {
   }
 }
 
-declare module 'pact-design/utils/token.js' {
+declare module '@pact-design/tokens/utils/token.js' {
   import type {
     CompositePropMeta,
     ResolvedTokenEntry,

@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, type ChangeEvent, type ReactNode } from 'react'
-import * as C from 'pact-design/utils/color.js'
-import { apcaContrast, apcaLevel, contrast, readableOn, wcagLevel } from 'pact-design/utils/contrast.js'
-import { clone, round, same } from 'pact-design/utils/helper.js'
-import * as T from 'pact-design/utils/token.js'
+import * as C from '@pact-design/tokens/utils/color.js'
+import { apcaContrast, apcaLevel, contrast, readableOn, wcagLevel } from '@pact-design/tokens/utils/contrast.js'
+import { clone, round, same } from '@pact-design/tokens/utils/helper.js'
+import * as T from '@pact-design/tokens/utils/token.js'
 import {
   Button,
   Select,

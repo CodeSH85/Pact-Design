@@ -3,13 +3,13 @@ import {
   colorValueToCss,
   colorValueToHex,
   colorValueToOklch
-} from 'pact-design/utils/color.js'
+} from '@pact-design/tokens/utils/color.js'
 import {
   apcaLevel,
   calculateAPCA,
   calculateContrast,
   readableOn
-} from 'pact-design/utils/contrast.js'
+} from '@pact-design/tokens/utils/contrast.js'
 import {
   cssName,
   dimensionToCss,
@@ -18,7 +18,7 @@ import {
   refOf,
   resolveValue,
   toPx
-} from 'pact-design/utils/token.js'
+} from '@pact-design/tokens/utils/token.js'
 import type { Token, TokenFiles, TokenGroupJson } from '../types/tokens'
 
 export interface TokenCatalog {
