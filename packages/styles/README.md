@@ -16,13 +16,13 @@
 pnpm add @pact-design/styles
 ```
 
-> `@pact-design/tokens` is a dependency of `@pact-design/styles`, so installing `@pact-design/styles` is sufficient for consuming CSS layers or the UnoCSS preset.
+> `@pact-design/tokens` is a dependency of `@pact-design/styles`, so installing `@pact-design/styles` is sufficient when consuming layered CSS or the UnoCSS preset.
 
 ---
 
 ## Usage
 
-### 1. Self-Contained Layered CSS (Recommended)
+### 1. Self-Contained Layered CSS (`./css`)
 
 Import `@pact-design/styles/css` once in your application entrypoint:
 
@@ -37,16 +37,16 @@ Or in JavaScript/TypeScript:
 import '@pact-design/styles/css'
 ```
 
-Compiled cascade order:
+Compiled cascade layer order:
 
 ```css
 @layer pact.tokens, pact.theme;
 ```
 
-- **`pact.tokens`**: All `--pd-*` CSS custom properties for `:root, [data-theme="light"]` and `[data-theme="dark"]`.
+- **`pact.tokens`**: All `--pd-*` CSS custom properties for `:root, [data-theme="light"]` and `[data-theme="dark"]` (inlined from `@pact-design/tokens/css`).
 - **`pact.theme`**: Sets `color-scheme: light` on `:root, [data-theme="light"]` and `color-scheme: dark` on `[data-theme="dark"]` so native scrollbars and browser controls automatically adapt to the active theme.
 
-### 2. Theme `color-scheme` Rules Only
+### 2. Theme `color-scheme` Rules Only (`./css/theme`)
 
 If you already load `@pact-design/tokens/css` directly or compile your own token CSS, import only the theme stylesheet:
 
@@ -54,7 +54,7 @@ If you already load `@pact-design/tokens/css` directly or compile your own token
 @import '@pact-design/styles/css/theme';
 ```
 
-### 3. UnoCSS / Tailwind Preset (`@pact-design/styles/uno`)
+### 3. UnoCSS / Tailwind Preset (`./uno`)
 
 ```ts
 // uno.config.ts
@@ -71,25 +71,25 @@ export default defineConfig({
 
 #### Opt-In `color-scheme` Preflight
 
-When using UnoCSS **without** importing `@pact-design/styles/css` (or `@pact-design/styles/css/theme`), you can opt in to injecting the theme `color-scheme` preflight via UnoCSS:
+When using UnoCSS **without** importing `@pact-design/styles/css` (or `@pact-design/styles/css/theme`), opt in to injecting the theme `color-scheme` preflight via UnoCSS:
 
 ```ts
 pactPreset({ preflights: true })
 ```
 
-`preflights` defaults to `false` to avoid duplicating rules when `@pact-design/styles/css` is imported.
+`preflights` defaults to `false` so `@layer pact.theme` rules are not duplicated when `@pact-design/styles/css` is imported.
 
-The `./uno` export also exposes `pactTheme` (typed via `PactTheme` for `tailwind-merge` or custom theme integrations) and `pactThemeCss`.
+The `./uno` entrypoint also exports `pactTheme` (typed via `PactTheme` for `tailwind-merge` or custom theme integrations) and `pactThemeCss`.
 
 ---
 
 ## Package Structure & Exports
 
-| Export | Target | Description |
-| :--- | :--- | :--- |
-| `@pact-design/styles/css` | `./build/css/index.css` | Self-contained CSS with `@layer pact.tokens, pact.theme;` |
-| `@pact-design/styles/css/theme` | `./build/css/theme.css` | Light/Dark `color-scheme` rules only |
-| `@pact-design/styles/uno` | `./build/uno/preset.js` (+ `preset.d.ts`) | `pactPreset`, `pactTheme`, and `pactThemeCss` |
+| Export | Subpath | Target | Description |
+| :--- | :--- | :--- | :--- |
+| `@pact-design/styles/css` | `./css` | `./build/css/index.css` | Self-contained CSS with `@layer pact.tokens, pact.theme;` |
+| `@pact-design/styles/css/theme` | `./css/theme` | `./build/css/theme.css` | Light/Dark `color-scheme` rules only |
+| `@pact-design/styles/uno` | `./uno` | `./build/uno/preset.js` (+ `preset.d.ts`) | `pactPreset`, `pactTheme`, and `pactThemeCss` |
 
 ```txt
 packages/styles/
