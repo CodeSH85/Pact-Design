@@ -1,4 +1,5 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
   Button as AriaButton,
   Calendar as AriaCalendar,
@@ -15,39 +16,17 @@ import {
   CalendarHeading as AriaCalendarHeading,
   type CalendarHeadingProps as AriaCalendarHeadingProps,
   type CalendarProps as AriaCalendarProps,
+  composeRenderProps,
   type DateValue
 } from 'react-aria-components'
 import { RiArrowLeftSLine, RiArrowRightSLine } from '@remixicon/react'
-import { cn, composeTailwindRenderProps, focusRing } from '../../utils/index.ts'
 
-export const calendarCellClasses = [
-  'inline-flex items-center justify-center w-control-sm h-control-sm rounded-xs',
-  'text-label-sm tabular-nums select-none cursor-pointer outline-none transition-colors duration-fast',
-  focusRing,
-  'hover:bg-layer-2-hover data-[hovered]:bg-layer-2-hover',
-  'data-[today]:font-semibold data-[today]:border data-[today]:border-border-strong',
-  'data-[selected]:bg-primary data-[selected]:text-on-primary data-[selected]:hover:bg-primary-hover',
-  'data-[invalid]:data-[selected]:bg-danger data-[invalid]:data-[selected]:text-on-danger',
-  'data-[outside-month]:text-on-surface-disabled data-[outside-month]:pointer-events-none',
-  'data-[disabled]:text-on-surface-disabled data-[disabled]:cursor-not-allowed data-[disabled]:pointer-events-none',
-  'data-[unavailable]:text-on-surface-disabled data-[unavailable]:line-through data-[unavailable]:cursor-not-allowed'
-].join(' ')
-
-export const calendarNavButtonClasses = [
-  'inline-flex items-center justify-center w-control-xs h-control-xs rounded-xs',
-  'text-on-surface-secondary hover:text-on-surface hover:bg-layer-2-hover cursor-pointer',
-  'data-[disabled]:text-on-surface-disabled data-[disabled]:cursor-not-allowed',
-  focusRing
-].join(' ')
-
-export interface CalendarCellProps extends AriaCalendarCellProps {
-  className?: string
-}
+export type CalendarCellProps = AriaCalendarCellProps
 
 export function CalendarCell({ className, ...props }: CalendarCellProps) {
   return (
     <AriaCalendarCell
-      className={composeTailwindRenderProps(className, calendarCellClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-calendar-cell', cn))}
       {...props}
     />
   )
@@ -56,7 +35,7 @@ export function CalendarCell({ className, ...props }: CalendarCellProps) {
 export function CalendarHeading({ className, ...props }: AriaCalendarHeadingProps) {
   return (
     <AriaCalendarHeading
-      className={cn('text-label-md font-semibold text-on-surface m-0', className)}
+      className={clsx('pd-calendar-heading', className)}
       {...props}
     />
   )
@@ -65,7 +44,7 @@ export function CalendarHeading({ className, ...props }: AriaCalendarHeadingProp
 export function CalendarHeaderCell({ className, ...props }: AriaCalendarHeaderCellProps) {
   return (
     <AriaCalendarHeaderCell
-      className={cn('text-caption-sm font-medium text-on-surface-muted pb-xs w-control-sm text-center', className)}
+      className={clsx('pd-calendar-header-cell', className)}
       {...props}
     />
   )
@@ -73,7 +52,7 @@ export function CalendarHeaderCell({ className, ...props }: AriaCalendarHeaderCe
 
 export function CalendarGridHeader({ className, children, ...props }: AriaCalendarGridHeaderProps) {
   return (
-    <AriaCalendarGridHeader className={cn(className)} {...props}>
+    <AriaCalendarGridHeader className={clsx(className)} {...props}>
       {children}
     </AriaCalendarGridHeader>
   )
@@ -81,7 +60,7 @@ export function CalendarGridHeader({ className, children, ...props }: AriaCalend
 
 export function CalendarGridBody({ className, children, ...props }: AriaCalendarGridBodyProps) {
   return (
-    <AriaCalendarGridBody className={cn(className)} {...props}>
+    <AriaCalendarGridBody className={clsx(className)} {...props}>
       {children}
     </AriaCalendarGridBody>
   )
@@ -89,7 +68,7 @@ export function CalendarGridBody({ className, children, ...props }: AriaCalendar
 
 export function CalendarGrid({ className, children, ...props }: AriaCalendarGridProps) {
   return (
-    <AriaCalendarGrid className={cn('border-collapse', className)} {...props}>
+    <AriaCalendarGrid className={clsx('pd-calendar-grid', className)} {...props}>
       {children ?? (
         <>
           <CalendarGridHeader>
@@ -104,8 +83,7 @@ export function CalendarGrid({ className, children, ...props }: AriaCalendarGrid
   )
 }
 
-export interface CalendarProps<T extends DateValue> extends AriaCalendarProps<T> {
-  className?: string
+export interface CalendarProps<T extends DateValue> extends Omit<AriaCalendarProps<T>, 'children'> {
   children?: ReactNode
 }
 
@@ -116,18 +94,18 @@ export function Calendar<T extends DateValue>({
 }: CalendarProps<T>) {
   return (
     <AriaCalendar
-      className={composeTailwindRenderProps(className, 'flex flex-col gap-sm w-fit select-none')}
+      className={composeRenderProps(className, (cn) => clsx('pd-calendar', cn))}
       {...props}
     >
       {children ?? (
         <>
-          <header className="flex items-center justify-between gap-xs">
-            <AriaButton slot="previous" className={calendarNavButtonClasses}>
-              <RiArrowLeftSLine className="w-icon-sm h-icon-sm" aria-hidden="true" />
+          <header className="pd-calendar-header">
+            <AriaButton slot="previous" className="pd-reset pd-calendar-nav-btn">
+              <RiArrowLeftSLine className="pd-calendar-nav-icon" aria-hidden="true" />
             </AriaButton>
             <CalendarHeading />
-            <AriaButton slot="next" className={calendarNavButtonClasses}>
-              <RiArrowRightSLine className="w-icon-sm h-icon-sm" aria-hidden="true" />
+            <AriaButton slot="next" className="pd-reset pd-calendar-nav-btn">
+              <RiArrowRightSLine className="pd-calendar-nav-icon" aria-hidden="true" />
             </AriaButton>
           </header>
           <CalendarGrid />

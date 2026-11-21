@@ -1,13 +1,11 @@
 export {
   Calendar,
   CalendarCell,
-  calendarCellClasses,
   CalendarGrid,
   CalendarGridBody,
   CalendarGridHeader,
   CalendarHeaderCell,
   CalendarHeading,
-  calendarNavButtonClasses,
   type CalendarCellProps,
   type CalendarProps,
   type DateValue

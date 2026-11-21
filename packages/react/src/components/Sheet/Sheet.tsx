@@ -1,5 +1,7 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
+  composeRenderProps,
   Sheet as AriaSheet,
   SheetBackdrop as AriaSheetBackdrop,
   type SheetBackdropProps as AriaSheetBackdropProps,
@@ -11,13 +13,7 @@ import {
   SheetTrigger as AriaSheetTrigger,
   type SheetTriggerProps as AriaSheetTriggerProps
 } from 'react-aria-components'
-import { cva, type VariantProps } from 'class-variance-authority'
-import {
-  cn,
-  composeTailwindRenderProps,
-  enterExitFadeClasses,
-  type OverlaySharedProps
-} from '../../utils/index.ts'
+import { type OverlaySharedProps } from '../../utils/index.ts'
 import {
   DialogBody,
   type DialogBodyProps,
@@ -27,69 +23,24 @@ import {
   type DialogHeaderProps
 } from '../Dialog/index.ts'
 
-export const sheetBackdropClasses = [
-  'bg-modal-overlay-bg',
-  enterExitFadeClasses
-].join(' ')
-
-export const sheetPanelVariants = cva(
-  'bg-modal-content-bg text-modal-content-text border-modal-content-border shadow-modal-content-shadow outline-none flex flex-col overflow-hidden',
-  {
-    variants: {
-      position: {
-        right: 'h-full w-full border-l rounded-l-md',
-        left: 'h-full w-full border-r rounded-r-md',
-        end: 'h-full w-full border-l rounded-l-md',
-        start: 'h-full w-full border-r rounded-r-md',
-        bottom: 'w-full max-h-[85dvh] border-t rounded-t-md',
-        top: 'w-full max-h-[85dvh] border-b rounded-b-md',
-        center: 'w-full max-h-[90dvh] border rounded-md'
-      },
-      size: {
-        sm: '',
-        md: '',
-        lg: '',
-        xl: '',
-        full: ''
-      }
-    },
-    compoundVariants: [
-      { position: ['left', 'right', 'start', 'end', 'center'], size: 'sm', className: 'max-w-modal-content-sm' },
-      { position: ['left', 'right', 'start', 'end', 'center'], size: 'md', className: 'max-w-modal-content-md' },
-      { position: ['left', 'right', 'start', 'end', 'center'], size: 'lg', className: 'max-w-modal-content-lg' },
-      { position: ['left', 'right', 'start', 'end', 'center'], size: 'xl', className: 'max-w-modal-content-xl' },
-      { position: ['left', 'right', 'start', 'end', 'center'], size: 'full', className: 'max-w-full' },
-      { position: ['top', 'bottom'], size: 'sm', className: 'max-h-[35dvh]' },
-      { position: ['top', 'bottom'], size: 'md', className: 'max-h-[55dvh]' },
-      { position: ['top', 'bottom'], size: 'lg', className: 'max-h-[75dvh]' },
-      { position: ['top', 'bottom'], size: 'xl', className: 'max-h-[90dvh]' },
-      { position: ['top', 'bottom'], size: 'full', className: 'h-full max-h-full rounded-none' }
-    ],
-    defaultVariants: {
-      position: 'right',
-      size: 'md'
-    }
-  }
-)
+export type SheetPosition = 'right' | 'left' | 'end' | 'start' | 'bottom' | 'top' | 'center'
+export type SheetSize = 'sm' | 'md' | 'lg' | 'xl' | 'full'
 
 export const SheetTrigger = AriaSheetTrigger
 
-export interface SheetBackdropProps extends AriaSheetBackdropProps {
-  className?: string
-}
+export type SheetBackdropProps = AriaSheetBackdropProps
 
 export function SheetBackdrop({ className, ...props }: SheetBackdropProps) {
   return (
     <AriaSheetBackdrop
-      className={composeTailwindRenderProps(className, sheetBackdropClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-sheet-backdrop', cn))}
       {...props}
     />
   )
 }
 
-export interface SheetOverlayProps extends AriaSheetOverlayProps {
-  className?: string
-  backdropClassName?: string
+export interface SheetOverlayProps extends Omit<AriaSheetOverlayProps, 'children'> {
+  backdropClassName?: AriaSheetBackdropProps['className']
   children?: ReactNode | AriaSheetOverlayProps['children']
 }
 
@@ -103,7 +54,7 @@ export function SheetOverlay({
   return (
     <AriaSheetOverlay
       position={position}
-      className={composeTailwindRenderProps(className, 'z-drawer')}
+      className={composeRenderProps(className, (cn) => clsx('pd-sheet-overlay', cn))}
       {...props}
     >
       {(renderProps) => (
@@ -116,10 +67,9 @@ export function SheetOverlay({
   )
 }
 
-export interface SheetPanelProps
-  extends AriaSheetProps,
-  VariantProps<typeof sheetPanelVariants> {
-  className?: string
+export interface SheetPanelProps extends Omit<AriaSheetProps, 'children'> {
+  position?: SheetPosition
+  size?: SheetSize
   children?: ReactNode | AriaSheetProps['children']
 }
 
@@ -132,7 +82,9 @@ export function SheetPanel({
 }: SheetPanelProps) {
   return (
     <AriaSheet
-      className={composeTailwindRenderProps(className, sheetPanelVariants({ position, size }))}
+      data-position={position}
+      data-size={size}
+      className={composeRenderProps(className, (cn) => clsx('pd-sheet-panel', cn))}
       {...props}
     >
       {children}
@@ -148,7 +100,7 @@ export interface SheetContentProps extends AriaSheetContentProps {
 export function SheetContent({ className, children, ...props }: SheetContentProps) {
   return (
     <AriaSheetContent
-      className={cn('outline-none p-lg flex flex-col gap-md flex-1 min-h-0 overflow-hidden', className)}
+      className={clsx('pd-sheet-content', className)}
       {...props}
     >
       {children}
@@ -177,8 +129,8 @@ export function SheetFooter(props: SheetFooterProps) {
 export interface SheetProps
   extends Omit<AriaSheetTriggerProps, 'children'>,
   Pick<AriaSheetOverlayProps, 'position' | 'swipeDirection' | 'snapPoints' | 'preventDismissal'>,
-  Omit<VariantProps<typeof sheetPanelVariants>, 'position'>,
   OverlaySharedProps {
+  size?: SheetSize
   overlayClassName?: string
   panelClassName?: string
   contentClassName?: string

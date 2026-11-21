@@ -1,26 +1,22 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
+  composeRenderProps,
   DatePicker as AriaDatePicker,
   type DatePickerProps as AriaDatePickerProps,
   type DateValue,
   type PopoverProps as AriaPopoverProps
 } from 'react-aria-components'
 import { RiCalendarLine } from '@remixicon/react'
-import {
-  composeTailwindRenderProps,
-  fieldWrapperClasses,
-  type FieldSharedProps
-} from '../../utils/index.ts'
+import { type FieldSharedProps } from '../../utils/index.ts'
 import {
   Calendar,
   CalendarCell,
-  calendarCellClasses,
   CalendarGrid,
   CalendarGridBody,
   CalendarGridHeader,
   CalendarHeaderCell,
   CalendarHeading,
-  calendarNavButtonClasses,
   type CalendarCellProps,
   type CalendarProps
 } from '../Calendar/index.ts'
@@ -39,29 +35,24 @@ import { PopoverContent } from '../Popover/index.ts'
 export {
   Calendar,
   CalendarCell,
-  calendarCellClasses,
   CalendarGrid,
   CalendarGridBody,
   CalendarGridHeader,
   CalendarHeaderCell,
   CalendarHeading,
-  calendarNavButtonClasses,
   type CalendarCellProps,
   type CalendarProps
 }
 
-export interface DatePickerPopoverProps extends AriaPopoverProps {
-  className?: string
-}
+export type DatePickerPopoverProps = AriaPopoverProps
 
 export interface DatePickerProps<T extends DateValue>
-  extends AriaDatePickerProps<T>,
+  extends Omit<AriaDatePickerProps<T>, 'children'>,
   FieldSharedProps {
   size?: FieldSize
   dateInputProps?: DateInputProps
   popoverProps?: DatePickerPopoverProps
   calendarProps?: Partial<CalendarProps<T>>
-  className?: string
   children?: ReactNode
 }
 
@@ -79,22 +70,22 @@ export function DatePicker<T extends DateValue>({
 }: DatePickerProps<T>) {
   return (
     <AriaDatePicker
-      className={composeTailwindRenderProps(className, fieldWrapperClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-field', cn))}
       {...props}
     >
       {label && <Label>{label}</Label>}
 
       {children ?? (
         <>
-          <FieldGroup size={size} className="pr-2xs justify-between">
+          <FieldGroup size={size} className="pd-field-group-compact-end pd-field-group-between">
             <DateInput {...dateInputProps} />
             <FieldButton aria-label="Open calendar">
-              <RiCalendarLine className="w-icon-xs h-icon-xs" aria-hidden="true" />
+              <RiCalendarLine className="pd-field-icon" aria-hidden="true" />
             </FieldButton>
           </FieldGroup>
 
           <PopoverContent placement="bottom start" {...popoverProps}>
-            <Dialog className="p-xs">
+            <Dialog className="pd-date-picker-dialog">
               <Calendar {...calendarProps} />
             </Dialog>
           </PopoverContent>

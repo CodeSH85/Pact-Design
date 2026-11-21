@@ -5,7 +5,6 @@ export {
   ToastRegion,
   toast,
   toastQueue,
-  toastVariants,
   type ToastContentProps,
   type ToastData,
   type ToastProps,

@@ -1,6 +1,8 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
   Button as AriaButton,
+  composeRenderProps,
   Select as AriaSelect,
   SelectValue as AriaSelectValue,
   type ButtonProps as AriaButtonProps,
@@ -13,15 +15,8 @@ import {
   type SeparatorProps as AriaSeparatorProps
 } from 'react-aria-components'
 import { RiArrowDownSLine } from '@remixicon/react'
-import { type VariantProps } from 'class-variance-authority'
-import {
-  cn,
-  composeTailwindRenderProps,
-  fieldWrapperClasses,
-  focusRing,
-  type FieldSharedProps
-} from '../../utils/index.ts'
-import { FieldDescription, FieldError, fieldGroupVariants, Label } from '../Field/index.ts'
+import { type FieldSharedProps } from '../../utils/index.ts'
+import { FieldDescription, FieldError, type FieldSize, Label } from '../Field/index.ts'
 import {
   ListBox,
   ListBoxHeader,
@@ -32,20 +27,9 @@ import {
 } from '../ListBox/index.ts'
 import { PopoverContent } from '../Popover/index.ts'
 
-export function selectTriggerVariants(
-  variants?: VariantProps<typeof fieldGroupVariants>
-) {
-  return cn(
-    fieldGroupVariants(variants),
-    'group justify-between cursor-pointer data-[open]:border-field-border-focus',
-    focusRing
-  )
-}
-
-export interface SelectTriggerProps
-  extends AriaButtonProps,
-  VariantProps<typeof fieldGroupVariants> {
-  children?: ReactNode
+export interface SelectTriggerProps extends Omit<AriaButtonProps, 'children'> {
+  size?: FieldSize
+  children?: ReactNode | AriaButtonProps['children']
 }
 
 export function SelectTrigger({
@@ -56,7 +40,8 @@ export function SelectTrigger({
 }: SelectTriggerProps) {
   return (
     <AriaButton
-      className={composeTailwindRenderProps(className, selectTriggerVariants({ size }))}
+      data-size={size}
+      className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-field-group', 'pd-select-trigger', cn))}
       {...props}
     >
       {children}
@@ -64,17 +49,12 @@ export function SelectTrigger({
   )
 }
 
-export interface SelectValueProps<T extends object = object> extends AriaSelectValueProps<T> {
-  className?: string
-}
+export type SelectValueProps<T extends object = object> = AriaSelectValueProps<T>
 
 export function SelectValue<T extends object = object>({ className, ...props }: SelectValueProps<T>) {
   return (
     <AriaSelectValue
-      className={composeTailwindRenderProps(
-        className,
-        'truncate text-inherit data-[placeholder]:text-field-text-placeholder'
-      )}
+      className={composeRenderProps(className, (cn) => clsx('pd-select-value', cn))}
       {...props}
     />
   )
@@ -91,7 +71,7 @@ export type SelectPopoverProps = AriaPopoverProps
 export function SelectPopover({ className, children, ...props }: SelectPopoverProps) {
   return (
     <PopoverContent
-      className={composeTailwindRenderProps(className, 'min-w-[var(--trigger-width)]')}
+      className={composeRenderProps(className, (cn) => clsx('pd-popover-trigger-width', cn))}
       {...props}
     >
       {children}
@@ -123,14 +103,13 @@ export function SelectSection<T extends object = object>({
 
 export interface SelectProps<T extends object = object>
   extends Omit<AriaSelectProps<T>, 'children'>,
-  VariantProps<typeof fieldGroupVariants>,
   FieldSharedProps {
+  size?: FieldSize
   placeholder?: string
   items?: Iterable<T>
   triggerProps?: AriaButtonProps
   popoverProps?: SelectPopoverProps
   listBoxProps?: AriaListBoxProps<T>
-  className?: string
   children: ReactNode | ((item: T) => ReactNode)
 }
 
@@ -150,7 +129,7 @@ export function Select<T extends object = object>({
 }: SelectProps<T>) {
   return (
     <AriaSelect
-      className={composeTailwindRenderProps(className, fieldWrapperClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-field', cn))}
       placeholder={placeholder}
       {...props}
     >
@@ -158,10 +137,7 @@ export function Select<T extends object = object>({
 
       <SelectTrigger size={size} {...triggerProps}>
         <SelectValue />
-        <RiArrowDownSLine
-          className="w-icon-xs h-icon-xs text-field-text-muted transition-transform duration-normal ease-default group-data-[open]:rotate-180 shrink-0"
-          aria-hidden="true"
-        />
+        <RiArrowDownSLine className="pd-select-chevron" aria-hidden="true" />
       </SelectTrigger>
 
       {description && <FieldDescription>{description}</FieldDescription>}

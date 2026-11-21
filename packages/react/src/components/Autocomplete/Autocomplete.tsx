@@ -1,11 +1,12 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
   Autocomplete as AriaAutocomplete,
   useFilter,
   type AutocompleteProps as AriaAutocompleteProps,
   type ListBoxProps as AriaListBoxProps
 } from 'react-aria-components'
-import { cn, fieldWrapperClasses, type FieldSharedProps } from '../../utils/index.ts'
+import { type FieldSharedProps } from '../../utils/index.ts'
 import { type FieldSize } from '../Field/index.ts'
 import { ListBox, ListBoxItem, type ListBoxItemProps } from '../ListBox/index.ts'
 import { SearchField, type SearchFieldProps } from '../SearchField/index.ts'
@@ -65,7 +66,7 @@ export function Autocomplete<T extends object = object>({
   const resolvedFilter = filter ?? contains
 
   return (
-    <div className={cn(fieldWrapperClasses, className)}>
+    <div className={clsx('pd-field', className)}>
       <AriaAutocomplete filter={resolvedFilter} {...props}>
         {label || placeholder || searchFieldProps ? (
           <>

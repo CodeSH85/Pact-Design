@@ -1,6 +1,8 @@
 import { type HTMLAttributes, type ReactElement, type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
   Button as AriaButton,
+  composeRenderProps,
   UNSTABLE_Toast as AriaToast,
   UNSTABLE_ToastContent as AriaToastContent,
   UNSTABLE_ToastList as AriaToastList,
@@ -18,8 +20,6 @@ import {
   RiErrorWarningLine,
   RiInformationLine
 } from '@remixicon/react'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn, composeTailwindRenderProps, focusRing } from '../../utils/index.ts'
 
 export type ToastTone = 'default' | 'info' | 'success' | 'warning' | 'danger'
 
@@ -29,44 +29,16 @@ export interface ToastData {
   tone?: ToastTone
 }
 
-export const toastVariants = cva(
-  [
-    'flex items-start gap-toast-container-gap w-full p-toast-container-padding rounded-toast-container border shadow-toast-container-shadow select-none',
-    'transition-all duration-normal ease-default',
-    'entering:animate-in entering:fade-in-0 entering:slide-in-from-right-full',
-    'exiting:animate-out exiting:fade-out-0 exiting:slide-out-to-right-full'
-  ].join(' '),
-  {
-    variants: {
-      tone: {
-        default: 'bg-toast-tone-default-bg border-toast-tone-default-border text-toast-tone-default-text',
-        info: 'bg-toast-tone-info-bg border-toast-tone-info-border text-toast-tone-info-text',
-        success: 'bg-toast-tone-success-bg border-toast-tone-success-border text-toast-tone-success-text',
-        warning: 'bg-toast-tone-warning-bg border-toast-tone-warning-border text-toast-tone-warning-text',
-        danger: 'bg-toast-tone-danger-bg border-toast-tone-danger-border text-toast-tone-danger-text'
-      }
-    },
-    defaultVariants: {
-      tone: 'default'
-    }
-  }
-)
-
-const toastToneIconConfig: Record<
-  ToastTone,
-  { Icon: typeof RiInformationLine; className: string }
-> = {
-  default: { Icon: RiInformationLine, className: 'text-toast-tone-default-icon' },
-  info: { Icon: RiInformationLine, className: 'text-toast-tone-info-icon' },
-  success: { Icon: RiCheckboxCircleLine, className: 'text-toast-tone-success-icon' },
-  warning: { Icon: RiAlertLine, className: 'text-toast-tone-warning-icon' },
-  danger: { Icon: RiErrorWarningLine, className: 'text-toast-tone-danger-icon' }
+const toastToneIcons: Record<ToastTone, typeof RiInformationLine> = {
+  default: RiInformationLine,
+  info: RiInformationLine,
+  success: RiCheckboxCircleLine,
+  warning: RiAlertLine,
+  danger: RiErrorWarningLine
 }
 
-export interface ToastProps<T extends object = ToastData>
-  extends AriaToastProps<T>,
-  VariantProps<typeof toastVariants> {
-  className?: string
+export interface ToastProps<T extends object = ToastData> extends Omit<AriaToastProps<T>, 'children'> {
+  tone?: ToastTone
   children?: ReactNode
 }
 
@@ -76,28 +48,25 @@ export function Toast<T extends object = ToastData>({
   children,
   ...props
 }: ToastProps<T>) {
-  const resolvedTone = tone ?? 'default'
-  const { Icon, className: iconToneClass } = toastToneIconConfig[resolvedTone]
+  const Icon = toastToneIcons[tone]
 
   return (
     <AriaToast
-      className={composeTailwindRenderProps(className, toastVariants({ tone: resolvedTone }))}
+      data-tone={tone}
+      className={composeRenderProps(className, (cn) => clsx('pd-toast', cn))}
       {...props}
     >
-      <Icon className={cn('w-icon-sm h-icon-sm shrink-0 mt-0.5', iconToneClass)} aria-hidden="true" />
+      <Icon className="pd-toast-icon" aria-hidden="true" />
 
-      <div className="flex flex-col gap-3xs flex-1 min-w-0">
+      <div className="pd-toast-content">
         {children}
       </div>
 
       <AriaButton
         slot="close"
-        className={cn(
-          'inline-flex items-center justify-center p-3xs ml-auto -mr-xs -mt-xs rounded-2xs text-on-surface-muted hover:text-on-surface hover:bg-hover cursor-pointer',
-          focusRing
-        )}
+        className="pd-reset pd-toast-close"
       >
-        <RiCloseLine className="w-icon-xs h-icon-xs" aria-hidden="true" />
+        <RiCloseLine className="pd-toast-close-icon" aria-hidden="true" />
       </AriaButton>
     </AriaToast>
   )
@@ -110,7 +79,7 @@ export interface ToastContentProps extends HTMLAttributes<HTMLDivElement> {
 
 export function ToastContent({ className, children, ...props }: ToastContentProps) {
   return (
-    <AriaToastContent className={cn('flex flex-col gap-3xs flex-1 min-w-0', className)} {...props}>
+    <AriaToastContent className={clsx('pd-toast-content', className)} {...props}>
       {children}
     </AriaToastContent>
   )
@@ -140,7 +109,6 @@ toast.danger = (title: string, description?: string, options?: ToastOptions) =>
 export interface ToastRegionProps<T extends object = ToastData>
   extends Partial<Omit<AriaToastRegionProps<T>, 'children' | 'queue'>> {
   queue?: UNSTABLE_ToastQueue<T>
-  className?: string
   children?: (renderProps: { toast: QueuedToast<T> }) => ReactElement
 }
 
@@ -153,10 +121,7 @@ export function ToastRegion<T extends object = ToastData>({
   return (
     <AriaToastRegion
       queue={queue}
-      className={composeTailwindRenderProps(
-        className,
-        'fixed bottom-lg right-lg z-toast-container flex flex-col gap-sm max-w-toast-container w-full outline-none pointer-events-none [&>*]:pointer-events-auto'
-      )}
+      className={composeRenderProps(className, (cn) => clsx('pd-toast-region', cn))}
       {...props}
     >
       {children ??
@@ -165,10 +130,10 @@ export function ToastRegion<T extends object = ToastData>({
           return (
             <Toast toast={renderProps.toast} tone={toastData?.tone}>
               {toastData?.title && (
-                <h4 className="text-label-sm font-semibold m-0">{toastData.title}</h4>
+                <h4 className="pd-toast-title">{toastData.title}</h4>
               )}
               {toastData?.description && (
-                <p className="text-caption-md opacity-90 m-0">{toastData.description}</p>
+                <p className="pd-toast-description">{toastData.description}</p>
               )}
             </Toast>
           )

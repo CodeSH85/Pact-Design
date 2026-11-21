@@ -1,7 +1,6 @@
 export {
   Popover,
   PopoverContent,
-  popoverContentClasses,
   PopoverDialog,
   PopoverTrigger,
   type PopoverContentProps,

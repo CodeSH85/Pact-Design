@@ -15,7 +15,6 @@ import {
   Text as AriaText,
   type TextProps as AriaTextProps
 } from 'react-aria-components'
-import { cva } from 'class-variance-authority'
 import {
   resolveDisabled,
   type DisableableProps
@@ -70,36 +69,6 @@ export function FieldError({ className, children, ...props }: FieldErrorProps) {
     </AriaFieldError>
   )
 }
-
-/**
- * @deprecated Temporary legacy utility preset retained for unmigrated Phase 2C components
- * (Select, ComboBox, Autocomplete, DateField, DatePicker). Will be removed once those migrate.
- */
-export const fieldGroupVariants = cva(
-  [
-    'inline-flex items-center w-full select-none',
-    'bg-field-bg border border-field-border rounded-field-sm text-field-text',
-    'transition-colors duration-fast ease-default',
-    'hover:border-field-border-hover',
-    'data-[focused]:border-field-border-focus data-[focus-within]:border-field-border-focus',
-    'data-[invalid]:border-field-border-invalid data-[invalid]:hover:border-field-border-invalid-hover',
-    'data-[disabled]:bg-field-bg-disabled data-[disabled]:border-field-border-disabled data-[disabled]:text-field-text-disabled data-[disabled]:cursor-not-allowed'
-  ].join(' '),
-  {
-    variants: {
-      size: {
-        xs: 'h-field-xs px-field-padding-x-xs gap-field-gap-xs text-label-xs rounded-field-xs',
-        sm: 'h-field-sm px-field-padding-x-sm gap-field-gap-sm text-label-sm rounded-field-sm',
-        md: 'h-field-md px-field-padding-x-md gap-field-gap-md text-label-md rounded-field-md',
-        lg: 'h-field-lg px-field-padding-x-lg gap-field-gap-lg text-label-lg rounded-field-lg',
-        xl: 'h-field-xl px-field-padding-x-xl gap-field-gap-xl text-label-xl rounded-field-xl'
-      }
-    },
-    defaultVariants: {
-      size: 'md'
-    }
-  }
-)
 
 export interface FieldGroupProps extends AriaGroupProps {
   size?: FieldSize

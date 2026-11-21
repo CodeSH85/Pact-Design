@@ -1,17 +1,13 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
+  composeRenderProps,
   type DialogTriggerProps as AriaDialogTriggerProps,
   Modal as AriaModal,
   ModalOverlay as AriaModalOverlay,
   type ModalOverlayProps as AriaModalOverlayProps
 } from 'react-aria-components'
-import { cva, type VariantProps } from 'class-variance-authority'
-import {
-  cn,
-  composeTailwindRenderProps,
-  enterExitFadeClasses,
-  type OverlaySharedProps
-} from '../../utils/index.ts'
+import { type OverlaySharedProps } from '../../utils/index.ts'
 import {
   Dialog,
   DialogFooter,
@@ -22,37 +18,11 @@ import {
   DialogTrigger
 } from '../Dialog/index.ts'
 
-export const modalOverlayClasses = [
-  'fixed inset-0 z-modal-overlay bg-modal-overlay-bg flex items-center justify-center p-modal-overlay-padding',
-  enterExitFadeClasses
-].join(' ')
+export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full'
 
-export const modalContentVariants = cva(
-  [
-    'w-full bg-modal-content-bg text-modal-content-text border border-modal-content-border shadow-modal-content-shadow rounded-modal-content outline-none',
-    'entering:animate-in entering:zoom-in-95 exiting:animate-out exiting:zoom-out-95'
-  ].join(' '),
-  {
-    variants: {
-      size: {
-        sm: 'max-w-modal-content-sm',
-        md: 'max-w-modal-content-md',
-        lg: 'max-w-modal-content-lg',
-        xl: 'max-w-modal-content-xl',
-        full: 'max-w-[calc(100vw-2rem)] max-h-[calc(100vh-2rem)]'
-      }
-    },
-    defaultVariants: {
-      size: 'md'
-    }
-  }
-)
-
-export interface ModalContentProps
-  extends Omit<AriaModalOverlayProps, 'children'>,
-  VariantProps<typeof modalContentVariants> {
-  className?: string
-  overlayClassName?: string
+export interface ModalContentProps extends Omit<AriaModalOverlayProps, 'children'> {
+  size?: ModalSize
+  overlayClassName?: AriaModalOverlayProps['className']
   children?: ReactNode | AriaModalOverlayProps['children']
 }
 
@@ -67,10 +37,13 @@ export function ModalContent({
   return (
     <AriaModalOverlay
       isDismissable={isDismissable}
-      className={composeTailwindRenderProps(overlayClassName, modalOverlayClasses)}
+      className={composeRenderProps(overlayClassName, (cn) => clsx('pd-modal-overlay', cn))}
       {...props}
     >
-      <AriaModal className={composeTailwindRenderProps(className, modalContentVariants({ size }))}>
+      <AriaModal
+        data-size={size}
+        className={composeRenderProps(className, (cn) => clsx('pd-modal', cn))}
+      >
         {children}
       </AriaModal>
     </AriaModalOverlay>
@@ -84,7 +57,7 @@ export interface ModalDialogProps extends DialogProps {
 export function ModalDialog({ className, children, ...props }: ModalDialogProps) {
   return (
     <Dialog
-      className={cn('p-modal-content-padding flex flex-col gap-modal-content-gap', className)}
+      className={clsx('pd-modal-dialog', className)}
       {...props}
     >
       {children}
@@ -111,7 +84,7 @@ export const ModalTrigger = DialogTrigger
 export interface ModalProps
   extends Omit<AriaDialogTriggerProps, 'children'>,
   OverlaySharedProps {
-  size?: VariantProps<typeof modalContentVariants>['size']
+  size?: ModalSize
   children?: ReactNode
 }
 

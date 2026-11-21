@@ -1,9 +1,7 @@
 export {
   Menu,
-  menuDangerItemClasses,
   MenuHeader,
   MenuItem,
-  menuItemClasses,
   MenuList,
   MenuPopover,
   MenuSection,
@@ -11,6 +9,7 @@ export {
   MenuTrigger,
   type MenuItemData,
   type MenuItemProps,
+  type MenuItemTone,
   type MenuProps
 } from './Menu.tsx'
 

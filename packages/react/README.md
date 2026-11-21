@@ -16,7 +16,7 @@
 pnpm add @pact-design/react @pact-design/styles react-aria-components
 ```
 
-Import the compiled Pact Design stylesheet once in your application entrypoint (includes `@layer pact.tokens, pact.theme, pact.reset, pact.components;`):
+Import the compiled Pact Design stylesheet once in your application entrypoint:
 
 ```typescript
 // main.tsx
@@ -24,28 +24,7 @@ import '@pact-design/react/styles.css'
 // or: import '@pact-design/styles/css'
 ```
 
-Migrated components (`Button`, `ToggleButton`, `ToggleButtonGroup`, `Checkbox`, `CheckboxGroup`, `Radio`, `RadioGroup`, `Switch`, `Separator`, `Field`, `TextField`, `SearchField`, `FileTrigger`, `Form`, `Tabs`, `Breadcrumbs`, `Disclosure`, `DisclosureGroup`, `ListBox`, `Tree`) are styled entirely with pre-compiled static CSS and require **no** UnoCSS or Tailwind CSS setup.
-
-> **Migration note:** Components not yet migrated to `@pact-design/styles` component CSS still emit UnoCSS utility classes temporarily. While migration is in progress, apps using those components with UnoCSS should include `.ts` files under `@pact-design/react` in `content.pipeline.include`:
-
-```typescript
-// uno.config.ts
-import { defineConfig, presetWind3 } from 'unocss'
-import { pactPreset } from '@pact-design/styles/uno'
-
-export default defineConfig({
-  content: {
-    pipeline: {
-      include: [
-        /\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/,
-        /@pact-design\/react\/.*\.ts($|\?)/
-      ]
-    },
-    filesystem: ['node_modules/@pact-design/react/src/**/*.{ts,tsx}']
-  },
-  presets: [presetWind3(), pactPreset()]
-})
-```
+All 29 components are styled entirely with pre-compiled static CSS and require **no** UnoCSS or Tailwind CSS setup.
 
 ---
 

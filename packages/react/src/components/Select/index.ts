@@ -8,7 +8,6 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-  selectTriggerVariants,
   type SelectItemProps,
   type SelectPopoverProps,
   type SelectProps,

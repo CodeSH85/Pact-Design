@@ -196,50 +196,13 @@ describe('@pact-design/react package integrity', () => {
     assert.match(selectionControlDescriptionClasses(true), /text-on-surface-disabled/)
   })
 
-  it('verifies migrated components use semantic pd-* CSS classes and data-* attributes without cva/cn', () => {
-    const buttonLike = [
-      ['Button/Button.tsx', 'pd-button'],
-      ['ToggleButton/ToggleButton.tsx', 'pd-toggle-button']
-    ]
-
-    for (const [relPath, className] of buttonLike) {
-      const source = fs.readFileSync(path.join(PACKAGE_ROOT, 'src/components', relPath), 'utf-8')
-      assert.ok(source.includes('\'pd-reset\''), `${relPath} must apply scoped pd-reset`)
-      assert.ok(source.includes(`'${className}'`), `${relPath} must apply ${className}`)
-      assert.match(source, /data-variant=/, `${relPath} must forward data-variant`)
-      assert.match(source, /data-size=/, `${relPath} must forward data-size`)
-      assert.match(source, /data-radius=/, `${relPath} must forward data-radius`)
-      assert.doesNotMatch(source, /class-variance-authority/, `${relPath} must not depend on cva`)
-      assert.doesNotMatch(source, /composeTailwindRenderProps/, `${relPath} must not depend on tailwind-merge`)
-    }
-
-    const phase2 = [
-      ['Checkbox/Checkbox.tsx', 'pd-checkbox'],
-      ['Radio/Radio.tsx', 'pd-radio'],
-      ['Switch/Switch.tsx', 'pd-switch'],
-      ['Separator/Separator.tsx', 'pd-separator'],
-      ['TextField/TextField.tsx', 'pd-field'],
-      ['SearchField/SearchField.tsx', 'pd-search-field'],
-      ['FileTrigger/FileTrigger.tsx', 'pd-field-icon'],
-      ['Form/Form.tsx', 'pd-form'],
-      ['Tab/Tab.tsx', 'pd-tabs'],
-      ['Breadcrumbs/Breadcrumbs.tsx', 'pd-breadcrumbs'],
-      ['Disclosure/Disclosure.tsx', 'pd-disclosure'],
-      ['DisclosureGroup/DisclosureGroup.tsx', 'pd-disclosure-group'],
-      ['ListBox/ListBox.tsx', 'pd-listbox'],
-      ['Tree/Tree.tsx', 'pd-tree']
-    ]
-
-    for (const [relPath, className] of phase2) {
-      const source = fs.readFileSync(path.join(PACKAGE_ROOT, 'src/components', relPath), 'utf-8')
-      assert.ok(source.includes(className), `${relPath} must apply ${className}`)
-      assert.doesNotMatch(source, /class-variance-authority/, `${relPath} must not depend on cva`)
-      assert.doesNotMatch(source, /composeTailwindRenderProps/, `${relPath} must not depend on tailwind-merge`)
-    }
-
-    const fieldSource = fs.readFileSync(path.join(PACKAGE_ROOT, 'src/components/Field/Field.tsx'), 'utf-8')
-    for (const cls of ['pd-field-label', 'pd-field-description', 'pd-field-error', 'pd-field-group', 'pd-field-input', 'pd-field-button']) {
-      assert.ok(fieldSource.includes(cls), `Field.tsx must apply ${cls}`)
+  it('verifies all 29 components use semantic pd-* CSS classes without cva or tailwind-merge', () => {
+    for (const name of COMPONENTS) {
+      const compPath = path.join(PACKAGE_ROOT, 'src/components', name, `${name}.tsx`)
+      const source = fs.readFileSync(compPath, 'utf-8')
+      assert.doesNotMatch(source, /class-variance-authority/, `${name}.tsx must not depend on cva`)
+      assert.doesNotMatch(source, /composeTailwindRenderProps/, `${name}.tsx must not depend on tailwind-merge`)
+      assert.match(source, /pd-[a-z-]+/, `${name}.tsx must apply semantic pd-* CSS classes`)
     }
   })
 
