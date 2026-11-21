@@ -1,7 +1,9 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
   Button as AriaButton,
   type ButtonProps as AriaButtonProps,
+  composeRenderProps,
   Dialog as AriaDialog,
   type DialogProps as AriaDialogProps,
   DialogTrigger as AriaDialogTrigger,
@@ -10,20 +12,13 @@ import {
   type HeadingProps as AriaHeadingProps
 } from 'react-aria-components'
 import { RiCloseLine } from '@remixicon/react'
-import {
-  cn,
-  composeTailwindRenderProps,
-  overlayCloseButtonClasses,
-  overlayFooterClasses,
-  overlayHeaderClasses
-} from '../../utils/index.ts'
 
 export type DialogProps = AriaDialogProps
 
 export function Dialog({ className, children, ...props }: DialogProps) {
   return (
     <AriaDialog
-      className={cn('outline-none', className)}
+      className={clsx('pd-dialog', className)}
       {...props}
     >
       {children}
@@ -48,10 +43,10 @@ export function DialogCloseButton({
     <AriaButton
       slot="close"
       aria-label={ariaLabel}
-      className={composeTailwindRenderProps(className, overlayCloseButtonClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-dialog-close', cn))}
       {...props}
     >
-      {children ?? <RiCloseLine className="w-icon-sm h-icon-sm" aria-hidden="true" />}
+      {children ?? <RiCloseLine className="pd-dialog-close-icon" aria-hidden="true" />}
     </AriaButton>
   )
 }
@@ -73,15 +68,15 @@ export function DialogHeader({
   ...props
 }: DialogHeaderProps) {
   return (
-    <div className={cn(overlayHeaderClasses, className)}>
-      <div className="flex flex-col gap-2xs">
+    <div className={clsx('pd-dialog-header', className)}>
+      <div className="pd-dialog-header-content">
         {title && (
-          <AriaHeading slot="title" className="text-heading-sm font-semibold text-on-surface" {...props}>
+          <AriaHeading slot="title" className="pd-dialog-title" {...props}>
             {title}
           </AriaHeading>
         )}
         {description && (
-          <p className="text-body-sm text-on-surface-muted m-0">{description}</p>
+          <p className="pd-dialog-description">{description}</p>
         )}
         {children}
       </div>
@@ -98,7 +93,7 @@ export interface DialogBodyProps {
 
 export function DialogBody({ className, children }: DialogBodyProps) {
   return (
-    <div className={cn('flex-1 min-h-0 overflow-y-auto', className)}>
+    <div className={clsx('pd-dialog-body', className)}>
       {children}
     </div>
   )
@@ -111,7 +106,7 @@ export interface DialogFooterProps {
 
 export function DialogFooter({ className, children }: DialogFooterProps) {
   return (
-    <div className={cn(overlayFooterClasses, className)}>
+    <div className={clsx('pd-dialog-footer', className)}>
       {children}
     </div>
   )

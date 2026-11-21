@@ -1,19 +1,13 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
+  composeRenderProps,
   type DialogTriggerProps as AriaDialogTriggerProps,
   OverlayArrow as AriaOverlayArrow,
   Popover as AriaPopover,
   type PopoverProps as AriaPopoverProps
 } from 'react-aria-components'
-import { composeTailwindRenderProps, enterExitZoomClasses } from '../../utils/index.ts'
 import { Dialog, type DialogProps, DialogTrigger } from '../Dialog/index.ts'
-
-export const popoverContentClasses = [
-  'z-popover-surface min-w-popover-surface p-popover-surface-padding rounded-popover-surface',
-  'bg-popover-surface-bg text-popover-surface-text border border-popover-surface-border shadow-popover-surface-shadow',
-  'outline-none origin-top transition-opacity duration-fast ease-default',
-  enterExitZoomClasses
-].join(' ')
 
 export interface PopoverContentProps extends Omit<AriaPopoverProps, 'children'> {
   showArrow?: boolean
@@ -30,13 +24,13 @@ export function PopoverContent({
   return (
     <AriaPopover
       offset={offset}
-      className={composeTailwindRenderProps(className, popoverContentClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-popover', cn))}
       {...props}
     >
       {(renderProps) => (
         <>
           {showArrow && (
-            <AriaOverlayArrow className="fill-elevated stroke-border-default stroke-1">
+            <AriaOverlayArrow className="pd-popover-arrow">
               <svg width={12} height={12} viewBox="0 0 12 12">
                 <path d="M0 0 L6 6 L12 0" />
               </svg>

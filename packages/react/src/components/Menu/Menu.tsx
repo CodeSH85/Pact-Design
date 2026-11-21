@@ -1,5 +1,7 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
+  composeRenderProps,
   Header as AriaHeader,
   type HeaderProps as AriaHeaderProps,
   Keyboard as AriaKeyboard,
@@ -16,24 +18,14 @@ import {
   type SeparatorProps as AriaSeparatorProps
 } from 'react-aria-components'
 import { RiArrowDownSLine } from '@remixicon/react'
-import {
-  cn,
-  collectionHeaderClasses,
-  collectionItemVariants,
-  collectionSectionClasses,
-  collectionSeparatorClasses,
-  composeTailwindRenderProps
-} from '../../utils/index.ts'
 import { Button } from '../Button/index.ts'
 import { PopoverContent } from '../Popover/index.ts'
 
-export const menuItemClasses = collectionItemVariants({ tone: 'default' })
-export const menuDangerItemClasses = collectionItemVariants({ tone: 'danger' })
+export type MenuItemTone = 'default' | 'danger'
 
-export interface MenuItemProps extends AriaMenuItemProps {
-  tone?: 'default' | 'danger'
+export interface MenuItemProps extends Omit<AriaMenuItemProps, 'children'> {
+  tone?: MenuItemTone
   shortcut?: string
-  className?: string
   children?: ReactNode | AriaMenuItemProps['children']
 }
 
@@ -46,14 +38,15 @@ export function MenuItem({
 }: MenuItemProps) {
   return (
     <AriaMenuItem
-      className={composeTailwindRenderProps(className, collectionItemVariants({ tone }))}
+      data-tone={tone}
+      className={composeRenderProps(className, (cn) => clsx('pd-collection-item', cn))}
       {...props}
     >
       {(renderProps) => (
         <>
           {typeof children === 'function' ? children(renderProps) : children}
           {shortcut && (
-            <AriaKeyboard className="text-mono-xs text-on-surface-muted ml-auto pl-sm">
+            <AriaKeyboard className="pd-menu-shortcut">
               {shortcut}
             </AriaKeyboard>
           )}
@@ -66,7 +59,7 @@ export function MenuItem({
 export function MenuSeparator({ className, ...props }: AriaSeparatorProps) {
   return (
     <AriaSeparator
-      className={cn(collectionSeparatorClasses, className)}
+      className={clsx('pd-collection-separator', className)}
       {...props}
     />
   )
@@ -75,7 +68,7 @@ export function MenuSeparator({ className, ...props }: AriaSeparatorProps) {
 export function MenuHeader({ className, children, ...props }: AriaHeaderProps) {
   return (
     <AriaHeader
-      className={cn(collectionHeaderClasses, className)}
+      className={clsx('pd-collection-header', className)}
       {...props}
     >
       {children}
@@ -86,7 +79,7 @@ export function MenuHeader({ className, children, ...props }: AriaHeaderProps) {
 export function MenuSection<T extends object>({ className, children, ...props }: AriaMenuSectionProps<T>) {
   return (
     <AriaMenuSection
-      className={cn(collectionSectionClasses, className)}
+      className={clsx('pd-collection-section', className)}
       {...props}
     >
       {children}
@@ -97,7 +90,7 @@ export function MenuSection<T extends object>({ className, children, ...props }:
 export function MenuList<T extends object>({ className, children, ...props }: AriaMenuProps<T>) {
   return (
     <AriaMenu
-      className={composeTailwindRenderProps(className, 'outline-none', collectionSectionClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-menu', cn))}
       {...props}
     >
       {children}
@@ -118,7 +111,7 @@ export const MenuTrigger = AriaMenuTrigger
 export interface MenuItemData {
   type?: 'item' | 'separator' | 'group'
   label?: string
-  tone?: 'default' | 'danger'
+  tone?: MenuItemTone
   shortcut?: string
   disabled?: boolean
   onClick?: () => void
@@ -152,12 +145,12 @@ export function Menu({
         {trigger ?? (
           <Button variant="secondary" size="md">
             <span>{triggerLabel}</span>
-            <RiArrowDownSLine className="w-icon-xs h-icon-xs text-on-surface-muted" aria-hidden="true" />
+            <RiArrowDownSLine className="pd-menu-trigger-icon" aria-hidden="true" />
           </Button>
         )}
 
         <PopoverContent placement={placement} offset={offset}>
-          <AriaMenu className={cn('outline-none', collectionSectionClasses)}>
+          <AriaMenu className="pd-menu">
             {items.map((item, idx) => {
               if (item.type === 'separator') {
                 return <MenuSeparator key={`sep-${idx}`} />

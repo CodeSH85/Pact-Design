@@ -3,7 +3,6 @@ export {
   FieldDescription,
   FieldError,
   FieldGroup,
-  fieldGroupVariants,
   Input,
   Label,
   type FieldButtonProps,

@@ -1,5 +1,7 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
+  composeRenderProps,
   DateField as AriaDateField,
   type DateFieldProps as AriaDateFieldProps,
   DateInput as AriaDateInput,
@@ -8,46 +10,28 @@ import {
   type DateSegmentProps as AriaDateSegmentProps,
   type DateValue
 } from 'react-aria-components'
-import {
-  composeTailwindRenderProps,
-  fieldWrapperClasses,
-  type FieldSharedProps
-} from '../../utils/index.ts'
+import { type FieldSharedProps } from '../../utils/index.ts'
 import { FieldDescription, FieldError, FieldGroup, type FieldSize, Label } from '../Field/index.ts'
 
-export interface DateSegmentProps extends AriaDateSegmentProps {
-  className?: string
-}
+export type DateSegmentProps = AriaDateSegmentProps
 
 export function DateSegment({ className, ...props }: DateSegmentProps) {
   return (
     <AriaDateSegment
-      className={composeTailwindRenderProps(
-        className,
-        [
-          'px-3xs rounded-2xs tabular-nums font-mono text-inherit outline-none',
-          'data-[placeholder]:text-field-text-placeholder',
-          'data-[focused]:bg-primary data-[focused]:text-on-primary',
-          'data-[invalid]:data-[focused]:bg-danger data-[invalid]:data-[focused]:text-on-danger'
-        ].join(' ')
-      )}
+      className={composeRenderProps(className, (cn) => clsx('pd-date-segment', cn))}
       {...props}
     />
   )
 }
 
 export interface DateInputProps extends Omit<AriaDateInputProps, 'children'> {
-  className?: string
   children?: AriaDateInputProps['children']
 }
 
 export function DateInput({ className, children, ...props }: DateInputProps) {
   return (
     <AriaDateInput
-      className={composeTailwindRenderProps(
-        className,
-        'flex items-center gap-3xs select-none w-full bg-transparent'
-      )}
+      className={composeRenderProps(className, (cn) => clsx('pd-date-input', cn))}
       {...props}
     >
       {children ?? ((segment) => <DateSegment segment={segment} />)}
@@ -56,11 +40,10 @@ export function DateInput({ className, children, ...props }: DateInputProps) {
 }
 
 export interface DateFieldProps<T extends DateValue>
-  extends AriaDateFieldProps<T>,
+  extends Omit<AriaDateFieldProps<T>, 'children'>,
   FieldSharedProps {
   size?: FieldSize
   dateInputProps?: DateInputProps
-  className?: string
   children?: ReactNode
 }
 
@@ -76,7 +59,7 @@ export function DateField<T extends DateValue>({
 }: DateFieldProps<T>) {
   return (
     <AriaDateField
-      className={composeTailwindRenderProps(className, fieldWrapperClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-field', cn))}
       {...props}
     >
       {label && <Label>{label}</Label>}

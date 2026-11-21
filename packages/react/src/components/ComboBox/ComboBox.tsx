@@ -1,17 +1,15 @@
 import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
 import {
   ComboBox as AriaComboBox,
+  composeRenderProps,
   type ComboBoxProps as AriaComboBoxProps,
   type InputProps as AriaInputProps,
   type ListBoxProps as AriaListBoxProps,
   type PopoverProps as AriaPopoverProps
 } from 'react-aria-components'
 import { RiArrowDownSLine } from '@remixicon/react'
-import {
-  composeTailwindRenderProps,
-  fieldWrapperClasses,
-  type FieldSharedProps
-} from '../../utils/index.ts'
+import { type FieldSharedProps } from '../../utils/index.ts'
 import {
   FieldButton,
   FieldDescription,
@@ -42,7 +40,7 @@ export type ComboBoxPopoverProps = AriaPopoverProps
 export function ComboBoxPopover({ className, children, ...props }: ComboBoxPopoverProps) {
   return (
     <PopoverContent
-      className={composeTailwindRenderProps(className, 'min-w-[var(--trigger-width)]')}
+      className={composeRenderProps(className, (cn) => clsx('pd-popover-trigger-width', cn))}
       {...props}
     >
       {children}
@@ -62,7 +60,6 @@ export interface ComboBoxProps<T extends object>
   inputProps?: AriaInputProps
   popoverProps?: ComboBoxPopoverProps
   listBoxProps?: AriaListBoxProps<T>
-  className?: string
   children: ReactNode | ((item: T) => ReactNode)
 }
 
@@ -82,16 +79,16 @@ export function ComboBox<T extends object>({
 }: ComboBoxProps<T>) {
   return (
     <AriaComboBox
-      className={composeTailwindRenderProps(className, fieldWrapperClasses)}
+      className={composeRenderProps(className, (cn) => clsx('pd-field', cn))}
       items={items}
       {...props}
     >
       {label && <Label>{label}</Label>}
 
-      <FieldGroup size={size} className="pr-2xs">
+      <FieldGroup size={size} className="pd-field-group-compact-end">
         <Input placeholder={placeholder} {...inputProps} />
         <FieldButton>
-          <RiArrowDownSLine className="w-icon-xs h-icon-xs" aria-hidden="true" />
+          <RiArrowDownSLine className="pd-field-icon" aria-hidden="true" />
         </FieldButton>
       </FieldGroup>
 
