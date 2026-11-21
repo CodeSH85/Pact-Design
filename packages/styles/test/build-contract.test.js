@@ -89,6 +89,36 @@ describe('@pact-design/styles Build Contract (CSS Layers + UnoCSS Preset)', () =
     for (const slot of EXPECTED_THEME_SLOTS) {
       assert.ok(slot in mod.pactTheme, `Expected pactTheme.${slot} to exist`)
     }
+
+    // Component shadow and z-index rules preserve full keys while adding stripped aliases
+    assert.equal(
+      mod.pactTheme.boxShadow['tab-trigger-shadow-segmented-selected'],
+      'var(--pd-component-tab-trigger-shadow-segmented-selected)'
+    )
+    assert.equal(
+      mod.pactTheme.boxShadow['tab-trigger-segmented-selected'],
+      'var(--pd-component-tab-trigger-shadow-segmented-selected)'
+    )
+    assert.equal(
+      mod.pactTheme.boxShadow['modal-content'],
+      'var(--pd-component-modal-content-shadow)'
+    )
+    assert.equal(
+      mod.pactTheme.zIndex['modal-overlay-z-index'],
+      'var(--pd-component-modal-overlay-z-index)'
+    )
+    assert.equal(
+      mod.pactTheme.zIndex['modal-overlay'],
+      'var(--pd-component-modal-overlay-z-index)'
+    )
+    assert.equal(
+      mod.pactTheme.zIndex['popover-surface'],
+      'var(--pd-component-popover-surface-z-index)'
+    )
+    assert.equal(
+      mod.pactTheme.zIndex['toast-container'],
+      'var(--pd-component-toast-container-z-index)'
+    )
   })
 
   it('ensures every var(--pd-*) referenced in pactTheme exists in @pact-design/tokens/css', async() => {
