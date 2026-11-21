@@ -32,7 +32,7 @@ export const disclosureVariants = cva(
 )
 
 export const disclosureTriggerClasses = [
-  'group flex items-center justify-between w-full h-disclosure-trigger-height px-disclosure-trigger-padding-x select-none cursor-pointer',
+  'group flex items-center justify-between w-full h-disclosure-trigger-height px-disclosure-trigger-padding-x rounded-disclosure-trigger-radius select-none cursor-pointer',
   'text-label-md font-medium text-disclosure-trigger-text bg-transparent',
   'transition-colors duration-fast ease-default',
   'hover:bg-disclosure-trigger-bg-hover active:bg-disclosure-trigger-bg-active',

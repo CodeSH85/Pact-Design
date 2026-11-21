@@ -18,7 +18,7 @@ export const collectionItemVariants = cva(
         default: [
           'text-popover-item-text',
           'data-[focused]:bg-popover-item-bg-hover data-[hovered]:bg-popover-item-bg-hover',
-          'data-[selected]:font-medium'
+          'data-[selected]:bg-popover-item-bg-selected data-[selected]:font-medium'
         ].join(' '),
         danger: [
           'text-popover-item-text-danger',

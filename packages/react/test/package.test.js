@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { describe, it } from 'node:test'
 import { fileURLToPath } from 'node:url'
+import { pactTheme } from '@pact-design/styles/uno'
 import {
   cn,
   collectionItemVariants,
@@ -191,5 +192,126 @@ describe('@pact-design/react package integrity', () => {
     assert.match(selectionControlLabelClasses(true), /text-on-surface-disabled/)
     assert.match(selectionControlDescriptionClasses(false), /text-on-surface-muted/)
     assert.match(selectionControlDescriptionClasses(true), /text-on-surface-disabled/)
+  })
+
+  it('verifies every component token, radius, and shadow utility in src/ resolves in pactTheme', () => {
+    const srcRoot = path.join(PACKAGE_ROOT, 'src')
+    const componentNamespaces = new Set([
+      'button',
+      'checkbox',
+      'disclosure',
+      'field',
+      'modal',
+      'popover',
+      'radio',
+      'switch',
+      'tab',
+      'toast'
+    ])
+
+    const prefixToSlots = [
+      ['translate-x-', ['spacing']],
+      ['translate-y-', ['spacing']],
+      ['min-w-', ['minWidth', 'spacing']],
+      ['max-w-', ['maxWidth', 'spacing']],
+      ['min-h-', ['minHeight', 'spacing']],
+      ['max-h-', ['maxHeight', 'spacing']],
+      ['gap-x-', ['spacing']],
+      ['gap-y-', ['spacing']],
+      ['rounded-', ['borderRadius']],
+      ['shadow-', ['boxShadow']],
+      ['border-', ['colors', 'borderWidth']],
+      ['outline-', ['colors']],
+      ['divide-', ['colors']],
+      ['stroke-', ['colors']],
+      ['ring-', ['colors', 'ringWidth']],
+      ['fill-', ['colors']],
+      ['text-', ['colors', 'fontSize']],
+      ['bg-', ['colors']],
+      ['gap-', ['spacing']],
+      ['px-', ['spacing']],
+      ['py-', ['spacing']],
+      ['pt-', ['spacing']],
+      ['pb-', ['spacing']],
+      ['pl-', ['spacing']],
+      ['pr-', ['spacing']],
+      ['mx-', ['spacing']],
+      ['my-', ['spacing']],
+      ['mt-', ['spacing']],
+      ['mb-', ['spacing']],
+      ['ml-', ['spacing']],
+      ['mr-', ['spacing']],
+      ['p-', ['spacing']],
+      ['m-', ['spacing']],
+      ['h-', ['height', 'spacing']],
+      ['w-', ['width', 'spacing']],
+      ['z-', ['zIndex']]
+    ]
+
+    function collectFiles(dir) {
+      const result = []
+      for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const fullPath = path.join(dir, entry.name)
+        if (entry.isDirectory()) {
+          result.push(...collectFiles(fullPath))
+        } else if (/\.(ts|tsx)$/.test(entry.name) && entry.name !== 'cn.ts') {
+          result.push(fullPath)
+        }
+      }
+      return result
+    }
+
+    const unresolved = []
+    const stringLiteralRe = /['"`]([^'"`\n]+)['"`]/g
+
+    for (const filePath of collectFiles(srcRoot)) {
+      const relPath = path.relative(srcRoot, filePath)
+      const source = fs.readFileSync(filePath, 'utf-8')
+
+      for (const match of source.matchAll(stringLiteralRe)) {
+        for (const rawToken of match[1].split(/\s+/)) {
+          if (!rawToken || rawToken.includes('${') || rawToken.includes('(')) continue
+
+          const base = rawToken.split(':').pop()?.replace(/^-/, '')
+          if (!base) continue
+
+          const matchedPrefix = prefixToSlots.find(([prefix]) => base.startsWith(prefix))
+          if (!matchedPrefix) continue
+
+          const [prefix, slots] = matchedPrefix
+          let key = base.slice(prefix.length)
+          if (!key || key.startsWith('[')) continue
+
+          if (prefix === 'rounded-') {
+            key = key.replace(/^(?:tl|tr|bl|br|ss|se|es|ee|[tblrse])-/, '')
+            if (!(key in pactTheme.borderRadius)) {
+              unresolved.push(`${relPath}: ${rawToken} (missing borderRadius.${key})`)
+            }
+            continue
+          }
+
+          if (prefix === 'shadow-') {
+            if (key !== 'none' && !(key in pactTheme.boxShadow)) {
+              unresolved.push(`${relPath}: ${rawToken} (missing boxShadow.${key})`)
+            }
+            continue
+          }
+
+          const firstSegment = key.split('-')[0]
+          if (!componentNamespaces.has(firstSegment)) continue
+
+          const exists = slots.some((slot) => key in pactTheme[slot])
+          if (!exists) {
+            unresolved.push(`${relPath}: ${rawToken} (missing ${slots.join('|')}.${key})`)
+          }
+        }
+      }
+    }
+
+    assert.deepEqual(
+      unresolved,
+      [],
+      `Unresolved Pact token utility classes in @pact-design/react:\n${unresolved.join('\n')}`
+    )
   })
 })

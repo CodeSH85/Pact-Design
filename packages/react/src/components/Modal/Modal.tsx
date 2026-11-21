@@ -23,7 +23,7 @@ import {
 } from '../Dialog/index.ts'
 
 export const modalOverlayClasses = [
-  'fixed inset-0 z-modal bg-modal-overlay-bg flex items-center justify-center p-modal-overlay-padding',
+  'fixed inset-0 z-modal-overlay bg-modal-overlay-bg flex items-center justify-center p-modal-overlay-padding',
   enterExitFadeClasses
 ].join(' ')
 
@@ -84,7 +84,7 @@ export interface ModalDialogProps extends DialogProps {
 export function ModalDialog({ className, children, ...props }: ModalDialogProps) {
   return (
     <Dialog
-      className={cn('p-lg flex flex-col gap-md', className)}
+      className={cn('p-modal-content-padding flex flex-col gap-modal-content-gap', className)}
       {...props}
     >
       {children}

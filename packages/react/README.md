@@ -23,6 +23,27 @@ Ensure Pact Design styles CSS or UnoCSS preset is loaded in your application:
 import '@pact-design/styles/css'
 ```
 
+If you use UnoCSS to scan `@pact-design/react`, include `.ts` files under `@pact-design/react` in `content.pipeline.include` (UnoCSS's default pipeline skips plain `.ts`, which would omit shared classes from `utils/styles.ts` and `utils/focus.ts`):
+
+```typescript
+// uno.config.ts
+import { defineConfig, presetWind3 } from 'unocss'
+import { pactPreset } from '@pact-design/styles/uno'
+
+export default defineConfig({
+  content: {
+    pipeline: {
+      include: [
+        /\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/,
+        /@pact-design\/react\/.*\.ts($|\?)/
+      ]
+    },
+    filesystem: ['node_modules/@pact-design/react/src/**/*.{ts,tsx}']
+  },
+  presets: [presetWind3(), pactPreset()]
+})
+```
+
 ---
 
 ## Architecture & Exports
