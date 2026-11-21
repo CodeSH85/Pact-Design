@@ -5,16 +5,17 @@
   "type": "module",
   "scripts": {
     "prepare": "husky",
-    "build": "pnpm build:tokens && pnpm build:styles && pnpm --filter pact-site build",
+    "build": "pnpm build:packages && pnpm --filter pact-site build",
+    "build:packages": "pnpm build:tokens && pnpm build:styles",
     "build:tokens": "pnpm --filter @pact-design/tokens build",
     "build:styles": "pnpm --filter @pact-design/styles build",
     "build:sd": "pnpm --filter @pact-design/tokens build:sd",
-    "pretest": "pnpm build:tokens && pnpm build:styles",
+    "pretest": "pnpm build:packages",
     "test": "pnpm -r test",
     "lint": "eslint .",
     "typecheck": "pnpm -r typecheck",
-    "site:dev": "pnpm --filter pact-site dev",
-    "site:build": "pnpm build:tokens && pnpm build:styles && pnpm --filter pact-site build",
+    "site:dev": "pnpm build:packages && pnpm --filter pact-site dev",
+    "site:build": "pnpm build:packages && pnpm --filter pact-site build",
     "site:preview": "pnpm --filter pact-site preview"
   },
   "devDependencies": {
