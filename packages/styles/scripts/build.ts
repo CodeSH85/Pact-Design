@@ -91,6 +91,26 @@ export function buildStyles(): void {
   const indexOutput = [
     FILE_HEADER.trimEnd(),
     '',
+    '@layer pact.tokens, pact.theme;',
+    '',
+    '@layer pact.tokens {',
+    indentBlock(tokensBody),
+    '}',
+    '',
+    '@layer pact.theme {',
+    indentBlock(rawThemeCss),
+    '}',
+    '',
+    compiledResetCss,
+    '',
+    compiledComponentsCss,
+    ''
+  ].join('\n')
+  fs.writeFileSync(path.join(cssBuildDir, 'index.css'), indexOutput, 'utf-8')
+
+  const layeredOutput = [
+    FILE_HEADER.trimEnd(),
+    '',
     '@layer pact.tokens, pact.theme, pact.reset, pact.components;',
     '',
     '@layer pact.tokens {',
@@ -110,7 +130,7 @@ export function buildStyles(): void {
     '}',
     ''
   ].join('\n')
-  fs.writeFileSync(path.join(cssBuildDir, 'index.css'), indexOutput, 'utf-8')
+  fs.writeFileSync(path.join(cssBuildDir, 'layered.css'), layeredOutput, 'utf-8')
 
   fs.writeFileSync(
     path.join(unoBuildDir, 'preset.js'),

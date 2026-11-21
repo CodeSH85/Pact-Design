@@ -151,6 +151,7 @@ export default defineConfig({
       '@pact-design/tokens/css': path.resolve(TOKENS_PACKAGE_DIR, 'build/css/_variables.css'),
       '@pact-design/tokens/meta': path.resolve(TOKENS_PACKAGE_DIR, 'build/meta/tokens.json'),
       '@pact-design/tokens': TOKENS_PACKAGE_DIR,
+      '@pact-design/styles/css/layered': path.resolve(STYLES_PACKAGE_DIR, 'build/css/layered.css'),
       '@pact-design/styles/css/tokens': path.resolve(STYLES_PACKAGE_DIR, 'build/css/tokens.css'),
       '@pact-design/styles/css/theme': path.resolve(STYLES_PACKAGE_DIR, 'build/css/theme.css'),
       '@pact-design/styles/css/reset': path.resolve(STYLES_PACKAGE_DIR, 'build/css/reset.css'),

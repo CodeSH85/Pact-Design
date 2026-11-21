@@ -22,12 +22,12 @@ pnpm add @pact-design/styles
 
 ## Usage
 
-### 1. Self-Contained Layered CSS (`./css`)
+### 1. Self-Contained CSS (`./css`)
 
 Import `@pact-design/styles/css` once in your application entrypoint:
 
 ```css
-/* Includes @layer pact.tokens, pact.theme, pact.reset, pact.components */
+/* Includes @layer pact.tokens, pact.theme + unlayered :where(.pd-reset) and .pd-* components */
 @import '@pact-design/styles/css';
 ```
 
@@ -37,16 +37,12 @@ Or in JavaScript/TypeScript:
 import '@pact-design/styles/css'
 ```
 
-Compiled cascade layer order:
+- **`@layer pact.tokens`**: All `--pd-*` CSS custom properties for `:root, [data-theme="light"]` and `[data-theme="dark"]` (inlined from `@pact-design/tokens/css`).
+- **`@layer pact.theme`**: Sets `color-scheme: light` on `:root, [data-theme="light"]` and `color-scheme: dark` on `[data-theme="dark"]` so native scrollbars and browser controls automatically adapt to the active theme.
+- **`:where(.pd-reset)`** *(specificity `0,0,0`)*: Scoped reset neutralizing browser user-agent styles without polluting unclassed page elements.
+- **`.pd-*` components** *(specificity `0,1,0` via `:where()`)*: Pre-compiled semantic component stylesheets kept **unlayered** in `./css` so unlayered consumer resets (`@unocss/reset/tailwind.css`, Tailwind v3 Preflight, Normalize.css) do not override component styles. Load your app utilities/custom CSS after `@pact-design/styles/css` so `className` overrides win cleanly at equal specificity.
 
-```css
-@layer pact.tokens, pact.theme, pact.reset, pact.components;
-```
-
-- **`pact.tokens`**: All `--pd-*` CSS custom properties for `:root, [data-theme="light"]` and `[data-theme="dark"]` (inlined from `@pact-design/tokens/css`).
-- **`pact.theme`**: Sets `color-scheme: light` on `:root, [data-theme="light"]` and `color-scheme: dark` on `[data-theme="dark"]` so native scrollbars and browser controls automatically adapt to the active theme.
-- **`pact.reset`**: Scoped `.pd-reset` rules neutralizing browser user-agent styles without polluting unclassed page elements.
-- **`pact.components`**: Pre-compiled semantic `.pd-*` component stylesheets (`.pd-button`, `.pd-toggle-button`, etc.) using `:where()` modifiers so consumer styles override cleanly.
+> **Using Tailwind CSS v4 (layered `@layer utilities`)?** Import `@pact-design/styles/css/layered` instead, which wraps all four sections in `@layer pact.tokens, pact.theme, pact.reset, pact.components;` so Tailwind v4's `@layer utilities` overrides component rules natively.
 
 ### 2. Granular Stylesheet Imports
 
@@ -97,7 +93,8 @@ The `./uno` entrypoint also exports `pactTheme` (typed via `PactTheme`) and `pac
 
 | Export | Subpath | Target | Description |
 | :--- | :--- | :--- | :--- |
-| `@pact-design/styles/css` | `./css` | `./build/css/index.css` | Self-contained CSS with `@layer pact.tokens, pact.theme, pact.reset, pact.components;` |
+| `@pact-design/styles/css` | `./css` | `./build/css/index.css` | Default bundle (`@layer pact.tokens, pact.theme;` + unlayered `:where(.pd-reset)` & `.pd-*` components) |
+| `@pact-design/styles/css/layered` | `./css/layered` | `./build/css/layered.css` | Fully layered bundle (`@layer pact.tokens, pact.theme, pact.reset, pact.components;`) for Tailwind v4 / layer-native apps |
 | `@pact-design/styles/css/tokens` | `./css/tokens` | `./build/css/tokens.css` | `--pd-*` custom properties only |
 | `@pact-design/styles/css/theme` | `./css/theme` | `./build/css/theme.css` | Light/Dark `color-scheme` rules only |
 | `@pact-design/styles/css/reset` | `./css/reset` | `./build/css/reset.css` | Scoped `.pd-reset` rules only |

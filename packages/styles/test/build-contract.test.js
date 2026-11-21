@@ -13,6 +13,7 @@ const require = createRequire(import.meta.url)
 
 const TOKENS_CSS_PATH = require.resolve('@pact-design/tokens/css')
 const INDEX_CSS_PATH = path.join(ROOT_DIR, 'build/css/index.css')
+const LAYERED_CSS_PATH = path.join(ROOT_DIR, 'build/css/layered.css')
 const TOKENS_OUT_CSS_PATH = path.join(ROOT_DIR, 'build/css/tokens.css')
 const THEME_CSS_PATH = path.join(ROOT_DIR, 'build/css/theme.css')
 const RESET_CSS_PATH = path.join(ROOT_DIR, 'build/css/reset.css')
@@ -70,8 +71,8 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
     assert.match(tokensOutCss, /--pd-system-background-base:/)
 
     const resetCss = fs.readFileSync(RESET_CSS_PATH, 'utf-8')
-    assert.match(resetCss, /\.pd-reset\s*\{/)
-    assert.match(resetCss, /\.pd-reset:where\(/)
+    assert.match(resetCss, /:where\(\.pd-reset\)\s*\{/)
+    assert.match(resetCss, /:where\(\.pd-reset\):where\(/)
     assert.doesNotMatch(resetCss, /&/, 'Expected Lightning CSS to flatten nested selectors in reset.css')
 
     const componentsCss = fs.readFileSync(COMPONENTS_CSS_PATH, 'utf-8')
@@ -90,13 +91,19 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
     }
   })
 
-  it('emits self-contained layered build/css/index.css with tokens, theme, reset, and components layers', () => {
+  it('emits self-contained build/css/index.css (unlayered components) and opt-in build/css/layered.css', () => {
     const indexCss = fs.readFileSync(INDEX_CSS_PATH, 'utf-8')
-    assert.match(indexCss, /@layer pact\.tokens,\s*pact\.theme,\s*pact\.reset,\s*pact\.components;/)
+    assert.match(indexCss, /@layer pact\.tokens,\s*pact\.theme;/)
     assert.match(indexCss, /@layer pact\.tokens\s*\{[\s\S]*?--pd-system-background-base:/)
     assert.match(indexCss, /@layer pact\.theme\s*\{[\s\S]*?color-scheme:\s*light;[\s\S]*?color-scheme:\s*dark;/)
-    assert.match(indexCss, /@layer pact\.reset\s*\{[\s\S]*?\.pd-reset\s*\{/)
-    assert.match(indexCss, /@layer pact\.components\s*\{[\s\S]*?\.pd-button\s*\{[\s\S]*?\.pd-toggle-button\s*\{/)
+    assert.doesNotMatch(indexCss, /@layer pact\.components/, 'Default index.css keeps components unlayered so unlayered resets (Tailwind v3 / UnoCSS reset / Normalize) do not wipe component styles')
+    assert.match(indexCss, /:where\(\.pd-reset\)\s*\{/)
+    assert.match(indexCss, /\.pd-button\s*\{[\s\S]*?\.pd-toggle-button\s*\{/)
+
+    const layeredCss = fs.readFileSync(LAYERED_CSS_PATH, 'utf-8')
+    assert.match(layeredCss, /@layer pact\.tokens,\s*pact\.theme,\s*pact\.reset,\s*pact\.components;/)
+    assert.match(layeredCss, /@layer pact\.reset\s*\{[\s\S]*?:where\(\.pd-reset\)\s*\{/)
+    assert.match(layeredCss, /@layer pact\.components\s*\{[\s\S]*?\.pd-button\s*\{[\s\S]*?\.pd-toggle-button\s*\{/)
   })
 
   it('ensures every var(--pd-*) referenced in compiled reset and component CSS exists in @pact-design/tokens/css', () => {
