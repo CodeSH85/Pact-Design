@@ -2,8 +2,17 @@ interface ImportMeta {
   url: string
 }
 
+declare const Buffer: {
+  from(data: Uint8Array): { toString(encoding: 'utf-8'): string }
+}
+
 declare module 'node:fs' {
+  export interface Dirent {
+    name: string
+    isFile(): boolean
+  }
   export function mkdirSync(path: string, options?: { recursive?: boolean }): string | undefined
+  export function readdirSync(path: string, options: { withFileTypes: true }): Dirent[]
   export function readFileSync(path: string, encoding: 'utf-8'): string
   export function writeFileSync(path: string, data: string, encoding?: 'utf-8'): void
 }

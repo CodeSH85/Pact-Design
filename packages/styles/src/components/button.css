@@ -1,0 +1,160 @@
+.pd-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+
+  background-color: var(--_bg);
+  color: var(--_fg);
+  border: var(--pd-system-border-width-sm) solid var(--_border, transparent);
+
+  transition-property: color, background-color, border-color;
+  transition-duration: var(--pd-system-motion-duration-fast);
+  transition-timing-function: var(--pd-system-motion-easing-default);
+
+  /* Interactive states */
+  &:where(:hover, [data-hovered]) {
+    background-color: var(--_bg-hover);
+  }
+
+  &:where(:active, [data-pressed]) {
+    background-color: var(--_bg-active);
+  }
+
+  &:where(:focus-visible, [data-focus-visible]) {
+    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
+    outline-offset: var(--pd-system-focus-offset-default);
+  }
+
+  &:where(:disabled, [data-disabled]) {
+    background-color: var(--pd-component-button-color-disabled-bg);
+    color: var(--pd-component-button-color-disabled-text);
+    border-color: var(--pd-component-button-color-disabled-border);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Variants */
+  &:where([data-variant="primary"], :not([data-variant])) {
+    --_bg: var(--pd-component-button-color-primary-bg);
+    --_bg-hover: var(--pd-component-button-color-primary-bg-hover);
+    --_bg-active: var(--pd-component-button-color-primary-bg-active);
+    --_fg: var(--pd-component-button-color-primary-text);
+    --_border: var(--pd-component-button-color-primary-border);
+  }
+
+  &:where([data-variant="secondary"]) {
+    --_bg: var(--pd-component-button-color-secondary-bg);
+    --_bg-hover: var(--pd-component-button-color-secondary-bg-hover);
+    --_bg-active: var(--pd-component-button-color-secondary-bg-active);
+    --_fg: var(--pd-component-button-color-secondary-text);
+    --_border: var(--pd-component-button-color-secondary-border);
+  }
+
+  &:where([data-variant="ghost"]) {
+    --_bg: var(--pd-component-button-color-ghost-bg);
+    --_bg-hover: var(--pd-component-button-color-ghost-bg-hover);
+    --_bg-active: var(--pd-component-button-color-ghost-bg-active);
+    --_fg: var(--pd-component-button-color-ghost-text);
+    --_border: var(--pd-component-button-color-ghost-border);
+  }
+
+  &:where([data-variant="danger"]) {
+    --_bg: var(--pd-component-button-color-danger-bg);
+    --_bg-hover: var(--pd-component-button-color-danger-bg-hover);
+    --_bg-active: var(--pd-component-button-color-danger-bg-active);
+    --_fg: var(--pd-component-button-color-danger-text);
+    --_border: var(--pd-component-button-color-danger-border);
+  }
+
+  &:where([data-variant="subtle"]) {
+    --_bg: var(--pd-component-button-color-subtle-bg);
+    --_bg-hover: var(--pd-component-button-color-subtle-bg-hover);
+    --_bg-active: var(--pd-component-button-color-subtle-bg-active);
+    --_fg: var(--pd-component-button-color-subtle-text);
+    --_border: var(--pd-component-button-color-subtle-border);
+  }
+
+  /* Sizes */
+  &:where([data-size="xs"]) {
+    height: var(--pd-component-button-height-xs);
+    padding-inline: var(--pd-component-button-padding-x-xs);
+    gap: var(--pd-component-button-gap-xs);
+    border-radius: var(--pd-component-button-radius-xs);
+    font: var(--pd-system-font-label-xs);
+    letter-spacing: var(--pd-system-font-label-xs-letter-spacing);
+  }
+
+  &:where([data-size="sm"]) {
+    height: var(--pd-component-button-height-sm);
+    padding-inline: var(--pd-component-button-padding-x-sm);
+    gap: var(--pd-component-button-gap-sm);
+    border-radius: var(--pd-component-button-radius-sm);
+    font: var(--pd-system-font-label-sm);
+    letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
+  }
+
+  &:where([data-size="md"], :not([data-size])) {
+    height: var(--pd-component-button-height-md);
+    padding-inline: var(--pd-component-button-padding-x-md);
+    gap: var(--pd-component-button-gap-md);
+    border-radius: var(--pd-component-button-radius-md);
+    font: var(--pd-system-font-label-md);
+    letter-spacing: var(--pd-system-font-label-md-letter-spacing);
+  }
+
+  &:where([data-size="lg"]) {
+    height: var(--pd-component-button-height-lg);
+    padding-inline: var(--pd-component-button-padding-x-lg);
+    gap: var(--pd-component-button-gap-lg);
+    border-radius: var(--pd-component-button-radius-lg);
+    font: var(--pd-system-font-label-lg);
+    letter-spacing: var(--pd-system-font-label-lg-letter-spacing);
+  }
+
+  &:where([data-size="xl"]) {
+    height: var(--pd-component-button-height-xl);
+    padding-inline: var(--pd-component-button-padding-x-xl);
+    gap: var(--pd-component-button-gap-xl);
+    border-radius: var(--pd-component-button-radius-xl);
+    font: var(--pd-system-font-label-xl);
+    letter-spacing: var(--pd-system-font-label-xl-letter-spacing);
+  }
+
+  /* Optional explicit radius overrides */
+  &:where([data-radius="none"]) {
+    border-radius: var(--pd-system-radius-none);
+  }
+
+  &:where([data-radius="2xs"]) {
+    border-radius: var(--pd-system-radius-2xs);
+  }
+
+  &:where([data-radius="xs"]) {
+    border-radius: var(--pd-system-radius-xs);
+  }
+
+  &:where([data-radius="sm"]) {
+    border-radius: var(--pd-system-radius-sm);
+  }
+
+  &:where([data-radius="md"]) {
+    border-radius: var(--pd-system-radius-md);
+  }
+
+  &:where([data-radius="lg"]) {
+    border-radius: var(--pd-system-radius-lg);
+  }
+
+  &:where([data-radius="xl"]) {
+    border-radius: var(--pd-system-radius-xl);
+  }
+
+  &:where([data-radius="full"]) {
+    border-radius: var(--pd-system-radius-full);
+  }
+}
