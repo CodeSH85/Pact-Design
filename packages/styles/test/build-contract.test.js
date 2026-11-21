@@ -13,7 +13,11 @@ const require = createRequire(import.meta.url)
 
 const TOKENS_CSS_PATH = require.resolve('@pact-design/tokens/css')
 const INDEX_CSS_PATH = path.join(ROOT_DIR, 'build/css/index.css')
+const TOKENS_OUT_CSS_PATH = path.join(ROOT_DIR, 'build/css/tokens.css')
 const THEME_CSS_PATH = path.join(ROOT_DIR, 'build/css/theme.css')
+const RESET_CSS_PATH = path.join(ROOT_DIR, 'build/css/reset.css')
+const COMPONENTS_CSS_PATH = path.join(ROOT_DIR, 'build/css/components.css')
+const COMPONENTS_DIR_PATH = path.join(ROOT_DIR, 'build/css/components')
 const UNO_PRESET_PATH = path.join(ROOT_DIR, 'build/uno/preset.js')
 const UNO_TYPES_PATH = path.join(ROOT_DIR, 'build/uno/preset.d.ts')
 
@@ -51,7 +55,7 @@ function extractCssVarRefs(value) {
   return refs
 }
 
-describe('@pact-design/styles Build Contract (CSS Layers + UnoCSS Preset)', () => {
+describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCSS Preset)', () => {
   const tokensCss = fs.readFileSync(TOKENS_CSS_PATH, 'utf-8')
   const { lightRaw } = parseCssVariables(tokensCss)
 
@@ -61,11 +65,61 @@ describe('@pact-design/styles Build Contract (CSS Layers + UnoCSS Preset)', () =
     assert.match(themeCss, /\[data-theme="dark"\]\s*\{[\s\S]*?color-scheme:\s*dark;[\s\S]*?\}/)
   })
 
-  it('emits self-contained layered build/css/index.css with tokens and theme layers', () => {
+  it('emits granular tokens.css, reset.css, components.css, and per-component stylesheets', () => {
+    const tokensOutCss = fs.readFileSync(TOKENS_OUT_CSS_PATH, 'utf-8')
+    assert.match(tokensOutCss, /--pd-system-background-base:/)
+
+    const resetCss = fs.readFileSync(RESET_CSS_PATH, 'utf-8')
+    assert.match(resetCss, /\.pd-reset\s*\{/)
+    assert.match(resetCss, /\.pd-reset:where\(/)
+    assert.doesNotMatch(resetCss, /&/, 'Expected Lightning CSS to flatten nested selectors in reset.css')
+
+    const componentsCss = fs.readFileSync(COMPONENTS_CSS_PATH, 'utf-8')
+    assert.match(componentsCss, /\.pd-button\s*\{/)
+    assert.match(componentsCss, /\.pd-button:where\(\[data-variant="?primary"?\]/)
+    assert.match(componentsCss, /\.pd-button:where\(\[data-radius="?full"?\]\)/)
+    assert.match(componentsCss, /\.pd-toggle-button\s*\{/)
+    assert.match(componentsCss, /\.pd-toggle-button-group\s*\{/)
+    assert.doesNotMatch(componentsCss, /&/, 'Expected Lightning CSS to flatten nested selectors in components.css')
+
+    for (const fileName of ['button.css', 'toggle-button.css']) {
+      const singlePath = path.join(COMPONENTS_DIR_PATH, fileName)
+      assert.ok(fs.existsSync(singlePath), `Expected granular component stylesheet ${fileName}`)
+      const singleCss = fs.readFileSync(singlePath, 'utf-8')
+      assert.doesNotMatch(singleCss, /&/, `Expected flattened selectors in components/${fileName}`)
+    }
+  })
+
+  it('emits self-contained layered build/css/index.css with tokens, theme, reset, and components layers', () => {
     const indexCss = fs.readFileSync(INDEX_CSS_PATH, 'utf-8')
-    assert.match(indexCss, /@layer pact\.tokens,\s*pact\.theme;/)
+    assert.match(indexCss, /@layer pact\.tokens,\s*pact\.theme,\s*pact\.reset,\s*pact\.components;/)
     assert.match(indexCss, /@layer pact\.tokens\s*\{[\s\S]*?--pd-system-background-base:/)
     assert.match(indexCss, /@layer pact\.theme\s*\{[\s\S]*?color-scheme:\s*light;[\s\S]*?color-scheme:\s*dark;/)
+    assert.match(indexCss, /@layer pact\.reset\s*\{[\s\S]*?\.pd-reset\s*\{/)
+    assert.match(indexCss, /@layer pact\.components\s*\{[\s\S]*?\.pd-button\s*\{[\s\S]*?\.pd-toggle-button\s*\{/)
+  })
+
+  it('ensures every var(--pd-*) referenced in compiled reset and component CSS exists in @pact-design/tokens/css', () => {
+    const filesToCheck = [
+      ['reset.css', RESET_CSS_PATH],
+      ['components.css', COMPONENTS_CSS_PATH]
+    ]
+    const missing = []
+
+    for (const [label, filePath] of filesToCheck) {
+      const css = fs.readFileSync(filePath, 'utf-8')
+      for (const ref of extractCssVarRefs(css)) {
+        if (!lightRaw.has(ref)) {
+          missing.push(`${label} -> ${ref}`)
+        }
+      }
+    }
+
+    assert.deepEqual(
+      missing,
+      [],
+      `Dangling CSS variable references in compiled component/reset CSS:\n${missing.join('\n')}`
+    )
   })
 
   it('exports pactTheme, pactThemeCss, pactPreset (opt-in preflights), and default preset', async() => {

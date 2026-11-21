@@ -5,12 +5,19 @@
   "type": "module",
   "exports": {
     "./css": "./build/css/index.css",
+    "./css/tokens": "./build/css/tokens.css",
     "./css/theme": "./build/css/theme.css",
+    "./css/reset": "./build/css/reset.css",
+    "./css/components": "./build/css/components.css",
+    "./css/components/*": "./build/css/components/*.css",
     "./uno": {
       "types": "./build/uno/preset.d.ts",
       "default": "./build/uno/preset.js"
     }
   },
+  "sideEffects": [
+    "*.css"
+  ],
   "files": [
     "build",
     "src"
@@ -22,5 +29,8 @@
   },
   "dependencies": {
     "@pact-design/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "lightningcss": "^1.33.0"
   }
 }

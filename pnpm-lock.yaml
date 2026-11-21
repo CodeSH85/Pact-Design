@@ -90,6 +90,10 @@ importers:
       '@pact-design/tokens':
         specifier: workspace:*
         version: link:../tokens
+    devDependencies:
+      lightningcss:
+        specifier: ^1.33.0
+        version: 1.33.0
 
   packages/tokens:
     dependencies:
