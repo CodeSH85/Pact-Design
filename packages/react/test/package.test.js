@@ -50,15 +50,56 @@ describe('@pact-design/react package integrity', () => {
   const packageJsonPath = path.join(PACKAGE_ROOT, 'package.json')
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'))
 
-  it('declares correct package name, ESM type, and exports', () => {
+  it('declares correct package name, ESM type, and compiled dist exports', () => {
     assert.equal(packageJson.name, '@pact-design/react')
     assert.equal(packageJson.type, 'module')
+    assert.equal(packageJson.main, './dist/index.js')
+    assert.equal(packageJson.types, './dist/index.d.ts')
     assert.ok(packageJson.exports, 'package.json must declare exports')
-    assert.equal(packageJson.exports['.'], './src/index.ts')
-    assert.equal(packageJson.exports['./styles.css'], './src/styles.css')
-    assert.equal(packageJson.exports['./components'], './src/components/index.ts')
-    assert.equal(packageJson.exports['./utils'], './src/utils/index.ts')
-    assert.ok(fs.existsSync(path.join(PACKAGE_ROOT, 'src/styles.css')), 'src/styles.css must exist')
+    assert.deepEqual(packageJson.exports['.'], {
+      types: './dist/index.d.ts',
+      default: './dist/index.js'
+    })
+    assert.equal(packageJson.exports['./styles.css'], './dist/styles.css')
+    assert.deepEqual(packageJson.exports['./components'], {
+      types: './dist/components/index.d.ts',
+      default: './dist/components/index.js'
+    })
+    assert.deepEqual(packageJson.exports['./utils'], {
+      types: './dist/utils/index.d.ts',
+      default: './dist/utils/index.js'
+    })
+  })
+
+  it('emits compiled dist/ ESM, TypeScript declarations, use-client directives, and self-contained styles.css', () => {
+    const distRoot = path.join(PACKAGE_ROOT, 'dist')
+    assert.ok(fs.existsSync(path.join(distRoot, 'index.js')), 'dist/index.js must exist')
+    assert.ok(fs.existsSync(path.join(distRoot, 'index.d.ts')), 'dist/index.d.ts must exist')
+    assert.ok(fs.existsSync(path.join(distRoot, 'utils/index.js')), 'dist/utils/index.js must exist')
+    assert.ok(fs.existsSync(path.join(distRoot, 'utils/index.d.ts')), 'dist/utils/index.d.ts must exist')
+
+    const distStylesPath = path.join(distRoot, 'styles.css')
+    assert.ok(fs.existsSync(distStylesPath), 'dist/styles.css must exist')
+    const distStyles = fs.readFileSync(distStylesPath, 'utf-8')
+    assert.match(distStyles, /--pd-system-background-base:/)
+    assert.match(distStyles, /:where\(\.pd-reset\)/)
+    assert.match(distStyles, /\.pd-button\s*\{/)
+
+    for (const name of COMPONENTS) {
+      const compJsPath = path.join(distRoot, 'components', name, `${name}.js`)
+      const compDtsPath = path.join(distRoot, 'components', name, `${name}.d.ts`)
+      const barrelJsPath = path.join(distRoot, 'components', name, 'index.js')
+      const barrelDtsPath = path.join(distRoot, 'components', name, 'index.d.ts')
+
+      assert.ok(fs.existsSync(compJsPath), `dist/components/${name}/${name}.js must exist`)
+      assert.ok(fs.existsSync(compDtsPath), `dist/components/${name}/${name}.d.ts must exist`)
+      assert.ok(fs.existsSync(barrelJsPath), `dist/components/${name}/index.js must exist`)
+      assert.ok(fs.existsSync(barrelDtsPath), `dist/components/${name}/index.d.ts must exist`)
+
+      const compJs = fs.readFileSync(compJsPath, 'utf-8')
+      assert.ok(compJs.startsWith('\'use client\''), `${name}.js must start with 'use client'`)
+      assert.doesNotMatch(compJs, /from\s+['"]\..*\.tsx?['"]/, `${name}.js must rewrite relative .ts/.tsx imports to .js`)
+    }
   })
 
   it('declares required dependencies without utility-CSS runtime packages', () => {

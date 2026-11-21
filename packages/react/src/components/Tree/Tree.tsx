@@ -2,16 +2,13 @@ import { type CSSProperties, type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
   Button as AriaButton,
-  Collection as AriaCollection,
   composeRenderProps,
   Tree as AriaTree,
-  TreeHeader as AriaTreeHeader,
   TreeItem as AriaTreeItem,
   TreeItemContent as AriaTreeItemContent,
   type TreeItemContentProps as AriaTreeItemContentProps,
   type TreeItemProps as AriaTreeItemProps,
-  type TreeProps as AriaTreeProps,
-  TreeSection as AriaTreeSection
+  type TreeProps as AriaTreeProps
 } from 'react-aria-components'
 import { RiArrowRightSLine } from '@remixicon/react'
 import { Checkbox } from '../Checkbox/index.ts'
@@ -91,8 +88,10 @@ export function TreeItemContent({ children, ...props }: TreeItemContentProps) {
   )
 }
 
-export const TreeCollection = AriaCollection
-export const TreeSection = AriaTreeSection
-export const TreeHeader = AriaTreeHeader
+export {
+  Collection as TreeCollection,
+  TreeHeader,
+  TreeSection
+} from 'react-aria-components'
 
 export default Tree

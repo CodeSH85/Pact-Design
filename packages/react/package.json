@@ -3,24 +3,37 @@
   "version": "0.1.0",
   "description": "Dense, compact, and accessible React UI components built on React Aria and Pact Design tokens",
   "type": "module",
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./styles.css": "./src/styles.css",
-    "./components": "./src/components/index.ts",
-    "./utils": "./src/utils/index.ts",
-    "./*": "./src/components/*/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "default": "./dist/components/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "default": "./dist/utils/index.js"
+    },
+    "./*": {
+      "types": "./dist/components/*/index.d.ts",
+      "default": "./dist/components/*/index.js"
+    }
   },
   "sideEffects": [
     "*.css"
   ],
   "files": [
+    "dist",
     "src"
   ],
   "scripts": {
-    "build": "node -e \"process.exit(0)\"",
+    "build": "node ./scripts/build.ts",
     "test": "node --test 'test/**/*.test.js'",
     "typecheck": "tsc --noEmit"
   },
