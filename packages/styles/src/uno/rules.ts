@@ -54,8 +54,8 @@ const GLOBAL_OMITTED_CATEGORIES = new Set([
   'spacing'
 ])
 
-const GLOBAL_FONT_RULES: Record<string, UnoRuleConfig> = {
-  family: { slots: ['fontFamily'], keyFrom: 'category-sub' },
+const GLOBAL_FONT_RULES: Record<string, UnoRuleConfig | false> = {
+  family: false,
   size: { slots: ['fontSize'], keyFrom: 'category-sub', prefix: 'size-' },
   weight: { slots: ['fontWeight'], keyFrom: 'category-sub' },
   'line-height': { slots: ['lineHeight'], keyFrom: 'category-sub' },
@@ -80,6 +80,7 @@ const SYSTEM_SUB_RULES: Record<string, UnoRuleConfig> = {
   },
   'motion.duration': { slots: ['duration'], keyFrom: 'category-sub' },
   'motion.easing': { slots: ['easing'], keyFrom: 'category-sub' },
+  'font.family': { slots: ['fontFamily'], keyFrom: 'category-sub' },
   'font.weight': { slots: ['fontWeight'], keyFrom: 'category-sub' }
 }
 

@@ -1,6 +1,7 @@
 import { refMap, typography } from '../dsl/index.ts'
 import type { GlobalRefPath } from '../global/index.ts'
 
+type FontFamilyName = 'sans' | 'mono'
 type FontSizeStep = '01' | '02' | '03' | '04' | '05' | '06' | '07' | '08' | '09' | '10' | '11' | '12' | '13'
 type FontWeightName = 'normal' | 'medium' | 'bold'
 type LineHeightStep = '01' | '02' | '03' | '04' | '05' | '06' | '07' | '08' | '09'
@@ -11,15 +12,14 @@ function typeStyle(
   weight: FontWeightName,
   lineHeight: LineHeightStep,
   letterSpacing: LetterSpacingStep,
-  family: 'sans' | 'mono' = 'sans'
+  family: FontFamilyName = 'sans'
 ) {
-  const familyPath: GlobalRefPath<'fontFamily'> = `global.font.family.${family}`
   const sizePath: GlobalRefPath<'dimension'> = `global.font.size.${size}`
   const lhPath: GlobalRefPath<'number'> = `global.font.line-height.${lineHeight}`
   const lsPath: GlobalRefPath<'dimension'> = `global.font.letter-spacing.${letterSpacing}`
 
   return typography({
-    fontFamily: `{${familyPath}}`,
+    fontFamily: `{system.font.family.${family}}`,
     fontSize: `{${sizePath}}`,
     fontWeight: `{system.font.weight.${weight}}`,
     lineHeight: `{${lhPath}}`,
@@ -29,6 +29,10 @@ function typeStyle(
 
 export const systemTypography = {
   font: {
+    family: refMap('fontFamily', {
+      sans: 'global.font.family.sans',
+      mono: 'global.font.family.mono'
+    } satisfies Record<FontFamilyName, GlobalRefPath<'fontFamily'>>),
     weight: refMap('fontWeight', {
       normal: 'global.font.weight.02',
       medium: 'global.font.weight.03',

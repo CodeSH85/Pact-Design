@@ -373,7 +373,7 @@ export function ComponentPlayground() {
             trigger={<Button variant="secondary">Open Popover</Button>}
           >
             <div className="flex flex-col gap-xs p-xs">
-              <span className="text-label-sm font-semibold text-on-surface">Floating Inspector</span>
+              <span className="text-label-sm font-bold text-on-surface">Floating Inspector</span>
               <p className="text-caption-md text-on-surface-muted m-0">
                 Pact Design popovers use bg-elevated and shadow-elevation-lg.
               </p>

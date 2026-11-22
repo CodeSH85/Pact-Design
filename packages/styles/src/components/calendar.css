@@ -141,7 +141,7 @@
   padding-inline: var(--pd-system-spacing-3xs);
   border-radius: var(--pd-system-radius-2xs);
   font-variant-numeric: tabular-nums;
-  font-family: var(--pd-global-font-family-mono);
+  font-family: var(--pd-system-font-family-mono);
   color: inherit;
   outline: none;
 

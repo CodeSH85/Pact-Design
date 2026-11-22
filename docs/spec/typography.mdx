@@ -5,13 +5,13 @@ description: "以 14px/16px 為基準的 18 組複合排版字階、3 組語意�
 order: 4
 ---
 
-## 字體家族
+## 字體家族 (`system.font.family.*`)
 
-`packages/tokens/src/global/typography.ts` 定義兩組核心字體堆疊，分別服務於一般介面閱讀與技術識別碼對齊：
+`packages/tokens/src/global/typography.ts` 定義底層字體堆疊，並由 `system.font.family.*` 暴露為系統語意層（覆寫 `--pd-system-font-family-*` 即可全域換字體）：
 
-- **Sans-Serif (`global.font.family.sans` / `font-sans`)**
+- **Sans-Serif (`system.font.family.sans` / `font-sans`)**
   `Inter, ui-sans-serif, system-ui, 'PingFang TC', 'PingFang SC', 'Microsoft JhengHei', 'Microsoft YaHei', 'Noto Sans CJK TC', 'Noto Sans CJK SC', sans-serif` — 用於標題、內文、表單控制項與導覽列。
-- **Monospace (`global.font.family.mono` / `font-mono`)**
+- **Monospace (`system.font.family.mono` / `font-mono`)**
   `ui-monospace, SFMono-Regular, Menlo, Consolas, monospace` — 用於節點 ID（`ID-2026-0048`）、版本字串（`v2.1.0`）、Git 雜湊值與程式碼片段。
 
 ---
