@@ -141,17 +141,19 @@ Each semantic role (`primary`, `secondary`, `success`, `danger`, `warning`, `inf
 - **Line Heights (`global.font.line-height.01`–`09`)**: Unitless ratios from `1.1` to `1.7`.
 - **Letter Spacing (`global.font.letter-spacing.01`–`10`)**: `-0.04rem` to `0.05rem` (`05` = `0rem`).
 
-#### System Semantic Weights (`system.font.weight.*`)
+#### System Semantic Font Families & Weights (`system.font.family.*`, `system.font.weight.*`)
 
-Orthogonal semantic font weights decouple emphasis from scale:
+Semantic families and orthogonal font weights decouple brand typography and emphasis from scale:
 
+- `system.font.family.sans` → `global.font.family.sans`
+- `system.font.family.mono` → `global.font.family.mono`
 - `system.font.weight.normal` → `global.font.weight.02` (`400`)
 - `system.font.weight.medium` → `global.font.weight.03` (`500`)
 - `system.font.weight.bold` → `global.font.weight.04` (`600`)
 
 #### System Composite Typography (`packages/tokens/src/system/typography.ts`)
 
-All 18 system typography tokens use `$type: "typography"` (`fontFamily`, `fontSize`, `fontWeight`, `lineHeight`, `letterSpacing`), with `fontWeight` referencing `system.font.weight.*`:
+All 18 system typography tokens use `$type: "typography"` (`fontFamily`, `fontSize`, `fontWeight`, `lineHeight`, `letterSpacing`), referencing `system.font.family.*` and `system.font.weight.*`:
 
 | Category | Scale | Sizes (`px` / `rem`) | Default Weight | Allowed Weights | Line Height | Letter Spacing | Purpose |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |

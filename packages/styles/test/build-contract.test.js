@@ -204,7 +204,9 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
       'var(--pd-component-toast-container-z-index)'
     )
 
-    // System semantic font weights map to UnoCSS fontWeight utilities
+    // System semantic font families and weights map to UnoCSS typography utilities
+    assert.equal(mod.pactTheme.fontFamily.sans, 'var(--pd-system-font-family-sans)')
+    assert.equal(mod.pactTheme.fontFamily.mono, 'var(--pd-system-font-family-mono)')
     assert.equal(mod.pactTheme.fontWeight.normal, 'var(--pd-system-font-weight-normal)')
     assert.equal(mod.pactTheme.fontWeight.medium, 'var(--pd-system-font-weight-medium)')
     assert.equal(mod.pactTheme.fontWeight.bold, 'var(--pd-system-font-weight-bold)')

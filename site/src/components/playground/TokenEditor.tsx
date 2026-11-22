@@ -556,7 +556,7 @@ function RowHeader({
         type="button"
         onClick={handleCopy}
         title={`${token.id}\n點擊複製 ${cssVar}`}
-        className="text-mono-xs font-semibold text-on-surface hover:text-primary cursor-pointer bg-transparent border-none p-0 text-left"
+        className="text-mono-xs font-bold text-on-surface hover:text-primary cursor-pointer bg-transparent border-none p-0 text-left"
       >
         {token.path.at(-1)}
       </button>
@@ -860,7 +860,7 @@ function ShadeEditor({
 
       {specs.map((spec, idx) => (
         <div key={spec.key} className="flex items-center gap-2xs">
-          <label className="text-mono-xs font-semibold text-on-surface-secondary w-4 shrink-0">
+          <label className="text-mono-xs font-bold text-on-surface-secondary w-4 shrink-0">
             {spec.key}
           </label>
           <input
