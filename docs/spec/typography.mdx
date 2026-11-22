@@ -1,36 +1,47 @@
 ---
 title: "Typography & Numeric Precision"
 eyebrow: "Foundations · Typography"
-description: "以 14px/16px 為基準的 27 組複合排版字階、原生等寬字體家族，以及高密度表格專用的 .tabular-nums 數字對齊規範。"
+description: "以 14px/16px 為基準的 18 組複合排版字階、3 組語意字重（400/500/600）、原生等寬字體家族，以及高密度表格專用的 .tabular-nums 數字對齊規範。"
 order: 4
 ---
 
 ## 字體家族
 
-`tokens/typography/global.json` 定義兩組核心字體堆疊，分別服務於一般介面閱讀與技術識別碼對齊：
+`packages/tokens/src/global/typography.ts` 定義兩組核心字體堆疊，分別服務於一般介面閱讀與技術識別碼對齊：
 
 - **Sans-Serif (`global.font.family.sans` / `font-sans`)**
-  `Inter, "Open Sans", Roboto` — 用於標題、內文、表單控制項與導覽列。
+  `Inter, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', ui-sans-serif, system-ui, sans-serif` — 用於標題、內文、表單控制項與導覽列。
 - **Monospace (`global.font.family.mono` / `font-mono`)**
-  `JetBrains Mono, SFMono-Regular, Menlo, Consolas, monospace` — 用於節點 ID（`ID-2026-0048`）、版本字串（`v2.1.0`）、Git 雜湊值與程式碼片段。
+  `SFMono-Regular, Menlo, Consolas, ui-monospace, system-ui` — 用於節點 ID（`ID-2026-0048`）、版本字串（`v2.1.0`）、Git 雜湊值與程式碼片段。
+
+---
+
+## 語意字重 (`system.font.weight.*`)
+
+字重與字級採正交設計：系統層提供 3 組語意字重 Token，複合字階各自綁定單一預設字重，需要強調或弱化時再於該角色允許範圍內覆寫 `font-weight`：
+
+| Token | CSS 變數 | 數值 | UnoCSS | 預設角色 |
+| :--- | :--- | :--- | :--- | :--- |
+| `system.font.weight.normal` | `--pd-system-font-weight-normal` | `400` | `font-normal` | `body`, `label`, `caption`, `mono` |
+| `system.font.weight.medium` | `--pd-system-font-weight-medium` | `500` | `font-medium` | 強調覆寫（`display`, `heading`, `label`, `caption`） |
+| `system.font.weight.bold` | `--pd-system-font-weight-bold` | `600` | `font-bold` | `display`, `heading` |
 
 ---
 
 ## 系統複合排版字階
 
-Pact Design 的 27 組系統排版 Token 皆採用 W3C DTCG `$type: "typography"` 複合結構（封裝 `fontFamily`、`fontSize`、`fontWeight`、`lineHeight`、`letterSpacing`）。
+Pact Design 的 18 組系統排版 Token 皆採用 W3C DTCG `$type: "typography"` 複合結構（封裝 `fontFamily`、`fontSize`、`fontWeight`、`lineHeight`、`letterSpacing`）。
 
-在 UnoCSS 中，複合字階直接映射為 **`text-<role>-<size>`** 單一工具類別（例如 `text-heading-md`、`text-body-sm`、`text-label-xs`），一次套用完整的字級、行高、字距、字重與字體家族：
+在 UnoCSS 中，複合字階直接映射為 **`text-<role>-<size>`** 單一工具類別（例如 `text-heading-md`、`text-body-sm`、`text-label-xs`），並可搭配 `font-normal` / `font-medium` / `font-bold` 在該角色的建議字重範圍內組合使用：
 
-| 字階分類 (Role) | 尺寸範圍 (Scale) | 字級範圍 (`px` / `rem`) | 字重 (Weight) | 行高 (Line Height) | 字距 (Letter Spacing) | 主要用途 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`display`** | `sm`, `md`, `lg` | 36px, 48px, 60px | 700 | `1.1`–`1.15` | `-0.04` 至 `-0.02rem` | 儀表板大型核心指標與視覺焦點標題。 |
-| **`heading`** | `xs`, `sm`, `md`, `lg`, `xl` | 20px, 24px, 28px, 32px, 36px | 600–700 | `1.15`–`1.3` | `-0.02` 至 `-0.005rem` | 頁面標題、區塊標題與對話框標題。 |
-| **`subheader`** | `sm`, `md`, `lg` | 16px, 18px, 20px | 500 | `1.4` | `-0.01` 至 `0rem` | 面板副標題與模組區塊導言。 |
-| **`body`** | `xs`, `sm`, **`md`**, `lg`, `xl` | 12px, 14px, **16px**, 18px, 20px | 400 | `1.5`–`1.6` | `0` 至 `0.01rem` | 內文閱讀與表格內容（緊湊介面預設為 `body-sm` 14px）。 |
-| **`label`** | `xs`, `sm`, **`md`**, `lg`, `xl` | 12px, 14px, **16px**, 18px, 20px | 500 | `1.3` | `0` 至 `0.02rem` | 按鈕文字、表單欄位標籤、頁籤與選單項目。 |
-| **`caption`** | `sm`, `md`, `lg` | 10px, 12px, 14px | 400 | `1.4` | `0.01` 至 `0.02rem` | 輔助說明、時間戳記與圖表註解。 |
-| **`mono`** | `xs`, `sm`, **`md`** | 12px, 14px, **16px** | 400 | `1.4`–`1.5` | `0rem` | 技術識別碼、快捷鍵提示與行內程式碼。 |
+| 字階分類 (Role) | 尺寸範圍 (Scale) | 字級範圍 (`px` / `rem`) | 預設字重 (Default) | 建議可用字重 | 行高 (Line Height) | 字距 (Letter Spacing) | 主要用途 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **`display`** | `sm`, `md` | 36px, 48px | `bold` (600) | `normal`, `medium`, `bold` | `1.1`–`1.15` | `-0.03` 至 `-0.02rem` | 儀表板大型核心指標與視覺焦點標題。 |
+| **`heading`** | `xs`, `sm`, `md`, `lg`, `xl` | 16px, 18px, 20px, 24px, 32px | `bold` (600) | `medium`, `bold` | `1.2`–`1.4` | `-0.02` 至 `0rem` | 頁面標題、區塊標題、面板副標與對話框標題。 |
+| **`body`** | `sm`, **`md`**, `lg` | 14px, **16px**, 18px | `normal` (400) | `normal` | `1.5`–`1.6` | `0rem` | 內文閱讀與表格內容（緊湊介面預設為 `body-sm` 14px）。 |
+| **`label`** | `xs`, `sm`, **`md`**, `lg` | 12px, 14px, **16px**, 18px | `normal` (400) | `normal`, `medium` | `1.3` | `0` 至 `0.02rem` | 按鈕文字、表單欄位標籤、頁籤與選單項目。 |
+| **`caption`** | `sm`, `md` | 10px, 12px | `normal` (400) | `normal`, `medium` | `1.4` | `0.01` 至 `0.02rem` | 輔助說明、時間戳記與圖表註解。 |
+| **`mono`** | `xs`, `sm` | 12px, 14px | `normal` (400) | `normal` | `1.4` | `0rem` | 技術識別碼、快捷鍵提示與行內程式碼。 |
 
 ---
 

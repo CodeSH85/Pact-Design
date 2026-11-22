@@ -141,19 +141,26 @@ Each semantic role (`primary`, `secondary`, `success`, `danger`, `warning`, `inf
 - **Line Heights (`global.font.line-height.01`–`09`)**: Unitless ratios from `1.1` to `1.7`.
 - **Letter Spacing (`global.font.letter-spacing.01`–`10`)**: `-0.04rem` to `0.05rem` (`05` = `0rem`).
 
-#### System Composite Typography (`tokens/typography/system.json`)
+#### System Semantic Weights (`system.font.weight.*`)
 
-All 27 system typography tokens use `$type: "typography"` (`fontFamily`, `fontSize`, `fontWeight`, `lineHeight`, `letterSpacing`):
+Orthogonal semantic font weights decouple emphasis from scale:
 
-| Category | Scale | Sizes (`px` / `rem`) | Weight | Line Height | Letter Spacing | Purpose |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `system.font.display` | `sm`, `md`, `lg` | 36px, 48px, 60px | 700 | `1.1`–`1.15` | `-0.04` to `-0.02rem` | Hero metrics and large promotional callouts. |
-| `system.font.heading` | `xs`, `sm`, `md`, `lg`, `xl` | 20px, 24px, 28px, 32px, 36px | 600–700 | `1.15`–`1.3` | `-0.02` to `-0.005rem` | Page, section, and dialog titles. |
-| `system.font.subheader` | `sm`, `md`, `lg` | 16px, 18px, 20px | 500 | `1.4` | `-0.01` to `0rem` | Section introductions and panel headers. |
-| `system.font.body` | `xs`, `sm`, **`md`**, `lg`, `xl` | 12px, 14px, **16px**, 18px, 20px | 400 | `1.5`–`1.6` | `0` to `0.01rem` | Reading copy and table content (`md` = `1rem`). |
-| `system.font.label` | `xs`, `sm`, **`md`**, `lg`, `xl` | 12px, 14px, **16px**, 18px, 20px | 500 | `1.3` | `0` to `0.02rem` | Form labels, buttons, tabs, and navigation items. |
-| `system.font.caption` | `sm`, `md`, `lg` | 10px, 12px, 14px | 400 | `1.4` | `0.01` to `0.02rem` | Image captions, footnotes, and helper annotations. |
-| `system.font.mono` | `xs`, `sm`, **`md`** | 12px, 14px, **16px** | 400 | `1.4`–`1.5` | `0rem` | Identifiers (`ID-2026-0048`), version strings (`v2.1.0`), hashes, and code snippets. |
+- `system.font.weight.normal` → `global.font.weight.02` (`400`)
+- `system.font.weight.medium` → `global.font.weight.03` (`500`)
+- `system.font.weight.bold` → `global.font.weight.04` (`600`)
+
+#### System Composite Typography (`packages/tokens/src/system/typography.ts`)
+
+All 18 system typography tokens use `$type: "typography"` (`fontFamily`, `fontSize`, `fontWeight`, `lineHeight`, `letterSpacing`), with `fontWeight` referencing `system.font.weight.*`:
+
+| Category | Scale | Sizes (`px` / `rem`) | Default Weight | Allowed Weights | Line Height | Letter Spacing | Purpose |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `system.font.display` | `sm`, `md` | 36px, 48px | `bold` (600) | `normal`, `medium`, `bold` | `1.1`–`1.15` | `-0.03` to `-0.02rem` | Hero metrics and large promotional callouts. |
+| `system.font.heading` | `xs`, `sm`, `md`, `lg`, `xl` | 16px, 18px, 20px, 24px, 32px | `bold` (600) | `medium`, `bold` | `1.2`–`1.4` | `-0.02` to `0rem` | Page, section, panel, and dialog titles. |
+| `system.font.body` | `sm`, **`md`**, `lg` | 14px, **16px**, 18px | `normal` (400) | `normal` | `1.5`–`1.6` | `0rem` | Reading copy and table content (`md` = `1rem`). |
+| `system.font.label` | `xs`, `sm`, **`md`**, `lg` | 12px, 14px, **16px**, 18px | `normal` (400) | `normal`, `medium` | `1.3` | `0` to `0.02rem` | Form labels, buttons, tabs, and navigation items. |
+| `system.font.caption` | `sm`, `md` | 10px, 12px | `normal` (400) | `normal`, `medium` | `1.4` | `0.01` to `0.02rem` | Image captions, footnotes, and helper annotations. |
+| `system.font.mono` | `xs`, `sm` | 12px, 14px | `normal` (400) | `normal` | `1.4` | `0rem` | Identifiers (`ID-2026-0048`), version strings (`v2.1.0`), hashes, and code snippets. |
 
 #### Tabular Numerals Convention (`.tabular-nums`)
 

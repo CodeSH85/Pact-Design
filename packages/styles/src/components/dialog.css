@@ -21,7 +21,6 @@
 .pd-dialog-title {
   font: var(--pd-system-font-heading-sm);
   letter-spacing: var(--pd-system-font-heading-sm-letter-spacing);
-  font-weight: var(--pd-global-font-weight-04);
   color: var(--pd-system-on-surface-default);
   margin: 0;
 }

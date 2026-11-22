@@ -51,7 +51,7 @@
 
   &:where([data-selected]) {
     background-color: var(--pd-system-background-layer-1-selected);
-    font-weight: var(--pd-global-font-weight-03);
+    font-weight: var(--pd-system-font-weight-medium);
 
     &:where(:hover, [data-hovered]) {
       background-color: var(--pd-system-background-layer-1-selected-hover);

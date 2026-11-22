@@ -118,10 +118,10 @@ import { ComponentPreview } from './ComponentPreview'
 
 export const mdxComponents: ReturnType<typeof useMDXComponents> = {
   h2: (props: ComponentPropsWithoutRef<'h2'>) => (
-    <h2 className="my-sm text-heading-xs text-on-surface-default scroll-mt-xl" {...props} />
+    <h2 className="my-sm text-heading-md text-on-surface-default scroll-mt-xl" {...props} />
   ),
   h3: (props: ComponentPropsWithoutRef<'h3'>) => (
-    <h3 className="mt-sm text-subheader-md text-on-surface scroll-mt-xl" {...props} />
+    <h3 className="mt-sm text-heading-sm font-medium text-on-surface scroll-mt-xl" {...props} />
   ),
   p: (props: ComponentPropsWithoutRef<'p'>) => (
     <p className="text-body-md text-on-surface-secondary" {...props} />

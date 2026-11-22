@@ -432,7 +432,7 @@ export function TokenPlayground() {
                   >
                     {issue.id}
                   </Button>
-                  <span className="text-body-xs text-on-surface">{issue.message}</span>
+                  <span className="text-caption-md text-on-surface">{issue.message}</span>
                 </div>
                 {issue.file && (
                   <small className="text-mono-xs text-on-surface-muted">{issue.file}</small>

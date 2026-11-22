@@ -49,7 +49,7 @@
 
   &:where([data-current]) {
     color: var(--pd-system-on-surface-default);
-    font-weight: var(--pd-global-font-weight-03);
+    font-weight: var(--pd-system-font-weight-medium);
     text-decoration: none;
     cursor: default;
     pointer-events: none;

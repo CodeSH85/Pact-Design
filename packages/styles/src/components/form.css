@@ -29,9 +29,8 @@
 }
 
 .pd-form-section-title {
-  font: var(--pd-system-font-label-md);
-  letter-spacing: var(--pd-system-font-label-md-letter-spacing);
-  font-weight: var(--pd-global-font-weight-04);
+  font: var(--pd-system-font-heading-xs);
+  letter-spacing: var(--pd-system-font-heading-xs-letter-spacing);
   color: var(--pd-system-on-surface-default);
   margin: 0;
 }

@@ -106,8 +106,8 @@
     padding-inline: var(--pd-component-button-padding-x-md);
     gap: var(--pd-component-button-gap-md);
     border-radius: var(--pd-component-button-radius-md);
-    font: var(--pd-system-font-label-md);
-    letter-spacing: var(--pd-system-font-label-md-letter-spacing);
+    font: var(--pd-system-font-label-sm);
+    letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
   }
 
   &:where([data-size="lg"]) {
@@ -115,8 +115,8 @@
     padding-inline: var(--pd-component-button-padding-x-lg);
     gap: var(--pd-component-button-gap-lg);
     border-radius: var(--pd-component-button-radius-lg);
-    font: var(--pd-system-font-label-lg);
-    letter-spacing: var(--pd-system-font-label-lg-letter-spacing);
+    font: var(--pd-system-font-label-md);
+    letter-spacing: var(--pd-system-font-label-md-letter-spacing);
   }
 
   &:where([data-size="xl"]) {
@@ -124,8 +124,8 @@
     padding-inline: var(--pd-component-button-padding-x-xl);
     gap: var(--pd-component-button-gap-xl);
     border-radius: var(--pd-component-button-radius-xl);
-    font: var(--pd-system-font-label-xl);
-    letter-spacing: var(--pd-system-font-label-xl-letter-spacing);
+    font: var(--pd-system-font-label-lg);
+    letter-spacing: var(--pd-system-font-label-lg-letter-spacing);
   }
 
   /* Optional explicit radius overrides */
