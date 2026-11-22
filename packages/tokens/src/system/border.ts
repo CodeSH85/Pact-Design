@@ -32,6 +32,7 @@ export const systemBorder = {
     md: 'global.radius.04',
     lg: 'global.radius.05',
     xl: 'global.radius.06',
+    '2xl': 'global.radius.07',
     full: 'global.radius.full'
   })
 } as const
