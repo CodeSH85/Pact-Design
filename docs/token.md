@@ -135,7 +135,7 @@ Each semantic role (`primary`, `secondary`, `success`, `danger`, `warning`, `inf
 
 #### Global Primitives (`tokens/typography/global.json`)
 
-- **Families (`global.font.family.*`)**: `sans` (`["Inter", "Open Sans", "Roboto"]`), `mono` (`["JetBrains Mono", "SFMono-Regular", "Menlo", "Consolas", "monospace"]`).
+- **Families (`global.font.family.*`)**: `sans` (`["Inter", "ui-sans-serif", "system-ui", "PingFang TC", "PingFang SC", "Microsoft JhengHei", "Microsoft YaHei", "Noto Sans CJK TC", "Noto Sans CJK SC", "sans-serif"]`), `mono` (`["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"]`).
 - **Sizes (`global.font.size.01`–`13`)**: `0.5rem` (8px), `0.625rem` (10px), `0.75rem` (12px), `0.875rem` (14px), `1rem` (16px), `1.125rem` (18px), `1.25rem` (20px), `1.5rem` (24px), `1.75rem` (28px), `2rem` (32px), `2.25rem` (36px), `3rem` (48px), `3.75rem` (60px).
 - **Weights (`global.font.weight.*`)**: `01` (300), `02` (400), `03` (500), `04` (600), `05` (700).
 - **Line Heights (`global.font.line-height.01`–`09`)**: Unitless ratios from `1.1` to `1.7`.

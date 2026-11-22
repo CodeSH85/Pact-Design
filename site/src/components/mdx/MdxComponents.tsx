@@ -127,7 +127,7 @@ export const mdxComponents: ReturnType<typeof useMDXComponents> = {
     <p className="text-body-md text-on-surface-secondary" {...props} />
   ),
   strong: (props: ComponentPropsWithoutRef<'strong'>) => (
-    <strong className="text-on-surface text-body-md" {...props} />
+    <strong className="text-on-surface font-bold" {...props} />
   ),
   a: (props: ComponentPropsWithoutRef<'a'>) => (
     <a className="text-primary hover:text-primary-hover hover:underline" {...props} />

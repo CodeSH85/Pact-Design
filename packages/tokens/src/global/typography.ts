@@ -5,14 +5,17 @@ export const globalTypography = {
     family: {
       sans: fontFamily(
         'Inter',
-        'PingFang SC',
-        'Microsoft YaHei',
-        'Noto Sans CJK SC',
         'ui-sans-serif',
         'system-ui',
+        'PingFang TC',
+        'PingFang SC',
+        'Microsoft JhengHei',
+        'Microsoft YaHei',
+        'Noto Sans CJK TC',
+        'Noto Sans CJK SC',
         'sans-serif'
       ),
-      mono: fontFamily('SFMono-Regular', 'Menlo', 'Consolas', 'ui-monospace', 'system-ui')
+      mono: fontFamily('ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace')
     },
     size: scale(
       {
@@ -32,7 +35,15 @@ export const globalTypography = {
       },
       rem
     ),
-    weight: scale({ '01': 300, '02': 400, '03': 500, '04': 600, '05': 700 }, fontWeight),
+    weight: scale(
+      {
+        '01': 300,
+        '02': 400,
+        '03': 500,
+        '04': 600,
+        '05': 700
+      }, fontWeight
+    ),
     'line-height': scale(
       {
         '01': 1.1,
