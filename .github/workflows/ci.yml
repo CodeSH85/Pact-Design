@@ -32,11 +32,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build design tokens
-        run: pnpm build:tokens
-
-      - name: Build design styles
-        run: pnpm build:styles
+      - name: Build workspace packages
+        run: pnpm build:packages
 
       - name: Run linter
         run: pnpm lint
