@@ -26,7 +26,7 @@ export interface ButtonProps
 export function Button({
   variant = 'primary',
   size = 'md',
-  radius,
+  radius = 'sm',
   disabled,
   isDisabled,
   className,

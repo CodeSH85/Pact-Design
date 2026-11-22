@@ -46,11 +46,13 @@ export function controlGeometry() {
       xl: 'system.spacing.sm'
     }),
     radius: dimMap({
-      xs: 'system.radius.xs',
-      sm: 'system.radius.sm',
+      none: 'system.radius.none',
+      xs: 'system.radius.2xs',
+      sm: 'system.radius.xs',
       md: 'system.radius.sm',
       lg: 'system.radius.md',
-      xl: 'system.radius.md'
+      xl: 'system.radius.lg',
+      full: 'system.radius.xl'
     })
   }
 }
