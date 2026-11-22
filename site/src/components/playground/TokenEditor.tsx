@@ -41,14 +41,14 @@ const STROKE_STYLES = ['solid', 'dashed', 'dotted', 'double', 'groove', 'ridge',
 
 const INPUT_CLASS = [
   'h-control-xs px-xs rounded-2xs',
-  'bg-layer-1 text-on-surface text-body-xs',
+  'bg-layer-1 text-on-surface text-label-xs',
   'border-sm border-border-default outline-none',
   'focus:border-border-focus'
 ].join(' ')
 
 const SELECT_CLASS = [
   'h-control-xs px-2xs rounded-2xs flex-1 min-w-0',
-  'bg-layer-1 text-on-surface text-body-xs',
+  'bg-layer-1 text-on-surface text-label-xs',
   'border-sm border-border-default outline-none cursor-pointer',
   'focus:border-border-focus'
 ].join(' ')

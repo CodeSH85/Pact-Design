@@ -14,9 +14,8 @@
 }
 
 .pd-calendar-heading {
-  font: var(--pd-system-font-label-md);
-  letter-spacing: var(--pd-system-font-label-md-letter-spacing);
-  font-weight: var(--pd-global-font-weight-04);
+  font: var(--pd-system-font-heading-xs);
+  letter-spacing: var(--pd-system-font-heading-xs-letter-spacing);
   color: var(--pd-system-on-surface-default);
   margin: 0;
 }
@@ -60,7 +59,7 @@
 .pd-calendar-header-cell {
   font: var(--pd-system-font-caption-sm);
   letter-spacing: var(--pd-system-font-caption-sm-letter-spacing);
-  font-weight: var(--pd-global-font-weight-03);
+  font-weight: var(--pd-system-font-weight-medium);
   color: var(--pd-system-on-surface-muted);
   padding-bottom: var(--pd-system-spacing-xs);
   width: var(--pd-system-control-height-sm);
@@ -93,7 +92,7 @@
   }
 
   &:where([data-today]) {
-    font-weight: var(--pd-global-font-weight-04);
+    font-weight: var(--pd-system-font-weight-bold);
     border: var(--pd-system-border-width-sm) solid var(--pd-system-border-strong);
   }
 

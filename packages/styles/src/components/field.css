@@ -84,8 +84,8 @@
     padding-inline: var(--pd-component-field-padding-x-md);
     gap: var(--pd-component-field-gap-md);
     border-radius: var(--pd-component-field-radius-md);
-    font: var(--pd-system-font-label-md);
-    letter-spacing: var(--pd-system-font-label-md-letter-spacing);
+    font: var(--pd-system-font-label-sm);
+    letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
   }
 
   &:where([data-size="lg"]) {
@@ -93,8 +93,8 @@
     padding-inline: var(--pd-component-field-padding-x-lg);
     gap: var(--pd-component-field-gap-lg);
     border-radius: var(--pd-component-field-radius-lg);
-    font: var(--pd-system-font-label-lg);
-    letter-spacing: var(--pd-system-font-label-lg-letter-spacing);
+    font: var(--pd-system-font-label-md);
+    letter-spacing: var(--pd-system-font-label-md-letter-spacing);
   }
 
   &:where([data-size="xl"]) {
@@ -102,8 +102,8 @@
     padding-inline: var(--pd-component-field-padding-x-xl);
     gap: var(--pd-component-field-gap-xl);
     border-radius: var(--pd-component-field-radius-xl);
-    font: var(--pd-system-font-label-xl);
-    letter-spacing: var(--pd-system-font-label-xl-letter-spacing);
+    font: var(--pd-system-font-label-lg);
+    letter-spacing: var(--pd-system-font-label-lg-letter-spacing);
   }
 }
 

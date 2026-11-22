@@ -81,9 +81,9 @@ export function SpecDoc({ id, category = 'spec', showHeader = true }: SpecDocPro
             {eyebrow && (
               <span className="text-mono-xs text-primary uppercase">{eyebrow}</span>
             )}
-            <h1 className="text-heading-md text-on-surface">{title}</h1>
+            <h1 className="text-heading-xl text-on-surface">{title}</h1>
             {description && (
-              <p className="text-subheader-sm text-on-surface-muted my-sm">
+              <p className="text-body-md text-on-surface-muted my-sm">
                 {description}
               </p>
             )}

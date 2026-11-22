@@ -79,7 +79,8 @@ const SYSTEM_SUB_RULES: Record<string, UnoRuleConfig> = {
     prefix: 'icon-'
   },
   'motion.duration': { slots: ['duration'], keyFrom: 'category-sub' },
-  'motion.easing': { slots: ['easing'], keyFrom: 'category-sub' }
+  'motion.easing': { slots: ['easing'], keyFrom: 'category-sub' },
+  'font.weight': { slots: ['fontWeight'], keyFrom: 'category-sub' }
 }
 
 const SYSTEM_RULES: Record<string, UnoRuleConfig | false> = {

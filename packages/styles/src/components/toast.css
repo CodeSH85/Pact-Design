@@ -117,7 +117,7 @@
 .pd-toast-title {
   font: var(--pd-system-font-label-sm);
   letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
-  font-weight: var(--pd-global-font-weight-04);
+  font-weight: var(--pd-system-font-weight-medium);
   margin: 0;
 }
 

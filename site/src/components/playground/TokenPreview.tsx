@@ -229,8 +229,8 @@ export function TokenPreview({
   const pairFor = (name: string): SemanticColorPair | undefined =>
     pairs.find((p) => p.bg.path.at(-1) === name)
 
-  const headingId = pickTypo('heading', 'sm') ?? pickTypo('heading', 'md')
-  const subheaderId = pickTypo('subheader', 'sm') ?? pickTypo('subheader', 'md')
+  const headingId = pickTypo('heading', 'md') ?? pickTypo('heading', 'sm')
+  const headingXsId = pickTypo('heading', 'xs')
   const bodySmId = pickTypo('body', 'sm')
   const labelId = pickTypo('label', 'sm') ?? pickTypo('label', 'md')
   const labelXsId = pickTypo('label', 'xs') ?? pickTypo('label', 'sm')
@@ -271,6 +271,7 @@ export function TokenPreview({
 
   // Typography scales
   const fontSizes = all.filter((t) => t.type === 'dimension' && t.id.includes('font.size') && !isSystem(t))
+  const systemWeights = all.filter((t) => t.type === 'fontWeight' && isSystem(t))
   const weights = all.filter((t) => t.type === 'fontWeight' && !isSystem(t))
 
   // Spacing & Sizing
@@ -449,15 +450,15 @@ export function TokenPreview({
                 <h3
                   onClick={() => onJump(headingId)}
                   title={headingId}
-                  className="text-heading-sm text-on-surface m-0 cursor-pointer w-fit"
+                  className="text-heading-md text-on-surface m-0 cursor-pointer w-fit"
                 >
                   專案設定 Project Settings
                 </h3>
-                {subheaderId && (
+                {headingXsId && (
                   <div
-                    onClick={() => onJump(subheaderId)}
-                    title={subheaderId}
-                    className="text-subheader-sm text-on-surface cursor-pointer w-fit"
+                    onClick={() => onJump(headingXsId)}
+                    title={headingXsId}
+                    className="text-heading-xs font-medium text-on-surface cursor-pointer w-fit"
                   >
                     高密度、緊湊且直截了當的介面配置
                   </div>
@@ -1161,6 +1162,29 @@ export function TokenPreview({
                     </span>
                     <code className="text-mono-xs text-on-surface-muted">
                       {t.path.at(-1)} · {formatValue('dimension', val(t.id))}
+                    </code>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {systemWeights.length > 0 && (
+            <div className="flex flex-col gap-xs pt-xs">
+              <h3 className="text-label-md text-on-surface m-0">System · 語意字重</h3>
+              <div className="flex flex-wrap gap-lg p-sm rounded-xs bg-layer-2 border-sm border-border-subtle">
+                {systemWeights.map((t) => (
+                  <div
+                    key={t.id}
+                    onClick={() => onJump(t.id)}
+                    title={t.id}
+                    className="flex flex-col items-start gap-3xs cursor-pointer"
+                  >
+                    <span style={{ fontWeight: v(t.id), fontSize: '28px' }} className="text-on-surface">
+                      Ag 永
+                    </span>
+                    <code className="text-mono-xs text-on-surface-muted">
+                      {t.path.at(-1)} · {String(val(t.id) ?? '')}
                     </code>
                   </div>
                 ))}
