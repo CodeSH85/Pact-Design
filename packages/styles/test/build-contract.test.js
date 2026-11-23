@@ -86,10 +86,12 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
     for (const fileName of [
       'button.css',
       'toggle-button.css',
+      'badge.css',
       'selection-control.css',
       'checkbox.css',
       'radio.css',
       'switch.css',
+      'slider.css',
       'separator.css',
       'field.css',
       'form.css',
