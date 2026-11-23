@@ -1,56 +1,59 @@
 ---
-title: "Typography & Numeric Precision"
-eyebrow: "Foundations · Typography"
-description: "以 14px/16px 為基準的 18 組複合排版字階、3 組語意字重（400/500/600）、原生等寬字體家族，以及高密度表格專用的 .tabular-nums 數字對齊規範。"
-order: 4
+title: "字體"
+eyebrow: "設計基礎"
+description: "以清晰閱讀與數值精準為核心的排版系統，透過克制的字級、行高與字重規劃，讓高密度資訊依然易於掃視。"
 ---
 
-## 字體家族 (`system.font.family.*`)
-
-`packages/tokens/src/global/typography.ts` 定義底層字體堆疊，並由 `system.font.family.*` 暴露為系統語意層（覆寫 `--pd-system-font-family-*` 即可全域換字體）：
-
-- **Sans-Serif (`system.font.family.sans` / `font-sans`)**
-  `Inter, ui-sans-serif, system-ui, 'PingFang TC', 'PingFang SC', 'Microsoft JhengHei', 'Microsoft YaHei', 'Noto Sans CJK TC', 'Noto Sans CJK SC', sans-serif` — 用於標題、內文、表單控制項與導覽列。
-- **Monospace (`system.font.family.mono` / `font-mono`)**
-  `ui-monospace, SFMono-Regular, Menlo, Consolas, monospace` — 用於節點 ID（`ID-2026-0048`）、版本字串（`v2.1.0`）、Git 雜湊值與程式碼片段。
+文字是系統介面傳遞資訊最直接的載體。一套有秩序的字體系統，能在不增加視覺負擔的前提下建立清楚的資訊層級，大幅提升使用者的閱讀效率與專注度。
 
 ---
 
-## 語意字重 (`system.font.weight.*`)
+## 字體家族
 
-字重與字級採正交設計：系統層提供 3 組語意字重 Token，複合字階各自綁定單一預設字重，需要強調或弱化時再於該角色允許範圍內覆寫 `font-weight`：
+Pact Design 的字體選擇以「跨平台穩定清晰」為首要原則，分為兩類用途明確的字體家族：
 
-| Token | CSS 變數 | 數值 | UnoCSS | 預設角色 |
+- **介面無襯線字體**：優先採用各作業系統原生的現代介面字體，並針對繁體中文與英數字混排搭配合適的系統備用字體，確保在不同裝置與瀏覽器上都能呈現銳利、熟悉且穩定的閱讀質感。適用於標題、內文、表單標籤與導覽選單。
+- **等寬字體**：每個字元佔據相同水平寬度，讓符號與數字在直向排列時精準對齊。適用於技術識別碼、版本號、雜湊值、快捷鍵提示與程式碼片段。
+
+---
+
+## 字重規劃
+
+字重變化應保持克制與穩定。過多細碎的字重層級反而會削弱畫面的秩序感。Pact Design 只採用三種語意明確的字重：
+
+| 字重等級 | 視覺感受 | 常見使用情境 |
+| :--- | :--- | :--- |
+| **標準** | 輕盈平穩、適合長時間閱讀 | 一般內文、表格資料、表單標籤、輔助說明與程式碼。 |
+| **中等** | 適度強調、不顯厚重 | 選中狀態的導覽項目、重點標籤、小型副標與強調提示。 |
+| **粗體** | 鮮明有力的視覺錨點 | 頁面主標題、區塊標題、對話框標題與大型關鍵指標。 |
+
+---
+
+## 字級與行高
+
+字級決定資訊的視覺份量，行高則是包裹文字的呼吸空間。Pact Design 依據文字在介面中扮演的角色，規劃出六組職責清楚的排版層級，讓設計者直接按用途選用，無須反覆微調零散的字號數值：
+
+| 排版角色 | 字級範圍 | 預設字重 | 建議行高 | 常見使用情境 |
 | :--- | :--- | :--- | :--- | :--- |
-| `system.font.weight.normal` | `--pd-system-font-weight-normal` | `400` | `font-normal` | `body`, `label`, `caption`, `mono` |
-| `system.font.weight.medium` | `--pd-system-font-weight-medium` | `500` | `font-medium` | 強調覆寫（`display`, `heading`, `label`, `caption`） |
-| `system.font.weight.bold` | `--pd-system-font-weight-bold` | `600` | `font-bold` | `display`, `heading` |
+| **展示級** | 36px – 48px | 粗體 | 緊湊 1.1 – 1.15 | 儀表板大型核心數字、重點數據總覽與視覺焦點。 |
+| **標題級** | 16px – 32px | 粗體 | 俐落 1.2 – 1.4 | 頁面主標題、章節標題、面板標題與對話框標題。 |
+| **內文級** | 14px – 18px | 標準 | 舒適 1.5 – 1.6 | 段落閱讀、說明文字與資料表內容，高密度介面建議以 14px 為主。 |
+| **標籤級** | 12px – 18px | 標準 | 精簡 1.3 | 按鈕文字、表單欄位標籤、頁籤、導覽與選單項目。 |
+| **輔助說明級** | 10px – 12px | 標準 | 清晰 1.4 | 時間戳記、欄位提示、圖表註解與次要附註。 |
+| **等寬級** | 12px – 14px | 標準 | 清晰 1.4 | 識別碼、版本字串、快捷鍵與行內程式碼。 |
 
 ---
 
-## 系統複合排版字階
+## 表格與數值對齊
 
-Pact Design 的 18 組系統排版 Token 皆採用 W3C DTCG `$type: "typography"` 複合結構（封裝 `fontFamily`、`fontSize`、`fontWeight`、`lineHeight`、`letterSpacing`）。
+在報表、資料表或即時監控介面中，使用者經常需要由上往下快速比較金額、百分比、數量或延遲時間。一般比例字體的數字寬度並不一致，例如數字 1 比 8 窄得多，容易導致小數點與位數無法直向對齊。
 
-在 UnoCSS 中，複合字階直接映射為 **`text-<role>-<size>`** 單一工具類別（例如 `text-heading-md`、`text-body-sm`、`text-label-xs`），並可搭配 `font-normal` / `font-medium` / `font-bold` 在該角色的建議字重範圍內組合使用：
-
-| 字階分類 (Role) | 尺寸範圍 (Scale) | 字級範圍 (`px` / `rem`) | 預設字重 (Default) | 建議可用字重 | 行高 (Line Height) | 字距 (Letter Spacing) | 主要用途 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`display`** | `sm`, `md` | 36px, 48px | `bold` (600) | `normal`, `medium`, `bold` | `1.1`–`1.15` | `-0.03` 至 `-0.02rem` | 儀表板大型核心指標與視覺焦點標題。 |
-| **`heading`** | `xs`, `sm`, `md`, `lg`, `xl` | 16px, 18px, 20px, 24px, 32px | `bold` (600) | `medium`, `bold` | `1.2`–`1.4` | `-0.02` 至 `0rem` | 頁面標題、區塊標題、面板副標與對話框標題。 |
-| **`body`** | `sm`, **`md`**, `lg` | 14px, **16px**, 18px | `normal` (400) | `normal` | `1.5`–`1.6` | `0rem` | 內文閱讀與表格內容（緊湊介面預設為 `body-sm` 14px）。 |
-| **`label`** | `xs`, `sm`, **`md`**, `lg` | 12px, 14px, **16px**, 18px | `normal` (400) | `normal`, `medium` | `1.3` | `0` 至 `0.02rem` | 按鈕文字、表單欄位標籤、頁籤與選單項目。 |
-| **`caption`** | `sm`, `md` | 10px, 12px | `normal` (400) | `normal`, `medium` | `1.4` | `0.01` 至 `0.02rem` | 輔助說明、時間戳記與圖表註解。 |
-| **`mono`** | `xs`, `sm` | 12px, 14px | `normal` (400) | `normal` | `1.4` | `0rem` | 技術識別碼、快捷鍵提示與行內程式碼。 |
+在需要保留無襯線字體外觀、同時又要求數字直向對齊的情境下，建議啟用 OpenType 的 `tabular-nums` 等寬數字特性，讓每個數字佔據相同寬度，確保整欄數值整齊對齊且在動態更新時不會左右跳動。
 
 ---
 
-## 表格等寬數字規範 (`.tabular-nums`)
+## 排版應用建議
 
-在資料表的數值欄位（如延遲時間 `12.05 ms`、金額、吞吐量、百分比）中，若希望保留無襯線字體（`sans`）的視覺一致性，同時避免數字 `1` 與 `8` 寬度不同造成的垂直錯位，請套用 OpenType 等寬數字屬性：
-
-```css
-.tabular-nums {
-  font-variant-numeric: tabular-nums;
-}
-```
+- **控制單頁字級數量**：在單一功能頁面中，建議將字級控制在 3 到 5 種之間，過度細分字號只會讓階層變得模糊。
+- **優先用位置與對比建立層次**：強調重點時，可以先透過留白分組、字重或文字深淺來區分，不必一味放大字號。
+- **保持合理行寬**：長段落說明文字建議控制每行字數，避免單行過長造成換行時視覺迷失。

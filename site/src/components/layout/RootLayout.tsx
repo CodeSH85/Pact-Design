@@ -134,8 +134,8 @@ export function RootLayout() {
       <div className="flex flex-1 min-h-0 overflow-hidden">
         {!isTokenPlayground && (
           <aside
-            className="flex flex-col min-w-12rem shrink-0 bg-layer-1 border-r border-border-default overflow-y-auto"
-            aria-label="Documentation Navigation"
+            className="flex flex-col min-w-15rem shrink-0 bg-layer-1 border-r border-border-default overflow-y-auto"
+            aria-label="文件導覽"
           >
             <DisclosureGroup
               allowsMultipleExpanded

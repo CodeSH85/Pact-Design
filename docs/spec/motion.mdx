@@ -1,36 +1,50 @@
 ---
-title: "Functional Motion"
-eyebrow: "Foundations · Motion & Transitions"
-description: "純功能導向的極速轉場規範（0ms–200ms），零彈跳過衝（Zero Spring Overshoot），確保高頻率操作的即時回饋感。"
-order: 8
+title: "動態"
+eyebrow: "設計基礎"
+description: "以快速回饋與功能導向為核心的動態規範，協助使用者掌握狀態變化而不拖慢高頻操作節奏。"
 ---
 
-## 功能性動效原則
-
-在每日長時間操作的專業工具與高密度資料介面中，緩慢或帶有彈跳過衝（Spring Overshoot）的動畫會產生操作延遲感。Pact Design 的動效系統嚴格遵循以下規範：
-
-- **極速回饋 (`0ms`–`200ms`)**：所有常規 UI 轉場皆不超過 `200ms`。Hover 與 Active 狀態切換控制在 `50ms`–`100ms` 內完成。
-- **零過衝曲線 (Zero Overshoot)**：所有三次貝茲曲線（`cubicBezier`）控制點皆限制於 `[0, 1]` 區間內，杜絕任何視覺晃動。
+動態在介面中的目的不是吸引目光，而是協助使用者理解「剛剛發生了什麼事」與「元素從哪裡來、往哪裡去」。在每日長時間操作的專業工具中，緩慢或浮誇的動畫反而會造成明顯的延遲感。
 
 ---
 
-## 動效時長比例尺
+## 功能導向的動態原則
 
-| Token Key | UnoCSS 工具類別 | CSS Variable | Global 參照 | 時長數值 | 典型應用場景 |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **`instant`** | `duration-instant` | `--pd-system-motion-duration-instant` | `{global.duration.00}` | `0ms` | 鍵盤焦點切換、高頻率資料表列游標移動、無障礙減敏模式。 |
-| **`fast`** | `duration-fast` | `--pd-system-motion-duration-fast` | `{global.duration.01}` | `50ms` | 按鈕、選單項目與表格列的 Hover / Active 背景色與邊框變換。 |
-| **`normal`** | `duration-normal` | `--pd-system-motion-duration-normal` | `{global.duration.02}` | `100ms` | Checkbox 勾選指示、Switch 切換、Tooltip 與下拉選單展開。 |
-| **`slow`** | `duration-slow` | `--pd-system-motion-duration-slow` | `{global.duration.03}` | `150ms` | 手風琴面板（Accordion）收合、Popover 淡入淡出。 |
-| **`slower`** | `duration-slower` | `--pd-system-motion-duration-slower` | `{global.duration.04}` | `200ms` | 側邊欄（Sidebar）、抽屜（Drawer）與模態對話框（Modal）進出場。 |
+- **極速回饋**：所有常規互動轉場皆控制在 200ms 以內，按鈕懸停與點擊幾乎即時完成，讓介面始終保持跟手、俐落的體感。
+- **不產生彈跳過衝**：所有動態曲線皆平順收斂至終點位置，不加入回彈或晃動特效，避免在高密度畫面中製造不必要的視覺干擾。
+- **尊重減敏偏好**：對於開啟系統「減少動態效果」的使用者，應將非必要轉場降為即時切換，確保舒適無負擔的操作體驗。
 
 ---
 
-## 緩動曲線 (`system.motion.easing.*`)
+## 時間節奏分級
 
-| Token Key | UnoCSS 工具類別 | CSS Variable | Global 參照 | 貝茲曲線座標 (`cubic-bezier`) | 典型應用場景 |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **`default`** | `ease-default` | `--pd-system-motion-easing-default` | `{global.easing.standard}` | `cubic-bezier(0.2, 0, 0, 1)` | 畫面內元素的位移、尺寸調整與色彩過渡預設曲線。 |
-| **`enter`** | `ease-enter` | `--pd-system-motion-easing-enter` | `{global.easing.enter}` | `cubic-bezier(0, 0, 0.15, 1)` | 元素進入畫面（Modal、Dropdown、Toast 出現），初速快、結尾平緩定位。 |
-| **`exit`** | `ease-exit` | `--pd-system-motion-easing-exit` | `{global.easing.exit}` | `cubic-bezier(0.3, 0, 1, 1)` | 元素離開畫面（關閉選單、移除通知），乾脆俐落收尾。 |
-| **`linear`** | `ease-linear` | `--pd-system-motion-easing-linear` | `{global.easing.linear}` | `cubic-bezier(0, 0, 1, 1)` | 純透明度變化（Opacity）、進度條與旋轉載入指示器。 |
+依據元素移動的面積大小與視覺重要性，Pact Design 將轉場時間劃分為五個清楚的節奏：
+
+| 節奏等級 | 時長 | 體感特性 | 常見使用情境 |
+| :--- | :--- | :--- | :--- |
+| **即時** | 0ms | 零延遲直接切換 | 鍵盤焦點移動、資料表列快速掃視、無障礙減敏模式。 |
+| **極快** | 50ms | 細微滑順的即時回饋 | 按鈕、選單項目與表格列的懸停與按下色彩變化。 |
+| **標準** | 100ms | 輕快俐落的狀態過渡 | 核取方塊勾選、開關切換、氣泡提示與下拉選單展開。 |
+| **緩和** | 150ms | 自然展開與收合 | 折疊面板展開、浮動視窗淡入淡出。 |
+| **沉穩** | 200ms | 較大面積的結構進出 | 側邊抽屜滑出、互動視窗與背景遮罩的進出場。 |
+
+---
+
+## 動態曲線
+
+配合不同的進出情境，系統提供四種動態變化節奏，讓元素移動符合自然的物理直覺：
+
+| 曲線角色 | 運動特性 | 常見使用情境 |
+| :--- | :--- | :--- |
+| **標準過渡** | 起步俐落、結尾柔和減速 | 畫面內元素的位移、展開收合與色彩變化。 |
+| **進入畫面** | 快速出現後平穩停靠定位 | 互動視窗、下拉選單與訊息通知出現時。 |
+| **離開畫面** | 加速俐落退出，不拖泥帶水 | 關閉選單、收合抽屜與移除通知時。 |
+| **線性均速** | 全程等速變化 | 純透明度漸變、進度條推進與載入旋轉指示。 |
+
+---
+
+## 動態應用建議
+
+- **進場略緩、離場要快**：元素出現時給使用者清楚的視覺引導，關閉或移除時則迅速完成，讓使用者能立刻接續下一個操作。
+- **小元件用短時長、大面板用較長時長**：微小的狀態切換應在 50ms 至 100ms 內完成，只有大面積的抽屜或視窗才需要拉長至 150ms 至 200ms。
+- **克制同時觸發的動態**：避免頁面載入或操作時讓大量元素同時飛入或縮放，專注呈現與使用者當前動作直接相關的回饋。
