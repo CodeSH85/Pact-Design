@@ -29,9 +29,7 @@ Pact Design 提供六種視覺層級的按鈕，依操作重要性由高至低�
 - **連結按鈕 `link`**：以文字連結樣式呈現，適合內嵌於段落或頁面角落的次要導覽操作。
 - **危險按鈕 `danger`**：用於刪除、停用權限或無法復原的風險操作，通常建議搭配二次確認流程。
 
-## 使用範例
-
-### 視覺層級
+## 視覺層級
 
 透過 `variant` 切換六種語意與視覺權重，協助使用者一眼分辨操作優先順序。
 
@@ -53,7 +51,7 @@ Pact Design 提供六種視覺層級的按鈕，依操作重要性由高至低�
 <Button variant="danger">Danger</Button>
 ```
 
-### 尺寸
+## 尺寸
 
 提供從超緊湊 `xs` 到寬大 `xl` 共五種高度尺寸，方便按鈕與同一列上的輸入框、下拉選單精準對齊。
 
@@ -73,7 +71,7 @@ Pact Design 提供六種視覺層級的按鈕，依操作重要性由高至低�
 <Button variant="secondary" size="xl">XL</Button>
 ```
 
-### 圓角
+## 圓角
 
 預設採用俐落小圓角 `sm`，亦可依版面需求調整為直角或完全圓角的膠囊外觀。
 
@@ -91,7 +89,7 @@ Pact Design 提供六種視覺層級的按鈕，依操作重要性由高至低�
 <Button variant="secondary" radius="full">Full</Button>
 ```
 
-### 圖示與連結按鈕 (`icon` / `href`)
+## 圖示與連結按鈕 (`icon` / `href`)
 
 按鈕內嵌 `<svg>` 圖示時會依 `size` 自動縮放尺寸；設定 `icon` 布林屬性即可呈現等寬高的正方形純圖示按鈕。若同時傳入 `href`，元件底層會改為渲染無障礙原生 `<a>` 連結。
 
@@ -141,7 +139,7 @@ import { RiAddLine, RiGithubFill, RiSettings3Line } from '@remixicon/react'
 </Button>
 ```
 
-### 停用狀態
+## 停用狀態
 
 當前置條件尚未滿足或權限不足時，設定 `disabled` 或 `isDisabled` 可讓按鈕進入停用狀態，阻止點擊與鍵盤觸發。
 

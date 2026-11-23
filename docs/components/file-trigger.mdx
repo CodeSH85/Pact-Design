@@ -22,9 +22,7 @@ import { FileTrigger } from '@pact-design/react'
 - 當介面需要讓使用者匯入設定檔、上傳圖片附件或選取本地資料夾時使用。
 - 預設會直接呈現帶上傳圖示的標準按鈕；若需要套用自訂文字連結、純圖示按鈕或其他可點擊元件，也可將自訂元件作為子節點包入其中。
 
-## 使用範例
-
-### 樣式與尺寸
+## 樣式與尺寸
 
 直接透過 `variant`、`size` 與 `label` 調整內建按鈕的外觀，並可搭配 `allowsMultiple` 開放一次選取多個檔案。
 
@@ -38,7 +36,7 @@ import { FileTrigger } from '@pact-design/react'
 <FileTrigger variant="subtle" size="md" label="Subtle (multiple)" allowsMultiple acceptedFileTypes={['image/*']} />
 ```
 
-### 自訂觸發元件
+## 自訂觸發元件
 
 傳入自訂的按鈕作為子元件，即可完全掌控外觀與圖示排版。
 
