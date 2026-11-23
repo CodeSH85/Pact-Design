@@ -4,12 +4,34 @@ import {
   Button,
   Disclosure,
   DisclosureGroup,
+  Menu,
+  MenuItem,
+  MenuList,
+  MenuPopover,
   ToastRegion,
-  ToggleButton,
-  ToggleButtonGroup
+  Tooltip,
+  TooltipTrigger
 } from '@pact-design/react'
+import {
+  RiComputerLine,
+  RiGithubFill,
+  RiMoonLine,
+  RiSunLine
+} from '@remixicon/react'
 import { navSections, type NavItem } from '../../config/navigation'
 import type { ThemeMode } from '../../types/tokens'
+
+type ThemePreference = ThemeMode | 'system'
+
+const THEME_OPTIONS: ReadonlyArray<{
+  id: ThemePreference
+  label: string
+  icon: typeof RiSunLine
+}> = [
+  { id: 'light', label: '淺色 Light', icon: RiSunLine },
+  { id: 'dark', label: '深色 Dark', icon: RiMoonLine },
+  { id: 'system', label: '跟隨系統 System', icon: RiComputerLine }
+]
 
 const SHARED_NAV_LINK_PROPS = {
   activeOptions: { exact: true },
@@ -47,6 +69,11 @@ function SideNavLink({ item }: { item: NavItem }) {
   )
 }
 
+function getSystemDark(): boolean {
+  if (typeof window === 'undefined') return false
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
+}
+
 export function RootLayout() {
   const navigate = useNavigate()
   const pathname = useRouterState({ select: (s) => s.location.pathname })
@@ -56,30 +83,46 @@ export function RootLayout() {
     : pathname
   const isTokenPlayground = routePath === '/playground' || routePath === '/playground/'
 
-  const [theme, setTheme] = useState<ThemeMode>(() => {
-    if (typeof document !== 'undefined') {
-      const attr = document.documentElement.getAttribute('data-theme')
-      return attr === 'dark' ? 'dark' : 'light'
+  const [themePreference, setThemePreference] = useState<ThemePreference>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('pact-theme')
+      if (saved === 'light' || saved === 'dark' || saved === 'system') {
+        return saved
+      }
     }
-    return 'light'
+    return 'system'
   })
+  const [systemDark, setSystemDark] = useState<boolean>(getSystemDark)
+
+  const resolvedTheme: ThemeMode = themePreference === 'system'
+    ? (systemDark ? 'dark' : 'light')
+    : themePreference
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem('pact-theme', theme)
-    window.dispatchEvent(new CustomEvent<{ theme: ThemeMode }>('pact:theme-change', { detail: { theme } }))
-  }, [theme])
+    const media = window.matchMedia('(prefers-color-scheme: dark)')
+    const onChange = (e: MediaQueryListEvent) => setSystemDark(e.matches)
+    media.addEventListener('change', onChange)
+    return () => media.removeEventListener('change', onChange)
+  }, [])
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', resolvedTheme)
+    localStorage.setItem('pact-theme', themePreference)
+    window.dispatchEvent(new CustomEvent<{ theme: ThemeMode }>('pact:theme-change', { detail: { theme: resolvedTheme } }))
+  }, [themePreference, resolvedTheme])
 
   useEffect(() => {
     const onThemeSync = (e: Event) => {
       const next = (e as CustomEvent<{ theme?: ThemeMode }>).detail?.theme
-      if ((next === 'light' || next === 'dark') && next !== theme) {
-        setTheme(next)
+      if ((next === 'light' || next === 'dark') && next !== resolvedTheme) {
+        setThemePreference(next)
       }
     }
     window.addEventListener('pact:theme-change', onThemeSync)
     return () => window.removeEventListener('pact:theme-change', onThemeSync)
-  }, [theme])
+  }, [resolvedTheme])
+
+  const ActiveThemeIcon = THEME_OPTIONS.find((opt) => opt.id === themePreference)?.icon ?? RiComputerLine
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-base text-on-surface">
@@ -92,7 +135,7 @@ export function RootLayout() {
         </div>
 
         <div className="flex w-full justify-end">
-          <div className="flex items-center gap-sm">
+          <div className="flex items-center gap-xs">
             <Button
               variant={isTokenPlayground ? 'primary' : 'secondary'}
               size="sm"
@@ -100,33 +143,49 @@ export function RootLayout() {
             >
               Playground
             </Button>
-            <ToggleButtonGroup
-              aria-label="切換全站主題"
-              selectionMode="single"
-              disallowEmptySelection
-              selectedKeys={new Set([theme])}
-              onSelectionChange={(keys) => {
-                const next = [...keys][0]
-                if (next === 'light' || next === 'dark') {
-                  setTheme(next)
-                }
-              }}
+
+            <Menu
+              trigger={(
+                <Button variant="ghost" size="sm" icon aria-label="切換全站主題">
+                  <ActiveThemeIcon />
+                </Button>
+              )}
             >
-              <ToggleButton id="light" size="sm" variant="secondary" aria-label="淺色主題">
-                ☀
-              </ToggleButton>
-              <ToggleButton id="dark" size="sm" variant="secondary" aria-label="深色主題">
-                ☾
-              </ToggleButton>
-            </ToggleButtonGroup>
-            <a
-              href="https://github.com/CodeSH85/Pact-UI"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-label-sm text-on-surface-secondary hover:text-on-surface"
-            >
-              GitHub
-            </a>
+              <MenuPopover placement="bottom end">
+                <MenuList
+                  aria-label="主題模式"
+                  selectionMode="single"
+                  selectedKeys={new Set([themePreference])}
+                  onSelectionChange={(keys) => {
+                    const next = [...keys][0]
+                    if (next === 'light' || next === 'dark' || next === 'system') {
+                      setThemePreference(next)
+                    }
+                  }}
+                >
+                  {THEME_OPTIONS.map(({ id, label, icon: Icon }) => (
+                    <MenuItem key={id} id={id} icon={<Icon />}>
+                      {label}
+                    </MenuItem>
+                  ))}
+                </MenuList>
+              </MenuPopover>
+            </Menu>
+
+            <TooltipTrigger>
+              <Button
+                href="https://github.com/CodeSH85/Pact-UI"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="ghost"
+                size="sm"
+                icon
+                aria-label="GitHub"
+              >
+                <RiGithubFill />
+              </Button>
+              <Tooltip>GitHub</Tooltip>
+            </TooltipTrigger>
           </div>
         </div>
       </header>
@@ -174,7 +233,7 @@ export function RootLayout() {
         )}
       </div>
 
-      <ToastRegion />
+      <ToastRegion placement="top" />
     </div>
   )
 }
