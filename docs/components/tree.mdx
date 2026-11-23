@@ -6,29 +6,29 @@ description: "呈現多層次父子結構的階層列表元件，支援節點展
 
 <ComponentPreview align="stretch">
   <Tree
-    aria-label="專案目錄結構"
+    aria-label="Workspace files"
     selectionMode="multiple"
     defaultExpandedKeys={['workspace', 'docs']}
     defaultSelectedKeys={['doc-color']}
   >
-    <TreeItem id="workspace" textValue="設計系統專案">
-      <TreeItemContent>設計系統專案</TreeItemContent>
-      <TreeItem id="docs" textValue="設計文件">
-        <TreeItemContent>設計文件</TreeItemContent>
-        <TreeItem id="doc-color" textValue="色彩規範">
-          <TreeItemContent>色彩規範</TreeItemContent>
+    <TreeItem id="workspace" textValue="workspace">
+      <TreeItemContent>workspace</TreeItemContent>
+      <TreeItem id="docs" textValue="docs">
+        <TreeItemContent>docs</TreeItemContent>
+        <TreeItem id="doc-color" textValue="color.mdx">
+          <TreeItemContent>color.mdx</TreeItemContent>
         </TreeItem>
-        <TreeItem id="doc-typography" textValue="字體規範">
-          <TreeItemContent>字體規範</TreeItemContent>
+        <TreeItem id="doc-typography" textValue="typography.mdx">
+          <TreeItemContent>typography.mdx</TreeItemContent>
         </TreeItem>
       </TreeItem>
-      <TreeItem id="assets" textValue="資源檔案">
-        <TreeItemContent>資源檔案</TreeItemContent>
-        <TreeItem id="asset-logo" textValue="品牌識別圖檔">
-          <TreeItemContent>品牌識別圖檔</TreeItemContent>
+      <TreeItem id="assets" textValue="assets">
+        <TreeItemContent>assets</TreeItemContent>
+        <TreeItem id="asset-logo" textValue="logo.svg">
+          <TreeItemContent>logo.svg</TreeItemContent>
         </TreeItem>
-        <TreeItem id="asset-icons" textValue="圖示套件">
-          <TreeItemContent>圖示套件</TreeItemContent>
+        <TreeItem id="asset-icons" textValue="icons.svg">
+          <TreeItemContent>icons.svg</TreeItemContent>
         </TreeItem>
       </TreeItem>
     </TreeItem>
@@ -39,17 +39,17 @@ description: "呈現多層次父子結構的階層列表元件，支援節點展
 import { Tree, TreeItem, TreeItemContent } from '@pact-design/react'
 
 <Tree
-  aria-label="專案目錄結構"
+  aria-label="Workspace files"
   selectionMode="multiple"
   defaultExpandedKeys={['workspace', 'docs']}
   defaultSelectedKeys={['doc-color']}
 >
-  <TreeItem id="workspace" textValue="設計系統專案">
-    <TreeItemContent>設計系統專案</TreeItemContent>
-    <TreeItem id="docs" textValue="設計文件">
-      <TreeItemContent>設計文件</TreeItemContent>
-      <TreeItem id="doc-color" textValue="色彩規範">
-        <TreeItemContent>色彩規範</TreeItemContent>
+  <TreeItem id="workspace" textValue="workspace">
+    <TreeItemContent>workspace</TreeItemContent>
+    <TreeItem id="docs" textValue="docs">
+      <TreeItemContent>docs</TreeItemContent>
+      <TreeItem id="doc-color" textValue="color.mdx">
+        <TreeItemContent>color.mdx</TreeItemContent>
       </TreeItem>
     </TreeItem>
   </TreeItem>
@@ -69,9 +69,9 @@ import { Tree, TreeItem, TreeItemContent } from '@pact-design/react'
 用於檔案瀏覽器或側邊階層導覽時，可使用 `selectionMode="single"` 標示目前聚焦檢視的節點。
 
 <ComponentPreview align="stretch">
-  <Tree aria-label="元件原始碼目錄" selectionMode="single" defaultExpandedKeys={['components']}>
-    <TreeItem id="components" textValue="components">
-      <TreeItemContent>components</TreeItemContent>
+  <Tree aria-label="Component source folders" selectionMode="single" defaultExpandedKeys={['components']}>
+    <TreeItem id="components" textValue="src/components">
+      <TreeItemContent>src/components</TreeItemContent>
       <TreeItem id="button" textValue="Button">
         <TreeItemContent>Button</TreeItemContent>
         <TreeItem id="button-tsx" textValue="Button.tsx">
@@ -89,9 +89,9 @@ import { Tree, TreeItem, TreeItemContent } from '@pact-design/react'
 </ComponentPreview>
 
 ```tsx
-<Tree aria-label="元件原始碼目錄" selectionMode="single" defaultExpandedKeys={['components']}>
-  <TreeItem id="components" textValue="components">
-    <TreeItemContent>components</TreeItemContent>
+<Tree aria-label="Component source folders" selectionMode="single" defaultExpandedKeys={['components']}>
+  <TreeItem id="components" textValue="src/components">
+    <TreeItemContent>src/components</TreeItemContent>
     <TreeItem id="button" textValue="Button">
       <TreeItemContent>Button</TreeItemContent>
       <TreeItem id="button-tsx" textValue="Button.tsx">

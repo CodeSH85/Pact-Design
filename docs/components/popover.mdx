@@ -5,11 +5,11 @@ description: "依附於觸發按鈕周圍展開的輕量浮動容器，適合承
 ---
 
 <ComponentPreview>
-  <Popover trigger={<Button variant="secondary">檢視詳細說明</Button>}>
+  <Popover trigger={<Button variant="secondary">Open Popover</Button>}>
     <div className="flex flex-col gap-xs p-xs max-w-64">
-      <span className="text-label-sm font-bold text-on-surface">同步狀態說明</span>
+      <span className="text-label-sm font-bold text-on-surface">Popover Title</span>
       <p className="text-caption-md text-on-surface-muted m-0">
-        所有設定變更會自動同步至團隊工作區，點擊視窗外部或按下 Escape 即可關閉。
+        Contextual content anchored relative to its trigger element.
       </p>
     </div>
   </Popover>
@@ -18,10 +18,10 @@ description: "依附於觸發按鈕周圍展開的輕量浮動容器，適合承
 ```tsx
 import { Button, Popover } from '@pact-design/react'
 
-<Popover trigger={<Button variant="secondary">檢視詳細說明</Button>}>
+<Popover trigger={<Button variant="secondary">Open Popover</Button>}>
   <div className="flex flex-col gap-xs p-xs">
-    <span className="text-label-sm font-bold text-on-surface">同步狀態說明</span>
-    <p>所有設定變更會自動同步至團隊工作區。</p>
+    <span className="text-label-sm font-bold text-on-surface">Popover Title</span>
+    <p>Contextual content anchored relative to its trigger element.</p>
   </div>
 </Popover>
 ```
@@ -40,25 +40,25 @@ import { Button, Popover } from '@pact-design/react'
 
 <ComponentPreview>
   <Popover
-    trigger={<Button variant="secondary" size="sm">上方含箭頭</Button>}
+    trigger={<Button variant="secondary" size="sm">Top + Arrow</Button>}
     contentProps={{ placement: 'top', showArrow: true, offset: 10 }}
   >
-    <div className="p-xs text-caption-md text-on-surface">展開於觸發按鈕上方並附上箭頭。</div>
+    <div className="p-xs text-caption-md text-on-surface">placement="top" showArrow</div>
   </Popover>
   <Popover
-    trigger={<Button variant="secondary" size="sm">右側展開</Button>}
+    trigger={<Button variant="secondary" size="sm">Right</Button>}
     contentProps={{ placement: 'right', offset: 8 }}
   >
-    <div className="p-xs text-caption-md text-on-surface">對齊觸發按鈕右側展開。</div>
+    <div className="p-xs text-caption-md text-on-surface">placement="right"</div>
   </Popover>
 </ComponentPreview>
 
 ```tsx
 <Popover
-  trigger={<Button variant="secondary">上方含箭頭</Button>}
+  trigger={<Button variant="secondary">Top + Arrow</Button>}
   contentProps={{ placement: 'top', showArrow: true, offset: 10 }}
 >
-  <div className="p-xs">展開於觸發按鈕上方並附上箭頭。</div>
+  <div className="p-xs">placement="top" showArrow</div>
 </Popover>
 ```
 

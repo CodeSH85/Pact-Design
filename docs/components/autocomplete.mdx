@@ -7,15 +7,15 @@ description: "結合即時搜尋輸入框與常駐選項清單，讓使用者透
 <ComponentPreview>
   <div className="w-full max-w-80">
     <Autocomplete
-      label="快速搜尋功能"
-      description="輸入關鍵字即時篩選相符項目"
-      placeholder="搜尋項目..."
+      label="Quick Search"
+      description="Filter matching items as you type"
+      placeholder="Search..."
     >
-      <AutocompleteItem id="profile">工作區基本設定</AutocompleteItem>
-      <AutocompleteItem id="members">團隊成員與權限管理</AutocompleteItem>
-      <AutocompleteItem id="billing">帳單與使用量紀錄</AutocompleteItem>
-      <AutocompleteItem id="api-keys">API 金鑰管理</AutocompleteItem>
-      <AutocompleteItem id="audit">系統操作稽核日誌</AutocompleteItem>
+      <AutocompleteItem id="profile">Workspace Settings</AutocompleteItem>
+      <AutocompleteItem id="members">Team Members</AutocompleteItem>
+      <AutocompleteItem id="billing">Billing History</AutocompleteItem>
+      <AutocompleteItem id="api-keys">API Keys</AutocompleteItem>
+      <AutocompleteItem id="audit">Audit Logs</AutocompleteItem>
     </Autocomplete>
   </div>
 </ComponentPreview>
@@ -24,14 +24,14 @@ description: "結合即時搜尋輸入框與常駐選項清單，讓使用者透
 import { Autocomplete, AutocompleteItem } from '@pact-design/react'
 
 <Autocomplete
-  label="快速搜尋功能"
-  description="輸入關鍵字即時篩選相符項目"
-  placeholder="搜尋項目..."
+  label="Quick Search"
+  description="Filter matching items as you type"
+  placeholder="Search..."
 >
-  <AutocompleteItem id="profile">工作區基本設定</AutocompleteItem>
-  <AutocompleteItem id="members">團隊成員與權限管理</AutocompleteItem>
-  <AutocompleteItem id="billing">帳單與使用量紀錄</AutocompleteItem>
-  <AutocompleteItem id="api-keys">API 金鑰管理</AutocompleteItem>
+  <AutocompleteItem id="profile">Workspace Settings</AutocompleteItem>
+  <AutocompleteItem id="members">Team Members</AutocompleteItem>
+  <AutocompleteItem id="billing">Billing History</AutocompleteItem>
+  <AutocompleteItem id="api-keys">API Keys</AutocompleteItem>
 </Autocomplete>
 ```
 
@@ -48,21 +48,21 @@ import { Autocomplete, AutocompleteItem } from '@pact-design/react'
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
-    <Autocomplete label="緊湊尺寸" size="sm" placeholder="篩選選項...">
-      <AutocompleteItem id="xs">超緊湊高度</AutocompleteItem>
-      <AutocompleteItem id="sm">緊湊高度</AutocompleteItem>
+    <Autocomplete label="Size SM" size="sm" placeholder="Filter...">
+      <AutocompleteItem id="xs">XS</AutocompleteItem>
+      <AutocompleteItem id="sm">SM</AutocompleteItem>
     </Autocomplete>
-    <Autocomplete label="舒適尺寸" size="lg" placeholder="篩選選項...">
-      <AutocompleteItem id="md">標準高度</AutocompleteItem>
-      <AutocompleteItem id="lg">舒適高度</AutocompleteItem>
+    <Autocomplete label="Size LG" size="lg" placeholder="Filter...">
+      <AutocompleteItem id="md">MD</AutocompleteItem>
+      <AutocompleteItem id="lg">LG</AutocompleteItem>
     </Autocomplete>
   </div>
 </ComponentPreview>
 
 ```tsx
-<Autocomplete label="緊湊尺寸" size="sm" placeholder="篩選選項...">
-  <AutocompleteItem id="xs">超緊湊高度</AutocompleteItem>
-  <AutocompleteItem id="sm">緊湊高度</AutocompleteItem>
+<Autocomplete label="Size SM" size="sm" placeholder="Filter...">
+  <AutocompleteItem id="xs">XS</AutocompleteItem>
+  <AutocompleteItem id="sm">SM</AutocompleteItem>
 </Autocomplete>
 ```
 
@@ -73,7 +73,7 @@ import { Autocomplete, AutocompleteItem } from '@pact-design/react'
 <ComponentPreview>
   <div className="w-full max-w-80">
     <Autocomplete>
-      <AutocompleteSearchField aria-label="搜尋指令" placeholder="搜尋指令..." />
+      <AutocompleteSearchField aria-label="Search commands" placeholder="Search commands..." />
       <AutocompleteListBox selectionMode="single">
         <AutocompleteItem id="build">pnpm build:tokens</AutocompleteItem>
         <AutocompleteItem id="lint">pnpm lint</AutocompleteItem>
@@ -85,7 +85,7 @@ import { Autocomplete, AutocompleteItem } from '@pact-design/react'
 
 ```tsx
 <Autocomplete>
-  <AutocompleteSearchField aria-label="搜尋指令" placeholder="搜尋指令..." />
+  <AutocompleteSearchField aria-label="Search commands" placeholder="Search commands..." />
   <AutocompleteListBox selectionMode="single">
     <AutocompleteItem id="build">pnpm build:tokens</AutocompleteItem>
     <AutocompleteItem id="lint">pnpm lint</AutocompleteItem>

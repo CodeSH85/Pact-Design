@@ -5,16 +5,16 @@ description: "可展開與收合的內容區塊，協助隱藏次要細節或進
 ---
 
 <ComponentPreview align="stretch">
-  <Disclosure id="advanced" title="進階匯出設定" defaultExpanded>
-    展開後可調整欄位分隔字元、文字編碼格式以及是否包含標題列，平時收合以減少畫面干擾。
+  <Disclosure id="advanced" title="Advanced Options" defaultExpanded>
+    Expandable panel content hidden when collapsed to keep layouts clean.
   </Disclosure>
 </ComponentPreview>
 
 ```tsx
 import { Disclosure } from '@pact-design/react'
 
-<Disclosure id="advanced" title="進階匯出設定" defaultExpanded>
-  展開後可調整欄位分隔字元、文字編碼格式以及是否包含標題列。
+<Disclosure id="advanced" title="Advanced Options" defaultExpanded>
+  Expandable panel content hidden when collapsed to keep layouts clean.
 </Disclosure>
 ```
 
@@ -32,21 +32,21 @@ import { Disclosure } from '@pact-design/react'
 
 <ComponentPreview align="stretch">
   <div className="flex flex-col gap-md">
-    <Disclosure variant="bordered" title="外框卡片樣式" defaultExpanded>
-      具備完整外框與圓角，適合獨立擺放於頁面或表單段落中。
+    <Disclosure variant="bordered" title="Bordered" defaultExpanded>
+      Standalone card container with full border and subtle corner radius.
     </Disclosure>
-    <Disclosure variant="ghost" title="幽靈分隔樣式">
-      採用透明背景與簡潔分隔線，適合側邊導覽列與密集面板。
+    <Disclosure variant="ghost" title="Ghost">
+      Borderless row with a bottom divider, suited for sidebars and panels.
     </Disclosure>
   </div>
 </ComponentPreview>
 
 ```tsx
-<Disclosure variant="bordered" title="外框卡片樣式" defaultExpanded>
-  具備完整外框與圓角，適合獨立擺放於頁面或表單段落中。
+<Disclosure variant="bordered" title="Bordered" defaultExpanded>
+  Standalone card container with full border and subtle corner radius.
 </Disclosure>
-<Disclosure variant="ghost" title="幽靈分隔樣式">
-  採用透明背景與簡潔分隔線，適合側邊導覽列與密集面板。
+<Disclosure variant="ghost" title="Ghost">
+  Borderless row with a bottom divider, suited for sidebars and panels.
 </Disclosure>
 ```
 
@@ -56,9 +56,9 @@ import { Disclosure } from '@pact-design/react'
 
 <ComponentPreview align="stretch">
   <Disclosure>
-    <DisclosureHeader>自訂標頭觸發區</DisclosureHeader>
+    <DisclosureHeader>Custom Header</DisclosureHeader>
     <DisclosurePanel className="bg-layer-2">
-      可透過 <code>DisclosurePanel</code> 獨立調整展開後的內距與底色表現。
+      Custom panel styled independently via <code>DisclosurePanel</code>.
     </DisclosurePanel>
   </Disclosure>
 </ComponentPreview>
@@ -67,9 +67,9 @@ import { Disclosure } from '@pact-design/react'
 import { Disclosure, DisclosureHeader, DisclosurePanel } from '@pact-design/react'
 
 <Disclosure>
-  <DisclosureHeader>自訂標頭觸發區</DisclosureHeader>
+  <DisclosureHeader>Custom Header</DisclosureHeader>
   <DisclosurePanel className="bg-layer-2">
-    可獨立調整展開後的內距與底色表現。
+    Custom panel styled independently.
   </DisclosurePanel>
 </Disclosure>
 ```

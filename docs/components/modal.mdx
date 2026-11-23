@@ -6,18 +6,18 @@ description: "置中浮現於工作區之上的遮罩式對話視窗，讓使用
 
 <ComponentPreview>
   <Modal
-    trigger={<Button variant="primary">開啟互動視窗</Button>}
-    title="發送版本更新通知"
-    description="送出後將立即通知工作區內所有訂閱成員。"
+    trigger={<Button variant="primary">Open Modal</Button>}
+    title="Publish Release"
+    description="Notify all workspace subscribers about this update."
     footer={(
       <>
-        <Button variant="ghost" size="sm" slot="close">取消</Button>
-        <Button variant="primary" size="sm" slot="close">確認送出</Button>
+        <Button variant="ghost" size="sm" slot="close">Cancel</Button>
+        <Button variant="primary" size="sm" slot="close">Confirm</Button>
       </>
     )}
   >
     <p className="text-body-sm text-on-surface m-0">
-      互動視窗會鎖定鍵盤焦點於視窗內，點擊遮罩背景或按下 Escape 鍵即可快速關閉。
+      Focus is trapped inside the modal while open. Press Escape or click the backdrop to dismiss.
     </p>
   </Modal>
 </ComponentPreview>
@@ -26,17 +26,17 @@ description: "置中浮現於工作區之上的遮罩式對話視窗，讓使用
 import { Button, Modal } from '@pact-design/react'
 
 <Modal
-  trigger={<Button variant="primary">開啟互動視窗</Button>}
-  title="發送版本更新通知"
-  description="送出後將立即通知工作區內所有訂閱成員。"
+  trigger={<Button variant="primary">Open Modal</Button>}
+  title="Publish Release"
+  description="Notify all workspace subscribers about this update."
   footer={(
     <>
-      <Button variant="ghost" size="sm" slot="close">取消</Button>
-      <Button variant="primary" size="sm" slot="close">確認送出</Button>
+      <Button variant="ghost" size="sm" slot="close">Cancel</Button>
+      <Button variant="primary" size="sm" slot="close">Confirm</Button>
     </>
   )}
 >
-  <p>互動視窗會鎖定鍵盤焦點於視窗內，方便使用者專注完成操作。</p>
+  <p>Focus is trapped inside the modal while open.</p>
 </Modal>
 ```
 
@@ -55,28 +55,28 @@ import { Button, Modal } from '@pact-design/react'
 <ComponentPreview>
   <Modal
     size="sm"
-    trigger={<Button variant="secondary" size="sm">精簡視窗</Button>}
-    title="確定要刪除此快照嗎？"
-    description="刪除後將無法還原這筆紀錄。"
-    footer={<Button variant="danger" size="sm" slot="close">確認刪除</Button>}
+    trigger={<Button variant="secondary" size="sm">Size SM</Button>}
+    title="Delete Snapshot?"
+    description="This action cannot be undone."
+    footer={<Button variant="danger" size="sm" slot="close">Delete</Button>}
   >
-    <p className="text-body-sm text-on-surface m-0">精簡寬度適合簡短的二次確認提示。</p>
+    <p className="text-body-sm text-on-surface m-0">Compact modal width for quick confirmations.</p>
   </Modal>
   <Modal
     size="lg"
-    trigger={<Button variant="secondary" size="sm">較寬視窗</Button>}
-    title="變更內容摘要"
-    footer={<Button variant="primary" size="sm" slot="close">完成檢視</Button>}
+    trigger={<Button variant="secondary" size="sm">Size LG</Button>}
+    title="Change Summary"
+    footer={<Button variant="primary" size="sm" slot="close">Done</Button>}
   >
     <p className="text-body-sm text-on-surface m-0">
-      較寬尺寸能從容呈現多欄表單、設定摘要或需要細部閱讀的檢核清單。
+      Wider modal container suited for multi-column forms and detailed review checklists.
     </p>
   </Modal>
 </ComponentPreview>
 
 ```tsx
-<Modal size="sm" trigger={<Button variant="secondary">精簡視窗</Button>} title="確定要刪除此快照嗎？" />
-<Modal size="lg" trigger={<Button variant="secondary">較寬視窗</Button>} title="變更內容摘要" />
+<Modal size="sm" trigger={<Button variant="secondary">Size SM</Button>} title="Delete Snapshot?" />
+<Modal size="lg" trigger={<Button variant="secondary">Size LG</Button>} title="Change Summary" />
 ```
 
 ### 禁止點擊背景關閉
@@ -85,17 +85,17 @@ import { Button, Modal } from '@pact-design/react'
 
 <ComponentPreview>
   <ModalTrigger>
-    <Button variant="subtle">強制確認視窗</Button>
+    <Button variant="subtle">Non-Dismissable</Button>
     <ModalContent size="sm" isDismissable={false}>
       <ModalDialog>
         <ModalHeader
-          title="是否儲存未完成的修改？"
-          description="請由下方按鈕明確選擇保留或捨棄目前變更。"
+          title="Save Changes?"
+          description="Backdrop clicks are disabled; choose an explicit action below."
           showCloseButton={false}
         />
         <ModalFooter>
-          <Button variant="ghost" size="sm" slot="close">捨棄變更</Button>
-          <Button variant="primary" size="sm" slot="close">儲存變更</Button>
+          <Button variant="ghost" size="sm" slot="close">Discard</Button>
+          <Button variant="primary" size="sm" slot="close">Save</Button>
         </ModalFooter>
       </ModalDialog>
     </ModalContent>
@@ -113,17 +113,17 @@ import {
 } from '@pact-design/react'
 
 <ModalTrigger>
-  <Button variant="subtle">強制確認視窗</Button>
+  <Button variant="subtle">Non-Dismissable</Button>
   <ModalContent size="sm" isDismissable={false}>
     <ModalDialog>
       <ModalHeader
-        title="是否儲存未完成的修改？"
-        description="請由下方按鈕明確選擇保留或捨棄目前變更。"
+        title="Save Changes?"
+        description="Backdrop clicks are disabled."
         showCloseButton={false}
       />
       <ModalFooter>
-        <Button variant="ghost" size="sm" slot="close">捨棄變更</Button>
-        <Button variant="primary" size="sm" slot="close">儲存變更</Button>
+        <Button variant="ghost" size="sm" slot="close">Discard</Button>
+        <Button variant="primary" size="sm" slot="close">Save</Button>
       </ModalFooter>
     </ModalDialog>
   </ModalContent>

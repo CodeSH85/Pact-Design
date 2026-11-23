@@ -6,21 +6,21 @@ description: "構成互動視窗、側邊抽屜與浮動視窗的核心內容骨
 
 <ComponentPreview>
   <DialogTrigger>
-    <Button variant="primary">開啟自訂對話框</Button>
+    <Button variant="primary">Open Dialog</Button>
     <ModalContent size="md">
       <Dialog className="p-lg flex flex-col gap-md">
         <DialogHeader
-          title="發布前檢查報告"
-          description="確認以下項目皆已通過驗證，再正式發送更新通知。"
+          title="Release Checklist"
+          description="Confirm all checks before publishing this release."
         />
         <DialogBody>
           <p className="text-body-sm text-on-surface m-0">
-            所有必要欄位與權限檢查均已通過，你可以安心繼續進行發布流程。
+            All required checks passed and this release is ready to publish.
           </p>
         </DialogBody>
         <DialogFooter>
-          <Button variant="ghost" size="sm" slot="close">取消</Button>
-          <Button variant="primary" size="sm" slot="close">確認發布</Button>
+          <Button variant="ghost" size="sm" slot="close">Cancel</Button>
+          <Button variant="primary" size="sm" slot="close">Publish</Button>
         </DialogFooter>
       </Dialog>
     </ModalContent>
@@ -39,19 +39,19 @@ import {
 } from '@pact-design/react'
 
 <DialogTrigger>
-  <Button variant="primary">開啟自訂對話框</Button>
+  <Button variant="primary">Open Dialog</Button>
   <ModalContent size="md">
     <Dialog className="p-lg flex flex-col gap-md">
       <DialogHeader
-        title="發布前檢查報告"
-        description="確認以下項目皆已通過驗證，再正式發送更新通知。"
+        title="Release Checklist"
+        description="Confirm all checks before publishing this release."
       />
       <DialogBody>
-        <p>所有必要欄位與權限檢查均已通過，你可以安心繼續發布。</p>
+        <p>All required checks passed and this release is ready to publish.</p>
       </DialogBody>
       <DialogFooter>
-        <Button variant="ghost" size="sm" slot="close">取消</Button>
-        <Button variant="primary" size="sm" slot="close">確認發布</Button>
+        <Button variant="ghost" size="sm" slot="close">Cancel</Button>
+        <Button variant="primary" size="sm" slot="close">Publish</Button>
       </DialogFooter>
     </Dialog>
   </ModalContent>
@@ -72,17 +72,17 @@ import {
 
 <ComponentPreview>
   <DialogTrigger>
-    <Button variant="secondary">捨棄草稿確認</Button>
+    <Button variant="secondary">No Close Button</Button>
     <ModalContent size="sm" isDismissable={false}>
       <Dialog className="p-lg flex flex-col gap-md">
         <DialogHeader
-          title="確定要捨棄草稿嗎？"
-          description="尚未儲存的編輯內容將會遺失，且無法復原。"
+          title="Discard Draft?"
+          description="Unsaved changes will be permanently lost."
           showCloseButton={false}
         />
         <DialogFooter>
-          <Button variant="secondary" size="sm" slot="close">繼續編輯</Button>
-          <Button variant="danger" size="sm" slot="close">捨棄草稿</Button>
+          <Button variant="secondary" size="sm" slot="close">Keep Editing</Button>
+          <Button variant="danger" size="sm" slot="close">Discard</Button>
         </DialogFooter>
       </Dialog>
     </ModalContent>
@@ -91,17 +91,17 @@ import {
 
 ```tsx
 <DialogTrigger>
-  <Button variant="secondary">捨棄草稿確認</Button>
+  <Button variant="secondary">No Close Button</Button>
   <ModalContent size="sm" isDismissable={false}>
     <Dialog className="p-lg flex flex-col gap-md">
       <DialogHeader
-        title="確定要捨棄草稿嗎？"
-        description="尚未儲存的編輯內容將會遺失。"
+        title="Discard Draft?"
+        description="Unsaved changes will be permanently lost."
         showCloseButton={false}
       />
       <DialogFooter>
-        <Button variant="secondary" size="sm" slot="close">繼續編輯</Button>
-        <Button variant="danger" size="sm" slot="close">捨棄草稿</Button>
+        <Button variant="secondary" size="sm" slot="close">Keep Editing</Button>
+        <Button variant="danger" size="sm" slot="close">Discard</Button>
       </DialogFooter>
     </Dialog>
   </ModalContent>

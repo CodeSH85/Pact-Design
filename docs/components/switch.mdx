@@ -7,8 +7,8 @@ description: "用於即時開啟或關閉單一功能狀態的撥動控制項，
 <ComponentPreview>
   <Switch
     defaultChecked
-    label="即時同步預覽"
-    description="編輯內容後立即更新右側預覽畫面。"
+    label="Live Preview"
+    description="Update preview immediately on change."
   />
 </ComponentPreview>
 
@@ -17,8 +17,8 @@ import { Switch } from '@pact-design/react'
 
 <Switch
   defaultChecked
-  label="即時同步預覽"
-  description="編輯內容後立即更新右側預覽畫面。"
+  label="Live Preview"
+  description="Update preview immediately on change."
 />
 ```
 
@@ -35,14 +35,14 @@ import { Switch } from '@pact-design/react'
 
 <ComponentPreview align="start">
   <div className="flex flex-col gap-md">
-    <Switch size="sm" defaultChecked label="緊湊尺寸開關" />
-    <Switch size="md" defaultChecked label="標準尺寸開關" />
+    <Switch size="sm" defaultChecked label="Size SM" />
+    <Switch size="md" defaultChecked label="Size MD" />
   </div>
 </ComponentPreview>
 
 ```tsx
-<Switch size="sm" defaultChecked label="緊湊尺寸開關" />
-<Switch size="md" defaultChecked label="標準尺寸開關" />
+<Switch size="sm" defaultChecked label="Size SM" />
+<Switch size="md" defaultChecked label="Size MD" />
 ```
 
 ### 停用狀態
@@ -51,14 +51,14 @@ import { Switch } from '@pact-design/react'
 
 <ComponentPreview align="start">
   <div className="flex flex-col gap-md">
-    <Switch disabled label="已停用且未開啟" />
-    <Switch disabled defaultChecked label="已停用且維持開啟" />
+    <Switch disabled label="Disabled Off" />
+    <Switch disabled defaultChecked label="Disabled On" />
   </div>
 </ComponentPreview>
 
 ```tsx
-<Switch disabled label="已停用且未開啟" />
-<Switch disabled defaultChecked label="已停用且維持開啟" />
+<Switch disabled label="Disabled Off" />
+<Switch disabled defaultChecked label="Disabled On" />
 ```
 
 ## API 參考

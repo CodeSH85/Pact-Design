@@ -7,16 +7,16 @@ description: "結合文字輸入篩選與下拉選單的複合選擇控制項，
 <ComponentPreview>
   <div className="w-full max-w-72">
     <ComboBox
-      label="部署區域"
-      description="可直接輸入城市名稱快速篩選清單"
-      placeholder="選擇或搜尋區域..."
+      label="Region"
+      description="Type to filter regions"
+      placeholder="Select region..."
       defaultSelectedKey="taipei"
     >
-      <ComboBoxItem id="taipei">台北 TPE</ComboBoxItem>
-      <ComboBoxItem id="tokyo">東京 TYO</ComboBoxItem>
-      <ComboBoxItem id="london">倫敦 LON</ComboBoxItem>
-      <ComboBoxItem id="sf">舊金山 SFO</ComboBoxItem>
-      <ComboBoxItem id="berlin">柏林 BER</ComboBoxItem>
+      <ComboBoxItem id="taipei">Taipei</ComboBoxItem>
+      <ComboBoxItem id="tokyo">Tokyo</ComboBoxItem>
+      <ComboBoxItem id="london">London</ComboBoxItem>
+      <ComboBoxItem id="sf">San Francisco</ComboBoxItem>
+      <ComboBoxItem id="berlin">Berlin</ComboBoxItem>
     </ComboBox>
   </div>
 </ComponentPreview>
@@ -25,16 +25,16 @@ description: "結合文字輸入篩選與下拉選單的複合選擇控制項，
 import { ComboBox, ComboBoxItem } from '@pact-design/react'
 
 <ComboBox
-  label="部署區域"
-  description="可直接輸入城市名稱快速篩選清單"
-  placeholder="選擇或搜尋區域..."
+  label="Region"
+  description="Type to filter regions"
+  placeholder="Select region..."
   defaultSelectedKey="taipei"
 >
-  <ComboBoxItem id="taipei">台北 TPE</ComboBoxItem>
-  <ComboBoxItem id="tokyo">東京 TYO</ComboBoxItem>
-  <ComboBoxItem id="london">倫敦 LON</ComboBoxItem>
-  <ComboBoxItem id="sf">舊金山 SFO</ComboBoxItem>
-  <ComboBoxItem id="berlin">柏林 BER</ComboBoxItem>
+  <ComboBoxItem id="taipei">Taipei</ComboBoxItem>
+  <ComboBoxItem id="tokyo">Tokyo</ComboBoxItem>
+  <ComboBoxItem id="london">London</ComboBoxItem>
+  <ComboBoxItem id="sf">San Francisco</ComboBoxItem>
+  <ComboBoxItem id="berlin">Berlin</ComboBoxItem>
 </ComboBox>
 ```
 
@@ -52,21 +52,21 @@ import { ComboBox, ComboBoxItem } from '@pact-design/react'
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
-    <ComboBox label="緊湊尺寸" size="sm" defaultSelectedKey="xs">
-      <ComboBoxItem id="xs">超緊湊 24px</ComboBoxItem>
-      <ComboBoxItem id="sm">緊湊 28px</ComboBoxItem>
+    <ComboBox label="Size SM" size="sm" defaultSelectedKey="xs">
+      <ComboBoxItem id="xs">XS</ComboBoxItem>
+      <ComboBoxItem id="sm">SM</ComboBoxItem>
     </ComboBox>
-    <ComboBox label="舒適尺寸" size="lg" defaultSelectedKey="lg">
-      <ComboBoxItem id="md">標準 32px</ComboBoxItem>
-      <ComboBoxItem id="lg">舒適 36px</ComboBoxItem>
+    <ComboBox label="Size LG" size="lg" defaultSelectedKey="lg">
+      <ComboBoxItem id="md">MD</ComboBoxItem>
+      <ComboBoxItem id="lg">LG</ComboBoxItem>
     </ComboBox>
   </div>
 </ComponentPreview>
 
 ```tsx
-<ComboBox label="緊湊尺寸" size="sm" defaultSelectedKey="xs">
-  <ComboBoxItem id="xs">超緊湊 24px</ComboBoxItem>
-  <ComboBoxItem id="sm">緊湊 28px</ComboBoxItem>
+<ComboBox label="Size SM" size="sm" defaultSelectedKey="xs">
+  <ComboBoxItem id="xs">XS</ComboBoxItem>
+  <ComboBoxItem id="sm">SM</ComboBoxItem>
 </ComboBox>
 ```
 
@@ -76,20 +76,20 @@ import { ComboBox, ComboBoxItem } from '@pact-design/react'
 
 <ComponentPreview>
   <div className="w-full max-w-72 flex flex-col gap-md">
-    <ComboBox label="資料來源" placeholder="選擇資料來源...">
+    <ComboBox label="Data Source" placeholder="Select source...">
       <ComboBoxSection>
-        <ListBoxHeader>主要資料庫</ListBoxHeader>
-        <ComboBoxItem id="pg">PostgreSQL 主節點</ComboBoxItem>
-        <ComboBoxItem id="replica">PostgreSQL 唯讀副本</ComboBoxItem>
+        <ListBoxHeader>Database</ListBoxHeader>
+        <ComboBoxItem id="pg">PostgreSQL Primary</ComboBoxItem>
+        <ComboBoxItem id="replica">PostgreSQL Replica</ComboBoxItem>
       </ComboBoxSection>
       <ComboBoxSection>
-        <ListBoxHeader>快取服務</ListBoxHeader>
-        <ComboBoxItem id="redis">Redis 叢集</ComboBoxItem>
-        <ComboBoxItem id="edge">邊緣節點快取</ComboBoxItem>
+        <ListBoxHeader>Cache</ListBoxHeader>
+        <ComboBoxItem id="redis">Redis Cluster</ComboBoxItem>
+        <ComboBoxItem id="edge">Edge Cache</ComboBoxItem>
       </ComboBoxSection>
     </ComboBox>
-    <ComboBox label="鎖定環境" isDisabled defaultSelectedKey="prod">
-      <ComboBoxItem id="prod">正式環境</ComboBoxItem>
+    <ComboBox label="Disabled" isDisabled defaultSelectedKey="prod">
+      <ComboBoxItem id="prod">Production</ComboBoxItem>
     </ComboBox>
   </div>
 </ComponentPreview>
@@ -97,11 +97,11 @@ import { ComboBox, ComboBoxItem } from '@pact-design/react'
 ```tsx
 import { ComboBox, ComboBoxItem, ComboBoxSection, ListBoxHeader } from '@pact-design/react'
 
-<ComboBox label="資料來源" placeholder="選擇資料來源...">
+<ComboBox label="Data Source" placeholder="Select source...">
   <ComboBoxSection>
-    <ListBoxHeader>主要資料庫</ListBoxHeader>
-    <ComboBoxItem id="pg">PostgreSQL 主節點</ComboBoxItem>
-    <ComboBoxItem id="replica">PostgreSQL 唯讀副本</ComboBoxItem>
+    <ListBoxHeader>Database</ListBoxHeader>
+    <ComboBoxItem id="pg">PostgreSQL Primary</ComboBoxItem>
+    <ComboBoxItem id="replica">PostgreSQL Replica</ComboBoxItem>
   </ComboBoxSection>
 </ComboBox>
 ```

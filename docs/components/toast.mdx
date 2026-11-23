@@ -7,8 +7,8 @@ description: "於畫面角落短暫浮現的非侵入式通知訊息，用於即
 import { toast } from '@pact-design/react'
 
 <ComponentPreview>
-  <Button variant="primary" onPress={() => toast.info('資料已同步', '最新工作區設定已套用至所有檢視窗格。')}>
-    顯示訊息通知
+  <Button variant="primary" onPress={() => toast.info('Synced', 'Latest workspace changes have been applied.')}>
+    Show Toast
   </Button>
 </ComponentPreview>
 
@@ -21,9 +21,9 @@ import { Button, ToastRegion, toast } from '@pact-design/react'
 // 於任意事件中呼叫 toast 觸發通知
 <Button
   variant="primary"
-  onPress={() => toast.info('資料已同步', '最新工作區設定已套用至所有檢視窗格。')}
+  onPress={() => toast.info('Synced', 'Latest workspace changes have been applied.')}
 >
-  顯示訊息通知
+  Show Toast
 </Button>
 ```
 
@@ -40,29 +40,29 @@ import { Button, ToastRegion, toast } from '@pact-design/react'
 可透過 `toast.info`、`toast.success`、`toast.warning`、`toast.danger` 或預設的 `toast` 函式快速送出不同語意層級的通知。
 
 <ComponentPreview>
-  <Button variant="secondary" size="sm" onPress={() => toast({ title: '一般提示', description: '已將項目複製至剪貼簿。' }, { timeout: 2500 })}>
-    一般提示
+  <Button variant="secondary" size="sm" onPress={() => toast({ title: 'Default', description: 'Copied item to clipboard.' }, { timeout: 2500 })}>
+    Default
   </Button>
-  <Button variant="secondary" size="sm" onPress={() => toast.info('系統資訊', '有新的工作區更新可供檢視。')}>
-    資訊
+  <Button variant="secondary" size="sm" onPress={() => toast.info('Info', 'A new workspace update is available.')}>
+    Info
   </Button>
-  <Button variant="secondary" size="sm" onPress={() => toast.success('儲存成功', '所有設定變更均已寫入。')}>
-    成功
+  <Button variant="secondary" size="sm" onPress={() => toast.success('Success', 'All changes have been saved.')}>
+    Success
   </Button>
-  <Button variant="secondary" size="sm" onPress={() => toast.warning('連線不穩定', '目前網路延遲較高，系統將自動重試。')}>
-    警告
+  <Button variant="secondary" size="sm" onPress={() => toast.warning('Warning', 'High latency detected. Retrying automatically.')}>
+    Warning
   </Button>
-  <Button variant="danger" size="sm" onPress={() => toast.danger('匯出失敗', '無法完成檔案產生，請稍後再試。')}>
-    危險
+  <Button variant="danger" size="sm" onPress={() => toast.danger('Danger', 'Export failed. Please try again.')}>
+    Danger
   </Button>
 </ComponentPreview>
 
 ```tsx
-toast({ title: '一般提示', description: '已將項目複製至剪貼簿。' }, { timeout: 2500 })
-toast.info('系統資訊', '有新的工作區更新可供檢視。')
-toast.success('儲存成功', '所有設定變更均已寫入。')
-toast.warning('連線不穩定', '目前網路延遲較高，系統將自動重試。')
-toast.danger('匯出失敗', '無法完成檔案產生，請稍後再試。')
+toast({ title: 'Default', description: 'Copied item to clipboard.' }, { timeout: 2500 })
+toast.info('Info', 'A new workspace update is available.')
+toast.success('Success', 'All changes have been saved.')
+toast.warning('Warning', 'High latency detected. Retrying automatically.')
+toast.danger('Danger', 'Export failed. Please try again.')
 ```
 
 ## API 參考

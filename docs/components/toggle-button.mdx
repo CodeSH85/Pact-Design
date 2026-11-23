@@ -5,13 +5,13 @@ description: "具備開啟與關閉雙狀態的按鈕元件，可單獨切換功
 ---
 
 <ComponentPreview>
-  <ToggleButton defaultSelected>釘選面板</ToggleButton>
+  <ToggleButton defaultSelected>Pin Panel</ToggleButton>
 </ComponentPreview>
 
 ```tsx
 import { ToggleButton } from '@pact-design/react'
 
-<ToggleButton defaultSelected>釘選面板</ToggleButton>
+<ToggleButton defaultSelected>Pin Panel</ToggleButton>
 ```
 
 ## 何時使用
@@ -28,16 +28,17 @@ import { ToggleButton } from '@pact-design/react'
 支援 `secondary`、`ghost` 與 `primary` 三種樣式，點擊即可觀察選取與未選取狀態的視覺差異。
 
 <ComponentPreview>
-  <ToggleButton variant="secondary" defaultSelected>次要樣式</ToggleButton>
-  <ToggleButton variant="ghost" defaultSelected>幽靈樣式</ToggleButton>
-  <ToggleButton variant="primary" defaultSelected>主要樣式</ToggleButton>
-  <ToggleButton variant="secondary" disabled>停用狀態</ToggleButton>
+  <ToggleButton variant="secondary" defaultSelected>Secondary</ToggleButton>
+  <ToggleButton variant="ghost" defaultSelected>Ghost</ToggleButton>
+  <ToggleButton variant="primary" defaultSelected>Primary</ToggleButton>
+  <ToggleButton variant="secondary" disabled>Disabled</ToggleButton>
 </ComponentPreview>
 
 ```tsx
-<ToggleButton variant="secondary" defaultSelected>次要樣式</ToggleButton>
-<ToggleButton variant="ghost" defaultSelected>幽靈樣式</ToggleButton>
-<ToggleButton variant="primary" defaultSelected>主要樣式</ToggleButton>
+<ToggleButton variant="secondary" defaultSelected>Secondary</ToggleButton>
+<ToggleButton variant="ghost" defaultSelected>Ghost</ToggleButton>
+<ToggleButton variant="primary" defaultSelected>Primary</ToggleButton>
+<ToggleButton variant="secondary" disabled>Disabled</ToggleButton>
 ```
 
 ### 分段單選與多選
@@ -47,24 +48,24 @@ import { ToggleButton } from '@pact-design/react'
 <ComponentPreview align="stretch">
   <div className="flex flex-wrap items-center justify-center gap-lg">
     <ToggleButtonGroup
-      aria-label="檢視模式"
+      aria-label="View mode"
       selectionMode="single"
       disallowEmptySelection
       defaultSelectedKeys={['grid']}
     >
-      <ToggleButton id="list" size="sm" variant="primary">清單</ToggleButton>
-      <ToggleButton id="grid" size="sm" variant="primary">格狀</ToggleButton>
-      <ToggleButton id="table" size="sm" variant="primary">表格</ToggleButton>
+      <ToggleButton id="list" size="sm" variant="primary">List</ToggleButton>
+      <ToggleButton id="grid" size="sm" variant="primary">Grid</ToggleButton>
+      <ToggleButton id="table" size="sm" variant="primary">Table</ToggleButton>
     </ToggleButtonGroup>
 
     <ToggleButtonGroup
-      aria-label="文字格式"
+      aria-label="Text formatting"
       selectionMode="multiple"
       defaultSelectedKeys={['bold']}
     >
-      <ToggleButton id="bold" size="sm">粗體</ToggleButton>
-      <ToggleButton id="italic" size="sm">斜體</ToggleButton>
-      <ToggleButton id="mono" size="sm">等寬</ToggleButton>
+      <ToggleButton id="bold" size="sm">Bold</ToggleButton>
+      <ToggleButton id="italic" size="sm">Italic</ToggleButton>
+      <ToggleButton id="mono" size="sm">Mono</ToggleButton>
     </ToggleButtonGroup>
   </div>
 </ComponentPreview>
@@ -73,14 +74,14 @@ import { ToggleButton } from '@pact-design/react'
 import { ToggleButton, ToggleButtonGroup } from '@pact-design/react'
 
 <ToggleButtonGroup
-  aria-label="檢視模式"
+  aria-label="View mode"
   selectionMode="single"
   disallowEmptySelection
   defaultSelectedKeys={['grid']}
 >
-  <ToggleButton id="list" size="sm" variant="primary">清單</ToggleButton>
-  <ToggleButton id="grid" size="sm" variant="primary">格狀</ToggleButton>
-  <ToggleButton id="table" size="sm" variant="primary">表格</ToggleButton>
+  <ToggleButton id="list" size="sm" variant="primary">List</ToggleButton>
+  <ToggleButton id="grid" size="sm" variant="primary">Grid</ToggleButton>
+  <ToggleButton id="table" size="sm" variant="primary">Table</ToggleButton>
 </ToggleButtonGroup>
 ```
 

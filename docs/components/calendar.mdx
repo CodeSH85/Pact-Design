@@ -7,14 +7,14 @@ description: "直接內嵌於頁面或面板中的月曆檢視元件，支援月
 import { parseDate } from '@internationalized/date'
 
 <ComponentPreview>
-  <Calendar aria-label="活動排程" defaultValue={parseDate('2026-11-18')} />
+  <Calendar aria-label="Event schedule" defaultValue={parseDate('2026-11-18')} />
 </ComponentPreview>
 
 ```tsx
 import { parseDate } from '@internationalized/date'
 import { Calendar } from '@pact-design/react'
 
-<Calendar aria-label="活動排程" defaultValue={parseDate('2026-11-18')} />
+<Calendar aria-label="Event schedule" defaultValue={parseDate('2026-11-18')} />
 ```
 
 ## 何時使用
@@ -31,7 +31,7 @@ import { Calendar } from '@pact-design/react'
 
 <ComponentPreview>
   <Calendar
-    aria-label="十一月可預約時段"
+    aria-label="Constrained schedule"
     defaultValue={parseDate('2026-11-18')}
     minValue={parseDate('2026-11-10')}
     maxValue={parseDate('2026-11-24')}
@@ -40,7 +40,7 @@ import { Calendar } from '@pact-design/react'
 
 ```tsx
 <Calendar
-  aria-label="十一月可預約時段"
+  aria-label="Constrained schedule"
   defaultValue={parseDate('2026-11-18')}
   minValue={parseDate('2026-11-10')}
   maxValue={parseDate('2026-11-24')}

@@ -7,13 +7,13 @@ description: "點擊後展開浮動清單的單選控制項，適合在精簡版
 <ComponentPreview>
   <div className="w-full max-w-64">
     <Select
-      label="成員權限"
-      description="指定此協作者在工作區中的存取等級"
+      label="Role"
+      description="Assign workspace access level"
       defaultSelectedKey="admin"
     >
-      <SelectItem id="viewer">檢視者</SelectItem>
-      <SelectItem id="editor">編輯者</SelectItem>
-      <SelectItem id="admin">管理員</SelectItem>
+      <SelectItem id="viewer">Viewer</SelectItem>
+      <SelectItem id="editor">Editor</SelectItem>
+      <SelectItem id="admin">Admin</SelectItem>
     </Select>
   </div>
 </ComponentPreview>
@@ -22,13 +22,13 @@ description: "點擊後展開浮動清單的單選控制項，適合在精簡版
 import { Select, SelectItem } from '@pact-design/react'
 
 <Select
-  label="成員權限"
-  description="指定此協作者在工作區中的存取等級"
+  label="Role"
+  description="Assign workspace access level"
   defaultSelectedKey="admin"
 >
-  <SelectItem id="viewer">檢視者</SelectItem>
-  <SelectItem id="editor">編輯者</SelectItem>
-  <SelectItem id="admin">管理員</SelectItem>
+  <SelectItem id="viewer">Viewer</SelectItem>
+  <SelectItem id="editor">Editor</SelectItem>
+  <SelectItem id="admin">Admin</SelectItem>
 </Select>
 ```
 
@@ -46,29 +46,29 @@ import { Select, SelectItem } from '@pact-design/react'
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-md">
-    <Select label="緊湊尺寸" size="sm" defaultSelectedKey="all">
-      <SelectItem id="all">全部狀態</SelectItem>
-      <SelectItem id="active">進行中</SelectItem>
-      <SelectItem id="archived">已封存</SelectItem>
+    <Select label="Size SM" size="sm" defaultSelectedKey="all">
+      <SelectItem id="all">All</SelectItem>
+      <SelectItem id="active">Active</SelectItem>
+      <SelectItem id="archived">Archived</SelectItem>
     </Select>
-    <Select label="標準尺寸" size="md" defaultSelectedKey="all">
-      <SelectItem id="all">全部狀態</SelectItem>
-      <SelectItem id="active">進行中</SelectItem>
-      <SelectItem id="archived">已封存</SelectItem>
+    <Select label="Size MD" size="md" defaultSelectedKey="all">
+      <SelectItem id="all">All</SelectItem>
+      <SelectItem id="active">Active</SelectItem>
+      <SelectItem id="archived">Archived</SelectItem>
     </Select>
-    <Select label="舒適尺寸" size="lg" defaultSelectedKey="all">
-      <SelectItem id="all">全部狀態</SelectItem>
-      <SelectItem id="active">進行中</SelectItem>
-      <SelectItem id="archived">已封存</SelectItem>
+    <Select label="Size LG" size="lg" defaultSelectedKey="all">
+      <SelectItem id="all">All</SelectItem>
+      <SelectItem id="active">Active</SelectItem>
+      <SelectItem id="archived">Archived</SelectItem>
     </Select>
   </div>
 </ComponentPreview>
 
 ```tsx
-<Select label="緊湊尺寸" size="sm" defaultSelectedKey="all">
-  <SelectItem id="all">全部狀態</SelectItem>
-  <SelectItem id="active">進行中</SelectItem>
-  <SelectItem id="archived">已封存</SelectItem>
+<Select label="Size SM" size="sm" defaultSelectedKey="all">
+  <SelectItem id="all">All</SelectItem>
+  <SelectItem id="active">Active</SelectItem>
+  <SelectItem id="archived">Archived</SelectItem>
 </Select>
 ```
 
@@ -78,21 +78,21 @@ import { Select, SelectItem } from '@pact-design/react'
 
 <ComponentPreview>
   <div className="w-full max-w-64 flex flex-col gap-md">
-    <Select label="報表區間" placeholder="請選擇區間...">
+    <Select label="Time Range" placeholder="Select range...">
       <SelectSection>
-        <SelectHeader>近期快速選擇</SelectHeader>
-        <SelectItem id="7d">最近 7 天</SelectItem>
-        <SelectItem id="30d">最近 30 天</SelectItem>
+        <SelectHeader>Recent</SelectHeader>
+        <SelectItem id="7d">Last 7 days</SelectItem>
+        <SelectItem id="30d">Last 30 days</SelectItem>
       </SelectSection>
       <SelectSeparator />
       <SelectSection>
-        <SelectHeader>季度彙總</SelectHeader>
-        <SelectItem id="q1">第一季</SelectItem>
-        <SelectItem id="q2">第二季</SelectItem>
+        <SelectHeader>Quarter</SelectHeader>
+        <SelectItem id="q1">Q1</SelectItem>
+        <SelectItem id="q2">Q2</SelectItem>
       </SelectSection>
     </Select>
-    <Select label="鎖定欄位" isDisabled defaultSelectedKey="locked">
-      <SelectItem id="locked">系統預設方案</SelectItem>
+    <Select label="Disabled" isDisabled defaultSelectedKey="locked">
+      <SelectItem id="locked">Locked Preset</SelectItem>
     </Select>
   </div>
 </ComponentPreview>
@@ -106,17 +106,17 @@ import {
   SelectSeparator
 } from '@pact-design/react'
 
-<Select label="報表區間" placeholder="請選擇區間...">
+<Select label="Time Range" placeholder="Select range...">
   <SelectSection>
-    <SelectHeader>近期快速選擇</SelectHeader>
-    <SelectItem id="7d">最近 7 天</SelectItem>
-    <SelectItem id="30d">最近 30 天</SelectItem>
+    <SelectHeader>Recent</SelectHeader>
+    <SelectItem id="7d">Last 7 days</SelectItem>
+    <SelectItem id="30d">Last 30 days</SelectItem>
   </SelectSection>
   <SelectSeparator />
   <SelectSection>
-    <SelectHeader>季度彙總</SelectHeader>
-    <SelectItem id="q1">第一季</SelectItem>
-    <SelectItem id="q2">第二季</SelectItem>
+    <SelectHeader>Quarter</SelectHeader>
+    <SelectItem id="q1">Q1</SelectItem>
+    <SelectItem id="q2">Q2</SelectItem>
   </SelectSection>
 </Select>
 ```
