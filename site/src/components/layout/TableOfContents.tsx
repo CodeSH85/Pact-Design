@@ -18,7 +18,7 @@ function slugify(text: string): string {
     .replace(/[^\p{L}\p{N}\-_]/gu, '')
 }
 
-export function TableOfContents({ pageTitle = 'Introduction' }: TableOfContentsProps) {
+export function TableOfContents({ pageTitle = '總覽' }: TableOfContentsProps) {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
   const [headings, setHeadings] = useState<TocHeading[]>([])
   const [activeId, setActiveId] = useState<string>('page-overview')
@@ -116,7 +116,7 @@ export function TableOfContents({ pageTitle = 'Introduction' }: TableOfContentsP
 
   return (
     <aside
-      aria-label="Table of contents"
+      aria-label="本頁目錄"
       className="hidden lg:block w-48 xl:w-56 shrink-0 sticky top-md self-start"
     >
       <nav className="flex flex-col border-l border-border-default">

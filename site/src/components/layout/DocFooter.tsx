@@ -21,7 +21,7 @@ function FooterNavLink({ item, direction }: { item: NavItem; direction: 'prev' |
         }
       >
         {isPrev && <span aria-hidden="true">←</span>}
-        <span>{isPrev ? 'Previous' : 'Next'}</span>
+        <span>{isPrev ? '上一頁' : '下一頁'}</span>
         {!isPrev && <span aria-hidden="true">→</span>}
       </span>
       <span className="text-label-md font-medium text-on-surface group-hover:text-primary transition-colors">
@@ -62,7 +62,7 @@ export function DocFooter({ currentId }: DocFooterProps) {
   }
 
   return (
-    <footer aria-label="Doc Navigation" className="pt-xl mt-xl border-t border-border-default">
+    <footer aria-label="上下頁導覽" className="pt-xl mt-xl border-t border-border-default">
       <nav className="grid grid-cols-1 sm:grid-cols-2 gap-md">
         {prev ? (
           <FooterNavLink item={prev} direction="prev" />

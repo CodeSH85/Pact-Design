@@ -23,6 +23,14 @@ const indexRoute = createRoute({
   }
 })
 
+const principlesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/principles',
+  component: function PrinciplesPage() {
+    return <SpecDoc id="principles" />
+  }
+})
+
 const foundationRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/foundations/$id',
@@ -60,16 +68,16 @@ const componentPlaygroundRoute = createRoute({
   path: '/components/playground',
   component: function ComponentPlaygroundPage() {
     useEffect(() => {
-      document.title = 'React Aria Components Playground | Pact Design'
+      document.title = '元件 Playground | Pact Design'
     }, [])
 
     return (
       <div className="flex flex-col gap-xl">
         <header className="flex flex-col gap-xs pb-md border-b border-border-default">
-          <span className="text-label-xs text-primary uppercase">Playground · React + React Aria</span>
-          <h1 className="text-heading-xl text-on-surface">Component Token Sandbox</h1>
+          <span className="text-mono-xs text-primary">元件</span>
+          <h1 className="text-heading-xl text-on-surface">Playground</h1>
           <p className="text-body-md text-on-surface-muted m-none">
-            Testing headless <code>react-aria-components</code> primitives styled exclusively with Pact Design system tokens via UnoCSS.
+            在單一畫面中集中檢視並實際操作 Pact Design 的所有互動元件與狀態表現。
           </p>
         </header>
 
@@ -83,6 +91,7 @@ const componentPlaygroundRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
+  principlesRoute,
   foundationRoute,
   playgroundRoute,
   componentsIndexRoute,
