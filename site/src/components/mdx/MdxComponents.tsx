@@ -130,7 +130,7 @@ export const mdxComponents: ReturnType<typeof useMDXComponents> = {
   h2: (props: ComponentPropsWithoutRef<'h2'>) => (
     <h2
       data-doc-heading=""
-      className="my-sm text-heading-md text-on-surface-default scroll-mt-xl"
+      className="mb-0 mt-2xl text-heading-md text-on-surface-default scroll-mt-xl"
       {...props}
     />
   ),

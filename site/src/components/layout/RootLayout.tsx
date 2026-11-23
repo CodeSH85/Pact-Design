@@ -126,7 +126,7 @@ export function RootLayout() {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-base text-on-surface">
-      <header className="flex items-center shrink-0 bg-layer-1 w-full justify-between p-sm border-b border-border-default">
+      <header className="flex items-center shrink-0 bg-layer-1 w-full justify-between py-sm px-xl border-b border-border-default">
         <div className="flex w-full">
           <Link to="/" className="flex gap-md items-center">
             <img src={`${import.meta.env.BASE_URL}PD_logo.png`} className="size-md" alt="Pact Design" />
@@ -193,7 +193,7 @@ export function RootLayout() {
       <div className="flex flex-1 min-h-0 overflow-hidden">
         {!isTokenPlayground && (
           <aside
-            className="flex flex-col min-w-15rem shrink-0 bg-layer-1 border-r border-border-default overflow-y-auto"
+            className="flex flex-col min-w-15rem shrink-0 pl-md bg-layer-1 border-r border-border-default overflow-y-auto"
             aria-label="文件導覽"
           >
             <DisclosureGroup
