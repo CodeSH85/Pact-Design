@@ -3,15 +3,19 @@ import { colorValueToHex } from '@pact-design/tokens/utils/color.js'
 import { apcaContrast, apcaLevel, contrast, readableOn, wcagLevel } from '@pact-design/tokens/utils/contrast.js'
 import { cssName, formatValue, refOf } from '@pact-design/tokens/utils/token.js'
 import {
+  Badge,
   Button,
   Checkbox,
   Menu,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
+  Tooltip,
+  TooltipTrigger,
   type MenuItemData
 } from '@pact-design/react'
-import { apcaBadgeClasses } from './TokenEditor'
+import { RiMoonLine, RiSideBarFill, RiSideBarLine, RiSunLine } from '@remixicon/react'
+import { apcaTone } from './TokenEditor'
 import type { ContrastMode, ResolvedTokenEntry, ThemeMode, Token, TokenValue } from '../../types/tokens'
 
 const DENSITY_LABELS: Record<string, string> = {
@@ -71,13 +75,15 @@ function ContrastBadge({ txtVal, bgVal }: ContrastBadgeProps) {
   const sign = lc > 0 ? `+${lc.toFixed(1)}` : lc.toFixed(1)
 
   return (
-    <span
+    <Badge
+      tone={apcaTone(apca.css)}
+      size="xs"
       title={`APCA: Lc ${sign} (${apca.usage}) · WCAG 2.1: ${ratio.toFixed(2)}:1 (${wcag})`}
-      className={`inline-flex items-center gap-3xs px-2xs py-3xs rounded-2xs border-sm text-mono-xs font-medium w-fit ${apcaBadgeClasses(apca.css)}`}
+      className="w-fit font-mono font-medium"
     >
       <span>Lc {Math.abs(lc).toFixed(1)} · {apca.tier}</span>
       <small className="opacity-75">({ratio.toFixed(1)}:1)</small>
-    </span>
+    </Badge>
   )
 }
 
@@ -390,16 +396,18 @@ export function TokenPreview({
     <div className="flex-1 min-w-0 flex flex-col min-h-0 overflow-hidden bg-base">
       {/* Preview Toolbar */}
       <div className="flex flex-wrap items-center gap-sm px-md py-xs bg-layer-1 border-b border-border-default shrink-0">
-        <span title="收合或展開左側編輯器 (⌘B / Ctrl+B)" className="inline-flex">
+        <TooltipTrigger>
           <Button
             variant="secondary"
             size="xs"
             onPress={onToggleSidebar}
             aria-expanded={!sidebarCollapsed}
           >
-            {sidebarCollapsed ? '▶ 展開側欄' : '◀ 收合側欄'}
+            {sidebarCollapsed ? <RiSideBarLine /> : <RiSideBarFill />}
+            {sidebarCollapsed ? '展開側欄' : '收合側欄'}
           </Button>
-        </span>
+          <Tooltip>收合或展開左側編輯器 (⌘B / Ctrl+B)</Tooltip>
+        </TooltipTrigger>
 
         <ToggleButtonGroup
           aria-label="預覽主題"
@@ -414,10 +422,12 @@ export function TokenPreview({
           }}
         >
           <ToggleButton id="light" size="xs" variant="primary">
-            ☀ 淺色主題 Light
+            <RiSunLine />
+            淺色主題 Light
           </ToggleButton>
           <ToggleButton id="dark" size="xs" variant="primary">
-            ☾ 深色主題 Dark
+            <RiMoonLine />
+            深色主題 Dark
           </ToggleButton>
         </ToggleButtonGroup>
 

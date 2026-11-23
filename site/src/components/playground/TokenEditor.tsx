@@ -1,18 +1,34 @@
-import { useEffect, useRef, useState, type ChangeEvent, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import * as C from '@pact-design/tokens/utils/color.js'
 import { apcaContrast, apcaLevel, contrast, readableOn, wcagLevel } from '@pact-design/tokens/utils/contrast.js'
 import { clone, round, same } from '@pact-design/tokens/utils/helper.js'
 import * as T from '@pact-design/tokens/utils/token.js'
 import {
+  Badge,
   Button,
+  FieldGroup,
+  Input,
+  SearchField,
   Select,
+  SelectHeader,
   SelectItem,
+  SelectSection,
+  SelectSeparator,
+  Slider,
   Tab,
   TabList,
   Tabs,
-  TextField,
-  ToggleButton
+  ToggleButton,
+  Tooltip,
+  TooltipTrigger,
+  type BadgeTone
 } from '@pact-design/react'
+import {
+  RiAlertLine,
+  RiEqualizerLine,
+  RiLinkM,
+  RiResetLeftLine
+} from '@remixicon/react'
 import type {
   ColorObjectValue,
   DimensionObjectValue,
@@ -38,20 +54,6 @@ export const CATEGORY_LABELS: Record<string, string> = {
 export const CATEGORY_ORDER = Object.keys(CATEGORY_LABELS)
 const LEVEL_ORDER = ['global', 'system', 'component']
 const STROKE_STYLES = ['solid', 'dashed', 'dotted', 'double', 'groove', 'ridge', 'outset', 'inset']
-
-const INPUT_CLASS = [
-  'h-control-xs px-xs rounded-2xs',
-  'bg-layer-1 text-on-surface text-label-xs',
-  'border-sm border-border-default outline-none',
-  'focus:border-border-focus'
-].join(' ')
-
-const SELECT_CLASS = [
-  'h-control-xs px-2xs rounded-2xs flex-1 min-w-0',
-  'bg-layer-1 text-on-surface text-label-xs',
-  'border-sm border-border-default outline-none cursor-pointer',
-  'focus:border-border-focus'
-].join(' ')
 
 type OklchTuple = [number, number, number]
 
@@ -101,18 +103,18 @@ function lchGradients(L: number, Cv: number, H: number): Record<'L' | 'C' | 'H',
   }
 }
 
-export function apcaBadgeClasses(cssTier: string): string {
+export function apcaTone(cssTier: string): BadgeTone {
   switch (cssTier) {
     case 'Lc-90':
     case 'Lc-75':
-      return 'bg-success-subtle text-on-success-subtle border-success-border'
+      return 'success'
     case 'Lc-60':
-      return 'bg-info-subtle text-on-info-subtle border-info-border'
+      return 'info'
     case 'Lc-45':
     case 'Lc-30':
-      return 'bg-warning-subtle text-on-warning-subtle border-warning-border'
+      return 'warning'
     default:
-      return 'bg-danger-subtle text-on-danger-subtle border-danger-border'
+      return 'danger'
   }
 }
 
@@ -121,6 +123,7 @@ interface AliasSelectProps {
   type: string | undefined
   self: Token
   hint?: string
+  label?: string
   tokens: Map<string, Token>
   resolved: Map<string, ResolvedTokenEntry>
   onChange: (val: TokenValue) => void
@@ -132,6 +135,7 @@ function AliasSelect({
   type,
   self,
   hint,
+  label,
   tokens,
   resolved,
   onChange,
@@ -150,8 +154,7 @@ function AliasSelect({
     }
   }
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const nextVal = e.target.value
+  const handleSelect = (nextVal: string) => {
     if (nextVal === '__detach__') {
       const refToken = tokens.get(ref)
       const r: ResolvedTokenEntry = resolved.get(ref) ?? (refToken ? T.tryResolve(refToken, tokens) : {})
@@ -166,30 +169,44 @@ function AliasSelect({
   }
 
   return (
-    <select
-      className={SELECT_CLASS}
-      title={ref ? `{${ref}}` : ''}
-      value={ref}
-      onChange={handleChange}
+    <Select
+      size="xs"
+      aria-label={label ?? '選擇引用 token'}
+      selectedKey={ref}
+      onSelectionChange={(key) => {
+        if (key === null) return
+        handleSelect(String(key))
+      }}
+      className="flex-1 min-w-0"
     >
       {ref && !tokens.has(ref) && (
-        <option value={ref}>⚠ {`{${ref}}`}（不存在）</option>
+        <SelectItem id={ref} textValue={`{${ref}}（不存在）`}>
+          <span className="inline-flex items-center gap-2xs">
+            <RiAlertLine className="shrink-0" aria-hidden="true" />
+            <span>{`{${ref}}`}（不存在）</span>
+          </span>
+        </SelectItem>
       )}
       {[...groups.entries()].map(([parent, items]) => (
-        <optgroup key={parent} label={parent}>
+        <SelectSection key={parent} aria-label={parent}>
+          <SelectHeader>{parent}</SelectHeader>
           {items.map((t) => {
             const r = resolved.get(t.id)
             const preview = r?.error ? '⚠' : T.formatValue(type, r?.value)
+            const textLabel = `${t.path.at(-1)} — ${preview}`
             return (
-              <option key={t.id} value={t.id}>
-                {t.path.at(-1)} — {preview}
-              </option>
+              <SelectItem key={t.id} id={t.id} textValue={textLabel}>
+                {textLabel}
+              </SelectItem>
             )
           })}
-        </optgroup>
+        </SelectSection>
       ))}
-      <option value="__detach__">⤷ 改為自訂值（解除引用）</option>
-    </select>
+      <SelectSeparator />
+      <SelectItem id="__detach__" textValue="改為自訂值（解除引用）">
+        ⤷ 改為自訂值（解除引用）
+      </SelectItem>
+    </Select>
   )
 }
 
@@ -231,8 +248,7 @@ function DimensionControl({ value, onChange, label }: DimensionControlProps) {
     )
   }
 
-  const handleUnitChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const nextUnit = e.target.value
+  const handleUnitChange = (nextUnit: string) => {
     let nextNum = num
     if (unit === 'px' && nextUnit === 'rem') nextNum = +(num / 16).toFixed(4)
     else if (unit === 'rem' && nextUnit === 'px') nextNum = +(num * 16).toFixed(2)
@@ -248,36 +264,45 @@ function DimensionControl({ value, onChange, label }: DimensionControlProps) {
   return (
     <div className="flex items-center gap-2xs">
       {label && <span className="text-caption-sm text-on-surface-muted min-w-16 shrink-0">{label}</span>}
-      <input
-        type="range"
-        className="flex-1 min-w-12 accent-primary cursor-pointer"
-        min={bounds.min}
-        max={bounds.max}
+      <Slider
+        size="sm"
+        aria-label={label ?? '數值'}
+        minValue={bounds.min}
+        maxValue={bounds.max}
         step={bounds.step}
         value={num}
-        onChange={(e) => emit(Number(e.target.value), unit)}
-        onMouseUp={() => setBounds(getBounds(num, unit))}
+        onChange={(v) => emit(v, unit)}
+        onChangeEnd={() => setBounds(getBounds(num, unit))}
+        className="flex-1 min-w-12"
       />
-      <input
-        type="number"
-        className={`${INPUT_CLASS} w-18 text-mono-xs tabular-nums`}
-        step={bounds.step}
-        value={num}
-        onChange={(e) => {
-          if (e.target.value === '' || Number.isNaN(Number(e.target.value))) return
-          emit(Number(e.target.value), unit)
+      <FieldGroup size="xs" className="w-18 shrink-0">
+        <Input
+          type="number"
+          aria-label={`${label ?? '數值'} 輸入`}
+          className="text-mono-xs tabular-nums"
+          step={bounds.step}
+          value={num}
+          onChange={(e) => {
+            if (e.target.value === '' || Number.isNaN(Number(e.target.value))) return
+            emit(Number(e.target.value), unit)
+          }}
+          onBlur={() => setBounds(getBounds(num, unit))}
+        />
+      </FieldGroup>
+      <Select
+        size="xs"
+        aria-label="單位"
+        selectedKey={unit}
+        onSelectionChange={(key) => {
+          if (key === null) return
+          handleUnitChange(String(key))
         }}
-        onBlur={() => setBounds(getBounds(num, unit))}
-      />
-      <select
-        className={`${SELECT_CLASS} flex-none w-14 text-mono-xs`}
-        value={unit}
-        onChange={handleUnitChange}
+        className="w-16 shrink-0"
       >
         {units.map((u) => (
-          <option key={u} value={u}>{u}</option>
+          <SelectItem key={u} id={u}>{u}</SelectItem>
         ))}
-      </select>
+      </Select>
     </div>
   )
 }
@@ -330,49 +355,56 @@ function ColorRawControl({ value, onChange, label }: ColorRawControlProps) {
           emit(e.target.value)
         }}
       />
-      <input
-        type="text"
-        spellCheck={false}
-        className={`${INPUT_CLASS} w-22 text-mono-xs`}
-        value={textHex}
-        onChange={(e) => setTextHex(e.target.value)}
-        onBlur={() => {
-          if (C.hexToRgb(textHex)) {
-            emit(textHex)
-          } else {
-            setTextHex(hex)
-          }
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' && C.hexToRgb(textHex)) {
-            emit(textHex)
-          }
-        }}
-      />
+      <FieldGroup size="xs" className="w-22 shrink-0">
+        <Input
+          type="text"
+          aria-label="HEX 色碼"
+          spellCheck={false}
+          className="text-mono-xs"
+          value={textHex}
+          onChange={(e) => setTextHex(e.target.value)}
+          onBlur={() => {
+            if (C.hexToRgb(textHex)) {
+              emit(textHex)
+            } else {
+              setTextHex(hex)
+            }
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && C.hexToRgb(textHex)) {
+              emit(textHex)
+            }
+          }}
+        />
+      </FieldGroup>
       {hasAlpha && (
         <>
           <span className="text-caption-sm text-on-surface-muted ml-2xs">α</span>
-          <input
-            type="range"
-            className="flex-1 min-w-12 accent-primary cursor-pointer"
-            min={0}
-            max={1}
+          <Slider
+            size="sm"
+            aria-label="透明度 Alpha"
+            minValue={0}
+            maxValue={1}
             step={0.01}
             value={alpha}
-            onChange={(e) => emit(hex, Number(e.target.value))}
+            onChange={(v) => emit(hex, v)}
+            className="flex-1 min-w-12"
           />
-          <input
-            type="number"
-            className={`${INPUT_CLASS} w-16 text-mono-xs tabular-nums`}
-            min={0}
-            max={1}
-            step={0.01}
-            value={alpha}
-            onChange={(e) => {
-              if (e.target.value === '' || Number.isNaN(Number(e.target.value))) return
-              emit(hex, Number(e.target.value))
-            }}
-          />
+          <FieldGroup size="xs" className="w-16 shrink-0">
+            <Input
+              type="number"
+              aria-label="透明度 Alpha 數值"
+              className="text-mono-xs tabular-nums"
+              min={0}
+              max={1}
+              step={0.01}
+              value={alpha}
+              onChange={(e) => {
+                if (e.target.value === '' || Number.isNaN(Number(e.target.value))) return
+                emit(hex, Number(e.target.value))
+              }}
+            />
+          </FieldGroup>
         </>
       )}
     </div>
@@ -399,25 +431,29 @@ function RawControl({ type, value, onChange, label }: RawControlProps) {
     return (
       <div className="flex items-center gap-2xs">
         {label && <span className="text-caption-sm text-on-surface-muted min-w-16 shrink-0">{label}</span>}
-        <input
-          type="range"
-          className="flex-1 min-w-12 accent-primary cursor-pointer"
-          min={0}
-          max={max}
+        <Slider
+          size="sm"
+          aria-label={label ?? '數值'}
+          minValue={0}
+          maxValue={max}
           step={0.01}
           value={n}
-          onChange={(e) => onChange(Number(e.target.value))}
+          onChange={(v) => onChange(v)}
+          className="flex-1 min-w-12"
         />
-        <input
-          type="number"
-          className={`${INPUT_CLASS} w-18 text-mono-xs tabular-nums`}
-          step={0.01}
-          value={n}
-          onChange={(e) => {
-            if (e.target.value === '' || Number.isNaN(Number(e.target.value))) return
-            onChange(Number(e.target.value))
-          }}
-        />
+        <FieldGroup size="xs" className="w-18 shrink-0">
+          <Input
+            type="number"
+            aria-label={`${label ?? '數值'} 輸入`}
+            className="text-mono-xs tabular-nums"
+            step={0.01}
+            value={n}
+            onChange={(e) => {
+              if (e.target.value === '' || Number.isNaN(Number(e.target.value))) return
+              onChange(Number(e.target.value))
+            }}
+          />
+        </FieldGroup>
       </div>
     )
   }
@@ -426,27 +462,31 @@ function RawControl({ type, value, onChange, label }: RawControlProps) {
     return (
       <div className="flex items-center gap-2xs">
         {label && <span className="text-caption-sm text-on-surface-muted min-w-16 shrink-0">{label}</span>}
-        <input
-          type="range"
-          className="flex-1 min-w-12 accent-primary cursor-pointer"
-          min={100}
-          max={900}
+        <Slider
+          size="sm"
+          aria-label={label ?? '字重'}
+          minValue={100}
+          maxValue={900}
           step={50}
           value={n}
-          onChange={(e) => onChange(Number(e.target.value))}
+          onChange={(v) => onChange(v)}
+          className="flex-1 min-w-12"
         />
-        <input
-          type="number"
-          className={`${INPUT_CLASS} w-18 text-mono-xs tabular-nums`}
-          min={100}
-          max={900}
-          step={50}
-          value={n}
-          onChange={(e) => {
-            if (e.target.value === '' || Number.isNaN(Number(e.target.value))) return
-            onChange(Number(e.target.value))
-          }}
-        />
+        <FieldGroup size="xs" className="w-18 shrink-0">
+          <Input
+            type="number"
+            aria-label={`${label ?? '字重'} 輸入`}
+            className="text-mono-xs tabular-nums"
+            min={100}
+            max={900}
+            step={50}
+            value={n}
+            onChange={(e) => {
+              if (e.target.value === '' || Number.isNaN(Number(e.target.value))) return
+              onChange(Number(e.target.value))
+            }}
+          />
+        </FieldGroup>
       </div>
     )
   }
@@ -455,15 +495,17 @@ function RawControl({ type, value, onChange, label }: RawControlProps) {
     return (
       <div className="flex items-center gap-2xs">
         {label && <span className="text-caption-sm text-on-surface-muted min-w-16 shrink-0">{label}</span>}
-        <input
-          type="text"
-          className={`${INPUT_CLASS} flex-1 min-w-0`}
-          value={strVal}
-          onChange={(e) => {
-            const list = e.target.value.split(',').map((s) => s.trim()).filter(Boolean)
-            onChange(Array.isArray(value) ? list : list.join(', '))
-          }}
-        />
+        <FieldGroup size="xs" className="flex-1 min-w-0">
+          <Input
+            type="text"
+            aria-label={label ?? '字體家族'}
+            value={strVal}
+            onChange={(e) => {
+              const list = e.target.value.split(',').map((s) => s.trim()).filter(Boolean)
+              onChange(Array.isArray(value) ? list : list.join(', '))
+            }}
+          />
+        </FieldGroup>
       </div>
     )
   }
@@ -471,15 +513,20 @@ function RawControl({ type, value, onChange, label }: RawControlProps) {
     return (
       <div className="flex items-center gap-2xs">
         {label && <span className="text-caption-sm text-on-surface-muted min-w-16 shrink-0">{label}</span>}
-        <select
-          className={SELECT_CLASS}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
+        <Select
+          size="xs"
+          aria-label={label ?? '線條樣式'}
+          selectedKey={value}
+          onSelectionChange={(key) => {
+            if (key === null) return
+            onChange(String(key))
+          }}
+          className="flex-1 min-w-0"
         >
           {STROKE_STYLES.map((s) => (
-            <option key={s} value={s}>{s}</option>
+            <SelectItem key={s} id={s}>{s}</SelectItem>
           ))}
-        </select>
+        </Select>
       </div>
     )
   }
@@ -505,20 +552,27 @@ function JsonRawControl({ value, onChange, label }: JsonRawControlProps) {
   return (
     <div className="flex items-center gap-2xs">
       {label && <span className="text-caption-sm text-on-surface-muted min-w-16 shrink-0">{label}</span>}
-      <input
-        type="text"
-        className={`${INPUT_CLASS} flex-1 min-w-0 text-mono-xs ${invalid ? 'border-danger' : ''}`}
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        onBlur={() => {
-          try {
-            onChange(JSON.parse(text) as TokenValue)
-            setInvalid(false)
-          } catch {
-            setInvalid(true)
-          }
-        }}
-      />
+      <FieldGroup
+        size="xs"
+        data-invalid={invalid ? '' : undefined}
+        className="flex-1 min-w-0"
+      >
+        <Input
+          type="text"
+          aria-label={label ?? 'JSON 值'}
+          className="text-mono-xs"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onBlur={() => {
+            try {
+              onChange(JSON.parse(text) as TokenValue)
+              setInvalid(false)
+            } catch {
+              setInvalid(true)
+            }
+          }}
+        />
+      </FieldGroup>
     </div>
   )
 }
@@ -552,56 +606,59 @@ function RowHeader({
 
   return (
     <div className="flex items-center gap-2xs flex-wrap">
-      <button
-        type="button"
-        onClick={handleCopy}
-        title={`${token.id}\n點擊複製 ${cssVar}`}
-        className="text-mono-xs font-bold text-on-surface hover:text-primary cursor-pointer bg-transparent border-none p-0 text-left"
-      >
-        {token.path.at(-1)}
-      </button>
-      <span className="text-caption-sm px-2xs rounded-2xs bg-layer-1 text-on-surface-muted border-sm border-border-subtle">
-        {token.type ?? '?'}
-      </span>
-      {isAlias && (
-        <span className="text-caption-sm px-2xs rounded-2xs bg-info-subtle text-on-info-subtle border-sm border-info-border">
-          alias
-        </span>
-      )}
-      {users.length > 0 && (
-        <span
-          className="text-caption-sm text-on-surface-muted ml-auto"
-          title={users.join('\n')}
+      <TooltipTrigger>
+        <Button
+          variant="ghost"
+          size="xs"
+          onPress={handleCopy}
+          className="font-mono font-bold px-2xs"
         >
-          被引用 {users.length}
-        </span>
+          {token.path.at(-1)}
+        </Button>
+        <Tooltip>{`${token.id} · 點擊複製 ${cssVar}`}</Tooltip>
+      </TooltipTrigger>
+      <Badge size="xs">{token.type ?? '?'}</Badge>
+      {isAlias && <Badge tone="info" size="xs">alias</Badge>}
+      {users.length > 0 && (
+        <TooltipTrigger>
+          <span
+            tabIndex={0}
+            className="text-caption-sm text-on-surface-muted ml-auto cursor-default"
+          >
+            被引用 {users.length}
+          </span>
+          <Tooltip className="whitespace-pre-line">{users.join('\n')}</Tooltip>
+        </TooltipTrigger>
       )}
       <div className={`flex items-center gap-3xs ${users.length > 0 ? '' : 'ml-auto'}`}>
         {linkable && !isAlias && token.type !== 'typography' && token.type !== 'shadow' && token.path[0] !== 'global' && (
-          <span title="改為引用其他 token" className="inline-flex">
+          <TooltipTrigger>
             <Button
               variant="secondary"
               size="xs"
+              icon
               aria-label="改為引用其他 token"
               onPress={() => onLinkToAlias(token)}
-              className="px-2xs"
             >
-              🔗
+              <RiLinkM />
             </Button>
-          </span>
+            <Tooltip>改為引用其他 token</Tooltip>
+          </TooltipTrigger>
         )}
         {isDirty && (
-          <span title="重設為檔案中的值" className="inline-flex">
+          <TooltipTrigger>
             <Button
               variant="subtle"
               size="xs"
+              icon
               aria-label="重設為檔案中的值"
               onPress={() => onResetToken(token.id)}
-              className="px-2xs bg-warning-subtle hover:bg-warning text-on-warning-subtle hover:text-on-warning border-warning-border"
+              className="bg-warning-subtle hover:bg-warning text-on-warning-subtle hover:text-on-warning border-warning-border"
             >
-              ↺
+              <RiResetLeftLine />
             </Button>
-          </span>
+            <Tooltip>重設為檔案中的值</Tooltip>
+          </TooltipTrigger>
         )}
       </div>
     </div>
@@ -729,6 +786,7 @@ function TokenRow({
                   type={meta.type}
                   self={token}
                   hint={meta.hint}
+                  label={prop}
                   tokens={tokens}
                   resolved={resolved}
                   onChange={setProp}
@@ -860,51 +918,60 @@ function ShadeEditor({
 
       {specs.map((spec, idx) => (
         <div key={spec.key} className="flex items-center gap-2xs">
-          <label className="text-mono-xs font-bold text-on-surface-secondary w-4 shrink-0">
+          <span className="text-mono-xs font-bold text-on-surface-secondary w-4 shrink-0">
             {spec.key}
-          </label>
-          <input
-            type="range"
-            min={spec.min}
-            max={spec.max}
+          </span>
+          <Slider
+            size="sm"
+            aria-label={`OKLCH ${spec.key}`}
+            minValue={spec.min}
+            maxValue={spec.max}
             step={spec.step}
             value={spec.val}
-            onChange={(e) => updateChannel(idx, Number(e.target.value))}
-            className="flex-1 min-w-12 h-2 rounded-xs appearance-none cursor-pointer border-sm border-border-default"
-            style={{ background: gradients[spec.key] }}
+            showFill={false}
+            trackStyle={{ background: gradients[spec.key] }}
+            onChange={(v) => updateChannel(idx, v)}
+            className="flex-1 min-w-12"
           />
-          <input
-            type="number"
-            min={spec.min}
-            max={spec.max}
-            step={spec.step}
-            value={spec.val}
-            onChange={(e) => {
-              if (e.target.value === '' || Number.isNaN(Number(e.target.value))) return
-              updateChannel(idx, Number(e.target.value))
-            }}
-            className={`${INPUT_CLASS} w-20 text-mono-xs tabular-nums`}
-          />
+          <FieldGroup size="xs" className="w-20 shrink-0">
+            <Input
+              type="number"
+              aria-label={`OKLCH ${spec.key} 數值`}
+              min={spec.min}
+              max={spec.max}
+              step={spec.step}
+              value={spec.val}
+              onChange={(e) => {
+                if (e.target.value === '' || Number.isNaN(Number(e.target.value))) return
+                updateChannel(idx, Number(e.target.value))
+              }}
+              className="text-mono-xs tabular-nums"
+            />
+          </FieldGroup>
         </div>
       ))}
 
       <div className="flex flex-wrap items-center gap-2xs pt-3xs">
         <span className="text-caption-sm text-on-surface-muted">hex</span>
-        <input
-          type="text"
-          spellCheck={false}
-          value={hexInput}
-          onChange={(e) => setHexInput(e.target.value)}
-          onBlur={commitHex}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') commitHex()
-          }}
-          className={`${INPUT_CLASS} w-24 text-mono-xs`}
-        />
+        <FieldGroup size="xs" className="w-24 shrink-0">
+          <Input
+            type="text"
+            aria-label="HEX 色碼"
+            spellCheck={false}
+            value={hexInput}
+            onChange={(e) => setHexInput(e.target.value)}
+            onBlur={commitHex}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') commitHex()
+            }}
+            className="text-mono-xs"
+          />
+        </FieldGroup>
         {!inGamut && (
-          <span className="text-caption-sm text-on-warning-subtle">
-            ⚠ 超出 sRGB 色域，HEX 為裁切後的近似值
-          </span>
+          <Badge tone="warning" size="xs">
+            <RiAlertLine aria-hidden="true" />
+            超出 sRGB 色域，HEX 為裁切後的近似值
+          </Badge>
         )}
       </div>
 
@@ -927,9 +994,9 @@ function ShadeEditor({
                 {letter}
               </span>
               <span>Lc {Math.abs(lc).toFixed(1)}</span>
-              <b className={`px-3xs rounded-2xs border-sm text-caption-sm ${apcaBadgeClasses(apca.css)}`}>
+              <Badge tone={apcaTone(apca.css)} size="xs">
                 {apca.tier}
-              </b>
+              </Badge>
               <small className="text-on-surface-muted">({ratio.toFixed(2)})</small>
             </span>
           )
@@ -976,20 +1043,20 @@ function PaletteBatchTools({ list, onMutate }: PaletteBatchToolsProps) {
     <div className="flex flex-col gap-2xs p-xs rounded-xs bg-layer-1 border-sm border-border-subtle">
       <div className="flex items-center gap-2xs">
         <span className="text-caption-sm text-on-surface-muted w-24 shrink-0">Hue 位移</span>
-        <input
-          type="range"
-          min={-60}
-          max={60}
+        <Slider
+          size="sm"
+          aria-label="Hue 位移"
+          minValue={-60}
+          maxValue={60}
           step={1}
           value={hueDelta}
-          onChange={(e) => {
-            const val = Number(e.target.value)
+          fillOffset={0}
+          onChange={(val) => {
             setHueDelta(val)
             applyBatch(val, ([L, Cv, H], d) => [L, Cv, H + d])
           }}
-          onMouseUp={() => releaseBatch(() => setHueDelta(0))}
-          onTouchEnd={() => releaseBatch(() => setHueDelta(0))}
-          className="flex-1 accent-primary cursor-pointer"
+          onChangeEnd={() => releaseBatch(() => setHueDelta(0))}
+          className="flex-1 min-w-0"
         />
         <code className="text-mono-xs text-on-surface w-12 text-right">
           {hueDelta === 0 ? '' : hueDelta > 0 ? `+${hueDelta}` : hueDelta}
@@ -998,20 +1065,20 @@ function PaletteBatchTools({ list, onMutate }: PaletteBatchToolsProps) {
 
       <div className="flex items-center gap-2xs">
         <span className="text-caption-sm text-on-surface-muted w-24 shrink-0">Chroma 倍率</span>
-        <input
-          type="range"
-          min={0}
-          max={2}
+        <Slider
+          size="sm"
+          aria-label="Chroma 倍率"
+          minValue={0}
+          maxValue={2}
           step={0.01}
           value={chromaMult}
-          onChange={(e) => {
-            const val = Number(e.target.value)
+          fillOffset={1}
+          onChange={(val) => {
             setChromaMult(val)
             applyBatch(val, ([L, Cv, H], k) => [L, Cv * k, H])
           }}
-          onMouseUp={() => releaseBatch(() => setChromaMult(1))}
-          onTouchEnd={() => releaseBatch(() => setChromaMult(1))}
-          className="flex-1 accent-primary cursor-pointer"
+          onChangeEnd={() => releaseBatch(() => setChromaMult(1))}
+          className="flex-1 min-w-0"
         />
         <code className="text-mono-xs text-on-surface w-12 text-right">
           {chromaMult === 1 ? '' : `${chromaMult}x`}
@@ -1020,20 +1087,20 @@ function PaletteBatchTools({ list, onMutate }: PaletteBatchToolsProps) {
 
       <div className="flex items-center gap-2xs">
         <span className="text-caption-sm text-on-surface-muted w-24 shrink-0">Lightness 位移</span>
-        <input
-          type="range"
-          min={-0.1}
-          max={0.1}
+        <Slider
+          size="sm"
+          aria-label="Lightness 位移"
+          minValue={-0.1}
+          maxValue={0.1}
           step={0.005}
           value={lightDelta}
-          onChange={(e) => {
-            const val = Number(e.target.value)
+          fillOffset={0}
+          onChange={(val) => {
             setLightDelta(val)
             applyBatch(val, ([L, Cv, H], d) => [Math.min(1, Math.max(0, L + d)), Cv, H])
           }}
-          onMouseUp={() => releaseBatch(() => setLightDelta(0))}
-          onTouchEnd={() => releaseBatch(() => setLightDelta(0))}
-          className="flex-1 accent-primary cursor-pointer"
+          onChangeEnd={() => releaseBatch(() => setLightDelta(0))}
+          className="flex-1 min-w-0"
         />
         <code className="text-mono-xs text-on-surface w-12 text-right">
           {lightDelta === 0 ? '' : lightDelta > 0 ? `+${lightDelta}` : lightDelta}
@@ -1108,7 +1175,8 @@ function PaletteWidget({
           onChange={() => onToggleTools(parentId)}
           className="ml-auto"
         >
-          ⚙ 整組調整
+          <RiEqualizerLine />
+          整組調整
         </ToggleButton>
       </div>
 
@@ -1400,13 +1468,12 @@ export function TokenEditor({
 
       {/* Search & Level Filter */}
       <div className="flex items-center gap-2xs p-xs border-b border-border-default bg-layer-1 shrink-0">
-        <TextField
+        <SearchField
           size="sm"
           aria-label="搜尋 token"
           placeholder="搜尋 token，例如 blue.500、radius"
           value={query}
           onChange={onQueryChange}
-          inputProps={{ type: 'search', autoComplete: 'off' }}
           className="flex-1 min-w-0"
         />
         <Select
