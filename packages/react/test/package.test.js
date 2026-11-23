@@ -17,8 +17,10 @@ const require = createRequire(import.meta.url)
 const COMPONENTS = [
   'Button',
   'ToggleButton',
+  'Badge',
   'Checkbox',
   'Switch',
+  'Slider',
   'Menu',
   'Popover',
   'Modal',
@@ -46,6 +48,8 @@ const COMPONENTS = [
   'Sheet',
   'Tree'
 ]
+
+const PURE_DISPLAY_COMPONENTS = new Set(['Badge'])
 
 describe('@pact-design/react package integrity', () => {
   const packageJsonPath = path.join(PACKAGE_ROOT, 'package.json')
@@ -146,7 +150,9 @@ describe('@pact-design/react package integrity', () => {
       assert.ok(fs.existsSync(compPath), `${name}/${name}.tsx must exist`)
 
       const compContent = fs.readFileSync(compPath, 'utf-8')
-      assert.match(compContent, /react-aria-components/, `${name}.tsx must use react-aria-components`)
+      if (!PURE_DISPLAY_COMPONENTS.has(name)) {
+        assert.match(compContent, /react-aria-components/, `${name}.tsx must use react-aria-components`)
+      }
     }
   })
 
