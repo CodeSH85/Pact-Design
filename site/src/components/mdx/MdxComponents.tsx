@@ -146,22 +146,26 @@ export const mdxComponents: ReturnType<typeof useMDXComponents> = {
   ),
   blockquote: (props: ComponentPropsWithoutRef<'blockquote'>) => (
     <blockquote
-      className="m-0 py-sm px-md border-l-lg border-primary bg-layer-2 rounded-r-xs text-on-surface-secondary"
+      className="m-0 py-sm px-md border-l-lg border-primary bg-layer-1 rounded-r-xs text-on-surface-secondary"
       {...props}
     />
   ),
   code: (props: ComponentPropsWithoutRef<'code'>) => (
     <code
-      className="text-mono-sm px-2xs py-1px rounded-2xs bg-layer-2 border border-border-subtle text-on-surface"
+      className="text-mono-sm px-xs py-1px rounded-2xs bg-layer-2 border border-border-subtle text-on-surface"
       {...props}
     />
   ),
-  pre: (props: ComponentPropsWithoutRef<'pre'>) => (
-    <pre
-      className="m-0 p-md rounded-xs bg-layer-2 border border-border-default overflow-x-auto text-mono-sm [&_code]:p-0 [&_code]:bg-transparent [&_code]:border-0"
-      {...props}
-    />
-  ),
+  pre: ({ className = '', style, ...props }: ComponentPropsWithoutRef<'pre'>) => {
+    const { backgroundColor: _bg, ...restStyle } = style ?? {}
+    return (
+      <pre
+        className={`m-0 p-md rounded-xs bg-layer-1 border border-border-default overflow-x-auto text-mono-sm [&_code]:p-0 [&_code]:bg-transparent [&_code]:border-0 ${className}`.trim()}
+        style={restStyle}
+        {...props}
+      />
+    )
+  },
   table: (props: ComponentPropsWithoutRef<'table'>) => (
     <div className="overflow-x-auto border border-border-default rounded-xs bg-layer-2">
       <table className="w-full border-collapse text-left text-body-sm" {...props} />
