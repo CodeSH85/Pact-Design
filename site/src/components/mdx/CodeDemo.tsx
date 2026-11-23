@@ -1,4 +1,5 @@
 import { Children, useEffect, useRef, useState, type ReactNode } from 'react'
+import { toast } from '@pact-design/react'
 import { CodeBlockToolbar } from './CodeBlockToolbar'
 
 export interface CodeDemoProps {
@@ -55,6 +56,7 @@ export function CodeDemo({ code = '', language, children }: CodeDemoProps) {
     const ok = await copyText(code)
     if (!ok) return
     setCopied(true)
+    toast.success('程式碼已複製', undefined, { timeout: 2000 })
     if (timerRef.current) clearTimeout(timerRef.current)
     timerRef.current = setTimeout(() => {
       setCopied(false)

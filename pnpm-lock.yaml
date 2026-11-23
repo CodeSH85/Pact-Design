@@ -116,6 +116,9 @@ importers:
       '@pact-design/tokens':
         specifier: workspace:*
         version: link:../packages/tokens
+      '@remixicon/react':
+        specifier: ^4.9.0
+        version: 4.9.0(react@19.3.1)
       '@tanstack/react-router':
         specifier: ^1.170.46
         version: 1.170.46(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
