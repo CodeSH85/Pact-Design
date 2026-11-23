@@ -90,5 +90,6 @@ toast.danger('Danger', 'Export failed. Please try again.')
 | 屬性 | 型別 | 預設值 | 說明 |
 | :--- | :--- | :--- | :--- |
 | `queue` | `ToastQueue<T>` | 全域 `toastQueue` | 需建立獨立通知佇列時傳入的自訂佇列實例。 |
+| `placement` | `'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'` | `'bottom-end'` | 設定通知區域於視窗的顯示位置。 |
 | `children` | `(renderProps: { toast: QueuedToast<T> }) => ReactElement` | 預設 `Toast` 卡片 | 自訂每則通知的渲染結構。 |
-| `className` | `string` | 固定於畫面右下角 | 覆寫通知區域的位置或外層樣式。 |
+| `className` | `string` | `—` | 覆寫通知區域的位置或外層樣式。 |
