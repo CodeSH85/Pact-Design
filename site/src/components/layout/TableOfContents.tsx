@@ -29,7 +29,9 @@ export function TableOfContents({ pageTitle = '總覽' }: TableOfContentsProps) 
       const article = document.querySelector('article')
       if (!article) return
 
-      const elements = Array.from(article.querySelectorAll('h2'))
+      const elements = Array.from(article.querySelectorAll('h2[data-doc-heading]')).filter(
+        (el) => !el.closest('[data-component-preview]')
+      )
       const extracted: TocHeading[] = elements.map((el, index) => {
         const rawText = (el.textContent ?? '').trim()
         if (!el.id) {

@@ -23,9 +23,7 @@ import { ToggleButton } from '@pact-design/react'
 
 若操作對象屬於表單設定項目且需要搭配說明文字，建議改用 **Switch 開關**。
 
-## 使用範例
-
-### 視覺層級
+## 視覺層級
 
 支援 `secondary`、`ghost` 與 `primary` 三種樣式，點擊即可觀察選取與未選取狀態的視覺差異。
 
@@ -43,7 +41,7 @@ import { ToggleButton } from '@pact-design/react'
 <ToggleButton variant="secondary" disabled>Disabled</ToggleButton>
 ```
 
-### 分段單選與多選
+## 分段單選與多選
 
 透過 `ToggleButtonGroup` 將多個切換按鈕緊密組合。設定 `selectionMode="single"` 並加上 `disallowEmptySelection` 時，非常適合用於檢視模式或主題切換；設定 `selectionMode="multiple"` 則可同時啟用多項條件。
 
@@ -87,7 +85,7 @@ import { ToggleButton, ToggleButtonGroup } from '@pact-design/react'
 </ToggleButtonGroup>
 ```
 
-### 純圖示切換 (`icon`)
+## 純圖示切換 (`icon`)
 
 設定 `icon` 屬性可建立等寬高的工具列圖示切換按鈕，內嵌圖示會依 `size` 自動縮放；搭配 `TooltipTrigger` 使用即可提供明確的功能提示。
 

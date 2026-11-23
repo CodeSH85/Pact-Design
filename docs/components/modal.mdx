@@ -46,9 +46,7 @@ import { Button, Modal } from '@pact-design/react'
 - 開啟時會自動加上半透明背景遮罩並限制焦點在視窗範圍內，避免背景頁面被誤觸。
 - 若內容篇幅較長或希望保留部分主畫面脈絡以便對照，建議改用 **Sheet 側邊抽屜**；若僅為輕量補充說明，建議改用 **Popover 浮動視窗**。
 
-## 使用範例
-
-### 寬度尺寸
+## 寬度尺寸
 
 提供從精簡 `sm` 到全螢幕 `full` 五種寬度預設，依內容複雜度自由選擇。
 
@@ -79,7 +77,7 @@ import { Button, Modal } from '@pact-design/react'
 <Modal size="lg" trigger={<Button variant="secondary">Size LG</Button>} title="Change Summary" />
 ```
 
-### 禁止點擊背景關閉
+## 禁止點擊背景關閉
 
 面對必須明確表態的操作流程，可透過 `ModalTrigger` 與 `ModalContent` 搭配 `isDismissable={false}`，防止使用者誤觸遮罩而關閉視窗。
 
