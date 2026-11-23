@@ -23,6 +23,7 @@ export interface ToggleButtonProps
   variant?: ToggleButtonVariant
   size?: ToggleButtonSize
   radius?: ToggleButtonRadius
+  icon?: boolean
   children?: ReactNode | AriaToggleButtonProps['children']
 }
 
@@ -30,6 +31,7 @@ export function ToggleButton({
   variant = 'secondary',
   size = 'md',
   radius,
+  icon = false,
   disabled,
   isDisabled,
   className,
@@ -42,6 +44,7 @@ export function ToggleButton({
       data-variant={variant}
       data-size={size}
       data-radius={radius}
+      data-icon={icon ? '' : undefined}
       className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-toggle-button', cn))}
       {...props}
     >

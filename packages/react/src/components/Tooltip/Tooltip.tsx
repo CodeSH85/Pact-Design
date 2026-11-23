@@ -1,0 +1,56 @@
+import { type ReactNode } from 'react'
+import { clsx } from 'clsx'
+import {
+  composeRenderProps,
+  OverlayArrow as AriaOverlayArrow,
+  Tooltip as AriaTooltip,
+  type TooltipProps as AriaTooltipProps,
+  TooltipTrigger as AriaTooltipTrigger,
+  type TooltipTriggerComponentProps as AriaTooltipTriggerProps
+} from 'react-aria-components'
+
+export type TooltipTriggerProps = AriaTooltipTriggerProps
+
+export function TooltipTrigger({
+  delay = 300,
+  closeDelay = 0,
+  ...props
+}: TooltipTriggerProps) {
+  return <AriaTooltipTrigger delay={delay} closeDelay={closeDelay} {...props} />
+}
+
+export interface TooltipProps extends Omit<AriaTooltipProps, 'children'> {
+  showArrow?: boolean
+  children?: ReactNode | AriaTooltipProps['children']
+}
+
+export function Tooltip({
+  offset = 6,
+  showArrow = false,
+  className,
+  children,
+  ...props
+}: TooltipProps) {
+  return (
+    <AriaTooltip
+      offset={offset}
+      className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-tooltip', cn))}
+      {...props}
+    >
+      {(renderProps) => (
+        <>
+          {showArrow && (
+            <AriaOverlayArrow className="pd-tooltip-arrow">
+              <svg width={8} height={8} viewBox="0 0 8 8" aria-hidden="true">
+                <path d="M0 0 L4 4 L8 0" />
+              </svg>
+            </AriaOverlayArrow>
+          )}
+          {typeof children === 'function' ? children(renderProps) : children}
+        </>
+      )}
+    </AriaTooltip>
+  )
+}
+
+export default Tooltip

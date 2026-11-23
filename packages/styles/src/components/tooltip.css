@@ -1,0 +1,64 @@
+@keyframes pd-tooltip-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pd-tooltip-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+.pd-tooltip {
+  z-index: var(--pd-system-z-index-popover);
+  max-width: 20rem;
+  padding-inline: var(--pd-system-spacing-sm);
+  padding-block: var(--pd-system-spacing-2xs);
+  border-radius: var(--pd-system-radius-xs);
+  background-color: var(--pd-system-background-elevated);
+  color: var(--pd-system-on-surface-default);
+  border: var(--pd-system-border-width-sm) solid var(--pd-system-border-default);
+  box-shadow: var(--pd-system-elevation-md);
+  font: var(--pd-system-font-label-xs);
+  letter-spacing: var(--pd-system-font-label-xs-letter-spacing);
+  outline: none;
+  pointer-events: none;
+
+  &:where([data-entering]) {
+    animation: pd-tooltip-in var(--pd-system-motion-duration-fast) var(--pd-system-motion-easing-enter);
+  }
+
+  &:where([data-exiting]) {
+    animation: pd-tooltip-out var(--pd-system-motion-duration-fast) var(--pd-system-motion-easing-exit);
+  }
+}
+
+.pd-tooltip-arrow {
+  display: inline-flex;
+  fill: var(--pd-system-background-elevated);
+  stroke: var(--pd-system-border-default);
+  stroke-width: 1;
+
+  &:where([data-placement="bottom"]) svg {
+    transform: rotate(180deg);
+  }
+
+  &:where([data-placement="right"]) svg {
+    transform: rotate(90deg);
+  }
+
+  &:where([data-placement="left"]) svg {
+    transform: rotate(-90deg);
+  }
+}
