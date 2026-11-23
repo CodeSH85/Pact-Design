@@ -20,7 +20,7 @@ export function CodeBlockToolbar({
   const expandLabel = expanded ? '收合程式碼' : '展開程式碼'
 
   return (
-    <div className="flex items-center justify-between px-sm py-2xs bg-layer-1 rounded-t-xs">
+    <div className="flex items-center justify-between py-2xs bg-layer-1 rounded-t-xs">
       <span className="text-mono-xs text-on-surface-muted select-none">
         {language && language !== 'text' ? language : 'code'}
       </span>
@@ -29,7 +29,7 @@ export function CodeBlockToolbar({
         <TooltipTrigger>
           <Button
             variant="ghost"
-            size="xs"
+            size="sm"
             icon
             aria-label={copyLabel}
             onPress={onCopy}
@@ -43,7 +43,7 @@ export function CodeBlockToolbar({
         <TooltipTrigger>
           <ToggleButton
             variant="ghost"
-            size="xs"
+            size="sm"
             icon
             aria-label={expandLabel}
             isSelected={expanded}
