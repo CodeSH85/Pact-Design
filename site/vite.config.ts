@@ -12,6 +12,7 @@ import remarkGfm from 'remark-gfm'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import UnoCSS from 'unocss/vite'
 import { defineConfig, type Plugin } from 'vite'
+import { rehypeShiki } from './plugins/rehype-shiki.ts'
 
 const require = createRequire(import.meta.url)
 const execFileAsync = promisify(execFile)
@@ -178,7 +179,8 @@ export default defineConfig({
           remarkGfm,
           remarkFrontmatter,
           [remarkMdxFrontmatter, { name: 'frontmatter' }]
-        ]
+        ],
+        rehypePlugins: [rehypeShiki]
       })
     },
     react({ include: /\.(jsx|js|mdx|md|tsx|ts)$/ }),

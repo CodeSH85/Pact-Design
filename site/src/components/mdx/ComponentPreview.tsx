@@ -20,7 +20,7 @@ export function ComponentPreview({
 
   return (
     <div
-      className={`flex gap-md p-lg rounded-sm bg-base border border-border-default ${layoutClass} ${className}`.trim()}
+      className={`flex gap-md p-lg rounded-sm bg-layer-2 border border-border-default ${layoutClass} ${className}`.trim()}
     >
       {children}
     </div>
