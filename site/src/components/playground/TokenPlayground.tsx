@@ -3,6 +3,7 @@ import { clone, same } from '@pact-design/tokens/utils/helper.js'
 import * as T from '@pact-design/tokens/utils/token.js'
 import { loadTokenCatalog } from '../../utils/tokens-loader'
 import {
+  Badge,
   Button,
   ModalContent,
   ModalDialog,
@@ -10,6 +11,7 @@ import {
   ModalHeader,
   toast
 } from '@pact-design/react'
+import { RiAlertLine, RiCodeLine, RiDownloadLine, RiRestartLine } from '@remixicon/react'
 import { CATEGORY_ORDER, TokenEditor } from './TokenEditor'
 import { TokenPreview } from './TokenPreview'
 import type {
@@ -22,7 +24,7 @@ import type {
   TokenLevel
 } from '../../types/tokens'
 
-type ActiveModalType = 'css' | 'issues' | null
+type ActiveModalType = 'css' | 'issues' | 'reset' | null
 
 export function TokenPlayground() {
   const [files, setFiles] = useState<TokenFiles>(() => clone(loadTokenCatalog().files))
@@ -214,9 +216,13 @@ export function TokenPlayground() {
   }, [derived.dirtyFilesList, files])
 
   const handleResetAll = useCallback(() => {
-    if (!window.confirm('捨棄所有尚未儲存的變更？')) return
+    setActiveModal('reset')
+  }, [])
+
+  const confirmResetAll = useCallback(() => {
     setFiles(clone(original))
     setRevision((r) => r + 1)
+    setActiveModal(null)
     showToast('已重設所有變更')
   }, [original, showToast])
 
@@ -291,17 +297,19 @@ export function TokenPlayground() {
               size="xs"
               onPress={() => setActiveModal('issues')}
             >
-              ⚠ {derived.allIssues.length} 個問題
+              <RiAlertLine />
+              {derived.allIssues.length} 個問題
             </Button>
           )}
 
           {isDirty && (
-            <span
+            <Badge
+              tone="warning"
+              size="sm"
               title={derived.dirtyFilesList.join('\n')}
-              className="px-xs py-3xs rounded-2xs bg-warning-subtle text-on-warning-subtle border-sm border-warning-border text-caption-sm font-medium"
             >
               {derived.dirtyFilesList.length} 個檔案未儲存
-            </span>
+            </Badge>
           )}
 
           <Button
@@ -309,6 +317,7 @@ export function TokenPlayground() {
             size="xs"
             onPress={() => setActiveModal('css')}
           >
+            <RiCodeLine />
             檢視 CSS
           </Button>
           <Button
@@ -317,6 +326,7 @@ export function TokenPlayground() {
             disabled={!isDirty}
             onPress={handleResetAll}
           >
+            <RiRestartLine />
             全部重設
           </Button>
           <Button
@@ -325,6 +335,7 @@ export function TokenPlayground() {
             disabled={!isDirty}
             onPress={handleDownload}
           >
+            <RiDownloadLine />
             下載 JSON (⌘S)
           </Button>
         </div>
@@ -447,6 +458,36 @@ export function TokenPlayground() {
               onPress={() => setActiveModal(null)}
             >
               關閉
+            </Button>
+          </ModalFooter>
+        </ModalDialog>
+      </ModalContent>
+
+      {/* Reset Confirmation Modal */}
+      <ModalContent
+        size="sm"
+        isOpen={activeModal === 'reset'}
+        onOpenChange={(open) => { if (!open) setActiveModal(null) }}
+      >
+        <ModalDialog>
+          <ModalHeader
+            title="重設所有變更"
+            description="確定要捨棄所有尚未儲存的 token 變更並還原為原始檔案嗎？"
+          />
+          <ModalFooter>
+            <Button
+              variant="ghost"
+              size="sm"
+              onPress={() => setActiveModal(null)}
+            >
+              取消
+            </Button>
+            <Button
+              variant="danger"
+              size="sm"
+              onPress={confirmResetAll}
+            >
+              確認重設
             </Button>
           </ModalFooter>
         </ModalDialog>

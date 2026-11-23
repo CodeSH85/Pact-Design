@@ -5,6 +5,7 @@ import {
   AutocompleteItem,
   AutocompleteListBox,
   AutocompleteSearchField,
+  Badge,
   Breadcrumb,
   BreadcrumbLink,
   BreadcrumbSeparator,
@@ -93,6 +94,11 @@ import {
   SheetOverlay,
   SheetPanel,
   SheetTrigger,
+  Slider,
+  SliderFill,
+  SliderOutput,
+  SliderThumb,
+  SliderTrack,
   Switch,
   Tab,
   TabList,
@@ -145,8 +151,8 @@ export const mdxComponents: ReturnType<typeof useMDXComponents> = {
   li: (props: ComponentPropsWithoutRef<'li'>) => (
     <li className="leading-07 text-body-md" {...props} />
   ),
-  hr: (props: ComponentPropsWithoutRef<'hr'>) => (
-    <hr className="border-0 border-t border-border-default my-xs" {...props} />
+  hr: ({ className }: ComponentPropsWithoutRef<'hr'>) => (
+    <Separator className={className ? `my-xs ${className}` : 'my-xs'} />
   ),
   blockquote: (props: ComponentPropsWithoutRef<'blockquote'>) => (
     <blockquote
@@ -205,6 +211,7 @@ export const mdxComponents: ReturnType<typeof useMDXComponents> = {
   AutocompleteItem,
   AutocompleteListBox,
   AutocompleteSearchField,
+  Badge,
   Breadcrumb,
   BreadcrumbLink,
   BreadcrumbSeparator,
@@ -293,6 +300,11 @@ export const mdxComponents: ReturnType<typeof useMDXComponents> = {
   SheetOverlay,
   SheetPanel,
   SheetTrigger,
+  Slider,
+  SliderFill,
+  SliderOutput,
+  SliderThumb,
+  SliderTrack,
   Switch,
   Tab,
   TabList,
