@@ -1,90 +1,70 @@
 ---
-title: "ToggleButton"
-eyebrow: "Components · React Aria"
-description: "Two-state pressable toggle button and ToggleButtonGroup segmented selector sharing Button height and focus ring tokens."
+title: "ToggleButton 切換按鈕"
+eyebrow: "元件"
+description: "具備開啟與關閉雙狀態的按鈕元件，可單獨切換功能狀態，或組合成精簡的分段選擇器。"
 ---
 
 <ComponentPreview>
-  <ToggleButton defaultSelected>Pin Inspector</ToggleButton>
+  <ToggleButton defaultSelected>釘選面板</ToggleButton>
 </ComponentPreview>
 
 ```tsx
 import { ToggleButton } from '@pact-design/react'
 
-<ToggleButton defaultSelected>Pin Inspector</ToggleButton>
+<ToggleButton defaultSelected>釘選面板</ToggleButton>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `ToggleButton` and `ToggleButtonGroup`. Exports `ToggleButton`, `ToggleButtonGroup`, and `toggleButtonVariants`.
+- **單一狀態切換**：適合工具列中的釘選、靜音、收藏、顯示網格等可反覆開關的功能。
+- **分段檢視切換**：搭配 `ToggleButtonGroup` 使用，適合在清單、網格、表格等檢視模式之間切換，或作為文字粗體、斜體等複選格式工具列。
 
-### ToggleButton
+若操作對象屬於表單設定項目且需要搭配說明文字，建議改用 **Switch 開關**。
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `variant` | `'secondary' \| 'ghost' \| 'primary'` | `'secondary'` | Visual treatment for unselected and `data-[selected]` pressed states. |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`) shared with `Button`. |
-| `isSelected` | `boolean` | `—` | Controlled pressed/selected state. |
-| `defaultSelected` | `boolean` | `false` | Initial toggle state for uncontrolled usage. |
-| `onChange` | `(isSelected: boolean) => void` | `—` | Handler called whenever the toggle state flips. |
-| `isDisabled` / `disabled` | `boolean` | `false` | Disables pressing and keyboard interaction. |
-| `id` | `Key` | `—` | Item identifier when nested inside `ToggleButtonGroup`. |
+## 使用範例
 
-### ToggleButtonGroup
+### 視覺層級
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `selectionMode` | `'single' \| 'multiple'` | `'single'` | Controls whether one or multiple child buttons stay active. |
-| `disallowEmptySelection` | `boolean` | `false` | Prevents unselecting the final active item (ideal for theme switches). |
-| `selectedKeys` / `defaultSelectedKeys` | `Iterable<Key>` | `—` | Controlled or initial selected button `id` keys. |
-| `onSelectionChange` | `(keys: Set<Key>) => void` | `—` | Callback fired when active selection keys change. |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Stack axis for grouped toggle buttons. |
-| `isDisabled` | `boolean` | `false` | Disables all toggle buttons inside the group. |
-
-## Examples
-
-### Variant
-
-Test `secondary`, `ghost`, and `primary` toggle button variants in selected and unselected states.
+支援 `secondary`、`ghost` 與 `primary` 三種樣式，點擊即可觀察選取與未選取狀態的視覺差異。
 
 <ComponentPreview>
-  <ToggleButton variant="secondary" defaultSelected>Secondary</ToggleButton>
-  <ToggleButton variant="ghost" defaultSelected>Ghost</ToggleButton>
-  <ToggleButton variant="primary" defaultSelected>Primary</ToggleButton>
-  <ToggleButton variant="secondary" disabled>Disabled</ToggleButton>
+  <ToggleButton variant="secondary" defaultSelected>次要樣式</ToggleButton>
+  <ToggleButton variant="ghost" defaultSelected>幽靈樣式</ToggleButton>
+  <ToggleButton variant="primary" defaultSelected>主要樣式</ToggleButton>
+  <ToggleButton variant="secondary" disabled>停用狀態</ToggleButton>
 </ComponentPreview>
 
 ```tsx
-<ToggleButton variant="secondary" defaultSelected>Secondary</ToggleButton>
-<ToggleButton variant="ghost" defaultSelected>Ghost</ToggleButton>
-<ToggleButton variant="primary" defaultSelected>Primary</ToggleButton>
+<ToggleButton variant="secondary" defaultSelected>次要樣式</ToggleButton>
+<ToggleButton variant="ghost" defaultSelected>幽靈樣式</ToggleButton>
+<ToggleButton variant="primary" defaultSelected>主要樣式</ToggleButton>
 ```
 
-### Segmented Single & Multi Selection
+### 分段單選與多選
 
-Compose compact segmented switchers using `ToggleButtonGroup`.
+透過 `ToggleButtonGroup` 將多個切換按鈕緊密組合。設定 `selectionMode="single"` 並加上 `disallowEmptySelection` 時，非常適合用於檢視模式或主題切換；設定 `selectionMode="multiple"` 則可同時啟用多項條件。
 
 <ComponentPreview align="stretch">
   <div className="flex flex-wrap items-center justify-center gap-lg">
     <ToggleButtonGroup
-      aria-label="Preview view mode"
+      aria-label="檢視模式"
       selectionMode="single"
       disallowEmptySelection
       defaultSelectedKeys={['grid']}
     >
-      <ToggleButton id="list" size="sm" variant="primary">List</ToggleButton>
-      <ToggleButton id="grid" size="sm" variant="primary">Grid</ToggleButton>
-      <ToggleButton id="table" size="sm" variant="primary">Table</ToggleButton>
+      <ToggleButton id="list" size="sm" variant="primary">清單</ToggleButton>
+      <ToggleButton id="grid" size="sm" variant="primary">格狀</ToggleButton>
+      <ToggleButton id="table" size="sm" variant="primary">表格</ToggleButton>
     </ToggleButtonGroup>
 
     <ToggleButtonGroup
-      aria-label="Formatting toggles"
+      aria-label="文字格式"
       selectionMode="multiple"
       defaultSelectedKeys={['bold']}
     >
-      <ToggleButton id="bold" size="sm">Bold</ToggleButton>
-      <ToggleButton id="italic" size="sm">Italic</ToggleButton>
-      <ToggleButton id="mono" size="sm">Mono</ToggleButton>
+      <ToggleButton id="bold" size="sm">粗體</ToggleButton>
+      <ToggleButton id="italic" size="sm">斜體</ToggleButton>
+      <ToggleButton id="mono" size="sm">等寬</ToggleButton>
     </ToggleButtonGroup>
   </div>
 </ComponentPreview>
@@ -93,13 +73,39 @@ Compose compact segmented switchers using `ToggleButtonGroup`.
 import { ToggleButton, ToggleButtonGroup } from '@pact-design/react'
 
 <ToggleButtonGroup
-  aria-label="Preview view mode"
+  aria-label="檢視模式"
   selectionMode="single"
   disallowEmptySelection
   defaultSelectedKeys={['grid']}
 >
-  <ToggleButton id="list" size="sm" variant="primary">List</ToggleButton>
-  <ToggleButton id="grid" size="sm" variant="primary">Grid</ToggleButton>
-  <ToggleButton id="table" size="sm" variant="primary">Table</ToggleButton>
+  <ToggleButton id="list" size="sm" variant="primary">清單</ToggleButton>
+  <ToggleButton id="grid" size="sm" variant="primary">格狀</ToggleButton>
+  <ToggleButton id="table" size="sm" variant="primary">表格</ToggleButton>
 </ToggleButtonGroup>
 ```
+
+## API 參考
+
+### ToggleButton
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'secondary' \| 'ghost' \| 'primary'` | `'secondary'` | 切換按鈕在未選取與選取狀態下的視覺樣式。 |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 控制項高度與內距大小。 |
+| `radius` | `'none' \| '2xs' \| 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `—` | 自訂邊框圓角，置於群組內時由群組自動銜接。 |
+| `isSelected` | `boolean` | `—` | 受控模式下的選取狀態。 |
+| `defaultSelected` | `boolean` | `false` | 非受控模式下的預設選取狀態。 |
+| `onChange` | `(isSelected: boolean) => void` | `—` | 選取狀態改變時觸發的回呼函式。 |
+| `isDisabled` / `disabled` | `boolean` | `false` | 是否停用按鈕互動。 |
+| `id` | `Key` | `—` | 位於 `ToggleButtonGroup` 中時的項目識別鍵。 |
+
+### ToggleButtonGroup
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `selectionMode` | `'single' \| 'multiple'` | `'single'` | 設定群組為單選或複選模式。 |
+| `disallowEmptySelection` | `boolean` | `false` | 防止取消最後一個選取項目，確保恆有一項處於啟用狀態。 |
+| `selectedKeys` / `defaultSelectedKeys` | `Iterable<Key>` | `—` | 受控或預設的已選取項目鍵值集合。 |
+| `onSelectionChange` | `(keys: Set<Key>) => void` | `—` | 選取項目變更時觸發的回呼函式。 |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | 群組內按鈕的排列方向。 |
+| `isDisabled` | `boolean` | `false` | 一次停用群組內所有切換按鈕。 |

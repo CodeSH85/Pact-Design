@@ -1,63 +1,51 @@
 ---
-title: "FileTrigger"
-eyebrow: "Components · React Aria"
-description: "Accessible native file input trigger that attaches OS file or directory selection dialogs to any Pact button or trigger element."
+title: "FileTrigger 檔案選擇"
+eyebrow: "元件"
+description: "讓使用者透過系統原生檔案總管挑選單一檔案、多個檔案或整個資料夾的觸發元件。"
 ---
 
 <ComponentPreview>
-  <FileTrigger acceptedFileTypes={['.json', '.svg', '.png']} />
+  <FileTrigger label="選擇檔案" acceptedFileTypes={['.json', '.svg', '.png']} />
 </ComponentPreview>
 
 ```tsx
 import { FileTrigger } from '@pact-design/react'
 
 <FileTrigger
+  label="選擇檔案"
   acceptedFileTypes={['.json', '.svg', '.png']}
   onSelect={(files) => console.log(files)}
 />
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `FileTrigger`. Defaults to rendering a `Button` with an upload icon (`RiUpload2Line`) when `children` is omitted.
+- 當介面需要讓使用者匯入設定檔、上傳圖片附件或選取本地資料夾時使用。
+- 預設會直接呈現帶上傳圖示的標準按鈕；若需要套用自訂文字連結、純圖示按鈕或其他可點擊元件，也可將自訂元件作為子節點包入其中。
 
-### FileTrigger
+## 使用範例
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `label` | `ReactNode` | `'Choose file'` | Button label when using the default trigger button. |
-| `variant` | `'primary' \| 'secondary' \| 'subtle' \| 'ghost' \| 'danger'` | `'secondary'` | Variant applied to the default `Button`. |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height applied to the default `Button`. |
-| `icon` | `ReactNode` | `RiUpload2Line` | Replaces the default upload icon in the built-in button. |
-| `acceptedFileTypes` | `string[]` | `—` | Allowed MIME types or extensions (e.g. `['.json', 'image/*']`). |
-| `allowsMultiple` | `boolean` | `false` | Allows choosing multiple files simultaneously. |
-| `acceptDirectory` | `boolean` | `false` | Allows choosing directories rather than individual files. |
-| `onSelect` | `(files: FileList \| null) => void` | `—` | Callback fired after files are chosen in the file picker. |
-| `children` | `ReactNode` | `—` | Custom pressable trigger element replacing the default button. |
+### 樣式與尺寸
 
-## Examples
-
-### Variant & Size
-
-Customize the built-in trigger button using `variant`, `size`, and `label`.
+直接透過 `variant`、`size` 與 `label` 調整內建按鈕的外觀，並可搭配 `allowsMultiple` 開放一次選取多個檔案。
 
 <ComponentPreview>
-  <FileTrigger variant="primary" size="sm" label="Import Tokens (.json)" acceptedFileTypes={['.json']} />
-  <FileTrigger variant="subtle" size="md" label="Upload Assets" allowsMultiple />
+  <FileTrigger variant="primary" size="sm" label="匯入設定檔" acceptedFileTypes={['.json']} />
+  <FileTrigger variant="subtle" size="md" label="上傳多張圖片" allowsMultiple acceptedFileTypes={['image/*']} />
 </ComponentPreview>
 
 ```tsx
-<FileTrigger variant="primary" size="sm" label="Import Tokens (.json)" acceptedFileTypes={['.json']} />
-<FileTrigger variant="subtle" size="md" label="Upload Assets" allowsMultiple />
+<FileTrigger variant="primary" size="sm" label="匯入設定檔" acceptedFileTypes={['.json']} />
+<FileTrigger variant="subtle" size="md" label="上傳多張圖片" allowsMultiple acceptedFileTypes={['image/*']} />
 ```
 
-### Custom Trigger Child
+### 自訂觸發元件
 
-Wrap any pressable React Aria control (such as a custom `Button`) to attach file picking without default icons.
+傳入自訂的按鈕作為子元件，即可完全掌控外觀與圖示排版。
 
 <ComponentPreview>
   <FileTrigger acceptedFileTypes={['.svg']}>
-    <Button variant="ghost" size="sm">Attach SVG Icon...</Button>
+    <Button variant="ghost" size="sm">附加 SVG 圖示...</Button>
   </FileTrigger>
 </ComponentPreview>
 
@@ -65,6 +53,22 @@ Wrap any pressable React Aria control (such as a custom `Button`) to attach file
 import { Button, FileTrigger } from '@pact-design/react'
 
 <FileTrigger acceptedFileTypes={['.svg']}>
-  <Button variant="ghost" size="sm">Attach SVG Icon...</Button>
+  <Button variant="ghost" size="sm">附加 SVG 圖示...</Button>
 </FileTrigger>
 ```
+
+## API 參考
+
+### FileTrigger
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `'Choose file'` | 使用內建按鈕時顯示的文字內容。 |
+| `variant` | `'primary' \| 'secondary' \| 'subtle' \| 'ghost' \| 'danger'` | `'secondary'` | 內建按鈕的視覺樣式。 |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 內建按鈕的高度尺寸。 |
+| `icon` | `ReactNode` | 預設上傳圖示 | 替換內建按鈕左側的圖示。 |
+| `acceptedFileTypes` | `string[]` | `—` | 允許選擇的副檔名或 MIME 類型清單，例如 `['.json', 'image/*']`。 |
+| `allowsMultiple` | `boolean` | `false` | 是否允許一次選擇多個檔案。 |
+| `acceptDirectory` | `boolean` | `false` | 是否改為選擇整個資料夾。 |
+| `onSelect` | `(files: FileList \| null) => void` | `—` | 使用者完成選取後觸發的回呼函式。 |
+| `children` | `ReactNode` | `—` | 自訂可點擊的觸發元件，傳入後將取代內建按鈕。 |

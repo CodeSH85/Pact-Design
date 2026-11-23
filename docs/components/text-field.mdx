@@ -1,16 +1,16 @@
 ---
-title: "TextField"
-eyebrow: "Components · React Aria"
-description: "Single-line text input with optional prefix/suffix slots, labels, descriptions, validation error text, and control size scale."
+title: "TextField 文字輸入框"
+eyebrow: "元件"
+description: "讓使用者輸入與編輯單行文字的基礎表單控制項，支援標籤、前後綴附加元素、說明文字與驗證回饋。"
 ---
 
 <ComponentPreview>
   <div className="w-full max-w-80">
     <TextField
-      label="Workspace Title"
-      description="Enter a domain-neutral workspace identifier"
-      placeholder="e.g. Core Engineering"
-      defaultValue="Pact Design System"
+      label="工作區名稱"
+      description="請輸入易於辨識的團隊或專案名稱"
+      placeholder="例如：核心平台組"
+      defaultValue="Pact Design"
     />
   </div>
 </ComponentPreview>
@@ -19,99 +19,103 @@ description: "Single-line text input with optional prefix/suffix slots, labels, 
 import { TextField } from '@pact-design/react'
 
 <TextField
-  label="Workspace Title"
-  description="Enter a domain-neutral workspace identifier"
-  placeholder="e.g. Core Engineering"
-  defaultValue="Pact Design System"
+  label="工作區名稱"
+  description="請輸入易於辨識的團隊或專案名稱"
+  placeholder="例如：核心平台組"
+  defaultValue="Pact Design"
 />
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `TextField`, composing `Label`, `FieldGroup`, `Input`, `FieldDescription`, and `FieldError`.
+- 需要使用者填寫姓名、電子郵件、網址、名稱或簡短數值等單行資料時使用。
+- 若輸入內容帶有固定前綴或單位，例如網域名稱、貨幣符號或百分比，可直接使用 `prefix` 與 `suffix` 提示格式，減少使用者重複輸入。
+- 若情境專用於搜尋與篩選清單，建議改用內建放大鏡與快速清除按鈕的 **SearchField 搜尋欄位**。
 
-### TextField
+## 使用範例
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `label` | `ReactNode` | `—` | Accessible label rendered above the input group. |
-| `description` | `ReactNode` | `—` | Helper caption shown underneath `FieldGroup`. |
-| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Error text displayed when `isInvalid` or native validation fails. |
-| `prefix` | `ReactNode` | `—` | Leading adornment (icon or static text) rendered inside `FieldGroup`. |
-| `suffix` | `ReactNode` | `—` | Trailing adornment (unit, domain, or indicator) inside `FieldGroup`. |
-| `placeholder` | `string` | `—` | Placeholder string forwarded to inner `Input`. |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`) applied to `FieldGroup`. |
-| `value` / `defaultValue` | `string` | `—` | Controlled or initial text value. |
-| `onChange` | `(value: string) => void` | `—` | Fired whenever the input string changes. |
-| `inputProps` | `AriaInputProps` | `—` | Low-level HTML input props such as `type` or `autoComplete`. |
-| `isDisabled` | `boolean` | `false` | Disables editing and applies disabled surface styles. |
-| `isInvalid` | `boolean` | `false` | Marks field invalid and styles danger focus/border states. |
-| `isReadOnly` | `boolean` | `false` | Makes text non-editable while preserving focusability. |
+### 前後綴與尺寸
 
-## Examples
-
-### Prefix, Suffix & Size
-
-Embed units or domain prefixes directly via `prefix` and `suffix`, and choose control heights (`xs`–`xl`).
+可透過 `prefix` 與 `suffix` 放入固定字首、圖示或計量單位，並依版面密度選擇合適的高度。
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
     <TextField
-      label="Package Slug (sm)"
+      label="套件名稱"
       size="sm"
       prefix={<span className="text-mono-xs">@pact/</span>}
       defaultValue="react"
     />
     <TextField
-      label="Contrast Target (lg)"
+      label="連線逾時"
       size="lg"
-      suffix={<span className="text-mono-xs">Lc</span>}
-      defaultValue="60"
+      suffix={<span className="text-mono-xs">ms</span>}
+      defaultValue="3000"
     />
   </div>
 </ComponentPreview>
 
 ```tsx
 <TextField
-  label="Package Slug (sm)"
+  label="套件名稱"
   size="sm"
   prefix={<span className="text-mono-xs">@pact/</span>}
   defaultValue="react"
 />
 <TextField
-  label="Contrast Target (lg)"
+  label="連線逾時"
   size="lg"
-  suffix={<span className="text-mono-xs">Lc</span>}
-  defaultValue="60"
+  suffix={<span className="text-mono-xs">ms</span>}
+  defaultValue="3000"
 />
 ```
 
-### Validation & Disabled States
+### 驗證錯誤與停用狀態
 
-Combine `isInvalid` + `errorMessage` for constraint errors or `isDisabled` / `isReadOnly` for locked inputs.
+當輸入內容不符合規範時，搭配 `isInvalid` 與 `errorMessage` 提供明確修正指引；若欄位目前不可修改，可使用 `isDisabled` 或 `isReadOnly`。
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
     <TextField
-      label="CSS Prefix"
+      label="變數前綴"
       isInvalid
       defaultValue="123 invalid"
-      errorMessage="Prefix must start with a lowercase letter."
+      errorMessage="前綴必須以小寫英文字母開頭，且不可包含空白。"
     />
     <TextField
-      label="Package Registry"
+      label="套件來源位址"
       isDisabled
-      defaultValue="npm.pkg.github.com"
+      defaultValue="registry.example.com"
     />
   </div>
 </ComponentPreview>
 
 ```tsx
 <TextField
-  label="CSS Prefix"
+  label="變數前綴"
   isInvalid
   defaultValue="123 invalid"
-  errorMessage="Prefix must start with a lowercase letter."
+  errorMessage="前綴必須以小寫英文字母開頭，且不可包含空白。"
 />
-<TextField label="Package Registry" isDisabled defaultValue="npm.pkg.github.com" />
+<TextField label="套件來源位址" isDisabled defaultValue="registry.example.com" />
 ```
+
+## API 參考
+
+### TextField
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | 顯示於輸入框上方的欄位標籤。 |
+| `description` | `ReactNode` | `—` | 顯示於輸入框下方的輔助說明文字。 |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | 欄位無效時顯示的錯誤提示內容。 |
+| `prefix` | `ReactNode` | `—` | 位於輸入框內左側的固定圖示或文字。 |
+| `suffix` | `ReactNode` | `—` | 位於輸入框內右側的單位、網域或狀態指示。 |
+| `placeholder` | `string` | `—` | 輸入框空白時的提示文字。 |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 輸入框高度與文字比例。 |
+| `value` / `defaultValue` | `string` | `—` | 受控或預設的文字內容。 |
+| `onChange` | `(value: string) => void` | `—` | 輸入內容變更時觸發的回呼函式。 |
+| `inputProps` | `InputProps` | `—` | 傳遞至內層原生輸入元素的屬性，例如 `type` 或 `autoComplete`。 |
+| `isDisabled` | `boolean` | `false` | 是否停用輸入互動。 |
+| `isInvalid` | `boolean` | `false` | 是否標示為驗證錯誤狀態。 |
+| `isReadOnly` | `boolean` | `false` | 是否設為唯讀，保留聚焦與選取文字能力但禁止編輯。 |

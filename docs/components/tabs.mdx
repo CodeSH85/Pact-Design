@@ -1,24 +1,24 @@
 ---
-title: "Tabs"
-eyebrow: "Components · React Aria"
-description: "Multi-panel tabbed navigation supporting underline, segmented, and pill styles in horizontal or vertical orientations."
+title: "Tabs 頁籤"
+eyebrow: "元件"
+description: "在同一空間內切換多組關聯內容面板的導覽元件，支援底線、分段與膠囊三種樣式及水平或垂直排列。"
 ---
 
 <ComponentPreview align="stretch">
-  <Tabs defaultSelectedKey="tokens">
-    <TabList aria-label="Architecture sections">
-      <Tab id="tokens">Design Tokens</Tab>
-      <Tab id="components">React Components</Tab>
-      <Tab id="contrast">APCA Contrast</Tab>
+  <Tabs defaultSelectedKey="overview">
+    <TabList aria-label="專案分頁">
+      <Tab id="overview">總覽</Tab>
+      <Tab id="members">成員權限</Tab>
+      <Tab id="activity">活動紀錄</Tab>
     </TabList>
-    <TabPanel id="tokens">
-      Three-tier architecture separating Global primitives, System semantics, and Component slot overrides.
+    <TabPanel id="overview">
+      查看專案基本資訊、運作狀態與近期里程碑進度。
     </TabPanel>
-    <TabPanel id="components">
-      29 accessible React Aria component modules styled dynamically via Pact Design UnoCSS presets.
+    <TabPanel id="members">
+      管理團隊成員的角色配置、邀請狀態與存取權限。
     </TabPanel>
-    <TabPanel id="contrast">
-      Automated Light and Dark contrast verification calibrated against APCA-W3 perceptual lightness.
+    <TabPanel id="activity">
+      檢視近期設定變更與成員操作歷程紀錄。
     </TabPanel>
   </Tabs>
 </ComponentPreview>
@@ -26,86 +26,73 @@ description: "Multi-panel tabbed navigation supporting underline, segmented, and
 ```tsx
 import { Tab, TabList, TabPanel, Tabs } from '@pact-design/react'
 
-<Tabs defaultSelectedKey="tokens">
-  <TabList aria-label="Architecture sections">
-    <Tab id="tokens">Design Tokens</Tab>
-    <Tab id="components">React Components</Tab>
-    <Tab id="contrast">APCA Contrast</Tab>
+<Tabs defaultSelectedKey="overview">
+  <TabList aria-label="專案分頁">
+    <Tab id="overview">總覽</Tab>
+    <Tab id="members">成員權限</Tab>
+    <Tab id="activity">活動紀錄</Tab>
   </TabList>
-  <TabPanel id="tokens">Three-tier token architecture.</TabPanel>
-  <TabPanel id="components">Accessible React Aria components.</TabPanel>
-  <TabPanel id="contrast">Verified APCA-W3 readability.</TabPanel>
+  <TabPanel id="overview">查看專案基本資訊與近期進度。</TabPanel>
+  <TabPanel id="members">管理團隊成員與存取權限。</TabPanel>
+  <TabPanel id="activity">檢視近期操作歷程紀錄。</TabPanel>
 </Tabs>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `Tabs`, `TabList`, `Tab`, `TabPanels`, and `TabPanel`. Styling context (`variant` and `size`) propagates automatically from `Tabs` down to `TabList` and `Tab`.
+- 當同一頁面包含多組同層級、相關聯的內容檢視，讓使用者在不離開目前畫面的情況下快速切換瀏覽。
+- **底線樣式 `underline`**：適合頁面主分頁或卡片上方分區，視覺輕盈且具明確層次。
+- **分段樣式 `segmented`**：適合在緊湊工具區或檢視器中切換模式，例如「預覽 / 程式碼 / API」。
+- **膠囊樣式 `pill`**：適合用於分類篩選或局部內容切換。
 
-### Tabs
+若各分頁內容之間毫無關聯，或需要獨立網址與完整頁面架構，建議改用主導覽列切換頁面。
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `variant` | `'underline' \| 'segmented' \| 'pill'` | `'underline'` | Visual tab indicator style propagated via `TabContext`. |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Controls trigger height, padding, and label typography scale. |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout axis for tabs and content panels. |
-| `items` | `TabItemData[]` | `—` | Data-driven alternative (`{ id, label, content, isDisabled? }`). |
-| `selectedKey` / `defaultSelectedKey` | `Key` | `—` | Controlled or initial selected tab key. |
-| `onSelectionChange` | `(key: Key) => void` | `—` | Callback fired when active tab changes. |
-| `isDisabled` | `boolean` | `false` | Disables interaction across all tabs. |
+## 使用範例
 
-### Parts
+### 視覺樣式
 
-- **`TabList`**: Container wrapping `Tab` triggers with variant borders/tracks.
-- **`Tab`**: Interactive tab trigger supporting `isDisabled`.
-- **`TabPanels`** & **`TabPanel`**: Focus-safe panel region rendered for the active tab key.
-
-## Examples
-
-### Variant
-
-Switch seamlessly between `underline`, `segmented`, and `pill` presentations.
+透過 `variant` 切換 `underline`、`segmented` 與 `pill` 三種樣式，設定會自動套用至所有子頁籤。
 
 <ComponentPreview align="stretch">
   <div className="flex flex-col gap-lg">
     <Tabs variant="segmented" defaultSelectedKey="preview">
-      <TabList aria-label="Segmented tabs">
-        <Tab id="preview">Interactive Preview</Tab>
-        <Tab id="tsx">TSX Source</Tab>
+      <TabList aria-label="分段頁籤">
+        <Tab id="preview">互動預覽</Tab>
+        <Tab id="code">程式碼</Tab>
         <Tab id="api">API</Tab>
       </TabList>
-      <TabPanel id="preview">Segmented control variant with elevated active indicator.</TabPanel>
-      <TabPanel id="tsx">Clean TSX snippet output.</TabPanel>
-      <TabPanel id="api">Complete component prop tables.</TabPanel>
+      <TabPanel id="preview">直接於畫面中操作並檢視元件回饋。</TabPanel>
+      <TabPanel id="code">查看精簡且可直接複製的範例程式碼。</TabPanel>
+      <TabPanel id="api">查閱完整屬性說明與預設值。</TabPanel>
     </Tabs>
 
     <Tabs variant="pill" defaultSelectedKey="all">
-      <TabList aria-label="Pill tabs">
-        <Tab id="all">All Tokens</Tab>
-        <Tab id="color">Color</Tab>
-        <Tab id="motion">Motion</Tab>
+      <TabList aria-label="膠囊頁籤">
+        <Tab id="all">全部項目</Tab>
+        <Tab id="open">處理中</Tab>
+        <Tab id="done">已完成</Tab>
       </TabList>
-      <TabPanel id="all">Pill variant uses rounded interactive badges.</TabPanel>
-      <TabPanel id="color">Color scale and semantic tokens.</TabPanel>
-      <TabPanel id="motion">Duration and cubic-bezier easing curves.</TabPanel>
+      <TabPanel id="all">顯示所有狀態的任務清單。</TabPanel>
+      <TabPanel id="open">僅顯示尚未結案的進行中項目。</TabPanel>
+      <TabPanel id="done">顯示已驗證並關閉的歷史紀錄。</TabPanel>
     </Tabs>
   </div>
 </ComponentPreview>
 
 ```tsx
 <Tabs variant="segmented" defaultSelectedKey="preview">
-  <TabList>
-    <Tab id="preview">Interactive Preview</Tab>
-    <Tab id="tsx">TSX Source</Tab>
+  <TabList aria-label="分段頁籤">
+    <Tab id="preview">互動預覽</Tab>
+    <Tab id="code">程式碼</Tab>
   </TabList>
   <TabPanel id="preview">...</TabPanel>
-  <TabPanel id="tsx">...</TabPanel>
+  <TabPanel id="code">...</TabPanel>
 </Tabs>
 ```
 
-### Vertical Orientation & Data Items
+### 垂直排列與資料驅動
 
-Set `orientation="vertical"` or pass `items` for side-tab navigation.
+設定 `orientation="vertical"` 可將頁籤排列於左側作為設定頁子導覽，亦可直接傳入 `items` 陣列快速生成。
 
 <ComponentPreview align="stretch">
   <Tabs
@@ -113,9 +100,9 @@ Set `orientation="vertical"` or pass `items` for side-tab navigation.
     variant="underline"
     defaultSelectedKey="general"
     items={[
-      { id: 'general', label: 'General', content: 'Workspace metadata and project identifiers.' },
-      { id: 'tokens', label: 'Tokens', content: 'Theme parity and CSS custom properties build config.' },
-      { id: 'archive', label: 'Archive', content: 'Deprecated settings.', isDisabled: true }
+      { id: 'general', label: '一般設定', content: '管理工作區名稱、語言與時區偏好。' },
+      { id: 'security', label: '安全性', content: '設定雙重驗證、登入裝置管理與存取政策。' },
+      { id: 'archive', label: '已封存項目', content: '目前無可檢視的封存設定。', isDisabled: true }
     ]}
   />
 </ComponentPreview>
@@ -125,9 +112,29 @@ Set `orientation="vertical"` or pass `items` for side-tab navigation.
   orientation="vertical"
   defaultSelectedKey="general"
   items={[
-    { id: 'general', label: 'General', content: 'Workspace metadata.' },
-    { id: 'tokens', label: 'Tokens', content: 'Theme parity config.' },
-    { id: 'archive', label: 'Archive', content: 'Deprecated.', isDisabled: true }
+    { id: 'general', label: '一般設定', content: '管理工作區名稱、語言與時區偏好。' },
+    { id: 'security', label: '安全性', content: '設定雙重驗證與存取政策。' },
+    { id: 'archive', label: '已封存項目', content: '目前無可檢視內容。', isDisabled: true }
   ]}
 />
 ```
+
+## API 參考
+
+### Tabs
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'underline' \| 'segmented' \| 'pill'` | `'underline'` | 頁籤視覺樣式，會自動傳遞至內層 `TabList` 與 `Tab`。 |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | 頁籤觸發區高度、內距與文字大小。 |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | 頁籤列與內容面板的排列方向。 |
+| `items` | `TabItemData[]` | `—` | 資料驅動陣列，每筆包含 `id`、`label`、`content` 與 `isDisabled`。 |
+| `selectedKey` / `defaultSelectedKey` | `Key` | `—` | 受控或預設啟用的頁籤鍵值。 |
+| `onSelectionChange` | `(key: Key) => void` | `—` | 切換頁籤時觸發的回呼函式。 |
+| `isDisabled` | `boolean` | `false` | 一次停用所有頁籤。 |
+
+### 子元件
+
+- **`TabList`**：包裹多個 `Tab` 觸發按鈕的頁籤列容器。
+- **`Tab`**：單一可互動的頁籤按鈕，支援個別設定 `isDisabled`。
+- **`TabPanels`** 與 **`TabPanel`**：對應目前選取頁籤的內容面板區域。

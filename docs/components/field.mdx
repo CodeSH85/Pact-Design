@@ -1,18 +1,18 @@
 ---
-title: "Field"
-eyebrow: "Components · React Aria"
-description: "Low-level form field primitives shared across Pact inputs, date controls, and pickers."
+title: "Field 表單欄位"
+eyebrow: "元件"
+description: "構成輸入框、搜尋欄與日期選擇器的基礎表單元件，提供一致的標籤、群組外框、輔助說明與錯誤提示。"
 ---
 
 <ComponentPreview>
   <div className="w-full max-w-80">
-    <TextField defaultValue="system.primary">
-      <Label>Token Identifier</Label>
+    <TextField defaultValue="pact-workspace">
+      <Label>專案識別碼</Label>
       <FieldGroup size="md">
-        <Input placeholder="e.g. system.primary" />
-        <FieldButton aria-label="Copy token identifier">Copy</FieldButton>
+        <Input placeholder="例如 pact-workspace" />
+        <FieldButton aria-label="複製專案識別碼">複製</FieldButton>
       </FieldGroup>
-      <FieldDescription>Compose custom inputs cleanly using Field primitives.</FieldDescription>
+      <FieldDescription>透過基礎欄位元件自由組合輸入框與行內按鈕。</FieldDescription>
       <FieldError />
     </TextField>
   </div>
@@ -29,108 +29,111 @@ import {
   TextField
 } from '@pact-design/react'
 
-<TextField defaultValue="system.primary">
-  <Label>Token Identifier</Label>
+<TextField defaultValue="pact-workspace">
+  <Label>專案識別碼</Label>
   <FieldGroup size="md">
-    <Input placeholder="e.g. system.primary" />
-    <FieldButton aria-label="Copy token identifier">Copy</FieldButton>
+    <Input placeholder="例如 pact-workspace" />
+    <FieldButton aria-label="複製專案識別碼">複製</FieldButton>
   </FieldGroup>
-  <FieldDescription>Compose custom inputs cleanly using Field primitives.</FieldDescription>
+  <FieldDescription>透過基礎欄位元件自由組合輸入框與行內按鈕。</FieldDescription>
   <FieldError />
 </TextField>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `Label`, `Group`, `Input`, `Button`, `Text`, and `FieldError`.
+- 一般表單情境優先使用已封裝好的 **TextField 文字輸入框**、**SearchField 搜尋欄位** 或 **DateField 日期欄位**。
+- 當介面需要客製化欄位結構時，例如在輸入框右側放置複製按鈕、密碼顯示切換或複合式操作控制項，可直接組合 `Label`、`FieldGroup`、`Input`、`FieldButton`、`FieldDescription` 與 `FieldError` 來保持一致的視覺與無障礙行為。
 
-### Parts
+## 使用範例
 
-- **`Label`**: Accessible field label with medium weight and default cursor.
-- **`FieldGroup`**: Token-styled input container supporting focus-within, invalid, and disabled states.
-- **`Input`**: Transparent flex-1 input reset nested cleanly inside `FieldGroup`.
-- **`FieldButton`**: Compact action button styled to sit inside `FieldGroup` edges.
-- **`FieldDescription`**: Caption text mapped with `slot="description"`.
-- **`FieldError`**: Error message primitive rendered when parent field validation fails.
+### 尺寸
 
-### FieldGroup
-
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`), padding, and border radius. |
-| `isDisabled` | `boolean` | `false` | Applies disabled surface styling to the group container. |
-| `isInvalid` | `boolean` | `false` | Applies invalid danger border tokens. |
-| `className` | `string \| ((props) => string)` | `—` | Optional CSS classes merged onto the group container. |
-
-### FieldButton
-
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `isDisabled` / `disabled` | `boolean` | `false` | Disables interaction and pointer clicks. |
-| `onPress` | `(e: PressEvent) => void` | `—` | Unified mouse, touch, and keyboard activation callback. |
-| `className` | `string \| ((props) => string)` | `—` | Optional CSS classes merged with inline field button styles. |
-
-## Examples
-
-### Size
-
-`FieldGroup` scales seamlessly from `xs` (24px) to `xl` (40px) while keeping inner `Input` and `FieldButton` aligned.
+`FieldGroup` 提供從超緊湊 `xs` 到寬大 `xl` 的高度等級，內部的輸入框與行內按鈕會自動保持對齊。
 
 <ComponentPreview align="stretch">
   <div className="flex flex-col gap-md">
-    <TextField aria-label="Field XS">
+    <TextField aria-label="超緊湊欄位">
       <FieldGroup size="xs">
-        <Input placeholder="FieldGroup size='xs' (24px)" />
+        <Input placeholder="超緊湊尺寸 xs" />
       </FieldGroup>
     </TextField>
-    <TextField aria-label="Field SM">
+    <TextField aria-label="緊湊欄位">
       <FieldGroup size="sm">
-        <Input placeholder="FieldGroup size='sm' (28px)" />
+        <Input placeholder="緊湊尺寸 sm" />
       </FieldGroup>
     </TextField>
-    <TextField aria-label="Field MD">
+    <TextField aria-label="標準欄位">
       <FieldGroup size="md">
-        <Input placeholder="FieldGroup size='md' (32px)" />
+        <Input placeholder="標準尺寸 md" />
       </FieldGroup>
     </TextField>
-    <TextField aria-label="Field LG">
+    <TextField aria-label="舒適欄位">
       <FieldGroup size="lg">
-        <Input placeholder="FieldGroup size='lg' (36px)" />
+        <Input placeholder="舒適尺寸 lg" />
       </FieldGroup>
     </TextField>
   </div>
 </ComponentPreview>
 
 ```tsx
-<TextField aria-label="Field SM">
+<TextField aria-label="緊湊欄位">
   <FieldGroup size="sm">
-    <Input placeholder="FieldGroup size='sm' (28px)" />
+    <Input placeholder="緊湊尺寸 sm" />
   </FieldGroup>
 </TextField>
 ```
 
-### Validation Error State
+### 驗證錯誤狀態
 
-Pass `isInvalid` on the parent field so `FieldGroup` highlights in danger border tokens and renders `FieldError`.
+當外層表單欄位進入無效狀態時，外框會自動呈現警示樣式並顯示 `FieldError` 錯誤訊息。
 
 <ComponentPreview>
   <div className="w-full max-w-80">
-    <TextField isInvalid defaultValue="invalid hex">
-      <Label>Primary Color HEX</Label>
+    <TextField isInvalid defaultValue="invalid-code">
+      <Label>專案代碼</Label>
       <FieldGroup size="md">
         <Input />
       </FieldGroup>
-      <FieldError>Value must be a valid 6-digit hex code.</FieldError>
+      <FieldError>請輸入 6 碼以上的英數字組合。</FieldError>
     </TextField>
   </div>
 </ComponentPreview>
 
 ```tsx
-<TextField isInvalid defaultValue="invalid hex">
-  <Label>Primary Color HEX</Label>
+<TextField isInvalid defaultValue="invalid-code">
+  <Label>專案代碼</Label>
   <FieldGroup size="md">
     <Input />
   </FieldGroup>
-  <FieldError>Value must be a valid 6-digit hex code.</FieldError>
+  <FieldError>請輸入 6 碼以上的英數字組合。</FieldError>
 </TextField>
 ```
+
+## API 參考
+
+### 組成元件
+
+- **`Label`**：與輸入控制項自動關聯的表單欄位標籤。
+- **`FieldGroup`**：包覆輸入框、圖示與行內按鈕的外框容器，管理聚焦、停用與錯誤狀態。
+- **`Input`**：置於 `FieldGroup` 內部的單行文字輸入元件。
+- **`FieldButton`**：專為輸入框內緣設計的精簡操作按鈕。
+- **`FieldDescription`**：顯示於欄位下方的輔助說明文字。
+- **`FieldError`**：欄位驗證失敗時自動顯示的錯誤提示文字。
+
+### FieldGroup
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 控制項高度、內距與圓角大小。 |
+| `isDisabled` | `boolean` | `false` | 是否套用停用狀態樣式。 |
+| `isInvalid` | `boolean` | `false` | 是否套用驗證錯誤的警示外框。 |
+| `className` | `string \| ((props) => string)` | `—` | 額外套用的自訂樣式類別。 |
+
+### FieldButton
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `isDisabled` / `disabled` | `boolean` | `false` | 是否停用按鈕互動。 |
+| `onPress` | `(e: PressEvent) => void` | `—` | 點擊或透過鍵盤觸發時的回呼函式。 |
+| `className` | `string \| ((props) => string)` | `—` | 額外套用的自訂樣式類別。 |

@@ -1,79 +1,64 @@
 ---
-title: "Disclosure"
-eyebrow: "Components · React Aria"
-description: "Accessible expandable content panel with a rotating chevron trigger and bordered or ghost surface styles."
+title: "Disclosure 折疊面板"
+eyebrow: "元件"
+description: "可展開與收合的內容區塊，協助隱藏次要細節或進階選項，讓主畫面維持清爽俐落。"
 ---
 
 <ComponentPreview align="stretch">
-  <Disclosure id="architecture" title="Three-Tier Token Architecture" defaultExpanded>
-    Pact Design separates Global primitives, System semantic roles, and Component-scoped slots so themes swap without rewriting component CSS.
+  <Disclosure id="advanced" title="進階匯出設定" defaultExpanded>
+    展開後可調整欄位分隔字元、文字編碼格式以及是否包含標題列，平時收合以減少畫面干擾。
   </Disclosure>
 </ComponentPreview>
 
 ```tsx
 import { Disclosure } from '@pact-design/react'
 
-<Disclosure id="architecture" title="Three-Tier Token Architecture" defaultExpanded>
-  Pact Design separates Global primitives, System semantic roles, and Component-scoped slots.
+<Disclosure id="advanced" title="進階匯出設定" defaultExpanded>
+  展開後可調整欄位分隔字元、文字編碼格式以及是否包含標題列。
 </Disclosure>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `Disclosure`, `DisclosurePanel`, `Heading`, and `Button` (`slot="trigger"`). Exports `Disclosure`, `DisclosureHeader`, and `DisclosurePanel`.
+- 適合收納補充說明、常見問題解答、進階表單設定或側邊導覽分組，讓使用者在需要時再展開檢視。
+- 提供兩種外觀樣式：`bordered` 適合獨立呈現於內容區的卡片區塊；`ghost` 則去除外框改以底線區隔，非常適合側邊欄或高密度屬性面板。
+- 若有多組折疊面板需要成群排列並協調展開行為，建議搭配 **DisclosureGroup 折疊面板群組**。
 
-### Disclosure
+## 使用範例
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `title` | `ReactNode` | `—` | When provided, renders `DisclosureHeader` and wraps `children` in `DisclosurePanel` automatically. |
-| `variant` | `'bordered' \| 'ghost'` | `'bordered'` (inherits from `DisclosureGroup` when grouped) | Bordered card or bottom-divider ghost style. |
-| `isExpanded` / `defaultExpanded` | `boolean` | `false` | Controlled or initial expanded state. |
-| `onExpandedChange` | `(isExpanded: boolean) => void` | `—` | Callback fired when expansion state toggles. |
-| `isDisabled` | `boolean` | `false` | Disables toggling the panel. |
-| `panelProps` | `DisclosurePanelProps` | `—` | Props forwarded to `DisclosurePanel` when `title` shorthand is used. |
-| `className` | `string` | `—` | Optional CSS classes for the root disclosure container. |
+### 視覺樣式
 
-### Parts
-
-- **`DisclosureHeader`**: Wraps `AriaHeading` + `AriaButton` (`slot="trigger"`) with rotating `RiArrowRightSLine` chevron.
-- **`DisclosurePanel`**: Collapsible region hidden via `aria-hidden:hidden`.
-
-## Examples
-
-### Variant
-
-Switch between `bordered` standalone cards and `ghost` divider rows (ideal for sidebars).
+比較帶外框的 `bordered` 卡片樣式與輕量底線的 `ghost` 樣式。
 
 <ComponentPreview align="stretch">
   <div className="flex flex-col gap-md">
-    <Disclosure variant="bordered" title="Bordered Card Variant" defaultExpanded>
-      Uses bordered surface framing and rounded container corners.
+    <Disclosure variant="bordered" title="外框卡片樣式" defaultExpanded>
+      具備完整外框與圓角，適合獨立擺放於頁面或表單段落中。
     </Disclosure>
-    <Disclosure variant="ghost" title="Ghost Divider Variant">
-      Transparent background with a bottom border divider, well suited for dense navigation panels.
+    <Disclosure variant="ghost" title="幽靈分隔樣式">
+      採用透明背景與簡潔分隔線，適合側邊導覽列與密集面板。
     </Disclosure>
   </div>
 </ComponentPreview>
 
 ```tsx
-<Disclosure variant="bordered" title="Bordered Card Variant" defaultExpanded>
-  Uses bordered surface framing and rounded container corners.
+<Disclosure variant="bordered" title="外框卡片樣式" defaultExpanded>
+  具備完整外框與圓角，適合獨立擺放於頁面或表單段落中。
 </Disclosure>
-<Disclosure variant="ghost" title="Ghost Divider Variant">
-  Transparent background with a bottom border divider.
+<Disclosure variant="ghost" title="幽靈分隔樣式">
+  採用透明背景與簡潔分隔線，適合側邊導覽列與密集面板。
 </Disclosure>
 ```
 
-### Custom Panel Composition
+### 自訂標頭與內容結構
 
-Omit `title` and compose `DisclosureHeader` + `DisclosurePanel` directly for full control over header markup and panel padding.
+省略 `title` 屬性即可自行組合 `DisclosureHeader` 與 `DisclosurePanel`，彈性調整標頭內容與面板背景樣式。
 
 <ComponentPreview align="stretch">
   <Disclosure>
-    <DisclosureHeader>Custom Header Trigger</DisclosureHeader>
+    <DisclosureHeader>自訂標頭觸發區</DisclosureHeader>
     <DisclosurePanel className="bg-layer-2">
-      Custom content container styled independently via <code>DisclosurePanel</code>.
+      可透過 <code>DisclosurePanel</code> 獨立調整展開後的內距與底色表現。
     </DisclosurePanel>
   </Disclosure>
 </ComponentPreview>
@@ -82,9 +67,28 @@ Omit `title` and compose `DisclosureHeader` + `DisclosurePanel` directly for ful
 import { Disclosure, DisclosureHeader, DisclosurePanel } from '@pact-design/react'
 
 <Disclosure>
-  <DisclosureHeader>Custom Header Trigger</DisclosureHeader>
+  <DisclosureHeader>自訂標頭觸發區</DisclosureHeader>
   <DisclosurePanel className="bg-layer-2">
-    Custom content container styled independently.
+    可獨立調整展開後的內距與底色表現。
   </DisclosurePanel>
 </Disclosure>
 ```
+
+## API 參考
+
+### Disclosure
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `title` | `ReactNode` | `—` | 傳入標題時會自動渲染標頭並將子內容包入 `DisclosurePanel`。 |
+| `variant` | `'bordered' \| 'ghost'` | `'bordered'` | 外觀樣式，位於 `DisclosureGroup` 內時會自動繼承群組風格。 |
+| `isExpanded` / `defaultExpanded` | `boolean` | `false` | 受控或預設的展開狀態。 |
+| `onExpandedChange` | `(isExpanded: boolean) => void` | `—` | 展開或收合狀態改變時觸發的回呼函式。 |
+| `isDisabled` | `boolean` | `false` | 是否停用展開與收合操作。 |
+| `panelProps` | `DisclosurePanelProps` | `—` | 使用 `title` 簡寫時傳遞至內層 `DisclosurePanel` 的額外屬性。 |
+| `className` | `string` | `—` | 額外套用於外層容器的自訂樣式類別。 |
+
+### 子元件
+
+- **`DisclosureHeader`**：包含標題文字與旋轉展開箭頭的觸發標頭。
+- **`DisclosurePanel`**：可收合的內容面板區域。

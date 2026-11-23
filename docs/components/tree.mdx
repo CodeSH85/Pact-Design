@@ -1,34 +1,34 @@
 ---
-title: "Tree"
-eyebrow: "Components · React Aria"
-description: "Accessible hierarchical tree view supporting expandable branches, level-based indentation, keyboard arrow navigation, and selection checkboxes."
+title: "Tree 樹狀列表"
+eyebrow: "元件"
+description: "呈現多層次父子結構的階層列表元件，支援節點展開收合、階層縮排、鍵盤方向鍵導覽與複選功能。"
 ---
 
 <ComponentPreview align="stretch">
   <Tree
-    aria-label="Token package directory"
+    aria-label="專案目錄結構"
     selectionMode="multiple"
-    defaultExpandedKeys={['tokens', 'system']}
-    defaultSelectedKeys={['system-light']}
+    defaultExpandedKeys={['workspace', 'docs']}
+    defaultSelectedKeys={['doc-color']}
   >
-    <TreeItem id="tokens" textValue="packages/tokens/src">
-      <TreeItemContent>packages/tokens/src</TreeItemContent>
-      <TreeItem id="global" textValue="global">
-        <TreeItemContent>global</TreeItemContent>
-        <TreeItem id="global-color" textValue="color.json">
-          <TreeItemContent>color.json</TreeItemContent>
+    <TreeItem id="workspace" textValue="設計系統專案">
+      <TreeItemContent>設計系統專案</TreeItemContent>
+      <TreeItem id="docs" textValue="設計文件">
+        <TreeItemContent>設計文件</TreeItemContent>
+        <TreeItem id="doc-color" textValue="色彩規範">
+          <TreeItemContent>色彩規範</TreeItemContent>
         </TreeItem>
-        <TreeItem id="global-spacing" textValue="spacing.json">
-          <TreeItemContent>spacing.json</TreeItemContent>
+        <TreeItem id="doc-typography" textValue="字體規範">
+          <TreeItemContent>字體規範</TreeItemContent>
         </TreeItem>
       </TreeItem>
-      <TreeItem id="system" textValue="system">
-        <TreeItemContent>system</TreeItemContent>
-        <TreeItem id="system-light" textValue="color.light.json">
-          <TreeItemContent>color.light.json</TreeItemContent>
+      <TreeItem id="assets" textValue="資源檔案">
+        <TreeItemContent>資源檔案</TreeItemContent>
+        <TreeItem id="asset-logo" textValue="品牌識別圖檔">
+          <TreeItemContent>品牌識別圖檔</TreeItemContent>
         </TreeItem>
-        <TreeItem id="system-dark" textValue="color.dark.json">
-          <TreeItemContent>color.dark.json</TreeItemContent>
+        <TreeItem id="asset-icons" textValue="圖示套件">
+          <TreeItemContent>圖示套件</TreeItemContent>
         </TreeItem>
       </TreeItem>
     </TreeItem>
@@ -39,60 +39,39 @@ description: "Accessible hierarchical tree view supporting expandable branches, 
 import { Tree, TreeItem, TreeItemContent } from '@pact-design/react'
 
 <Tree
-  aria-label="Token package directory"
+  aria-label="專案目錄結構"
   selectionMode="multiple"
-  defaultExpandedKeys={['tokens', 'system']}
-  defaultSelectedKeys={['system-light']}
+  defaultExpandedKeys={['workspace', 'docs']}
+  defaultSelectedKeys={['doc-color']}
 >
-  <TreeItem id="tokens" textValue="packages/tokens/src">
-    <TreeItemContent>packages/tokens/src</TreeItemContent>
-    <TreeItem id="global" textValue="global">
-      <TreeItemContent>global</TreeItemContent>
-      <TreeItem id="global-color" textValue="color.json">
-        <TreeItemContent>color.json</TreeItemContent>
-      </TreeItem>
-    </TreeItem>
-    <TreeItem id="system" textValue="system">
-      <TreeItemContent>system</TreeItemContent>
-      <TreeItem id="system-light" textValue="color.light.json">
-        <TreeItemContent>color.light.json</TreeItemContent>
+  <TreeItem id="workspace" textValue="設計系統專案">
+    <TreeItemContent>設計系統專案</TreeItemContent>
+    <TreeItem id="docs" textValue="設計文件">
+      <TreeItemContent>設計文件</TreeItemContent>
+      <TreeItem id="doc-color" textValue="色彩規範">
+        <TreeItemContent>色彩規範</TreeItemContent>
       </TreeItem>
     </TreeItem>
   </TreeItem>
 </Tree>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `Tree`, `TreeItem`, `TreeItemContent`, `Collection`, `TreeSection`, and `TreeHeader`.
+- 適合呈現資料夾目錄、組織架構、分類樹、圖層面板等具有明確父子隸屬關係的資訊結構。
+- 使用者可透過滑鼠點擊箭頭或鍵盤左右方向鍵展開與收合分支，上下方向鍵快速移動焦點。
+- 當介面需要一次批次選取多個階層項目，例如選擇要匯出的檔案或設定權限範圍，可開啟 `selectionMode="multiple"` 自動顯示核取方塊。
 
-### Tree
+## 使用範例
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | Enables single-row selection or renders inline `Checkbox` items when `'multiple'`. |
-| `expandedKeys` / `defaultExpandedKeys` | `Iterable<Key>` | `—` | Controlled or initial expanded parent item IDs. |
-| `onExpandedChange` | `(keys: Set<Key>) => void` | `—` | Handler called when branches expand or collapse. |
-| `selectedKeys` / `defaultSelectedKeys` | `'all' \| Iterable<Key>` | `—` | Controlled or initial selected tree row IDs. |
-| `onSelectionChange` | `(keys: Selection) => void` | `—` | Callback fired when item selection changes. |
-| `disabledKeys` | `Iterable<Key>` | `—` | Disables expansion and selection for matching row keys. |
+### 單選目錄瀏覽
 
-### Parts
-
-- **`TreeItem`**: Represents a single row node. Automatically indents by depth (`level`) and accepts nested child `TreeItem` elements. Always supply `textValue` for keyboard typeahead and ARIA labels.
-- **`TreeItemContent`**: Renders the optional `Checkbox` (`slot="selection"`), rotating expand chevron (`slot="chevron"`), and truncated item label.
-- **`TreeSection`** & **`TreeHeader`**: Optional grouped section primitives.
-
-## Examples
-
-### Expand-Only File Explorer
-
-Omit `selectionMode` (or use `selectionMode="single"`) when using `Tree` for read-only navigation hierarchies.
+用於檔案瀏覽器或側邊階層導覽時，可使用 `selectionMode="single"` 標示目前聚焦檢視的節點。
 
 <ComponentPreview align="stretch">
-  <Tree aria-label="Component source folders" selectionMode="single" defaultExpandedKeys={['components']}>
-    <TreeItem id="components" textValue="src/components">
-      <TreeItemContent>src/components</TreeItemContent>
+  <Tree aria-label="元件原始碼目錄" selectionMode="single" defaultExpandedKeys={['components']}>
+    <TreeItem id="components" textValue="components">
+      <TreeItemContent>components</TreeItemContent>
       <TreeItem id="button" textValue="Button">
         <TreeItemContent>Button</TreeItemContent>
         <TreeItem id="button-tsx" textValue="Button.tsx">
@@ -110,9 +89,9 @@ Omit `selectionMode` (or use `selectionMode="single"`) when using `Tree` for rea
 </ComponentPreview>
 
 ```tsx
-<Tree aria-label="Component source folders" selectionMode="single" defaultExpandedKeys={['components']}>
-  <TreeItem id="components" textValue="src/components">
-    <TreeItemContent>src/components</TreeItemContent>
+<Tree aria-label="元件原始碼目錄" selectionMode="single" defaultExpandedKeys={['components']}>
+  <TreeItem id="components" textValue="components">
+    <TreeItemContent>components</TreeItemContent>
     <TreeItem id="button" textValue="Button">
       <TreeItemContent>Button</TreeItemContent>
       <TreeItem id="button-tsx" textValue="Button.tsx">
@@ -122,3 +101,22 @@ Omit `selectionMode` (or use `selectionMode="single"`) when using `Tree` for rea
   </TreeItem>
 </Tree>
 ```
+
+## API 參考
+
+### Tree
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | 設定無選取、單選，或啟用複選核取方塊。 |
+| `expandedKeys` / `defaultExpandedKeys` | `Iterable<Key>` | `—` | 受控或預設展開的父節點識別鍵集合。 |
+| `onExpandedChange` | `(keys: Set<Key>) => void` | `—` | 節點展開或收合時觸發的回呼函式。 |
+| `selectedKeys` / `defaultSelectedKeys` | `'all' \| Iterable<Key>` | `—` | 受控或預設選取的節點識別鍵集合。 |
+| `onSelectionChange` | `(keys: Selection) => void` | `—` | 選取節點變更時觸發的回呼函式。 |
+| `disabledKeys` | `Iterable<Key>` | `—` | 指定停用展開與選取的節點鍵值集合。 |
+
+### 子元件
+
+- **`TreeItem`**：單一樹狀節點，會依巢狀深度自動計算縮排並可包覆子 `TreeItem`。請務必提供 `textValue` 以支援鍵盤字首搜尋與螢幕閱讀器朗讀。
+- **`TreeItemContent`**：負責渲染節點列的核取方塊、展開收合箭頭與文字標籤。
+- **`TreeSection`** 與 **`TreeHeader`**：選用的分組容器與標題。

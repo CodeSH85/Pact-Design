@@ -1,15 +1,15 @@
 ---
-title: "Separator"
-eyebrow: "Components · React Aria"
-description: "Semantic horizontal or vertical hairline divider supporting subtle, default, and strong border contrast tones."
+title: "Separator 分隔線"
+eyebrow: "元件"
+description: "以細緻線條劃分相鄰內容區塊或工具列項目，在緊湊版面中建立清楚的結構邊界。"
 ---
 
 <ComponentPreview align="stretch">
   <div className="flex flex-col gap-sm">
-    <span className="text-label-sm text-on-surface">Design System Architecture</span>
+    <span className="text-label-sm text-on-surface">專案概覽</span>
     <Separator tone="default" />
     <span className="text-body-sm text-on-surface-muted">
-      Tokens flow cleanly from Global primitives to System semantics and Component slots.
+      清楚區隔標題與補充說明，讓使用者一眼辨識內容段落的起止範圍。
     </span>
   </div>
 </ComponentPreview>
@@ -18,43 +18,37 @@ description: "Semantic horizontal or vertical hairline divider supporting subtle
 import { Separator } from '@pact-design/react'
 
 <div className="flex flex-col gap-sm">
-  <span>Design System Architecture</span>
+  <span>專案概覽</span>
   <Separator tone="default" />
-  <span>Tokens flow cleanly from Global primitives to System semantics.</span>
+  <span>清楚區隔標題與補充說明。</span>
 </div>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `Separator` (`AriaSeparatorProps`).
+- **水平區塊分隔**：用於劃分設定頁段落、側邊欄選單群組或卡片上下區域。
+- **垂直項目分隔**：用於工具列或狀態列中，區隔不同性質的功能按鈕與資訊項目。
 
-### Separator
+當兩段內容已經能透過留白距離清楚分組時，不需強加分隔線，避免讓畫面充滿過多線條。
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Sets full-width `h-px` horizontal rule or stretching `w-px` vertical divider. |
-| `tone` | `'subtle' \| 'default' \| 'strong'` | `'subtle'` | Maps hairline fill to semantic `border-*` contrast tokens. |
-| `elementType` | `string` | `'hr'` (horizontal) / `'div'` (vertical) | Underlying semantic DOM element managed by React Aria. |
-| `className` | `string` | `—` | Additional CSS classes merged via `cn()`. |
+## 使用範例
 
-## Examples
+### 對比層級
 
-### Tone
-
-Compare `subtle`, `default`, and `strong` border tones against surface layers.
+透過 `tone` 調整線條深淺，依區塊重要程度選擇柔和 `subtle`、標準 `default` 或強調 `strong`。
 
 <ComponentPreview align="stretch">
   <div className="flex flex-col gap-md">
     <div className="flex flex-col gap-2xs">
-      <span className="text-caption-sm text-on-surface-muted">Subtle</span>
+      <span className="text-caption-sm text-on-surface-muted">柔和</span>
       <Separator tone="subtle" />
     </div>
     <div className="flex flex-col gap-2xs">
-      <span className="text-caption-sm text-on-surface-muted">Default</span>
+      <span className="text-caption-sm text-on-surface-muted">標準</span>
       <Separator tone="default" />
     </div>
     <div className="flex flex-col gap-2xs">
-      <span className="text-caption-sm text-on-surface-muted">Strong</span>
+      <span className="text-caption-sm text-on-surface-muted">強調</span>
       <Separator tone="strong" />
     </div>
   </div>
@@ -66,26 +60,37 @@ Compare `subtle`, `default`, and `strong` border tones against surface layers.
 <Separator tone="strong" />
 ```
 
-### Vertical Toolbar Divider
+### 垂直工具列分隔
 
-Set `orientation="vertical"` inside flex rows or navigation toolbars.
+將 `orientation` 設為 `vertical`，即可在水平排列的工具列或導覽列中插入垂直分隔線。
 
 <ComponentPreview>
   <div className="inline-flex items-center gap-sm h-control-md px-sm rounded-xs bg-layer-1 border border-border-subtle">
-    <span className="text-label-sm text-on-surface">Tokens</span>
+    <span className="text-label-sm text-on-surface">設計基礎</span>
     <Separator orientation="vertical" tone="default" />
-    <span className="text-label-sm text-on-surface">Components</span>
+    <span className="text-label-sm text-on-surface">互動元件</span>
     <Separator orientation="vertical" tone="default" />
-    <span className="text-label-sm text-on-surface-muted">Docs</span>
+    <span className="text-label-sm text-on-surface-muted">使用說明</span>
   </div>
 </ComponentPreview>
 
 ```tsx
 <div className="inline-flex items-center gap-sm h-control-md px-sm">
-  <span>Tokens</span>
+  <span>設計基礎</span>
   <Separator orientation="vertical" tone="default" />
-  <span>Components</span>
+  <span>互動元件</span>
   <Separator orientation="vertical" tone="default" />
-  <span>Docs</span>
+  <span>使用說明</span>
 </div>
 ```
+
+## API 參考
+
+### Separator
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | 分隔線的排列方向，可選水平或垂直。 |
+| `tone` | `'subtle' \| 'default' \| 'strong'` | `'subtle'` | 分隔線的視覺對比強度。 |
+| `elementType` | `string` | 水平為 `'hr'`，垂直為 `'div'` | 底層渲染的語意 HTML 元素。 |
+| `className` | `string` | `—` | 額外套用的自訂樣式類別。 |

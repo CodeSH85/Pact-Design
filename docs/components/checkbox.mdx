@@ -1,11 +1,15 @@
 ---
-title: "Checkbox"
-eyebrow: "Components · React Aria"
-description: "Compact binary or indeterminate selection control paired with CheckboxGroup for multi-select form options."
+title: "Checkbox 核取方塊"
+eyebrow: "元件"
+description: "讓使用者在一組選項中複選零至多個項目，或確認單一獨立條件的切換控制項。"
 ---
 
 <ComponentPreview>
-  <Checkbox defaultChecked label="Enable compact layout" description="Uses 4px base grid and 28px–32px control heights." />
+  <Checkbox
+    defaultChecked
+    label="啟用緊湊版面模式"
+    description="縮小工具列與表格列高，在單一畫面中顯示更多資料。"
+  />
 </ComponentPreview>
 
 ```tsx
@@ -13,55 +17,34 @@ import { Checkbox } from '@pact-design/react'
 
 <Checkbox
   defaultChecked
-  label="Enable compact layout"
-  description="Uses 4px base grid and 28px–32px control heights."
+  label="啟用緊湊版面模式"
+  description="縮小工具列與表格列高，在單一畫面中顯示更多資料。"
 />
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `Checkbox` and `CheckboxGroup`. Accepts both React Aria toggle props (`isSelected`, `defaultSelected`, `onChange`) and native aliases (`checked`, `defaultChecked`, `onCheckedChange`).
+- **多選清單**：搭配 `CheckboxGroup` 讓使用者從多個並列選項中同時勾選零個、一個或多個項目。
+- **單一確認條件**：用於勾選同意條款、記住偏好設定，或在表單送出前確認特定選項。
+- **部分選取狀態**：在資料表全選框或樹狀結構中，使用 `isIndeterminate` 表達子項目僅有部分被勾選的狀態。
 
-### Checkbox
+若變更後需要立即生效而不經由表單送出，建議改用 **Switch 開關**；若選項之間互斥且僅能擇一，請改用 **Radio 單選按鈕**。
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `label` | `ReactNode` | `—` | Primary label displayed beside the checkbox indicator. |
-| `description` | `ReactNode` | `—` | Supporting text displayed beneath the label. |
-| `isSelected` / `checked` | `boolean` | `—` | Controlled selection state. |
-| `defaultSelected` / `defaultChecked` | `boolean` | `false` | Initial selection state for uncontrolled usage. |
-| `isIndeterminate` | `boolean` | `false` | Displays an indeterminate minus icon indicator. |
-| `isDisabled` / `disabled` | `boolean` | `false` | Disables pointer and keyboard selection. |
-| `onChange` / `onCheckedChange` | `(isSelected: boolean) => void` | `—` | Handler called when checked state changes. |
-| `value` | `string` | `—` | Option value when nested inside a `CheckboxGroup`. |
-| `className` | `string` | `—` | Optional CSS classes for the root label container. |
+## 使用範例
 
-### CheckboxGroup
+### 群組複選
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `label` | `ReactNode` | `—` | Group heading label. |
-| `description` | `ReactNode` | `—` | Group-level help text. |
-| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Validation message when group is invalid. |
-| `value` | `string[]` | `—` | Controlled array of selected item values. |
-| `defaultValue` | `string[]` | `—` | Initial selected values for uncontrolled groups. |
-| `onChange` | `(value: string[]) => void` | `—` | Callback fired when the selected values array changes. |
-
-## Examples
-
-### Group Selection
-
-Group related checkboxes with shared labels and descriptions via `CheckboxGroup`.
+透過 `CheckboxGroup` 統整多個關聯選項，集中管理群組標題、輔助說明與已選取的值。
 
 <ComponentPreview align="start">
   <CheckboxGroup
-    label="UI Density Options"
-    description="Select active system guards"
-    defaultValue={['compact', 'apca']}
+    label="通知接收管道"
+    description="請選擇希望收到系統提醒的方式"
+    defaultValue={['inbox', 'email']}
   >
-    <Checkbox value="compact" label="Enable compact layout" description="4px base grid and tight surface padding." />
-    <Checkbox value="apca" label="Enforce APCA contrast guard" description="Requires |Lc| >= 60 on solid pairings." />
-    <Checkbox value="telemetry" label="Stream live token telemetry" />
+    <Checkbox value="inbox" label="站內通知" description="於工作區右上角即時顯示提醒。" />
+    <Checkbox value="email" label="電子郵件摘要" description="每日彙整重要變更並寄送至信箱。" />
+    <Checkbox value="webhook" label="外部 Webhook 推播" />
   </CheckboxGroup>
 </ComponentPreview>
 
@@ -69,30 +52,57 @@ Group related checkboxes with shared labels and descriptions via `CheckboxGroup`
 import { Checkbox, CheckboxGroup } from '@pact-design/react'
 
 <CheckboxGroup
-  label="UI Density Options"
-  description="Select active system guards"
-  defaultValue={['compact', 'apca']}
+  label="通知接收管道"
+  description="請選擇希望收到系統提醒的方式"
+  defaultValue={['inbox', 'email']}
 >
-  <Checkbox value="compact" label="Enable compact layout" />
-  <Checkbox value="apca" label="Enforce APCA contrast guard" />
-  <Checkbox value="telemetry" label="Stream live token telemetry" />
+  <Checkbox value="inbox" label="站內通知" />
+  <Checkbox value="email" label="電子郵件摘要" />
+  <Checkbox value="webhook" label="外部 Webhook 推播" />
 </CheckboxGroup>
 ```
 
-### Indeterminate & Disabled
+### 部分選取與停用狀態
 
-Display partial selection and disabled states.
+支援以橫線顯示部分選取狀態，並可將特定選項鎖定為停用。
 
 <ComponentPreview align="start">
   <div className="flex flex-col gap-sm">
-    <Checkbox isIndeterminate label="Partially selected tokens" />
-    <Checkbox disabled defaultChecked label="Locked system policy" />
-    <Checkbox disabled label="Unavailable legacy tier" />
+    <Checkbox isIndeterminate label="已選取部分項目" />
+    <Checkbox disabled defaultChecked label="已鎖定的必選項目" />
+    <Checkbox disabled label="目前無法勾選的項目" />
   </div>
 </ComponentPreview>
 
 ```tsx
-<Checkbox isIndeterminate label="Partially selected tokens" />
-<Checkbox disabled defaultChecked label="Locked system policy" />
-<Checkbox disabled label="Unavailable legacy tier" />
+<Checkbox isIndeterminate label="已選取部分項目" />
+<Checkbox disabled defaultChecked label="已鎖定的必選項目" />
+<Checkbox disabled label="目前無法勾選的項目" />
 ```
+
+## API 參考
+
+### Checkbox
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | 顯示於核取方塊旁的主要選項文字。 |
+| `description` | `ReactNode` | `—` | 顯示於選項文字下方的補充說明。 |
+| `isSelected` / `checked` | `boolean` | `—` | 受控模式下的勾選狀態。 |
+| `defaultSelected` / `defaultChecked` | `boolean` | `false` | 非受控模式下的預設勾選狀態。 |
+| `isIndeterminate` | `boolean` | `false` | 是否顯示部分選取的橫線標記。 |
+| `isDisabled` / `disabled` | `boolean` | `false` | 是否停用核取方塊互動。 |
+| `onChange` / `onCheckedChange` | `(isSelected: boolean) => void` | `—` | 勾選狀態改變時觸發的回呼函式。 |
+| `value` | `string` | `—` | 置於 `CheckboxGroup` 中時的選項值。 |
+| `className` | `string` | `—` | 額外套用的自訂樣式類別。 |
+
+### CheckboxGroup
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | 群組標題文字。 |
+| `description` | `ReactNode` | `—` | 群組層級的輔助說明文字。 |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | 群組驗證失敗時顯示的錯誤訊息。 |
+| `value` | `string[]` | `—` | 受控模式下的已勾選選項值陣列。 |
+| `defaultValue` | `string[]` | `—` | 非受控模式下的預設勾選值陣列。 |
+| `onChange` | `(value: string[]) => void` | `—` | 已勾選陣列變更時觸發的回呼函式。 |

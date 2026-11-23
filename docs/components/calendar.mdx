@@ -1,56 +1,37 @@
 ---
-title: "Calendar"
-eyebrow: "Components · React Aria"
-description: "Interactive month calendar grid built on @internationalized/date with keyboard navigation and today/selected state styling."
+title: "Calendar 行事曆"
+eyebrow: "元件"
+description: "直接內嵌於頁面或面板中的月曆檢視元件，支援月份切換、鍵盤方向鍵導覽與日期範圍限制。"
 ---
 
 import { parseDate } from '@internationalized/date'
 
 <ComponentPreview>
-  <Calendar aria-label="Event schedule" defaultValue={parseDate('2026-11-18')} />
+  <Calendar aria-label="活動排程" defaultValue={parseDate('2026-11-18')} />
 </ComponentPreview>
 
 ```tsx
 import { parseDate } from '@internationalized/date'
 import { Calendar } from '@pact-design/react'
 
-<Calendar aria-label="Event schedule" defaultValue={parseDate('2026-11-18')} />
+<Calendar aria-label="活動排程" defaultValue={parseDate('2026-11-18')} />
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `Calendar` primitives. Exports `Calendar`, `CalendarHeading`, `CalendarGrid`, `CalendarGridHeader`, `CalendarHeaderCell`, `CalendarGridBody`, and `CalendarCell`.
+- 適合需要在側邊欄、排程介面或儀表板中常駐展示完整月曆，讓使用者一覽整月日期分佈並直接點選時使用。
+- 內建「今日」與「已選取」的清晰視覺標記，並支援使用方向鍵在日期格之間快速移動。
+- 若只需於表單中佔用單行欄位空間，建議改用 **DatePicker 日期選擇器**。
 
-### Calendar
+## 使用範例
 
-When `children` is omitted, renders the default previous/next header, `CalendarHeading`, and `CalendarGrid`.
+### 限定可選範圍
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `value` | `DateValue` | `—` | Controlled selected date (`@internationalized/date`). |
-| `defaultValue` | `DateValue` | `—` | Initial selected date for uncontrolled usage. |
-| `onChange` | `(value: DateValue) => void` | `—` | Callback fired when a date cell is selected. |
-| `minValue` | `DateValue` | `—` | Minimum selectable date. |
-| `maxValue` | `DateValue` | `—` | Maximum selectable date. |
-| `isDisabled` | `boolean` | `false` | Disables navigation and date selection. |
-| `isReadOnly` | `boolean` | `false` | Prevents changing the current selection. |
-| `className` | `string` | `—` | Optional CSS classes for the root calendar container. |
-
-### Parts
-
-- **`CalendarHeading`**: Displays the current month and year heading.
-- **`CalendarGrid`**: Table wrapper that defaults to rendering `CalendarGridHeader` and `CalendarGridBody`.
-- **`CalendarCell`**: Individual day button styled for today, selected, outside-month, disabled, and unavailable states.
-
-## Examples
-
-### Constrained Date Bounds
-
-Restrict selectable dates to a valid range with `minValue` and `maxValue`.
+透過 `minValue` 與 `maxValue` 劃定有效日期區間，範圍外的日期會自動顯示為不可選取狀態。
 
 <ComponentPreview>
   <Calendar
-    aria-label="November sprint window"
+    aria-label="十一月可預約時段"
     defaultValue={parseDate('2026-11-18')}
     minValue={parseDate('2026-11-10')}
     maxValue={parseDate('2026-11-24')}
@@ -59,9 +40,32 @@ Restrict selectable dates to a valid range with `minValue` and `maxValue`.
 
 ```tsx
 <Calendar
-  aria-label="November sprint window"
+  aria-label="十一月可預約時段"
   defaultValue={parseDate('2026-11-18')}
   minValue={parseDate('2026-11-10')}
   maxValue={parseDate('2026-11-24')}
 />
 ```
+
+## API 參考
+
+### Calendar
+
+省略子元件時，會自動渲染上下月切換標頭、`CalendarHeading` 與 `CalendarGrid`。
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `value` | `DateValue` | `—` | 受控模式下目前選取的日期。 |
+| `defaultValue` | `DateValue` | `—` | 非受控模式下的預設選取日期。 |
+| `onChange` | `(value: DateValue) => void` | `—` | 使用者點選日期格時觸發的回呼函式。 |
+| `minValue` | `DateValue` | `—` | 允許選取的最早日期。 |
+| `maxValue` | `DateValue` | `—` | 允許選取的最晚日期。 |
+| `isDisabled` | `boolean` | `false` | 是否停用月份切換與日期點選。 |
+| `isReadOnly` | `boolean` | `false` | 是否鎖定目前選取結果不允許變更。 |
+| `className` | `string` | `—` | 額外套用於最外層容器的自訂樣式類別。 |
+
+### 子元件
+
+- **`CalendarHeading`**：顯示目前瀏覽的年份與月份標題。
+- **`CalendarGrid`**：月曆表格容器，預設包含星期表頭與日期格主體。
+- **`CalendarCell`**：單一日期按鈕，自動呈現今日、已選取、非當月與停用狀態。

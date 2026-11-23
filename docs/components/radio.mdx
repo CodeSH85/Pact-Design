@@ -1,29 +1,29 @@
 ---
-title: "Radio"
-eyebrow: "Components · React Aria"
-description: "Mutually exclusive single-choice radio selection items arranged cleanly in vertical or horizontal RadioGroup layouts."
+title: "Radio 單選按鈕"
+eyebrow: "元件"
+description: "讓使用者在一組互斥選項中擇一選取，支援垂直與水平排列，以及每個選項的補充說明。"
 ---
 
 <ComponentPreview align="start">
   <RadioGroup
-    label="Token Tier Scope"
-    description="Choose which token architecture layer to inspect"
-    defaultValue="system"
+    label="匯出格式"
+    description="請選擇此次資料匯出的檔案格式"
+    defaultValue="csv"
   >
     <Radio
-      value="global"
-      label="Global Primitives"
-      description="Raw OKLCH color palettes, spacing dimensions, and motion curves."
+      value="csv"
+      label="CSV 試算表"
+      description="適合匯入 Excel 或其他試算表工具進行後續整理。"
     />
     <Radio
-      value="system"
-      label="System Semantic"
-      description="Theme-aware background, surface, border, and contrast roles."
+      value="json"
+      label="JSON 結構資料"
+      description="保留完整巢狀欄位，方便程式系統直接解析。"
     />
     <Radio
-      value="component"
-      label="Component Slots"
-      description="Scoped button, field, and overlay token overrides."
+      value="pdf"
+      label="PDF 靜態報表"
+      description="固定版面配置，適合分享與列印留存。"
     />
   </RadioGroup>
 </ComponentPreview>
@@ -32,62 +32,66 @@ description: "Mutually exclusive single-choice radio selection items arranged cl
 import { Radio, RadioGroup } from '@pact-design/react'
 
 <RadioGroup
-  label="Token Tier Scope"
-  description="Choose which token architecture layer to inspect"
-  defaultValue="system"
+  label="匯出格式"
+  description="請選擇此次資料匯出的檔案格式"
+  defaultValue="csv"
 >
-  <Radio value="global" label="Global Primitives" description="Raw OKLCH palettes and dimensions." />
-  <Radio value="system" label="System Semantic" description="Theme-aware surface and ink roles." />
-  <Radio value="component" label="Component Slots" description="Scoped component overrides." />
+  <Radio value="csv" label="CSV 試算表" description="適合匯入 Excel 或其他試算表工具。" />
+  <Radio value="json" label="JSON 結構資料" description="保留完整巢狀欄位，方便程式解析。" />
+  <Radio value="pdf" label="PDF 靜態報表" description="固定版面配置，適合分享與列印。" />
 </RadioGroup>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `RadioGroup` and `Radio`. Exports `Radio` and `RadioGroup`.
+- 當所有選項彼此互斥、僅能選擇其中一項，且選項數量約在 2 至 5 個之間時，使用單選按鈕能讓使用者一次看清全部選擇並直接比較。
+- 若選項超過 5 個或版面空間有限，建議改用 **Select 下拉選單**。
+- 若選項之間可同時複選，請改用 **Checkbox 核取方塊**。
 
-### RadioGroup
+## 使用範例
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `label` | `ReactNode` | `—` | Accessible group heading label. |
-| `description` | `ReactNode` | `—` | Supporting text displayed above radio options. |
-| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Validation error text when required or invalid. |
-| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | Layout axis for nested `Radio` controls. |
-| `value` / `defaultValue` | `string` | `—` | Controlled or initial selected option value. |
-| `onChange` | `(value: string) => void` | `—` | Handler called when selected radio value changes. |
-| `isDisabled` | `boolean` | `false` | Disables all options in the group. |
+### 水平排列與停用選項
 
-### Radio
-
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `value` | `string` | Required | Option value emitted by enclosing `RadioGroup`. |
-| `label` | `ReactNode` | `—` | Primary label shown next to the radio circle. |
-| `description` | `ReactNode` | `—` | Secondary description text below `label`. |
-| `isDisabled` / `disabled` | `boolean` | `false` | Disables individual radio selection. |
-| `className` | `string` | `—` | Optional CSS classes for the root radio label. |
-
-## Examples
-
-### Orientation & Disabled Options
-
-Arrange options horizontally with `orientation="horizontal"` or lock specific choices via `disabled`.
+透過 `orientation="horizontal"` 將選項橫向展開，並可針對單一選項設定 `disabled` 表示暫時不可選取。
 
 <ComponentPreview align="start">
   <div className="flex flex-col gap-lg">
-    <RadioGroup label="Theme Target" orientation="horizontal" defaultValue="light">
-      <Radio value="light" label="Light Mode" />
-      <Radio value="dark" label="Dark Mode" />
-      <Radio value="high-contrast" label="High Contrast (Soon)" disabled />
+    <RadioGroup label="介面外觀" orientation="horizontal" defaultValue="light">
+      <Radio value="light" label="淺色模式" />
+      <Radio value="dark" label="深色模式" />
+      <Radio value="high-contrast" label="高對比模式" disabled />
     </RadioGroup>
   </div>
 </ComponentPreview>
 
 ```tsx
-<RadioGroup label="Theme Target" orientation="horizontal" defaultValue="light">
-  <Radio value="light" label="Light Mode" />
-  <Radio value="dark" label="Dark Mode" />
-  <Radio value="high-contrast" label="High Contrast (Soon)" disabled />
+<RadioGroup label="介面外觀" orientation="horizontal" defaultValue="light">
+  <Radio value="light" label="淺色模式" />
+  <Radio value="dark" label="深色模式" />
+  <Radio value="high-contrast" label="高對比模式" disabled />
 </RadioGroup>
 ```
+
+## API 參考
+
+### RadioGroup
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | 群組標題文字。 |
+| `description` | `ReactNode` | `—` | 顯示於選項上方的輔助說明。 |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | 驗證失敗時顯示的錯誤提示。 |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | 選項的排列方向。 |
+| `value` / `defaultValue` | `string` | `—` | 受控或預設選取的選項值。 |
+| `onChange` | `(value: string) => void` | `—` | 選取項目改變時觸發的回呼函式。 |
+| `isDisabled` | `boolean` | `false` | 一次停用群組內所有單選項目。 |
+
+### Radio
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `value` | `string` | 必填 | 此選項對應的值，由外層 `RadioGroup` 管理。 |
+| `label` | `ReactNode` | `—` | 顯示於圓點旁的主要選項文字。 |
+| `description` | `ReactNode` | `—` | 顯示於選項文字下方的補充說明。 |
+| `isDisabled` / `disabled` | `boolean` | `false` | 是否停用此單一選項。 |
+| `className` | `string` | `—` | 額外套用的自訂樣式類別。 |

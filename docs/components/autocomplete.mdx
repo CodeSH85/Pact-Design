@@ -1,21 +1,21 @@
 ---
-title: "Autocomplete"
-eyebrow: "Components · React Aria"
-description: "Searchable collection input pairing SearchField filtering with a keyboard-navigable ListBox."
+title: "Autocomplete 自動完成"
+eyebrow: "元件"
+description: "結合即時搜尋輸入框與常駐選項清單，讓使用者透過輸入關鍵字快速過濾並以鍵盤選取項目。"
 ---
 
 <ComponentPreview>
   <div className="w-full max-w-80">
     <Autocomplete
-      label="Search System Tokens"
-      description="Filter matching tokens using contains sensitivity"
-      placeholder="Search tokens..."
+      label="快速搜尋功能"
+      description="輸入關鍵字即時篩選相符項目"
+      placeholder="搜尋項目..."
     >
-      <AutocompleteItem id="color-primary">color-primary (Brand accent)</AutocompleteItem>
-      <AutocompleteItem id="color-surface">color-surface (UI layer background)</AutocompleteItem>
-      <AutocompleteItem id="elevation-lg">elevation-lg (Floating containers)</AutocompleteItem>
-      <AutocompleteItem id="motion-fast">motion-fast (Micro-interactions)</AutocompleteItem>
-      <AutocompleteItem id="control-md">control-md (32px input height)</AutocompleteItem>
+      <AutocompleteItem id="profile">工作區基本設定</AutocompleteItem>
+      <AutocompleteItem id="members">團隊成員與權限管理</AutocompleteItem>
+      <AutocompleteItem id="billing">帳單與使用量紀錄</AutocompleteItem>
+      <AutocompleteItem id="api-keys">API 金鑰管理</AutocompleteItem>
+      <AutocompleteItem id="audit">系統操作稽核日誌</AutocompleteItem>
     </Autocomplete>
   </div>
 </ComponentPreview>
@@ -24,77 +24,56 @@ description: "Searchable collection input pairing SearchField filtering with a k
 import { Autocomplete, AutocompleteItem } from '@pact-design/react'
 
 <Autocomplete
-  label="Search System Tokens"
-  description="Filter matching tokens using contains sensitivity"
-  placeholder="Search tokens..."
+  label="快速搜尋功能"
+  description="輸入關鍵字即時篩選相符項目"
+  placeholder="搜尋項目..."
 >
-  <AutocompleteItem id="color-primary">color-primary (Brand accent)</AutocompleteItem>
-  <AutocompleteItem id="color-surface">color-surface (UI layer background)</AutocompleteItem>
-  <AutocompleteItem id="elevation-lg">elevation-lg (Floating containers)</AutocompleteItem>
-  <AutocompleteItem id="motion-fast">motion-fast (Micro-interactions)</AutocompleteItem>
+  <AutocompleteItem id="profile">工作區基本設定</AutocompleteItem>
+  <AutocompleteItem id="members">團隊成員與權限管理</AutocompleteItem>
+  <AutocompleteItem id="billing">帳單與使用量紀錄</AutocompleteItem>
+  <AutocompleteItem id="api-keys">API 金鑰管理</AutocompleteItem>
 </Autocomplete>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `Autocomplete` and `useFilter({ sensitivity: 'base' })`. Exports `Autocomplete`, `AutocompleteItem`, `AutocompleteSearchField`, `AutocompleteListBox`, and `useFilter`.
+- 適合指令面板、側邊快速跳轉面板、篩選清單或抽屜內的搜尋選取情境，清單直接呈現於搜尋欄下方並隨輸入即時過濾。
+- 若希望清單平時收合、僅於點擊輸入框時以浮動視窗展開，建議改用 **ComboBox 組合方塊**。
 
-### Autocomplete
+## 使用範例
 
-When `label`, `placeholder`, or `searchFieldProps` is provided, renders an `AutocompleteSearchField` paired with an `AutocompleteListBox`. Otherwise, accepts custom composable children.
+### 尺寸
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `label` | `ReactNode` | `—` | Accessible label rendered above the search input. |
-| `description` | `ReactNode` | `—` | Helper text rendered below the list box. |
-| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Validation error text displayed when invalid. |
-| `placeholder` | `string` | `—` | Placeholder text forwarded to `AutocompleteSearchField`. |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height scale for the embedded search field. |
-| `filter` | `(textValue: string, inputValue: string) => boolean` | `useFilter({ sensitivity: 'base' }).contains` | Custom item filter predicate. |
-| `searchFieldProps` | `Partial<SearchFieldProps>` | `—` | Props forwarded to `AutocompleteSearchField`. |
-| `listBoxProps` | `Partial<AutocompleteListBoxProps<T>>` | `—` | Props forwarded to `AutocompleteListBox` (such as `onAction`, `selectionMode`, `onSelectionChange`). |
-| `className` | `string` | `—` | Optional CSS classes for the outer field wrapper. |
-
-### Parts
-
-- **`AutocompleteItem`**: Renders a `ListBoxItem` inside `AutocompleteListBox`.
-- **`AutocompleteSearchField`**: Wrapper around `SearchField` wired into React Aria `Autocomplete` context.
-- **`AutocompleteListBox`**: Bordered `ListBox` (`surface="bordered"`) filtered by the current query.
-
-## Examples
-
-### Size
-
-Adjust the search field density with `size` (`sm`, `md`, `lg`).
+透過 `size` 調整內嵌搜尋欄的高度，配合緊湊工具面板或標準表單版面。
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
-    <Autocomplete label="Compact (sm)" size="sm" placeholder="Filter tokens...">
-      <AutocompleteItem id="xs">control-xs (24px)</AutocompleteItem>
-      <AutocompleteItem id="sm">control-sm (28px)</AutocompleteItem>
+    <Autocomplete label="緊湊尺寸" size="sm" placeholder="篩選選項...">
+      <AutocompleteItem id="xs">超緊湊高度</AutocompleteItem>
+      <AutocompleteItem id="sm">緊湊高度</AutocompleteItem>
     </Autocomplete>
-    <Autocomplete label="Comfortable (lg)" size="lg" placeholder="Filter tokens...">
-      <AutocompleteItem id="md">control-md (32px)</AutocompleteItem>
-      <AutocompleteItem id="lg">control-lg (36px)</AutocompleteItem>
+    <Autocomplete label="舒適尺寸" size="lg" placeholder="篩選選項...">
+      <AutocompleteItem id="md">標準高度</AutocompleteItem>
+      <AutocompleteItem id="lg">舒適高度</AutocompleteItem>
     </Autocomplete>
   </div>
 </ComponentPreview>
 
 ```tsx
-<Autocomplete label="Compact (sm)" size="sm" placeholder="Filter tokens...">
-  <AutocompleteItem id="xs">control-xs (24px)</AutocompleteItem>
-  <AutocompleteItem id="sm">control-sm (28px)</AutocompleteItem>
+<Autocomplete label="緊湊尺寸" size="sm" placeholder="篩選選項...">
+  <AutocompleteItem id="xs">超緊湊高度</AutocompleteItem>
+  <AutocompleteItem id="sm">緊湊高度</AutocompleteItem>
 </Autocomplete>
 ```
 
-### Custom Composition
+### 自訂組合結構
 
-Omit shorthand field props to supply custom `AutocompleteSearchField` and `AutocompleteListBox` children directly.
+不傳入簡寫屬性時，可直接組合 `AutocompleteSearchField` 與 `AutocompleteListBox`，自由設定選取模式與清單行為。
 
 <ComponentPreview>
   <div className="w-full max-w-80">
     <Autocomplete>
-      <AutocompleteSearchField aria-label="Custom search" placeholder="Search commands..." />
+      <AutocompleteSearchField aria-label="搜尋指令" placeholder="搜尋指令..." />
       <AutocompleteListBox selectionMode="single">
         <AutocompleteItem id="build">pnpm build:tokens</AutocompleteItem>
         <AutocompleteItem id="lint">pnpm lint</AutocompleteItem>
@@ -106,7 +85,7 @@ Omit shorthand field props to supply custom `AutocompleteSearchField` and `Autoc
 
 ```tsx
 <Autocomplete>
-  <AutocompleteSearchField aria-label="Custom search" placeholder="Search commands..." />
+  <AutocompleteSearchField aria-label="搜尋指令" placeholder="搜尋指令..." />
   <AutocompleteListBox selectionMode="single">
     <AutocompleteItem id="build">pnpm build:tokens</AutocompleteItem>
     <AutocompleteItem id="lint">pnpm lint</AutocompleteItem>
@@ -114,3 +93,27 @@ Omit shorthand field props to supply custom `AutocompleteSearchField` and `Autoc
   </AutocompleteListBox>
 </Autocomplete>
 ```
+
+## API 參考
+
+### Autocomplete
+
+傳入 `label`、`placeholder` 或 `searchFieldProps` 時會自動組合搜尋欄位與帶框選項清單；省略時可自行傳入子元件。
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | 顯示於搜尋欄位上方的標籤文字。 |
+| `description` | `ReactNode` | `—` | 顯示於搜尋欄位下方的輔助說明。 |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | 欄位無效時顯示的錯誤提示。 |
+| `placeholder` | `string` | `—` | 傳遞至內嵌搜尋欄位的提示文字。 |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 內嵌搜尋欄位的高度尺寸。 |
+| `filter` | `(textValue: string, inputValue: string) => boolean` | 不分大小寫包含比對 | 自訂清單項目的過濾條件函式。 |
+| `searchFieldProps` | `Partial<SearchFieldProps>` | `—` | 傳遞至內嵌搜尋欄位的額外屬性。 |
+| `listBoxProps` | `Partial<AutocompleteListBoxProps<T>>` | `—` | 傳遞至選項清單的額外屬性，例如 `onAction` 與 `selectionMode`。 |
+| `className` | `string` | `—` | 額外套用於外層容器的自訂樣式類別。 |
+
+### 子元件
+
+- **`AutocompleteItem`**：清單中的單一可篩選項目。
+- **`AutocompleteSearchField`**：與自動完成狀態連動的搜尋輸入欄位。
+- **`AutocompleteListBox`**：即時呈現過濾結果的帶框選項清單。

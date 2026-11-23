@@ -1,22 +1,22 @@
 ---
-title: "ComboBox"
-eyebrow: "Components · React Aria"
-description: "Filterable text input combined with an accessible popover dropdown list for selecting from larger option sets."
+title: "ComboBox 組合方塊"
+eyebrow: "元件"
+description: "結合文字輸入篩選與下拉選單的複合選擇控制項，讓使用者能快速從大量選項中找到並挑選目標。"
 ---
 
 <ComponentPreview>
   <div className="w-full max-w-72">
     <ComboBox
-      label="Default Region"
-      description="Type to filter deployment regions"
-      placeholder="Choose a region..."
+      label="部署區域"
+      description="可直接輸入城市名稱快速篩選清單"
+      placeholder="選擇或搜尋區域..."
       defaultSelectedKey="taipei"
     >
-      <ComboBoxItem id="taipei">Taipei (TPE)</ComboBoxItem>
-      <ComboBoxItem id="tokyo">Tokyo (TYO)</ComboBoxItem>
-      <ComboBoxItem id="london">London (LON)</ComboBoxItem>
-      <ComboBoxItem id="sf">San Francisco (SFO)</ComboBoxItem>
-      <ComboBoxItem id="berlin">Berlin (BER)</ComboBoxItem>
+      <ComboBoxItem id="taipei">台北 TPE</ComboBoxItem>
+      <ComboBoxItem id="tokyo">東京 TYO</ComboBoxItem>
+      <ComboBoxItem id="london">倫敦 LON</ComboBoxItem>
+      <ComboBoxItem id="sf">舊金山 SFO</ComboBoxItem>
+      <ComboBoxItem id="berlin">柏林 BER</ComboBoxItem>
     </ComboBox>
   </div>
 </ComponentPreview>
@@ -25,85 +25,71 @@ description: "Filterable text input combined with an accessible popover dropdown
 import { ComboBox, ComboBoxItem } from '@pact-design/react'
 
 <ComboBox
-  label="Default Region"
-  description="Type to filter deployment regions"
-  placeholder="Choose a region..."
+  label="部署區域"
+  description="可直接輸入城市名稱快速篩選清單"
+  placeholder="選擇或搜尋區域..."
   defaultSelectedKey="taipei"
 >
-  <ComboBoxItem id="taipei">Taipei (TPE)</ComboBoxItem>
-  <ComboBoxItem id="tokyo">Tokyo (TYO)</ComboBoxItem>
-  <ComboBoxItem id="london">London (LON)</ComboBoxItem>
-  <ComboBoxItem id="sf">San Francisco (SFO)</ComboBoxItem>
-  <ComboBoxItem id="berlin">Berlin (BER)</ComboBoxItem>
+  <ComboBoxItem id="taipei">台北 TPE</ComboBoxItem>
+  <ComboBoxItem id="tokyo">東京 TYO</ComboBoxItem>
+  <ComboBoxItem id="london">倫敦 LON</ComboBoxItem>
+  <ComboBoxItem id="sf">舊金山 SFO</ComboBoxItem>
+  <ComboBoxItem id="berlin">柏林 BER</ComboBoxItem>
 </ComboBox>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `ComboBox`. Exports `ComboBox`, `ComboBoxItem`, `ComboBoxSection`, `ComboBoxPopover`, and `ComboBoxListBox`.
+- 當可選清單項目較多，例如國家地區、時區、成員名單或專案分類，讓使用者直接打字篩選能大幅縮短尋找時間。
+- 若選項數量不多且不需輸入篩選，建議使用結構更單純的 **Select 下拉選單**。
+- 若清單本身需要常駐展開於頁面或面板內並即時過濾，建議改用 **Autocomplete 自動完成**。
 
-### ComboBox
+## 使用範例
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `label` | `ReactNode` | `—` | Accessible field label. |
-| `description` | `ReactNode` | `—` | Supporting field description below the input group. |
-| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Error text displayed when invalid. |
-| `placeholder` | `string` | `—` | Placeholder string passed to the inner `Input`. |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`) applied to `FieldGroup`. |
-| `items` | `Iterable<T>` | `—` | Optional dynamic item collection paired with a render-prop child. |
-| `selectedKey` / `defaultSelectedKey` | `Key \| null` | `—` | Controlled or initial selected item key. |
-| `onSelectionChange` | `(key: Key \| null) => void` | `—` | Handler fired when selection changes. |
-| `inputProps` | `AriaInputProps` | `—` | Additional props passed to the underlying `Input`. |
-| `popoverProps` | `ComboBoxPopoverProps` | `—` | Additional props passed to `ComboBoxPopover`. |
-| `listBoxProps` | `AriaListBoxProps<T>` | `—` | Additional props passed to `ComboBoxListBox`. |
+### 尺寸
 
-## Examples
-
-### Size
-
-Choose field height (`xs` through `xl`) to match surrounding form density.
+支援五階高度比例，可配合工具列或表單整體密度彈性調整。
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
-    <ComboBox label="Compact (sm)" size="sm" defaultSelectedKey="xs">
-      <ComboBoxItem id="xs">24px (XS)</ComboBoxItem>
-      <ComboBoxItem id="sm">28px (SM)</ComboBoxItem>
+    <ComboBox label="緊湊尺寸" size="sm" defaultSelectedKey="xs">
+      <ComboBoxItem id="xs">超緊湊 24px</ComboBoxItem>
+      <ComboBoxItem id="sm">緊湊 28px</ComboBoxItem>
     </ComboBox>
-    <ComboBox label="Comfortable (lg)" size="lg" defaultSelectedKey="lg">
-      <ComboBoxItem id="md">32px (MD)</ComboBoxItem>
-      <ComboBoxItem id="lg">36px (LG)</ComboBoxItem>
+    <ComboBox label="舒適尺寸" size="lg" defaultSelectedKey="lg">
+      <ComboBoxItem id="md">標準 32px</ComboBoxItem>
+      <ComboBoxItem id="lg">舒適 36px</ComboBoxItem>
     </ComboBox>
   </div>
 </ComponentPreview>
 
 ```tsx
-<ComboBox label="Compact (sm)" size="sm" defaultSelectedKey="xs">
-  <ComboBoxItem id="xs">24px (XS)</ComboBoxItem>
-  <ComboBoxItem id="sm">28px (SM)</ComboBoxItem>
+<ComboBox label="緊湊尺寸" size="sm" defaultSelectedKey="xs">
+  <ComboBoxItem id="xs">超緊湊 24px</ComboBoxItem>
+  <ComboBoxItem id="sm">緊湊 28px</ComboBoxItem>
 </ComboBox>
 ```
 
-### Sections & Disabled State
+### 選項分組與停用狀態
 
-Organize options using `ComboBoxSection` with `ListBoxHeader`, or disable the field with `isDisabled`.
+可搭配 `ComboBoxSection` 與 `ListBoxHeader` 將候選清單分門別類，或透過 `isDisabled` 鎖定欄位。
 
 <ComponentPreview>
   <div className="w-full max-w-72 flex flex-col gap-md">
-    <ComboBox label="Token Tier" placeholder="Select tier...">
+    <ComboBox label="資料來源" placeholder="選擇資料來源...">
       <ComboBoxSection>
-        <ListBoxHeader>Primitives</ListBoxHeader>
-        <ComboBoxItem id="color">global.color</ComboBoxItem>
-        <ComboBoxItem id="spacing">global.spacing</ComboBoxItem>
+        <ListBoxHeader>主要資料庫</ListBoxHeader>
+        <ComboBoxItem id="pg">PostgreSQL 主節點</ComboBoxItem>
+        <ComboBoxItem id="replica">PostgreSQL 唯讀副本</ComboBoxItem>
       </ComboBoxSection>
       <ComboBoxSection>
-        <ListBoxHeader>Semantic</ListBoxHeader>
-        <ComboBoxItem id="layer">system.background</ComboBoxItem>
-        <ComboBoxItem id="text">system.text</ComboBoxItem>
+        <ListBoxHeader>快取服務</ListBoxHeader>
+        <ComboBoxItem id="redis">Redis 叢集</ComboBoxItem>
+        <ComboBoxItem id="edge">邊緣節點快取</ComboBoxItem>
       </ComboBoxSection>
     </ComboBox>
-    <ComboBox label="Locked Environment" isDisabled defaultSelectedKey="prod">
-      <ComboBoxItem id="prod">Production</ComboBoxItem>
+    <ComboBox label="鎖定環境" isDisabled defaultSelectedKey="prod">
+      <ComboBoxItem id="prod">正式環境</ComboBoxItem>
     </ComboBox>
   </div>
 </ComponentPreview>
@@ -111,11 +97,37 @@ Organize options using `ComboBoxSection` with `ListBoxHeader`, or disable the fi
 ```tsx
 import { ComboBox, ComboBoxItem, ComboBoxSection, ListBoxHeader } from '@pact-design/react'
 
-<ComboBox label="Token Tier" placeholder="Select tier...">
+<ComboBox label="資料來源" placeholder="選擇資料來源...">
   <ComboBoxSection>
-    <ListBoxHeader>Primitives</ListBoxHeader>
-    <ComboBoxItem id="color">global.color</ComboBoxItem>
-    <ComboBoxItem id="spacing">global.spacing</ComboBoxItem>
+    <ListBoxHeader>主要資料庫</ListBoxHeader>
+    <ComboBoxItem id="pg">PostgreSQL 主節點</ComboBoxItem>
+    <ComboBoxItem id="replica">PostgreSQL 唯讀副本</ComboBoxItem>
   </ComboBoxSection>
 </ComboBox>
 ```
+
+## API 參考
+
+### ComboBox
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | 顯示於欄位上方的標籤文字。 |
+| `description` | `ReactNode` | `—` | 顯示於欄位下方的輔助說明。 |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | 欄位無效時顯示的錯誤提示。 |
+| `placeholder` | `string` | `—` | 輸入框空白時的提示文字。 |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 欄位高度與內距大小。 |
+| `items` | `Iterable<T>` | `—` | 動態選項資料集合，可搭配渲染函式使用。 |
+| `selectedKey` / `defaultSelectedKey` | `Key \| null` | `—` | 受控或預設選取的項目鍵值。 |
+| `onSelectionChange` | `(key: Key \| null) => void` | `—` | 選取項目變更時觸發的回呼函式。 |
+| `inputProps` | `InputProps` | `—` | 傳遞至內層輸入框的額外屬性。 |
+| `popoverProps` | `ComboBoxPopoverProps` | `—` | 傳遞至下拉浮動視窗的額外屬性。 |
+| `listBoxProps` | `ListBoxProps<T>` | `—` | 傳遞至下拉選項清單的額外屬性。 |
+| `isDisabled` | `boolean` | `false` | 是否停用輸入與下拉展開。 |
+
+### 子元件
+
+- **`ComboBoxItem`**：清單中的單一候選項目。
+- **`ComboBoxSection`**：將相關選項歸類的分組容器。
+- **`ComboBoxPopover`**：承載下拉清單的浮動容器。
+- **`ComboBoxListBox`**：內層可鍵盤導覽的選項清單。
