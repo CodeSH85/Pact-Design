@@ -114,6 +114,8 @@ import {
   TreeSection
 } from '@pact-design/react'
 import { ColorPalette } from '../demos/ColorPalette'
+import { CodeBlock } from './CodeBlock'
+import { CodeDemo } from './CodeDemo'
 import { ComponentPreview } from './ComponentPreview'
 
 export const mdxComponents: ReturnType<typeof useMDXComponents> = {
@@ -156,15 +158,23 @@ export const mdxComponents: ReturnType<typeof useMDXComponents> = {
       {...props}
     />
   ),
-  pre: ({ className = '', style, ...props }: ComponentPropsWithoutRef<'pre'>) => {
-    const { backgroundColor: _bg, ...restStyle } = style ?? {}
-    return (
-      <pre
-        className={`m-0 p-md rounded-xs bg-layer-1 border border-border-default overflow-x-auto text-mono-sm [&_code]:p-0 [&_code]:bg-transparent [&_code]:border-0 ${className}`.trim()}
-        style={restStyle}
-        {...props}
-      />
-    )
+  pre: ({
+    'data-in-demo': inDemo,
+    className = '',
+    style,
+    ...props
+  }: ComponentPropsWithoutRef<'pre'> & { 'data-in-demo'?: string }) => {
+    if (inDemo === 'true') {
+      const { backgroundColor: _bg, ...restStyle } = style ?? {}
+      return (
+        <pre
+          className={`m-0 p-md bg-layer-1 overflow-x-auto text-mono-sm [&_code]:p-0 [&_code]:bg-transparent [&_code]:border-0 ${className}`.trim()}
+          style={restStyle}
+          {...props}
+        />
+      )
+    }
+    return <CodeBlock className={className} style={style} {...props} />
   },
   table: (props: ComponentPropsWithoutRef<'table'>) => (
     <div className="overflow-x-auto border border-border-default rounded-xs bg-layer-2">
@@ -187,6 +197,7 @@ export const mdxComponents: ReturnType<typeof useMDXComponents> = {
     <tr className="hover:bg-hover last:[&_td]:border-b-0" {...props} />
   ),
   ColorPalette,
+  CodeDemo,
   ComponentPreview,
   Autocomplete,
   AutocompleteItem,
