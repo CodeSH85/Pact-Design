@@ -17,7 +17,25 @@ interface HastRoot {
   children: HastNode[]
 }
 
-type HastNode = HastRoot | HastElement | HastText | { type: string; children?: HastNode[] }
+interface MdxJsxAttribute {
+  type: 'mdxJsxAttribute'
+  name: string
+  value: string
+}
+
+interface MdxJsxElement {
+  type: 'mdxJsxFlowElement'
+  name: string
+  attributes: MdxJsxAttribute[]
+  children: HastNode[]
+}
+
+type HastNode =
+  | HastRoot
+  | HastElement
+  | HastText
+  | MdxJsxElement
+  | { type: string; name?: string; value?: string; children?: HastNode[] }
 
 const PRELOADED_LANGS = [
   'tsx',
@@ -85,6 +103,19 @@ function extractLanguage(codeNode: HastElement, loadedLangs: Set<string>): strin
   return 'text'
 }
 
+function isWhitespaceText(node: HastNode): boolean {
+  return node.type === 'text' && 'value' in node && typeof node.value === 'string' && node.value.trim() === ''
+}
+
+function isComponentPreview(node: HastNode | null): boolean {
+  return (
+    node !== null &&
+    node.type === 'mdxJsxFlowElement' &&
+    'name' in node &&
+    node.name === 'ComponentPreview'
+  )
+}
+
 export function rehypeShiki() {
   return async function transform(tree: HastRoot): Promise<void> {
     const highlighter = await getHighlighter()
@@ -95,14 +126,12 @@ export function rehypeShiki() {
         return
       }
 
+      const nextChildren: HastNode[] = []
+
       for (let i = 0; i < node.children.length; i++) {
         const child = node.children[i]
-        if (!isElement(child)) {
-          visit(child)
-          continue
-        }
 
-        if (child.tagName === 'pre') {
+        if (isElement(child) && child.tagName === 'pre') {
           const codeNode = child.children.find(isElement)
           if (codeNode && codeNode.tagName === 'code') {
             const lang = extractLanguage(codeNode, loadedLangs)
@@ -115,15 +144,44 @@ export function rehypeShiki() {
               }
             })
             const preNode = hast.children[0]
-            if (preNode) {
-              node.children[i] = preNode as HastNode
+            if (preNode && isElement(preNode)) {
+              // Check if the previous non-whitespace sibling in nextChildren is <ComponentPreview>
+              let prevIdx = nextChildren.length - 1
+              while (prevIdx >= 0 && isWhitespaceText(nextChildren[prevIdx])) {
+                prevIdx--
+              }
+
+              if (prevIdx >= 0 && isComponentPreview(nextChildren[prevIdx])) {
+                const previewNode = nextChildren[prevIdx]
+                preNode.properties = {
+                  ...preNode.properties,
+                  'data-in-demo': 'true'
+                }
+                const demoNode: MdxJsxElement = {
+                  type: 'mdxJsxFlowElement',
+                  name: 'CodeDemo',
+                  attributes: [
+                    { type: 'mdxJsxAttribute', name: 'code', value: rawCode },
+                    { type: 'mdxJsxAttribute', name: 'language', value: lang }
+                  ],
+                  children: [previewNode, preNode as HastNode]
+                }
+                // Remove previewNode and any whitespace between previewNode and this <pre>
+                nextChildren.splice(prevIdx, nextChildren.length - prevIdx, demoNode)
+                continue
+              }
+
+              nextChildren.push(preNode as HastNode)
+              continue
             }
-            continue
           }
         }
 
         visit(child)
+        nextChildren.push(child)
       }
+
+      node.children = nextChildren
     }
 
     visit(tree)
