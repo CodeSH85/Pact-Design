@@ -22,6 +22,13 @@ import {
 } from '@remixicon/react'
 
 export type ToastTone = 'default' | 'info' | 'success' | 'warning' | 'danger'
+export type ToastPlacement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
 
 export interface ToastData {
   title?: ReactNode
@@ -109,11 +116,13 @@ toast.danger = (title: string, description?: string, options?: ToastOptions) =>
 export interface ToastRegionProps<T extends object = ToastData>
   extends Partial<Omit<AriaToastRegionProps<T>, 'children' | 'queue'>> {
   queue?: UNSTABLE_ToastQueue<T>
+  placement?: ToastPlacement
   children?: (renderProps: { toast: QueuedToast<T> }) => ReactElement
 }
 
 export function ToastRegion<T extends object = ToastData>({
   queue = toastQueue as unknown as UNSTABLE_ToastQueue<T>,
+  placement = 'bottom-end',
   className,
   children,
   ...props
@@ -121,6 +130,7 @@ export function ToastRegion<T extends object = ToastData>({
   return (
     <AriaToastRegion
       queue={queue}
+      data-placement={placement}
       className={composeRenderProps(className, (cn) => clsx('pd-toast-region', cn))}
       {...props}
     >
