@@ -3,6 +3,7 @@ import { parseDate, type CalendarDate } from '@internationalized/date'
 import {
   Autocomplete,
   AutocompleteItem,
+  Badge,
   Breadcrumbs,
   Button,
   Checkbox,
@@ -26,6 +27,7 @@ import {
   SelectItem,
   Separator,
   Sheet,
+  Slider,
   Switch,
   Tab,
   TabList,
@@ -34,12 +36,24 @@ import {
   TextField,
   ToggleButton,
   ToggleButtonGroup,
+  Tooltip,
+  TooltipTrigger,
   Tree,
   TreeItem,
   TreeItemContent,
   toast,
   type MenuItemData
 } from '@pact-design/react'
+import {
+  RiAddLine,
+  RiCheckLine,
+  RiCodeSSlashLine,
+  RiComputerLine,
+  RiGithubFill,
+  RiMoonLine,
+  RiSettings3Line,
+  RiSunLine
+} from '@remixicon/react'
 
 interface CheckOptionsState {
   compact: boolean
@@ -139,12 +153,51 @@ export function ComponentPlayground() {
             <Button variant="ghost" onPress={() => setLastAction('Clicked Ghost Button')}>
               Ghost
             </Button>
+            <Button variant="link" onPress={() => setLastAction('Clicked Link Button')}>
+              Link
+            </Button>
             <Button variant="danger" onPress={() => setLastAction('Clicked Danger Button')}>
               Danger
             </Button>
             <Button variant="primary" disabled>
               Disabled
             </Button>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-sm pt-xs border-t border-border-subtle">
+          <span className="text-caption-sm text-on-surface-muted font-medium">Icon & Link Buttons</span>
+          <div className="flex flex-wrap items-center gap-sm">
+            <Button variant="primary" onPress={() => setLastAction('Clicked Icon + Label Button')}>
+              <RiAddLine />
+              Create Token
+            </Button>
+            <TooltipTrigger>
+              <Button
+                variant="secondary"
+                size="sm"
+                icon
+                aria-label="Settings"
+                onPress={() => setLastAction('Clicked Icon Button (sm)')}
+              >
+                <RiSettings3Line />
+              </Button>
+              <Tooltip>Settings</Tooltip>
+            </TooltipTrigger>
+            <TooltipTrigger>
+              <Button
+                variant="ghost"
+                size="sm"
+                icon
+                href="https://github.com/CodeSH85/Pact-UI"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+              >
+                <RiGithubFill />
+              </Button>
+              <Tooltip>Open GitHub Repository</Tooltip>
+            </TooltipTrigger>
           </div>
         </div>
 
@@ -218,6 +271,77 @@ export function ComponentPlayground() {
               Table View
             </ToggleButton>
           </ToggleButtonGroup>
+
+          <TooltipTrigger>
+            <ToggleButton
+              variant="ghost"
+              size="sm"
+              icon
+              aria-label="Toggle Code"
+              onChange={(selected) => setLastAction(`Icon ToggleButton: ${selected ? 'On' : 'Off'}`)}
+            >
+              <RiCodeSSlashLine />
+            </ToggleButton>
+            <Tooltip>Toggle Code</Tooltip>
+          </TooltipTrigger>
+        </div>
+      </section>
+
+      {/* 2b. Badge & Slider Showcase */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-md">
+        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+          <div className="flex flex-col gap-2xs">
+            <h2 className="text-heading-sm text-on-surface">Badge</h2>
+            <p className="text-body-sm text-on-surface-muted m-0">
+              Compact status tags with semantic tones, subtle/solid/outline variants, and auto-sized icons.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-xs">
+            <Badge tone="default">Default</Badge>
+            <Badge tone="primary">Primary</Badge>
+            <Badge tone="info">Info</Badge>
+            <Badge tone="success">
+              <RiCheckLine />
+              Synced
+            </Badge>
+            <Badge tone="warning">Warning</Badge>
+            <Badge tone="danger">Danger</Badge>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-xs">
+            <Badge variant="solid" tone="primary" size="xs">XS Solid</Badge>
+            <Badge variant="outline" tone="info" size="sm">SM Outline</Badge>
+            <Badge variant="subtle" tone="success" size="md">MD Subtle</Badge>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+          <div className="flex flex-col gap-2xs">
+            <h2 className="text-heading-sm text-on-surface">Slider</h2>
+            <p className="text-body-sm text-on-surface-muted m-0">
+              Accessible continuous, range, and zero-offset sliders built on React Aria.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-md">
+            <Slider
+              label="Opacity"
+              showValue
+              defaultValue={65}
+              onChangeEnd={(v) => setLastAction(`Slider Opacity: ${v}`)}
+            />
+            <Slider
+              size="sm"
+              label="Hue Offset"
+              showValue
+              fillOffset={0}
+              minValue={-60}
+              maxValue={60}
+              defaultValue={15}
+              onChangeEnd={(v) => setLastAction(`Slider Hue Offset: ${v}`)}
+            />
+          </div>
         </div>
       </section>
 
@@ -368,6 +492,22 @@ export function ComponentPlayground() {
 
         <div className="flex flex-wrap items-center gap-md">
           <Menu triggerLabel="Token Menu" items={menuItems} />
+
+          <Menu
+            triggerLabel="Theme Icons"
+            items={[
+              { id: 'light', label: 'Light', icon: <RiSunLine />, onClick: () => setLastAction('Menu Icon: Light') },
+              { id: 'dark', label: 'Dark', icon: <RiMoonLine />, onClick: () => setLastAction('Menu Icon: Dark') },
+              { id: 'system', label: 'System', icon: <RiComputerLine />, onClick: () => setLastAction('Menu Icon: System') }
+            ]}
+          />
+
+          <TooltipTrigger delay={150}>
+            <Button variant="secondary" size="sm" icon aria-label="Tooltip Demo">
+              <RiSettings3Line />
+            </Button>
+            <Tooltip showArrow>Anchored Tooltip</Tooltip>
+          </TooltipTrigger>
 
           <Popover
             trigger={<Button variant="secondary">Open Popover</Button>}

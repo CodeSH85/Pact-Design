@@ -43,6 +43,7 @@ export const navSections: NavSection[] = [
     title: '元件',
     items: [
       { id: 'autocomplete', label: 'Autocomplete 自動完成', title: 'Autocomplete 自動完成', to: '/components/$id', params: { id: 'autocomplete' } },
+      { id: 'badge', label: 'Badge 徽章', title: 'Badge 徽章', to: '/components/$id', params: { id: 'badge' } },
       { id: 'breadcrumbs', label: 'Breadcrumbs 麵包屑', title: 'Breadcrumbs 麵包屑', to: '/components/$id', params: { id: 'breadcrumbs' } },
       { id: 'button', label: 'Button 按鈕', title: 'Button 按鈕', to: '/components/$id', params: { id: 'button' } },
       { id: 'calendar', label: 'Calendar 行事曆', title: 'Calendar 行事曆', to: '/components/$id', params: { id: 'calendar' } },
@@ -65,11 +66,13 @@ export const navSections: NavSection[] = [
       { id: 'select', label: 'Select 下拉選單', title: 'Select 下拉選單', to: '/components/$id', params: { id: 'select' } },
       { id: 'separator', label: 'Separator 分隔線', title: 'Separator 分隔線', to: '/components/$id', params: { id: 'separator' } },
       { id: 'sheet', label: 'Sheet 側邊抽屜', title: 'Sheet 側邊抽屜', to: '/components/$id', params: { id: 'sheet' } },
+      { id: 'slider', label: 'Slider 滑桿', title: 'Slider 滑桿', to: '/components/$id', params: { id: 'slider' } },
       { id: 'switch', label: 'Switch 開關', title: 'Switch 開關', to: '/components/$id', params: { id: 'switch' } },
       { id: 'tabs', label: 'Tabs 頁籤', title: 'Tabs 頁籤', to: '/components/$id', params: { id: 'tabs' } },
       { id: 'text-field', label: 'TextField 文字輸入框', title: 'TextField 文字輸入框', to: '/components/$id', params: { id: 'text-field' } },
       { id: 'toast', label: 'Toast 訊息通知', title: 'Toast 訊息通知', to: '/components/$id', params: { id: 'toast' } },
       { id: 'toggle-button', label: 'ToggleButton 切換按鈕', title: 'ToggleButton 切換按鈕', to: '/components/$id', params: { id: 'toggle-button' } },
+      { id: 'tooltip', label: 'Tooltip 工具提示', title: 'Tooltip 工具提示', to: '/components/$id', params: { id: 'tooltip' } },
       { id: 'tree', label: 'Tree 樹狀列表', title: 'Tree 樹狀列表', to: '/components/$id', params: { id: 'tree' } },
       { id: 'components-playground', label: 'Playground', title: 'Playground', to: '/components/playground' }
     ]

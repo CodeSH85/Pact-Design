@@ -1,0 +1,104 @@
+---
+title: "Badge 徽章"
+eyebrow: "元件"
+description: "精簡的狀態標籤與數量標記元件，透過語意色彩與外觀層級傳達狀態分類或輔助資訊。"
+---
+
+import { RiCheckLine, RiErrorWarningLine, RiInformationLine, RiSparklingLine } from '@remixicon/react'
+
+<ComponentPreview>
+  <Badge tone="default">Default</Badge>
+  <Badge tone="primary">Primary</Badge>
+  <Badge tone="info">Info</Badge>
+  <Badge tone="success">Success</Badge>
+  <Badge tone="warning">Warning</Badge>
+  <Badge tone="danger">Danger</Badge>
+</ComponentPreview>
+
+```tsx
+import { Badge } from '@pact-design/react'
+
+<Badge tone="default">Default</Badge>
+<Badge tone="primary">Primary</Badge>
+<Badge tone="info">Info</Badge>
+<Badge tone="success">Success</Badge>
+<Badge tone="warning">Warning</Badge>
+<Badge tone="danger">Danger</Badge>
+```
+
+## 何時使用
+
+- 用於標記資料列狀態（例如 `Active`、`Deprecated`、`Synced`）、Token 型別或引用提示（例如 `alias`、`number`），以及輕量化的分類標籤。
+- 若標籤需要被使用者點擊切換狀態或篩選條件，請改用 **ToggleButton 切換按鈕**。
+
+## 使用範例
+
+### 外觀變體
+
+透過 `variant` 切換柔和底色 `subtle`（預設）、實心高對比 `solid` 與細邊框 `outline` 三種層級。
+
+<ComponentPreview>
+  <Badge variant="subtle" tone="primary">Subtle</Badge>
+  <Badge variant="solid" tone="primary">Solid</Badge>
+  <Badge variant="outline" tone="primary">Outline</Badge>
+  <Badge variant="subtle" tone="success">Subtle</Badge>
+  <Badge variant="solid" tone="success">Solid</Badge>
+  <Badge variant="outline" tone="success">Outline</Badge>
+</ComponentPreview>
+
+```tsx
+<Badge variant="subtle" tone="primary">Subtle</Badge>
+<Badge variant="solid" tone="primary">Solid</Badge>
+<Badge variant="outline" tone="primary">Outline</Badge>
+```
+
+### 尺寸與圖示
+
+提供 `xs`、`sm`（預設）與 `md` 三種高度與字級比例，並自動將內嵌圖示縮放至合適大小。
+
+<ComponentPreview>
+  <Badge size="xs" tone="info">
+    <RiInformationLine aria-hidden="true" />
+    XS Badge
+  </Badge>
+  <Badge size="sm" tone="success">
+    <RiCheckLine aria-hidden="true" />
+    SM Badge
+  </Badge>
+  <Badge size="md" tone="warning">
+    <RiErrorWarningLine aria-hidden="true" />
+    MD Badge
+  </Badge>
+  <Badge size="md" variant="solid" tone="primary">
+    <RiSparklingLine aria-hidden="true" />
+    New
+  </Badge>
+</ComponentPreview>
+
+```tsx
+import { RiCheckLine, RiErrorWarningLine, RiInformationLine } from '@remixicon/react'
+
+<Badge size="xs" tone="info">
+  <RiInformationLine aria-hidden="true" />
+  XS Badge
+</Badge>
+<Badge size="sm" tone="success">
+  <RiCheckLine aria-hidden="true" />
+  SM Badge
+</Badge>
+<Badge size="md" tone="warning">
+  <RiErrorWarningLine aria-hidden="true" />
+  MD Badge
+</Badge>
+```
+
+## API 參考
+
+### Badge
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `tone` | `'default' \| 'primary' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'default'` | 徽章的語意色彩角色。 |
+| `variant` | `'subtle' \| 'solid' \| 'outline'` | `'subtle'` | 徽章的填充與邊框視覺層級。 |
+| `size` | `'xs' \| 'sm' \| 'md'` | `'sm'` | 徽章的內距與字級比例。 |
+| `className` | `string` | `—` | 額外套用於徽章上的自訂樣式類別。 |

@@ -1,0 +1,90 @@
+---
+title: "Tooltip 工具提示"
+eyebrow: "元件"
+description: "當游標懸停或鍵盤聚焦於操作元件時，簡短顯示功能說明或快捷鍵提示的輕量浮動標籤。"
+---
+
+import { RiDeleteBinLine, RiFileCopyLine, RiSettings3Line } from '@remixicon/react'
+
+<ComponentPreview>
+  <TooltipTrigger>
+    <Button variant="secondary" icon aria-label="複製程式碼">
+      <RiFileCopyLine />
+    </Button>
+    <Tooltip>複製程式碼 (⌘C)</Tooltip>
+  </TooltipTrigger>
+</ComponentPreview>
+
+```tsx
+import { Button, Tooltip, TooltipTrigger } from '@pact-design/react'
+import { RiFileCopyLine } from '@remixicon/react'
+
+<TooltipTrigger>
+  <Button variant="secondary" icon aria-label="複製程式碼">
+    <RiFileCopyLine />
+  </Button>
+  <Tooltip>複製程式碼 (⌘C)</Tooltip>
+</TooltipTrigger>
+```
+
+## 何時使用
+
+- 適合為「純圖示按鈕」補充簡短的文字名稱或鍵盤快捷鍵，避免使用者在只見圖示時猜測功能。
+- 支援滑鼠懸停與鍵盤 Tab 聚焦觸發，並透過 Portal 定位，不會被父層 `overflow: hidden` 容器裁切。
+- 提示內容應簡短且不包含可點擊的按鈕或連結；若需要放置互動表單或較長說明，請改用 **Popover 浮動視窗**。
+
+## 使用範例
+
+### 展開方向與指向箭頭
+
+透過 `placement` 指定提示出現的方位，並可開啟 `showArrow` 顯示指向觸發按鈕的小箭頭。
+
+<ComponentPreview>
+  <TooltipTrigger delay={0}>
+    <Button variant="secondary" size="sm" icon aria-label="上方提示">
+      <RiFileCopyLine />
+    </Button>
+    <Tooltip placement="top" showArrow>Top Tooltip</Tooltip>
+  </TooltipTrigger>
+  <TooltipTrigger delay={0}>
+    <Button variant="secondary" size="sm" icon aria-label="下方提示">
+      <RiSettings3Line />
+    </Button>
+    <Tooltip placement="bottom" showArrow>Bottom Tooltip</Tooltip>
+  </TooltipTrigger>
+  <TooltipTrigger delay={0}>
+    <Button variant="danger" size="sm" icon aria-label="刪除項目">
+      <RiDeleteBinLine />
+    </Button>
+    <Tooltip placement="right" showArrow>Delete Item</Tooltip>
+  </TooltipTrigger>
+</ComponentPreview>
+
+```tsx
+<TooltipTrigger delay={0}>
+  <Button variant="secondary" size="sm" icon aria-label="上方提示">
+    <RiFileCopyLine />
+  </Button>
+  <Tooltip placement="top" showArrow>Top Tooltip</Tooltip>
+</TooltipTrigger>
+```
+
+## API 參考
+
+### TooltipTrigger
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `delay` | `number` | `300` | 游標懸停後經過多少毫秒才顯示提示。 |
+| `closeDelay` | `number` | `0` | 游標離開後延遲多少毫秒關閉提示。 |
+| `isDisabled` | `boolean` | `false` | 是否暫時停用提示顯示。 |
+| `isOpen` / `defaultOpen` | `boolean` | `—` | 受控或預設的顯示狀態。 |
+
+### Tooltip
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `placement` | `'top' \| 'bottom' \| 'left' \| 'right' \| ...` | `'top'` | 提示氣泡相對於觸發元件的顯示方位。 |
+| `offset` | `number` | `6` | 提示氣泡與觸發元件之間的像素距離。 |
+| `showArrow` | `boolean` | `false` | 是否顯示指向觸發元件的箭頭。 |
+| `className` | `string \| ((props) => string)` | `—` | 額外套用於提示容器的自訂樣式類別。 |

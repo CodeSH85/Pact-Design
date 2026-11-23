@@ -1,8 +1,10 @@
 ---
 title: "Menu 選單"
 eyebrow: "元件"
-description: "點擊觸發按鈕後展開的指令清單，支援操作分組、快捷鍵提示與危險操作標示。"
+description: "點擊觸發按鈕後展開的指令清單，支援操作分組、項目圖示、單複選勾選狀態與快捷鍵提示。"
 ---
+
+import { RiComputerLine, RiMoonLine, RiSunLine } from '@remixicon/react'
 
 <ComponentPreview>
   <Menu
@@ -99,6 +101,49 @@ import {
 </Menu>
 ```
 
+### 圖示與單選勾選狀態
+
+透過 `MenuItem` 的 `icon` 屬性加入前置圖示，並在 `MenuList` 設定 `selectionMode="single"` 與 `selectedKeys`，即可自動於已選取項目右側顯示勾選圖示。
+
+<ComponentPreview>
+  <Menu
+    trigger={(
+      <Button variant="secondary" size="sm" icon aria-label="切換主題">
+        <RiSunLine />
+      </Button>
+    )}
+  >
+    <MenuPopover placement="bottom end">
+      <MenuList aria-label="主題模式" selectionMode="single" defaultSelectedKeys={['system']}>
+        <MenuItem id="light" icon={<RiSunLine />}>淺色 Light</MenuItem>
+        <MenuItem id="dark" icon={<RiMoonLine />}>深色 Dark</MenuItem>
+        <MenuItem id="system" icon={<RiComputerLine />}>跟隨系統 System</MenuItem>
+      </MenuList>
+    </MenuPopover>
+  </Menu>
+</ComponentPreview>
+
+```tsx
+import { Button, Menu, MenuItem, MenuList, MenuPopover } from '@pact-design/react'
+import { RiComputerLine, RiMoonLine, RiSunLine } from '@remixicon/react'
+
+<Menu
+  trigger={(
+    <Button variant="secondary" size="sm" icon aria-label="切換主題">
+      <RiSunLine />
+    </Button>
+  )}
+>
+  <MenuPopover placement="bottom end">
+    <MenuList aria-label="主題模式" selectionMode="single" defaultSelectedKeys={['system']}>
+      <MenuItem id="light" icon={<RiSunLine />}>淺色 Light</MenuItem>
+      <MenuItem id="dark" icon={<RiMoonLine />}>深色 Dark</MenuItem>
+      <MenuItem id="system" icon={<RiComputerLine />}>跟隨系統 System</MenuItem>
+    </MenuList>
+  </MenuPopover>
+</Menu>
+```
+
 ## API 參考
 
 ### Menu
@@ -116,6 +161,8 @@ import {
 
 | 屬性 | 型別 | 預設值 | 說明 |
 | :--- | :--- | :--- | :--- |
+| `id` | `Key` | `—` | 項目識別鍵，搭配 `MenuList` 的 `selectionMode` 與 `selectedKeys` 使用。 |
+| `icon` | `ReactNode` | `—` | 顯示於項目文字左側的前置圖示（自動縮放至 `16px`）。 |
 | `tone` | `'default' \| 'danger'` | `'default'` | 設為 `danger` 時以危險語意色提示高風險操作。 |
 | `shortcut` | `string` | `—` | 顯示於項目右側的鍵盤快捷鍵提示。 |
 | `isDisabled` | `boolean` | `false` | 是否停用該選單項目。 |
