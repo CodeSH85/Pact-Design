@@ -7,17 +7,17 @@ description: "組織表單欄位、分區標題與底部操作列容器，提供
 <ComponentPreview align="stretch">
   <Form onSubmit={(e) => e.preventDefault()}>
     <FormSection
-      title="工作區基本設定"
-      description="設定工作區顯示名稱與套件命名空間。"
+      title="Workspace Profile"
+      description="Configure display name and package namespace."
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
-        <TextField label="工作區名稱" defaultValue="Pact 核心設計" isRequired />
-        <TextField label="套件前綴" defaultValue="@pact-design" />
+        <TextField label="Workspace Name" defaultValue="Pact Core" isRequired />
+        <TextField label="Package Scope" defaultValue="@pact-design" />
       </div>
     </FormSection>
     <FormActions>
-      <Button type="reset" variant="ghost">重設</Button>
-      <Button type="submit" variant="primary">儲存設定</Button>
+      <Button type="reset" variant="ghost">Reset</Button>
+      <Button type="submit" variant="primary">Save</Button>
     </FormActions>
   </Form>
 </ComponentPreview>
@@ -27,15 +27,15 @@ import { Button, Form, FormActions, FormSection, TextField } from '@pact-design/
 
 <Form onSubmit={(e) => e.preventDefault()}>
   <FormSection
-    title="工作區基本設定"
-    description="設定工作區顯示名稱與套件命名空間。"
+    title="Workspace Profile"
+    description="Configure display name and package namespace."
   >
-    <TextField label="工作區名稱" defaultValue="Pact 核心設計" isRequired />
-    <TextField label="套件前綴" defaultValue="@pact-design" />
+    <TextField label="Workspace Name" defaultValue="Pact Core" isRequired />
+    <TextField label="Package Scope" defaultValue="@pact-design" />
   </FormSection>
   <FormActions>
-    <Button type="reset" variant="ghost">重設</Button>
-    <Button type="submit" variant="primary">儲存設定</Button>
+    <Button type="reset" variant="ghost">Reset</Button>
+    <Button type="submit" variant="primary">Save</Button>
   </FormActions>
 </Form>
 ```
@@ -54,22 +54,22 @@ import { Button, Form, FormActions, FormSection, TextField } from '@pact-design/
 
 <ComponentPreview align="stretch">
   <Form gap="sm" onSubmit={(e) => e.preventDefault()}>
-    <TextField label="分支前綴" size="sm" defaultValue="feat/" />
-    <Checkbox defaultChecked label="啟用提交訊息格式檢查" />
+    <TextField label="Branch Prefix" size="sm" defaultValue="feat/" />
+    <Checkbox defaultChecked label="Enforce commit checks" />
     <FormActions align="between">
-      <Button type="button" variant="subtle" size="sm">測試連線</Button>
-      <Button type="submit" variant="primary" size="sm">套用設定</Button>
+      <Button type="button" variant="subtle" size="sm">Test</Button>
+      <Button type="submit" variant="primary" size="sm">Apply</Button>
     </FormActions>
   </Form>
 </ComponentPreview>
 
 ```tsx
 <Form gap="sm" onSubmit={(e) => e.preventDefault()}>
-  <TextField label="分支前綴" size="sm" defaultValue="feat/" />
-  <Checkbox defaultChecked label="啟用提交訊息格式檢查" />
+  <TextField label="Branch Prefix" size="sm" defaultValue="feat/" />
+  <Checkbox defaultChecked label="Enforce commit checks" />
   <FormActions align="between">
-    <Button type="button" variant="subtle" size="sm">測試連線</Button>
-    <Button type="submit" variant="primary" size="sm">套用設定</Button>
+    <Button type="button" variant="subtle" size="sm">Test</Button>
+    <Button type="submit" variant="primary" size="sm">Apply</Button>
   </FormActions>
 </Form>
 ```

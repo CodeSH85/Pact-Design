@@ -7,12 +7,12 @@ description: "構成輸入框、搜尋欄與日期選擇器的基礎表單元件
 <ComponentPreview>
   <div className="w-full max-w-80">
     <TextField defaultValue="pact-workspace">
-      <Label>專案識別碼</Label>
+      <Label>Project ID</Label>
       <FieldGroup size="md">
-        <Input placeholder="例如 pact-workspace" />
-        <FieldButton aria-label="複製專案識別碼">複製</FieldButton>
+        <Input placeholder="e.g. pact-workspace" />
+        <FieldButton aria-label="Copy project ID">Copy</FieldButton>
       </FieldGroup>
-      <FieldDescription>透過基礎欄位元件自由組合輸入框與行內按鈕。</FieldDescription>
+      <FieldDescription>Compose custom inputs with Field primitives.</FieldDescription>
       <FieldError />
     </TextField>
   </div>
@@ -30,12 +30,12 @@ import {
 } from '@pact-design/react'
 
 <TextField defaultValue="pact-workspace">
-  <Label>專案識別碼</Label>
+  <Label>Project ID</Label>
   <FieldGroup size="md">
-    <Input placeholder="例如 pact-workspace" />
-    <FieldButton aria-label="複製專案識別碼">複製</FieldButton>
+    <Input placeholder="e.g. pact-workspace" />
+    <FieldButton aria-label="Copy project ID">Copy</FieldButton>
   </FieldGroup>
-  <FieldDescription>透過基礎欄位元件自由組合輸入框與行內按鈕。</FieldDescription>
+  <FieldDescription>Compose custom inputs with Field primitives.</FieldDescription>
   <FieldError />
 </TextField>
 ```
@@ -53,33 +53,33 @@ import {
 
 <ComponentPreview align="stretch">
   <div className="flex flex-col gap-md">
-    <TextField aria-label="超緊湊欄位">
+    <TextField aria-label="Size XS">
       <FieldGroup size="xs">
-        <Input placeholder="超緊湊尺寸 xs" />
+        <Input placeholder="size='xs'" />
       </FieldGroup>
     </TextField>
-    <TextField aria-label="緊湊欄位">
+    <TextField aria-label="Size SM">
       <FieldGroup size="sm">
-        <Input placeholder="緊湊尺寸 sm" />
+        <Input placeholder="size='sm'" />
       </FieldGroup>
     </TextField>
-    <TextField aria-label="標準欄位">
+    <TextField aria-label="Size MD">
       <FieldGroup size="md">
-        <Input placeholder="標準尺寸 md" />
+        <Input placeholder="size='md'" />
       </FieldGroup>
     </TextField>
-    <TextField aria-label="舒適欄位">
+    <TextField aria-label="Size LG">
       <FieldGroup size="lg">
-        <Input placeholder="舒適尺寸 lg" />
+        <Input placeholder="size='lg'" />
       </FieldGroup>
     </TextField>
   </div>
 </ComponentPreview>
 
 ```tsx
-<TextField aria-label="緊湊欄位">
+<TextField aria-label="Size SM">
   <FieldGroup size="sm">
-    <Input placeholder="緊湊尺寸 sm" />
+    <Input placeholder="size='sm'" />
   </FieldGroup>
 </TextField>
 ```
@@ -91,22 +91,22 @@ import {
 <ComponentPreview>
   <div className="w-full max-w-80">
     <TextField isInvalid defaultValue="invalid-code">
-      <Label>專案代碼</Label>
+      <Label>Project Code</Label>
       <FieldGroup size="md">
         <Input />
       </FieldGroup>
-      <FieldError>請輸入 6 碼以上的英數字組合。</FieldError>
+      <FieldError>Must be at least 6 alphanumeric characters.</FieldError>
     </TextField>
   </div>
 </ComponentPreview>
 
 ```tsx
 <TextField isInvalid defaultValue="invalid-code">
-  <Label>專案代碼</Label>
+  <Label>Project Code</Label>
   <FieldGroup size="md">
     <Input />
   </FieldGroup>
-  <FieldError>請輸入 6 碼以上的英數字組合。</FieldError>
+  <FieldError>Must be at least 6 alphanumeric characters.</FieldError>
 </TextField>
 ```
 

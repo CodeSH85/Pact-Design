@@ -9,8 +9,8 @@ import { parseDate } from '@internationalized/date'
 <ComponentPreview>
   <div className="w-full max-w-64">
     <DateField
-      label="生效日期"
-      description="請輸入或使用方向鍵調整日期"
+      label="Effective Date"
+      description="Type or use arrow keys to adjust segments"
       defaultValue={parseDate('2026-11-18')}
     />
   </div>
@@ -21,8 +21,8 @@ import { parseDate } from '@internationalized/date'
 import { DateField } from '@pact-design/react'
 
 <DateField
-  label="生效日期"
-  description="請輸入或使用方向鍵調整日期"
+  label="Effective Date"
+  description="Type or use arrow keys to adjust segments"
   defaultValue={parseDate('2026-11-18')}
 />
 ```
@@ -41,14 +41,14 @@ import { DateField } from '@pact-design/react'
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
-    <DateField label="緊湊尺寸" size="sm" defaultValue={parseDate('2026-11-18')} />
-    <DateField label="舒適尺寸" size="lg" defaultValue={parseDate('2026-11-18')} />
+    <DateField label="Size SM" size="sm" defaultValue={parseDate('2026-11-18')} />
+    <DateField label="Size LG" size="lg" defaultValue={parseDate('2026-11-18')} />
   </div>
 </ComponentPreview>
 
 ```tsx
-<DateField label="緊湊尺寸" size="sm" defaultValue={parseDate('2026-11-18')} />
-<DateField label="舒適尺寸" size="lg" defaultValue={parseDate('2026-11-18')} />
+<DateField label="Size SM" size="sm" defaultValue={parseDate('2026-11-18')} />
+<DateField label="Size LG" size="lg" defaultValue={parseDate('2026-11-18')} />
 ```
 
 ### 時間精度與停用狀態
@@ -57,14 +57,14 @@ import { DateField } from '@pact-design/react'
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
-    <DateField label="精確至小時" granularity="hour" />
-    <DateField label="停用狀態" isDisabled defaultValue={parseDate('2026-11-18')} />
+    <DateField label="Granularity Hour" granularity="hour" />
+    <DateField label="Disabled" isDisabled defaultValue={parseDate('2026-11-18')} />
   </div>
 </ComponentPreview>
 
 ```tsx
-<DateField label="精確至小時" granularity="hour" />
-<DateField label="停用狀態" isDisabled defaultValue={parseDate('2026-11-18')} />
+<DateField label="Granularity Hour" granularity="hour" />
+<DateField label="Disabled" isDisabled defaultValue={parseDate('2026-11-18')} />
 ```
 
 ## API 參考

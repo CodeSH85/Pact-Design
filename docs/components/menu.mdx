@@ -6,20 +6,20 @@ description: "點擊觸發按鈕後展開的指令清單，支援操作分組、
 
 <ComponentPreview>
   <Menu
-    triggerLabel="操作選單"
+    triggerLabel="Actions"
     items={[
       {
         type: 'group',
-        label: '常用操作',
+        label: 'Operations',
         items: [
-          { label: '檢視詳細資訊', shortcut: '⌘I' },
-          { label: '複製連結', shortcut: '⌘C' }
+          { label: 'Inspect', shortcut: '⌘I' },
+          { label: 'Copy Link', shortcut: '⌘C' }
         ]
       },
       { type: 'separator' },
-      { label: '重新同步資料', disabled: true },
+      { label: 'Disabled Item', disabled: true },
       { type: 'separator' },
-      { label: '重設所有變更', tone: 'danger', shortcut: '⌘⌫' }
+      { label: 'Delete All', tone: 'danger', shortcut: '⌘⌫' }
     ]}
   />
 </ComponentPreview>
@@ -28,18 +28,18 @@ description: "點擊觸發按鈕後展開的指令清單，支援操作分組、
 import { Menu } from '@pact-design/react'
 
 <Menu
-  triggerLabel="操作選單"
+  triggerLabel="Actions"
   items={[
     {
       type: 'group',
-      label: '常用操作',
+      label: 'Operations',
       items: [
-        { label: '檢視詳細資訊', shortcut: '⌘I', onClick: () => {} },
-        { label: '複製連結', shortcut: '⌘C', onClick: () => {} }
+        { label: 'Inspect', shortcut: '⌘I', onClick: () => {} },
+        { label: 'Copy Link', shortcut: '⌘C', onClick: () => {} }
       ]
     },
     { type: 'separator' },
-    { label: '重設所有變更', tone: 'danger', shortcut: '⌘⌫', onClick: () => {} }
+    { label: 'Delete All', tone: 'danger', shortcut: '⌘⌫', onClick: () => {} }
   ]}
 />
 ```
@@ -57,16 +57,16 @@ import { Menu } from '@pact-design/react'
 透過組合 `Menu`、`MenuPopover`、`MenuList`、`MenuSection`、`MenuHeader`、`MenuItem` 與 `MenuSeparator`，可自由搭配任意觸發按鈕並控制展開對齊位置。
 
 <ComponentPreview>
-  <Menu trigger={<Button variant="primary">自訂觸發按鈕</Button>}>
+  <Menu trigger={<Button variant="primary">Custom Trigger</Button>}>
     <MenuPopover placement="bottom end">
       <MenuList>
         <MenuSection>
-          <MenuHeader>檢視密度</MenuHeader>
-          <MenuItem id="compact" shortcut="⌘1">緊湊檢視</MenuItem>
-          <MenuItem id="default" shortcut="⌘2">標準檢視</MenuItem>
+          <MenuHeader>Density</MenuHeader>
+          <MenuItem id="compact" shortcut="⌘1">Compact</MenuItem>
+          <MenuItem id="default" shortcut="⌘2">Default</MenuItem>
         </MenuSection>
         <MenuSeparator />
-        <MenuItem id="delete" tone="danger">清除工作區快取</MenuItem>
+        <MenuItem id="delete" tone="danger">Clear Cache</MenuItem>
       </MenuList>
     </MenuPopover>
   </Menu>
@@ -84,16 +84,16 @@ import {
   MenuSeparator
 } from '@pact-design/react'
 
-<Menu trigger={<Button variant="primary">自訂觸發按鈕</Button>}>
+<Menu trigger={<Button variant="primary">Custom Trigger</Button>}>
   <MenuPopover placement="bottom end">
     <MenuList>
       <MenuSection>
-        <MenuHeader>檢視密度</MenuHeader>
-        <MenuItem id="compact" shortcut="⌘1">緊湊檢視</MenuItem>
-        <MenuItem id="default" shortcut="⌘2">標準檢視</MenuItem>
+        <MenuHeader>Density</MenuHeader>
+        <MenuItem id="compact" shortcut="⌘1">Compact</MenuItem>
+        <MenuItem id="default" shortcut="⌘2">Default</MenuItem>
       </MenuSection>
       <MenuSeparator />
-      <MenuItem id="delete" tone="danger">清除工作區快取</MenuItem>
+      <MenuItem id="delete" tone="danger">Clear Cache</MenuItem>
     </MenuList>
   </MenuPopover>
 </Menu>

@@ -6,24 +6,24 @@ description: "讓使用者在一組互斥選項中擇一選取，支援垂直與
 
 <ComponentPreview align="start">
   <RadioGroup
-    label="匯出格式"
-    description="請選擇此次資料匯出的檔案格式"
+    label="Export Format"
+    description="Choose the output format for this export"
     defaultValue="csv"
   >
     <Radio
       value="csv"
-      label="CSV 試算表"
-      description="適合匯入 Excel 或其他試算表工具進行後續整理。"
+      label="CSV"
+      description="Compatible with spreadsheets and tabular tools."
     />
     <Radio
       value="json"
-      label="JSON 結構資料"
-      description="保留完整巢狀欄位，方便程式系統直接解析。"
+      label="JSON"
+      description="Preserves nested structures for programmatic parsing."
     />
     <Radio
       value="pdf"
-      label="PDF 靜態報表"
-      description="固定版面配置，適合分享與列印留存。"
+      label="PDF"
+      description="Fixed layout suited for sharing and printing."
     />
   </RadioGroup>
 </ComponentPreview>
@@ -32,13 +32,13 @@ description: "讓使用者在一組互斥選項中擇一選取，支援垂直與
 import { Radio, RadioGroup } from '@pact-design/react'
 
 <RadioGroup
-  label="匯出格式"
-  description="請選擇此次資料匯出的檔案格式"
+  label="Export Format"
+  description="Choose the output format for this export"
   defaultValue="csv"
 >
-  <Radio value="csv" label="CSV 試算表" description="適合匯入 Excel 或其他試算表工具。" />
-  <Radio value="json" label="JSON 結構資料" description="保留完整巢狀欄位，方便程式解析。" />
-  <Radio value="pdf" label="PDF 靜態報表" description="固定版面配置，適合分享與列印。" />
+  <Radio value="csv" label="CSV" description="Compatible with spreadsheets." />
+  <Radio value="json" label="JSON" description="Preserves nested structures." />
+  <Radio value="pdf" label="PDF" description="Fixed layout for sharing." />
 </RadioGroup>
 ```
 
@@ -56,19 +56,19 @@ import { Radio, RadioGroup } from '@pact-design/react'
 
 <ComponentPreview align="start">
   <div className="flex flex-col gap-lg">
-    <RadioGroup label="介面外觀" orientation="horizontal" defaultValue="light">
-      <Radio value="light" label="淺色模式" />
-      <Radio value="dark" label="深色模式" />
-      <Radio value="high-contrast" label="高對比模式" disabled />
+    <RadioGroup label="Theme" orientation="horizontal" defaultValue="light">
+      <Radio value="light" label="Light" />
+      <Radio value="dark" label="Dark" />
+      <Radio value="high-contrast" label="Disabled" disabled />
     </RadioGroup>
   </div>
 </ComponentPreview>
 
 ```tsx
-<RadioGroup label="介面外觀" orientation="horizontal" defaultValue="light">
-  <Radio value="light" label="淺色模式" />
-  <Radio value="dark" label="深色模式" />
-  <Radio value="high-contrast" label="高對比模式" disabled />
+<RadioGroup label="Theme" orientation="horizontal" defaultValue="light">
+  <Radio value="light" label="Light" />
+  <Radio value="dark" label="Dark" />
+  <Radio value="high-contrast" label="Disabled" disabled />
 </RadioGroup>
 ```
 

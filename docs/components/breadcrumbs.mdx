@@ -7,9 +7,9 @@ description: "顯示目前頁面在整體網站或資料夾階層中的所在位
 <ComponentPreview>
   <Breadcrumbs
     items={[
-      { id: 'home', label: '首頁', href: '#home' },
-      { id: 'components', label: '元件', href: '#components' },
-      { id: 'breadcrumbs', label: 'Breadcrumbs 麵包屑' }
+      { id: 'home', label: 'Home', href: '#home' },
+      { id: 'components', label: 'Components', href: '#components' },
+      { id: 'breadcrumbs', label: 'Breadcrumbs' }
     ]}
   />
 </ComponentPreview>
@@ -19,9 +19,9 @@ import { Breadcrumbs } from '@pact-design/react'
 
 <Breadcrumbs
   items={[
-    { id: 'home', label: '首頁', href: '#home' },
-    { id: 'components', label: '元件', href: '#components' },
-    { id: 'breadcrumbs', label: 'Breadcrumbs 麵包屑' }
+    { id: 'home', label: 'Home', href: '#home' },
+    { id: 'components', label: 'Components', href: '#components' },
+    { id: 'breadcrumbs', label: 'Breadcrumbs' }
   ]}
 />
 ```
@@ -43,25 +43,25 @@ import { Breadcrumbs } from '@pact-design/react'
     <Breadcrumbs
       size="sm"
       items={[
-        { id: 's-1', label: '工作區', href: '#workspace' },
-        { id: 's-2', label: '專案設定', href: '#settings' },
-        { id: 's-3', label: '緊湊尺寸' }
+        { id: 's-1', label: 'Workspace', href: '#workspace' },
+        { id: 's-2', label: 'Settings', href: '#settings' },
+        { id: 's-3', label: 'SM' }
       ]}
     />
     <Breadcrumbs
       size="md"
       items={[
-        { id: 'm-1', label: '工作區', href: '#workspace' },
-        { id: 'm-2', label: '專案設定', href: '#settings' },
-        { id: 'm-3', label: '標準尺寸' }
+        { id: 'm-1', label: 'Workspace', href: '#workspace' },
+        { id: 'm-2', label: 'Settings', href: '#settings' },
+        { id: 'm-3', label: 'MD' }
       ]}
     />
     <Breadcrumbs
       size="lg"
       items={[
-        { id: 'l-1', label: '工作區', href: '#workspace' },
-        { id: 'l-2', label: '專案設定', href: '#settings' },
-        { id: 'l-3', label: '舒適尺寸' }
+        { id: 'l-1', label: 'Workspace', href: '#workspace' },
+        { id: 'l-2', label: 'Settings', href: '#settings' },
+        { id: 'l-3', label: 'LG' }
       ]}
     />
   </div>
@@ -80,13 +80,13 @@ import { Breadcrumbs } from '@pact-design/react'
 <ComponentPreview>
   <Breadcrumbs>
     <Breadcrumb separator={<span className="text-on-surface-disabled px-3xs">/</span>}>
-      <BreadcrumbLink href="#root">工作區</BreadcrumbLink>
+      <BreadcrumbLink href="#root">Workspace</BreadcrumbLink>
     </Breadcrumb>
     <Breadcrumb separator={<span className="text-on-surface-disabled px-3xs">/</span>}>
-      <BreadcrumbLink href="#archive" isDisabled>已封存目錄</BreadcrumbLink>
+      <BreadcrumbLink href="#archive" isDisabled>Disabled</BreadcrumbLink>
     </Breadcrumb>
     <Breadcrumb>
-      <BreadcrumbLink>稽核報告</BreadcrumbLink>
+      <BreadcrumbLink>Current</BreadcrumbLink>
     </Breadcrumb>
   </Breadcrumbs>
 </ComponentPreview>
@@ -96,13 +96,13 @@ import { Breadcrumb, BreadcrumbLink, Breadcrumbs } from '@pact-design/react'
 
 <Breadcrumbs>
   <Breadcrumb separator={<span>/</span>}>
-    <BreadcrumbLink href="#root">工作區</BreadcrumbLink>
+    <BreadcrumbLink href="#root">Workspace</BreadcrumbLink>
   </Breadcrumb>
   <Breadcrumb separator={<span>/</span>}>
-    <BreadcrumbLink href="#archive" isDisabled>已封存目錄</BreadcrumbLink>
+    <BreadcrumbLink href="#archive" isDisabled>Disabled</BreadcrumbLink>
   </Breadcrumb>
   <Breadcrumb>
-    <BreadcrumbLink>稽核報告</BreadcrumbLink>
+    <BreadcrumbLink>Current</BreadcrumbLink>
   </Breadcrumb>
 </Breadcrumbs>
 ```

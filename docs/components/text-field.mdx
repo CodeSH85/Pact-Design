@@ -7,9 +7,9 @@ description: "讓使用者輸入與編輯單行文字的基礎表單控制項，
 <ComponentPreview>
   <div className="w-full max-w-80">
     <TextField
-      label="工作區名稱"
-      description="請輸入易於辨識的團隊或專案名稱"
-      placeholder="例如：核心平台組"
+      label="Workspace Name"
+      description="Enter a short workspace identifier"
+      placeholder="e.g. Core Platform"
       defaultValue="Pact Design"
     />
   </div>
@@ -19,9 +19,9 @@ description: "讓使用者輸入與編輯單行文字的基礎表單控制項，
 import { TextField } from '@pact-design/react'
 
 <TextField
-  label="工作區名稱"
-  description="請輸入易於辨識的團隊或專案名稱"
-  placeholder="例如：核心平台組"
+  label="Workspace Name"
+  description="Enter a short workspace identifier"
+  placeholder="e.g. Core Platform"
   defaultValue="Pact Design"
 />
 ```
@@ -41,13 +41,13 @@ import { TextField } from '@pact-design/react'
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
     <TextField
-      label="套件名稱"
+      label="Size SM"
       size="sm"
       prefix={<span className="text-mono-xs">@pact/</span>}
       defaultValue="react"
     />
     <TextField
-      label="連線逾時"
+      label="Size LG"
       size="lg"
       suffix={<span className="text-mono-xs">ms</span>}
       defaultValue="3000"
@@ -57,13 +57,13 @@ import { TextField } from '@pact-design/react'
 
 ```tsx
 <TextField
-  label="套件名稱"
+  label="Size SM"
   size="sm"
   prefix={<span className="text-mono-xs">@pact/</span>}
   defaultValue="react"
 />
 <TextField
-  label="連線逾時"
+  label="Size LG"
   size="lg"
   suffix={<span className="text-mono-xs">ms</span>}
   defaultValue="3000"
@@ -77,13 +77,13 @@ import { TextField } from '@pact-design/react'
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
     <TextField
-      label="變數前綴"
+      label="Invalid"
       isInvalid
       defaultValue="123 invalid"
-      errorMessage="前綴必須以小寫英文字母開頭，且不可包含空白。"
+      errorMessage="Prefix must start with a lowercase letter."
     />
     <TextField
-      label="套件來源位址"
+      label="Disabled"
       isDisabled
       defaultValue="registry.example.com"
     />
@@ -92,12 +92,12 @@ import { TextField } from '@pact-design/react'
 
 ```tsx
 <TextField
-  label="變數前綴"
+  label="Invalid"
   isInvalid
   defaultValue="123 invalid"
-  errorMessage="前綴必須以小寫英文字母開頭，且不可包含空白。"
+  errorMessage="Prefix must start with a lowercase letter."
 />
-<TextField label="套件來源位址" isDisabled defaultValue="registry.example.com" />
+<TextField label="Disabled" isDisabled defaultValue="registry.example.com" />
 ```
 
 ## API 參考

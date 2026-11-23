@@ -7,15 +7,15 @@ description: "常駐展開的垂直選項清單元件，支援單選、複選、
 <ComponentPreview>
   <div className="w-full max-w-64">
     <ListBox
-      aria-label="排序方式"
+      aria-label="Sort by"
       surface="bordered"
       selectionMode="single"
       defaultSelectedKeys={['updated']}
     >
-      <ListBoxItem id="updated">依最近更新排序</ListBoxItem>
-      <ListBoxItem id="created">依建立時間排序</ListBoxItem>
-      <ListBoxItem id="name">依名稱字母排序</ListBoxItem>
-      <ListBoxItem id="priority">依優先順序排序</ListBoxItem>
+      <ListBoxItem id="updated">Updated</ListBoxItem>
+      <ListBoxItem id="created">Created</ListBoxItem>
+      <ListBoxItem id="name">Name</ListBoxItem>
+      <ListBoxItem id="priority">Priority</ListBoxItem>
     </ListBox>
   </div>
 </ComponentPreview>
@@ -24,15 +24,15 @@ description: "常駐展開的垂直選項清單元件，支援單選、複選、
 import { ListBox, ListBoxItem } from '@pact-design/react'
 
 <ListBox
-  aria-label="排序方式"
+  aria-label="Sort by"
   surface="bordered"
   selectionMode="single"
   defaultSelectedKeys={['updated']}
 >
-  <ListBoxItem id="updated">依最近更新排序</ListBoxItem>
-  <ListBoxItem id="created">依建立時間排序</ListBoxItem>
-  <ListBoxItem id="name">依名稱字母排序</ListBoxItem>
-  <ListBoxItem id="priority">依優先順序排序</ListBoxItem>
+  <ListBoxItem id="updated">Updated</ListBoxItem>
+  <ListBoxItem id="created">Created</ListBoxItem>
+  <ListBoxItem id="name">Name</ListBoxItem>
+  <ListBoxItem id="priority">Priority</ListBoxItem>
 </ListBox>
 ```
 
@@ -51,21 +51,21 @@ import { ListBox, ListBoxItem } from '@pact-design/react'
 <ComponentPreview>
   <div className="w-full max-w-64">
     <ListBox
-      aria-label="顯示欄位"
+      aria-label="Visible columns"
       surface="bordered"
       selectionMode="multiple"
       defaultSelectedKeys={['status', 'owner']}
     >
       <ListBoxSection>
-        <ListBoxHeader>基本欄位</ListBoxHeader>
-        <ListBoxItem id="status">狀態</ListBoxItem>
-        <ListBoxItem id="owner">負責人</ListBoxItem>
+        <ListBoxHeader>Primary</ListBoxHeader>
+        <ListBoxItem id="status">Status</ListBoxItem>
+        <ListBoxItem id="owner">Owner</ListBoxItem>
       </ListBoxSection>
       <ListBoxSeparator />
       <ListBoxSection>
-        <ListBoxHeader>進階欄位</ListBoxHeader>
-        <ListBoxItem id="tags">分類標籤</ListBoxItem>
-        <ListBoxItem id="audit" isDisabled>稽核雜湊值</ListBoxItem>
+        <ListBoxHeader>Advanced</ListBoxHeader>
+        <ListBoxItem id="tags">Tags</ListBoxItem>
+        <ListBoxItem id="audit" isDisabled>Disabled</ListBoxItem>
       </ListBoxSection>
     </ListBox>
   </div>
@@ -81,20 +81,21 @@ import {
 } from '@pact-design/react'
 
 <ListBox
-  aria-label="顯示欄位"
+  aria-label="Visible columns"
   surface="bordered"
   selectionMode="multiple"
   defaultSelectedKeys={['status', 'owner']}
 >
   <ListBoxSection>
-    <ListBoxHeader>基本欄位</ListBoxHeader>
-    <ListBoxItem id="status">狀態</ListBoxItem>
-    <ListBoxItem id="owner">負責人</ListBoxItem>
+    <ListBoxHeader>Primary</ListBoxHeader>
+    <ListBoxItem id="status">Status</ListBoxItem>
+    <ListBoxItem id="owner">Owner</ListBoxItem>
   </ListBoxSection>
   <ListBoxSeparator />
   <ListBoxSection>
-    <ListBoxHeader>進階欄位</ListBoxHeader>
-    <ListBoxItem id="tags">分類標籤</ListBoxItem>
+    <ListBoxHeader>Advanced</ListBoxHeader>
+    <ListBoxItem id="tags">Tags</ListBoxItem>
+    <ListBoxItem id="audit" isDisabled>Disabled</ListBoxItem>
   </ListBoxSection>
 </ListBox>
 ```

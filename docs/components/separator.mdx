@@ -6,10 +6,10 @@ description: "以細緻線條劃分相鄰內容區塊或工具列項目，在緊
 
 <ComponentPreview align="stretch">
   <div className="flex flex-col gap-sm">
-    <span className="text-label-sm text-on-surface">專案概覽</span>
+    <span className="text-label-sm text-on-surface">Section Title</span>
     <Separator tone="default" />
     <span className="text-body-sm text-on-surface-muted">
-      清楚區隔標題與補充說明，讓使用者一眼辨識內容段落的起止範圍。
+      Supporting description separated by a horizontal divider.
     </span>
   </div>
 </ComponentPreview>
@@ -18,9 +18,9 @@ description: "以細緻線條劃分相鄰內容區塊或工具列項目，在緊
 import { Separator } from '@pact-design/react'
 
 <div className="flex flex-col gap-sm">
-  <span>專案概覽</span>
+  <span>Section Title</span>
   <Separator tone="default" />
-  <span>清楚區隔標題與補充說明。</span>
+  <span>Supporting description separated by a horizontal divider.</span>
 </div>
 ```
 
@@ -40,15 +40,15 @@ import { Separator } from '@pact-design/react'
 <ComponentPreview align="stretch">
   <div className="flex flex-col gap-md">
     <div className="flex flex-col gap-2xs">
-      <span className="text-caption-sm text-on-surface-muted">柔和</span>
+      <span className="text-caption-sm text-on-surface-muted">subtle</span>
       <Separator tone="subtle" />
     </div>
     <div className="flex flex-col gap-2xs">
-      <span className="text-caption-sm text-on-surface-muted">標準</span>
+      <span className="text-caption-sm text-on-surface-muted">default</span>
       <Separator tone="default" />
     </div>
     <div className="flex flex-col gap-2xs">
-      <span className="text-caption-sm text-on-surface-muted">強調</span>
+      <span className="text-caption-sm text-on-surface-muted">strong</span>
       <Separator tone="strong" />
     </div>
   </div>
@@ -66,21 +66,21 @@ import { Separator } from '@pact-design/react'
 
 <ComponentPreview>
   <div className="inline-flex items-center gap-sm h-control-md px-sm rounded-xs bg-layer-1 border border-border-subtle">
-    <span className="text-label-sm text-on-surface">設計基礎</span>
+    <span className="text-label-sm text-on-surface">Foundations</span>
     <Separator orientation="vertical" tone="default" />
-    <span className="text-label-sm text-on-surface">互動元件</span>
+    <span className="text-label-sm text-on-surface">Components</span>
     <Separator orientation="vertical" tone="default" />
-    <span className="text-label-sm text-on-surface-muted">使用說明</span>
+    <span className="text-label-sm text-on-surface-muted">API</span>
   </div>
 </ComponentPreview>
 
 ```tsx
 <div className="inline-flex items-center gap-sm h-control-md px-sm">
-  <span>設計基礎</span>
+  <span>Foundations</span>
   <Separator orientation="vertical" tone="default" />
-  <span>互動元件</span>
+  <span>Components</span>
   <Separator orientation="vertical" tone="default" />
-  <span>使用說明</span>
+  <span>API</span>
 </div>
 ```
 

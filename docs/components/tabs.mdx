@@ -6,19 +6,19 @@ description: "在同一空間內切換多組關聯內容面板的導覽元件，
 
 <ComponentPreview align="stretch">
   <Tabs defaultSelectedKey="overview">
-    <TabList aria-label="專案分頁">
-      <Tab id="overview">總覽</Tab>
-      <Tab id="members">成員權限</Tab>
-      <Tab id="activity">活動紀錄</Tab>
+    <TabList aria-label="Project tabs">
+      <Tab id="overview">Overview</Tab>
+      <Tab id="members">Members</Tab>
+      <Tab id="activity">Activity</Tab>
     </TabList>
     <TabPanel id="overview">
-      查看專案基本資訊、運作狀態與近期里程碑進度。
+      Overview panel content for the active tab.
     </TabPanel>
     <TabPanel id="members">
-      管理團隊成員的角色配置、邀請狀態與存取權限。
+      Members panel content and access roles.
     </TabPanel>
     <TabPanel id="activity">
-      檢視近期設定變更與成員操作歷程紀錄。
+      Recent activity log entries.
     </TabPanel>
   </Tabs>
 </ComponentPreview>
@@ -27,14 +27,14 @@ description: "在同一空間內切換多組關聯內容面板的導覽元件，
 import { Tab, TabList, TabPanel, Tabs } from '@pact-design/react'
 
 <Tabs defaultSelectedKey="overview">
-  <TabList aria-label="專案分頁">
-    <Tab id="overview">總覽</Tab>
-    <Tab id="members">成員權限</Tab>
-    <Tab id="activity">活動紀錄</Tab>
+  <TabList aria-label="Project tabs">
+    <Tab id="overview">Overview</Tab>
+    <Tab id="members">Members</Tab>
+    <Tab id="activity">Activity</Tab>
   </TabList>
-  <TabPanel id="overview">查看專案基本資訊與近期進度。</TabPanel>
-  <TabPanel id="members">管理團隊成員與存取權限。</TabPanel>
-  <TabPanel id="activity">檢視近期操作歷程紀錄。</TabPanel>
+  <TabPanel id="overview">Overview panel content.</TabPanel>
+  <TabPanel id="members">Members panel content.</TabPanel>
+  <TabPanel id="activity">Recent activity log entries.</TabPanel>
 </Tabs>
 ```
 
@@ -42,7 +42,7 @@ import { Tab, TabList, TabPanel, Tabs } from '@pact-design/react'
 
 - 當同一頁面包含多組同層級、相關聯的內容檢視，讓使用者在不離開目前畫面的情況下快速切換瀏覽。
 - **底線樣式 `underline`**：適合頁面主分頁或卡片上方分區，視覺輕盈且具明確層次。
-- **分段樣式 `segmented`**：適合在緊湊工具區或檢視器中切換模式，例如「預覽 / 程式碼 / API」。
+- **分段樣式 `segmented`**：適合在緊湊工具區或檢視器中切換模式，例如「Preview / Code / API」。
 - **膠囊樣式 `pill`**：適合用於分類篩選或局部內容切換。
 
 若各分頁內容之間毫無關聯，或需要獨立網址與完整頁面架構，建議改用主導覽列切換頁面。
@@ -56,34 +56,34 @@ import { Tab, TabList, TabPanel, Tabs } from '@pact-design/react'
 <ComponentPreview align="stretch">
   <div className="flex flex-col gap-lg">
     <Tabs variant="segmented" defaultSelectedKey="preview">
-      <TabList aria-label="分段頁籤">
-        <Tab id="preview">互動預覽</Tab>
-        <Tab id="code">程式碼</Tab>
+      <TabList aria-label="Segmented tabs">
+        <Tab id="preview">Preview</Tab>
+        <Tab id="code">Code</Tab>
         <Tab id="api">API</Tab>
       </TabList>
-      <TabPanel id="preview">直接於畫面中操作並檢視元件回饋。</TabPanel>
-      <TabPanel id="code">查看精簡且可直接複製的範例程式碼。</TabPanel>
-      <TabPanel id="api">查閱完整屬性說明與預設值。</TabPanel>
+      <TabPanel id="preview">Segmented variant panel.</TabPanel>
+      <TabPanel id="code">Source snippet panel.</TabPanel>
+      <TabPanel id="api">API reference panel.</TabPanel>
     </Tabs>
 
     <Tabs variant="pill" defaultSelectedKey="all">
-      <TabList aria-label="膠囊頁籤">
-        <Tab id="all">全部項目</Tab>
-        <Tab id="open">處理中</Tab>
-        <Tab id="done">已完成</Tab>
+      <TabList aria-label="Pill tabs">
+        <Tab id="all">All</Tab>
+        <Tab id="open">Open</Tab>
+        <Tab id="done">Done</Tab>
       </TabList>
-      <TabPanel id="all">顯示所有狀態的任務清單。</TabPanel>
-      <TabPanel id="open">僅顯示尚未結案的進行中項目。</TabPanel>
-      <TabPanel id="done">顯示已驗證並關閉的歷史紀錄。</TabPanel>
+      <TabPanel id="all">Pill variant panel for all items.</TabPanel>
+      <TabPanel id="open">Filtered view for open items.</TabPanel>
+      <TabPanel id="done">Filtered view for completed items.</TabPanel>
     </Tabs>
   </div>
 </ComponentPreview>
 
 ```tsx
 <Tabs variant="segmented" defaultSelectedKey="preview">
-  <TabList aria-label="分段頁籤">
-    <Tab id="preview">互動預覽</Tab>
-    <Tab id="code">程式碼</Tab>
+  <TabList aria-label="Segmented tabs">
+    <Tab id="preview">Preview</Tab>
+    <Tab id="code">Code</Tab>
   </TabList>
   <TabPanel id="preview">...</TabPanel>
   <TabPanel id="code">...</TabPanel>
@@ -100,9 +100,9 @@ import { Tab, TabList, TabPanel, Tabs } from '@pact-design/react'
     variant="underline"
     defaultSelectedKey="general"
     items={[
-      { id: 'general', label: '一般設定', content: '管理工作區名稱、語言與時區偏好。' },
-      { id: 'security', label: '安全性', content: '設定雙重驗證、登入裝置管理與存取政策。' },
-      { id: 'archive', label: '已封存項目', content: '目前無可檢視的封存設定。', isDisabled: true }
+      { id: 'general', label: 'General', content: 'General workspace preferences.' },
+      { id: 'security', label: 'Security', content: 'Authentication and access policies.' },
+      { id: 'disabled', label: 'Disabled', content: 'Unavailable section.', isDisabled: true }
     ]}
   />
 </ComponentPreview>
@@ -112,9 +112,9 @@ import { Tab, TabList, TabPanel, Tabs } from '@pact-design/react'
   orientation="vertical"
   defaultSelectedKey="general"
   items={[
-    { id: 'general', label: '一般設定', content: '管理工作區名稱、語言與時區偏好。' },
-    { id: 'security', label: '安全性', content: '設定雙重驗證與存取政策。' },
-    { id: 'archive', label: '已封存項目', content: '目前無可檢視內容。', isDisabled: true }
+    { id: 'general', label: 'General', content: 'General workspace preferences.' },
+    { id: 'security', label: 'Security', content: 'Authentication and access policies.' },
+    { id: 'disabled', label: 'Disabled', content: 'Unavailable section.', isDisabled: true }
   ]}
 />
 ```

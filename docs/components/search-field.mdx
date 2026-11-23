@@ -7,9 +7,9 @@ description: "專為搜尋與即時篩選設計的輸入欄位，內建搜尋圖
 <ComponentPreview>
   <div className="w-full max-w-72">
     <SearchField
-      label="搜尋項目"
-      description="輸入名稱或關鍵字以即時篩選列表"
-      placeholder="搜尋關鍵字..."
+      label="Search"
+      description="Filter items by keyword"
+      placeholder="Search..."
     />
   </div>
 </ComponentPreview>
@@ -18,9 +18,9 @@ description: "專為搜尋與即時篩選設計的輸入欄位，內建搜尋圖
 import { SearchField } from '@pact-design/react'
 
 <SearchField
-  label="搜尋項目"
-  description="輸入名稱或關鍵字以即時篩選列表"
-  placeholder="搜尋關鍵字..."
+  label="Search"
+  description="Filter items by keyword"
+  placeholder="Search..."
 />
 ```
 
@@ -38,16 +38,16 @@ import { SearchField } from '@pact-design/react'
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-md">
-    <SearchField label="超緊湊" size="xs" placeholder="快速篩選..." />
-    <SearchField label="緊湊" size="sm" placeholder="輸入關鍵字..." />
-    <SearchField label="舒適" size="lg" placeholder="搜尋整個工作區..." />
+    <SearchField label="XS" size="xs" placeholder="size='xs'" />
+    <SearchField label="SM" size="sm" placeholder="size='sm'" />
+    <SearchField label="LG" size="lg" placeholder="size='lg'" />
   </div>
 </ComponentPreview>
 
 ```tsx
-<SearchField label="超緊湊" size="xs" placeholder="快速篩選..." />
-<SearchField label="緊湊" size="sm" placeholder="輸入關鍵字..." />
-<SearchField label="舒適" size="lg" placeholder="搜尋整個工作區..." />
+<SearchField label="XS" size="xs" placeholder="size='xs'" />
+<SearchField label="SM" size="sm" placeholder="size='sm'" />
+<SearchField label="LG" size="lg" placeholder="size='lg'" />
 ```
 
 ### 預設值與停用狀態
@@ -56,14 +56,14 @@ import { SearchField } from '@pact-design/react'
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
-    <SearchField label="已輸入條件" defaultValue="按鈕" />
-    <SearchField label="停用狀態" isDisabled defaultValue="鎖定的篩選條件" />
+    <SearchField label="Default Value" defaultValue="Button" />
+    <SearchField label="Disabled" isDisabled defaultValue="Locked query" />
   </div>
 </ComponentPreview>
 
 ```tsx
-<SearchField label="已輸入條件" defaultValue="按鈕" />
-<SearchField label="停用狀態" isDisabled defaultValue="鎖定的篩選條件" />
+<SearchField label="Default Value" defaultValue="Button" />
+<SearchField label="Disabled" isDisabled defaultValue="Locked query" />
 ```
 
 ## API 參考

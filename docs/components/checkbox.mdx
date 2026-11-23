@@ -7,8 +7,8 @@ description: "讓使用者在一組選項中複選零至多個項目，或確認
 <ComponentPreview>
   <Checkbox
     defaultChecked
-    label="啟用緊湊版面模式"
-    description="縮小工具列與表格列高，在單一畫面中顯示更多資料。"
+    label="Compact Layout"
+    description="Use tighter spacing and control heights across panels."
   />
 </ComponentPreview>
 
@@ -17,8 +17,8 @@ import { Checkbox } from '@pact-design/react'
 
 <Checkbox
   defaultChecked
-  label="啟用緊湊版面模式"
-  description="縮小工具列與表格列高，在單一畫面中顯示更多資料。"
+  label="Compact Layout"
+  description="Use tighter spacing and control heights across panels."
 />
 ```
 
@@ -38,13 +38,13 @@ import { Checkbox } from '@pact-design/react'
 
 <ComponentPreview align="start">
   <CheckboxGroup
-    label="通知接收管道"
-    description="請選擇希望收到系統提醒的方式"
+    label="Notification Channels"
+    description="Select preferred delivery methods"
     defaultValue={['inbox', 'email']}
   >
-    <Checkbox value="inbox" label="站內通知" description="於工作區右上角即時顯示提醒。" />
-    <Checkbox value="email" label="電子郵件摘要" description="每日彙整重要變更並寄送至信箱。" />
-    <Checkbox value="webhook" label="外部 Webhook 推播" />
+    <Checkbox value="inbox" label="In-App" description="Show instant alerts inside the workspace." />
+    <Checkbox value="email" label="Email Digest" description="Send a daily summary of key updates." />
+    <Checkbox value="webhook" label="Webhook" />
   </CheckboxGroup>
 </ComponentPreview>
 
@@ -52,13 +52,13 @@ import { Checkbox } from '@pact-design/react'
 import { Checkbox, CheckboxGroup } from '@pact-design/react'
 
 <CheckboxGroup
-  label="通知接收管道"
-  description="請選擇希望收到系統提醒的方式"
+  label="Notification Channels"
+  description="Select preferred delivery methods"
   defaultValue={['inbox', 'email']}
 >
-  <Checkbox value="inbox" label="站內通知" />
-  <Checkbox value="email" label="電子郵件摘要" />
-  <Checkbox value="webhook" label="外部 Webhook 推播" />
+  <Checkbox value="inbox" label="In-App" />
+  <Checkbox value="email" label="Email Digest" />
+  <Checkbox value="webhook" label="Webhook" />
 </CheckboxGroup>
 ```
 
@@ -68,16 +68,16 @@ import { Checkbox, CheckboxGroup } from '@pact-design/react'
 
 <ComponentPreview align="start">
   <div className="flex flex-col gap-sm">
-    <Checkbox isIndeterminate label="已選取部分項目" />
-    <Checkbox disabled defaultChecked label="已鎖定的必選項目" />
-    <Checkbox disabled label="目前無法勾選的項目" />
+    <Checkbox isIndeterminate label="Indeterminate" />
+    <Checkbox disabled defaultChecked label="Disabled Checked" />
+    <Checkbox disabled label="Disabled" />
   </div>
 </ComponentPreview>
 
 ```tsx
-<Checkbox isIndeterminate label="已選取部分項目" />
-<Checkbox disabled defaultChecked label="已鎖定的必選項目" />
-<Checkbox disabled label="目前無法勾選的項目" />
+<Checkbox isIndeterminate label="Indeterminate" />
+<Checkbox disabled defaultChecked label="Disabled Checked" />
+<Checkbox disabled label="Disabled" />
 ```
 
 ## API 參考

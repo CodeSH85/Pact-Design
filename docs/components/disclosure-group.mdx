@@ -5,15 +5,15 @@ description: "管理多個折疊面板的手風琴容器，支援單項或同時
 ---
 
 <ComponentPreview align="stretch">
-  <DisclosureGroup defaultExpandedKeys={['install']}>
-    <Disclosure id="install" title="1. 如何安裝套件">
-      透過專案的套件管理工具安裝核心樣式與元件套件後，即可在應用程式中直接匯入使用。
+  <DisclosureGroup defaultExpandedKeys={['one']}>
+    <Disclosure id="one" title="Section 1">
+      Content for the first collapsible section.
     </Disclosure>
-    <Disclosure id="theme" title="2. 如何切換淺色與深色主題">
-      只需切換頁面的主題屬性，所有表面背景、文字對比與陰影層級便會同步更新。
+    <Disclosure id="two" title="Section 2">
+      Content for the second collapsible section.
     </Disclosure>
-    <Disclosure id="density" title="3. 如何調整介面密度">
-      每個互動元件皆提供一致的尺寸等級，可依工具列、表格或獨立表單的情境彈性選用。
+    <Disclosure id="three" title="Section 3">
+      Content for the third collapsible section.
     </Disclosure>
   </DisclosureGroup>
 </ComponentPreview>
@@ -21,12 +21,12 @@ description: "管理多個折疊面板的手風琴容器，支援單項或同時
 ```tsx
 import { Disclosure, DisclosureGroup } from '@pact-design/react'
 
-<DisclosureGroup defaultExpandedKeys={['install']}>
-  <Disclosure id="install" title="1. 如何安裝套件">
-    透過套件管理工具安裝後即可在應用程式中直接匯入使用。
+<DisclosureGroup defaultExpandedKeys={['one']}>
+  <Disclosure id="one" title="Section 1">
+    Content for the first collapsible section.
   </Disclosure>
-  <Disclosure id="theme" title="2. 如何切換淺色與深色主題">
-    切換頁面主題屬性後，全站色彩與陰影層級會同步更新。
+  <Disclosure id="two" title="Section 2">
+    Content for the second collapsible section.
   </Disclosure>
 </DisclosureGroup>
 ```
@@ -43,24 +43,24 @@ import { Disclosure, DisclosureGroup } from '@pact-design/react'
 設定 `variant="grouped"` 將多個面板收整進單一外框內以細線區隔，搭配 `allowsMultipleExpanded` 讓多個面板能同時維持展開。
 
 <ComponentPreview align="stretch">
-  <DisclosureGroup variant="grouped" allowsMultipleExpanded defaultExpandedKeys={['basic', 'notify']}>
-    <Disclosure id="basic" title="基本資訊">
-      設定專案名稱、識別代號與負責窗口等核心屬性。
+  <DisclosureGroup variant="grouped" allowsMultipleExpanded defaultExpandedKeys={['general', 'notifications']}>
+    <Disclosure id="general" title="General">
+      Workspace name, identifier, and default owner settings.
     </Disclosure>
-    <Disclosure id="notify" title="通知規則">
-      設定異常警示與每日摘要的接收人員與推播時間。
+    <Disclosure id="notifications" title="Notifications">
+      Alert routing rules and summary delivery schedules.
     </Disclosure>
-    <Disclosure id="danger" title="風險操作">
-      包含移轉擁有權、封存與永久刪除工作區等高風險項目。
+    <Disclosure id="danger" title="Danger Zone">
+      Ownership transfer, archiving, and permanent deletion.
     </Disclosure>
   </DisclosureGroup>
 </ComponentPreview>
 
 ```tsx
-<DisclosureGroup variant="grouped" allowsMultipleExpanded defaultExpandedKeys={['basic', 'notify']}>
-  <Disclosure id="basic" title="基本資訊">...</Disclosure>
-  <Disclosure id="notify" title="通知規則">...</Disclosure>
-  <Disclosure id="danger" title="風險操作">...</Disclosure>
+<DisclosureGroup variant="grouped" allowsMultipleExpanded defaultExpandedKeys={['general', 'notifications']}>
+  <Disclosure id="general" title="General">...</Disclosure>
+  <Disclosure id="notifications" title="Notifications">...</Disclosure>
+  <Disclosure id="danger" title="Danger Zone">...</Disclosure>
 </DisclosureGroup>
 ```
 
@@ -71,8 +71,8 @@ import { Disclosure, DisclosureGroup } from '@pact-design/react'
 <ComponentPreview align="stretch">
   <DisclosureGroup
     items={[
-      { id: 'sla', title: '服務水準協議', content: '提供全年無休的系統狀態監控與異常自動告警。' },
-      { id: 'backup', title: '資料備份頻率', content: '系統每日自動執行加密備份，並保留最近 30 天還原點。' }
+      { id: 'sla', title: 'Service Level', content: 'Continuous uptime monitoring and automated alerting.' },
+      { id: 'backup', title: 'Backup Policy', content: 'Encrypted daily snapshots retained for 30 days.' }
     ]}
   />
 </ComponentPreview>
@@ -80,8 +80,8 @@ import { Disclosure, DisclosureGroup } from '@pact-design/react'
 ```tsx
 <DisclosureGroup
   items={[
-    { id: 'sla', title: '服務水準協議', content: '提供全年無休的系統狀態監控與異常自動告警。' },
-    { id: 'backup', title: '資料備份頻率', content: '系統每日自動執行加密備份並保留 30 天還原點。' }
+    { id: 'sla', title: 'Service Level', content: 'Continuous uptime monitoring and automated alerting.' },
+    { id: 'backup', title: 'Backup Policy', content: 'Encrypted daily snapshots retained for 30 days.' }
   ]}
 />
 ```

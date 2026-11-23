@@ -6,20 +6,20 @@ description: "從螢幕邊緣滑出的抽屜式覆蓋面板，適合呈現詳細
 
 <ComponentPreview>
   <Sheet
-    trigger={<Button variant="secondary">開啟屬性面板</Button>}
+    trigger={<Button variant="secondary">Open Sheet</Button>}
     position="right"
     size="md"
-    title="項目詳細屬性"
-    description="檢視與調整此項目的基本資料與存取權限。"
+    title="Item Inspector"
+    description="Review and edit item properties without leaving the list."
     footer={(
       <>
-        <Button variant="ghost" size="sm" slot="close">取消</Button>
-        <Button variant="primary" size="sm" slot="close">套用變更</Button>
+        <Button variant="ghost" size="sm" slot="close">Cancel</Button>
+        <Button variant="primary" size="sm" slot="close">Apply</Button>
       </>
     )}
   >
     <p className="text-body-sm text-on-surface m-0">
-      側邊抽屜從視窗邊緣平滑滑出，支援獨立內容捲動、手勢滑動關閉與鍵盤 Escape 快速收合。
+      Sheets slide in from any viewport edge with scrollable content and Escape dismissal.
     </p>
   </Sheet>
 </ComponentPreview>
@@ -28,19 +28,19 @@ description: "從螢幕邊緣滑出的抽屜式覆蓋面板，適合呈現詳細
 import { Button, Sheet } from '@pact-design/react'
 
 <Sheet
-  trigger={<Button variant="secondary">開啟屬性面板</Button>}
+  trigger={<Button variant="secondary">Open Sheet</Button>}
   position="right"
   size="md"
-  title="項目詳細屬性"
-  description="檢視與調整此項目的基本資料與存取權限。"
+  title="Item Inspector"
+  description="Review and edit item properties without leaving the list."
   footer={(
     <>
-      <Button variant="ghost" size="sm" slot="close">取消</Button>
-      <Button variant="primary" size="sm" slot="close">套用變更</Button>
+      <Button variant="ghost" size="sm" slot="close">Cancel</Button>
+      <Button variant="primary" size="sm" slot="close">Apply</Button>
     </>
   )}
 >
-  <p>側邊抽屜從視窗邊緣平滑滑出，支援獨立內容捲動與快速收合。</p>
+  <p>Sheets slide in from any viewport edge with scrollable content.</p>
 </Sheet>
 ```
 
@@ -58,38 +58,38 @@ import { Button, Sheet } from '@pact-design/react'
 
 <ComponentPreview>
   <Sheet
-    trigger={<Button variant="secondary" size="sm">左側滑出</Button>}
+    trigger={<Button variant="secondary" size="sm">Left</Button>}
     position="left"
     size="sm"
-    title="導覽選單"
+    title="Left Sheet"
   >
-    <p className="text-body-sm text-on-surface m-0">從視窗左緣展開，適合收納側邊導覽項目。</p>
+    <p className="text-body-sm text-on-surface m-0">Anchored to the left viewport edge.</p>
   </Sheet>
   <Sheet
-    trigger={<Button variant="secondary" size="sm">底部滑出</Button>}
+    trigger={<Button variant="secondary" size="sm">Bottom</Button>}
     position="bottom"
     size="sm"
-    title="快速操作"
-    footer={<Button variant="primary" size="sm" slot="close">完成</Button>}
+    title="Bottom Sheet"
+    footer={<Button variant="primary" size="sm" slot="close">Done</Button>}
   >
-    <p className="text-body-sm text-on-surface m-0">從視窗底部向上展開，適合行動裝置或輔助工具面板。</p>
+    <p className="text-body-sm text-on-surface m-0">Slides upward from the bottom edge.</p>
   </Sheet>
   <Sheet
-    trigger={<Button variant="secondary" size="sm">頂部滑出</Button>}
+    trigger={<Button variant="secondary" size="sm">Top</Button>}
     position="top"
     size="sm"
-    title="系統公告"
+    title="Top Sheet"
   >
-    <p className="text-body-sm text-on-surface m-0">從視窗頂部滑落展開，適合臨時通知或全域切換區。</p>
+    <p className="text-body-sm text-on-surface m-0">Slides downward from the top edge.</p>
   </Sheet>
 </ComponentPreview>
 
 ```tsx
-<Sheet trigger={<Button>左側滑出</Button>} position="left" size="sm" title="導覽選單">
-  <p>從視窗左緣展開。</p>
+<Sheet trigger={<Button>Left</Button>} position="left" size="sm" title="Left Sheet">
+  <p>Anchored to the left viewport edge.</p>
 </Sheet>
-<Sheet trigger={<Button>底部滑出</Button>} position="bottom" size="sm" title="快速操作">
-  <p>從視窗底部向上展開。</p>
+<Sheet trigger={<Button>Bottom</Button>} position="bottom" size="sm" title="Bottom Sheet">
+  <p>Slides upward from the bottom edge.</p>
 </Sheet>
 ```
 
@@ -99,18 +99,18 @@ import { Button, Sheet } from '@pact-design/react'
 
 <ComponentPreview>
   <SheetTrigger>
-    <Button variant="subtle">自訂抽屜結構</Button>
+    <Button variant="subtle">Custom Composition</Button>
     <SheetOverlay position="right">
       <SheetPanel position="right" size="md">
         <SheetContent>
-          <SheetHeader title="自訂版面" description="透過子元件自由控制各區塊配置。" />
+          <SheetHeader title="Custom Layout" description="Composed directly with Sheet parts." />
           <SheetBody>
             <p className="text-body-sm text-on-surface m-0">
-              可針對標頭、捲動主體與操作列分別套用客製化排版。
+              Control panel, overlay, and footer slots independently.
             </p>
           </SheetBody>
           <SheetFooter>
-            <Button variant="primary" size="sm" slot="close">關閉面板</Button>
+            <Button variant="primary" size="sm" slot="close">Close</Button>
           </SheetFooter>
         </SheetContent>
       </SheetPanel>
@@ -131,14 +131,14 @@ import {
 } from '@pact-design/react'
 
 <SheetTrigger>
-  <Button variant="subtle">自訂抽屜結構</Button>
+  <Button variant="subtle">Custom Composition</Button>
   <SheetOverlay position="right">
     <SheetPanel position="right" size="md">
       <SheetContent>
-        <SheetHeader title="自訂版面" />
+        <SheetHeader title="Custom Layout" />
         <SheetBody>...</SheetBody>
         <SheetFooter>
-          <Button variant="primary" size="sm" slot="close">關閉面板</Button>
+          <Button variant="primary" size="sm" slot="close">Close</Button>
         </SheetFooter>
       </SheetContent>
     </SheetPanel>

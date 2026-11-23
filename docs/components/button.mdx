@@ -5,13 +5,13 @@ description: "按鈕用於觸發即時操作，協助使用者快速辨識畫面
 ---
 
 <ComponentPreview>
-  <Button variant="primary">儲存變更</Button>
+  <Button variant="primary">Primary Button</Button>
 </ComponentPreview>
 
 ```tsx
 import { Button } from '@pact-design/react'
 
-<Button variant="primary">儲存變更</Button>
+<Button variant="primary">Primary Button</Button>
 ```
 
 ## 何時使用
@@ -33,19 +33,19 @@ Pact Design 提供五種視覺層級的按鈕，依操作重要性由高至低�
 透過 `variant` 切換五種語意與視覺權重，協助使用者一眼分辨操作優先順序。
 
 <ComponentPreview>
-  <Button variant="primary">主要操作</Button>
-  <Button variant="secondary">次要操作</Button>
-  <Button variant="subtle">柔和按鈕</Button>
-  <Button variant="ghost">幽靈按鈕</Button>
-  <Button variant="danger">刪除項目</Button>
+  <Button variant="primary">Primary</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="subtle">Subtle</Button>
+  <Button variant="ghost">Ghost</Button>
+  <Button variant="danger">Danger</Button>
 </ComponentPreview>
 
 ```tsx
-<Button variant="primary">主要操作</Button>
-<Button variant="secondary">次要操作</Button>
-<Button variant="subtle">柔和按鈕</Button>
-<Button variant="ghost">幽靈按鈕</Button>
-<Button variant="danger">刪除項目</Button>
+<Button variant="primary">Primary</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="subtle">Subtle</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="danger">Danger</Button>
 ```
 
 ### 尺寸
@@ -53,19 +53,19 @@ Pact Design 提供五種視覺層級的按鈕，依操作重要性由高至低�
 提供從超緊湊 `xs` 到寬大 `xl` 共五種高度尺寸，方便按鈕與同一列上的輸入框、下拉選單精準對齊。
 
 <ComponentPreview>
-  <Button variant="secondary" size="xs">超緊湊</Button>
-  <Button variant="secondary" size="sm">緊湊</Button>
-  <Button variant="secondary" size="md">標準</Button>
-  <Button variant="secondary" size="lg">舒適</Button>
-  <Button variant="secondary" size="xl">寬大</Button>
+  <Button variant="secondary" size="xs">XS</Button>
+  <Button variant="secondary" size="sm">SM</Button>
+  <Button variant="secondary" size="md">MD</Button>
+  <Button variant="secondary" size="lg">LG</Button>
+  <Button variant="secondary" size="xl">XL</Button>
 </ComponentPreview>
 
 ```tsx
-<Button variant="secondary" size="xs">超緊湊</Button>
-<Button variant="secondary" size="sm">緊湊</Button>
-<Button variant="secondary" size="md">標準</Button>
-<Button variant="secondary" size="lg">舒適</Button>
-<Button variant="secondary" size="xl">寬大</Button>
+<Button variant="secondary" size="xs">XS</Button>
+<Button variant="secondary" size="sm">SM</Button>
+<Button variant="secondary" size="md">MD</Button>
+<Button variant="secondary" size="lg">LG</Button>
+<Button variant="secondary" size="xl">XL</Button>
 ```
 
 ### 圓角
@@ -73,17 +73,17 @@ Pact Design 提供五種視覺層級的按鈕，依操作重要性由高至低�
 預設採用俐落小圓角 `sm`，亦可依版面需求調整為直角或完全圓角的膠囊外觀。
 
 <ComponentPreview>
-  <Button variant="secondary" radius="none">直角</Button>
-  <Button variant="secondary" radius="sm">預設圓角</Button>
-  <Button variant="secondary" radius="lg">較大圓角</Button>
-  <Button variant="secondary" radius="full">膠囊形狀</Button>
+  <Button variant="secondary" radius="none">None</Button>
+  <Button variant="secondary" radius="sm">SM</Button>
+  <Button variant="secondary" radius="lg">LG</Button>
+  <Button variant="secondary" radius="full">Full</Button>
 </ComponentPreview>
 
 ```tsx
-<Button variant="secondary" radius="none">直角</Button>
-<Button variant="secondary" radius="sm">預設圓角</Button>
-<Button variant="secondary" radius="lg">較大圓角</Button>
-<Button variant="secondary" radius="full">膠囊形狀</Button>
+<Button variant="secondary" radius="none">None</Button>
+<Button variant="secondary" radius="sm">SM</Button>
+<Button variant="secondary" radius="lg">LG</Button>
+<Button variant="secondary" radius="full">Full</Button>
 ```
 
 ### 停用狀態
@@ -91,15 +91,15 @@ Pact Design 提供五種視覺層級的按鈕，依操作重要性由高至低�
 當前置條件尚未滿足或權限不足時，設定 `disabled` 或 `isDisabled` 可讓按鈕進入停用狀態，阻止點擊與鍵盤觸發。
 
 <ComponentPreview>
-  <Button variant="primary" disabled>主要停用</Button>
-  <Button variant="secondary" isDisabled>次要停用</Button>
-  <Button variant="danger" disabled>危險停用</Button>
+  <Button variant="primary" disabled>Primary</Button>
+  <Button variant="secondary" isDisabled>Secondary</Button>
+  <Button variant="danger" disabled>Danger</Button>
 </ComponentPreview>
 
 ```tsx
-<Button variant="primary" disabled>主要停用</Button>
-<Button variant="secondary" isDisabled>次要停用</Button>
-<Button variant="danger" disabled>危險停用</Button>
+<Button variant="primary" disabled>Primary</Button>
+<Button variant="secondary" isDisabled>Secondary</Button>
+<Button variant="danger" disabled>Danger</Button>
 ```
 
 ## API 參考

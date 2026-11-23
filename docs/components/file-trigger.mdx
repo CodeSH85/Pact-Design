@@ -5,14 +5,13 @@ description: "讓使用者透過系統原生檔案總管挑選單一檔案、多
 ---
 
 <ComponentPreview>
-  <FileTrigger label="選擇檔案" acceptedFileTypes={['.json', '.svg', '.png']} />
+  <FileTrigger acceptedFileTypes={['.json', '.svg', '.png']} />
 </ComponentPreview>
 
 ```tsx
 import { FileTrigger } from '@pact-design/react'
 
 <FileTrigger
-  label="選擇檔案"
   acceptedFileTypes={['.json', '.svg', '.png']}
   onSelect={(files) => console.log(files)}
 />
@@ -30,13 +29,13 @@ import { FileTrigger } from '@pact-design/react'
 直接透過 `variant`、`size` 與 `label` 調整內建按鈕的外觀，並可搭配 `allowsMultiple` 開放一次選取多個檔案。
 
 <ComponentPreview>
-  <FileTrigger variant="primary" size="sm" label="匯入設定檔" acceptedFileTypes={['.json']} />
-  <FileTrigger variant="subtle" size="md" label="上傳多張圖片" allowsMultiple acceptedFileTypes={['image/*']} />
+  <FileTrigger variant="primary" size="sm" label="Primary (sm)" acceptedFileTypes={['.json']} />
+  <FileTrigger variant="subtle" size="md" label="Subtle (multiple)" allowsMultiple acceptedFileTypes={['image/*']} />
 </ComponentPreview>
 
 ```tsx
-<FileTrigger variant="primary" size="sm" label="匯入設定檔" acceptedFileTypes={['.json']} />
-<FileTrigger variant="subtle" size="md" label="上傳多張圖片" allowsMultiple acceptedFileTypes={['image/*']} />
+<FileTrigger variant="primary" size="sm" label="Primary (sm)" acceptedFileTypes={['.json']} />
+<FileTrigger variant="subtle" size="md" label="Subtle (multiple)" allowsMultiple acceptedFileTypes={['image/*']} />
 ```
 
 ### 自訂觸發元件
@@ -45,7 +44,7 @@ import { FileTrigger } from '@pact-design/react'
 
 <ComponentPreview>
   <FileTrigger acceptedFileTypes={['.svg']}>
-    <Button variant="ghost" size="sm">附加 SVG 圖示...</Button>
+    <Button variant="ghost" size="sm">Attach SVG</Button>
   </FileTrigger>
 </ComponentPreview>
 
@@ -53,7 +52,7 @@ import { FileTrigger } from '@pact-design/react'
 import { Button, FileTrigger } from '@pact-design/react'
 
 <FileTrigger acceptedFileTypes={['.svg']}>
-  <Button variant="ghost" size="sm">附加 SVG 圖示...</Button>
+  <Button variant="ghost" size="sm">Attach SVG</Button>
 </FileTrigger>
 ```
 
