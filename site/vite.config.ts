@@ -167,6 +167,7 @@ export default defineConfig({
       'react': path.dirname(require.resolve('react/package.json')),
       'react-dom': path.dirname(require.resolve('react-dom/package.json')),
       '@mdx-js/react': path.dirname(require.resolve('@mdx-js/react')),
+      '@remixicon/react': path.dirname(require.resolve('@remixicon/react')),
       '@internationalized/date': path.resolve(path.dirname(require.resolve('@internationalized/date')), '..')
     }
   },

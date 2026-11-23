@@ -4,6 +4,8 @@ eyebrow: "元件"
 description: "具備開啟與關閉雙狀態的按鈕元件，可單獨切換功能狀態，或組合成精簡的分段選擇器。"
 ---
 
+import { RiBookmarkLine, RiCodeSSlashLine, RiLayoutGridLine, RiListCheck } from '@remixicon/react'
+
 <ComponentPreview>
   <ToggleButton defaultSelected>Pin Panel</ToggleButton>
 </ComponentPreview>
@@ -85,6 +87,45 @@ import { ToggleButton, ToggleButtonGroup } from '@pact-design/react'
 </ToggleButtonGroup>
 ```
 
+### 純圖示切換 (`icon`)
+
+設定 `icon` 屬性可建立等寬高的工具列圖示切換按鈕，內嵌圖示會依 `size` 自動縮放；搭配 `TooltipTrigger` 使用即可提供明確的功能提示。
+
+<ComponentPreview>
+  <ToggleButton variant="ghost" size="sm" icon defaultSelected aria-label="書籤">
+    <RiBookmarkLine />
+  </ToggleButton>
+  <ToggleButton variant="secondary" size="sm" icon aria-label="檢視原始碼">
+    <RiCodeSSlashLine />
+  </ToggleButton>
+  <ToggleButtonGroup aria-label="Layout" selectionMode="single" defaultSelectedKeys={['grid']}>
+    <ToggleButton id="list" size="sm" icon aria-label="清單檢視">
+      <RiListCheck />
+    </ToggleButton>
+    <ToggleButton id="grid" size="sm" icon aria-label="格狀檢視">
+      <RiLayoutGridLine />
+    </ToggleButton>
+  </ToggleButtonGroup>
+</ComponentPreview>
+
+```tsx
+import { ToggleButton, ToggleButtonGroup } from '@pact-design/react'
+import { RiBookmarkLine, RiCodeSSlashLine, RiLayoutGridLine, RiListCheck } from '@remixicon/react'
+
+<ToggleButton variant="ghost" size="sm" icon defaultSelected aria-label="書籤">
+  <RiBookmarkLine />
+</ToggleButton>
+
+<ToggleButtonGroup aria-label="Layout" selectionMode="single" defaultSelectedKeys={['grid']}>
+  <ToggleButton id="list" size="sm" icon aria-label="清單檢視">
+    <RiListCheck />
+  </ToggleButton>
+  <ToggleButton id="grid" size="sm" icon aria-label="格狀檢視">
+    <RiLayoutGridLine />
+  </ToggleButton>
+</ToggleButtonGroup>
+```
+
 ## API 參考
 
 ### ToggleButton
@@ -94,6 +135,7 @@ import { ToggleButton, ToggleButtonGroup } from '@pact-design/react'
 | `variant` | `'secondary' \| 'ghost' \| 'primary'` | `'secondary'` | 切換按鈕在未選取與選取狀態下的視覺樣式。 |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 控制項高度與內距大小。 |
 | `radius` | `'none' \| '2xs' \| 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `—` | 自訂邊框圓角，置於群組內時由群組自動銜接。 |
+| `icon` | `boolean` | `false` | 設為 `true` 時將水平內距歸零並固定為等寬高正方形純圖示切換按鈕。 |
 | `isSelected` | `boolean` | `—` | 受控模式下的選取狀態。 |
 | `defaultSelected` | `boolean` | `false` | 非受控模式下的預設選取狀態。 |
 | `onChange` | `(isSelected: boolean) => void` | `—` | 選取狀態改變時觸發的回呼函式。 |

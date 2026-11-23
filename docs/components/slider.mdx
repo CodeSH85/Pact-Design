@@ -1,0 +1,149 @@
+---
+title: "Slider 滑桿"
+eyebrow: "元件"
+description: "讓使用者透過拖曳或鍵盤微調，在連續或分段的數值範圍內選取單一數值或雙端區間。"
+---
+
+<ComponentPreview align="stretch">
+  <div className="w-full max-w-sm mx-auto">
+    <Slider
+      label="Opacity"
+      showValue
+      defaultValue={65}
+      minValue={0}
+      maxValue={100}
+    />
+  </div>
+</ComponentPreview>
+
+```tsx
+import { Slider } from '@pact-design/react'
+
+<Slider
+  label="Opacity"
+  showValue
+  defaultValue={65}
+  minValue={0}
+  maxValue={100}
+/>
+```
+
+## 何時使用
+
+- 適合調整需要即時視覺回饋的連續數值，例如透明度、色相角度、縮放倍率或音量大小。
+- 支援鍵盤方向鍵、`Home` / `End` 與螢幕報讀器無障礙宣告。
+- 若使用者必須輸入精確的數字且不常依賴滑動微調，建議搭配文字輸入框或直接使用 **TextField 文字輸入框**。
+
+## 使用範例
+
+### 區間選擇與基準偏移
+
+將 `defaultValue` 或 `value` 設為雙元素陣列即可啟用雙滑塊區間選取；若為正負偏移滑桿，可設定 `fillOffset={0}` 讓填充條自零點向兩側延伸。
+
+<ComponentPreview align="stretch">
+  <div className="flex flex-col gap-lg w-full max-w-sm mx-auto">
+    <Slider
+      label="Contrast Range"
+      showValue
+      defaultValue={[30, 80]}
+      minValue={0}
+      maxValue={100}
+    />
+    <Slider
+      label="Hue Shift"
+      showValue
+      fillOffset={0}
+      defaultValue={12}
+      minValue={-60}
+      maxValue={60}
+    />
+  </div>
+</ComponentPreview>
+
+```tsx
+<Slider
+  label="Contrast Range"
+  showValue
+  defaultValue={[30, 80]}
+  minValue={0}
+  maxValue={100}
+/>
+
+<Slider
+  label="Hue Shift"
+  showValue
+  fillOffset={0}
+  defaultValue={12}
+  minValue={-60}
+  maxValue={60}
+/>
+```
+
+### 尺寸、自訂軌道樣式與停用狀態
+
+提供精簡 `sm` 與標準 `md` 兩種尺寸，並支援透過 `showFill={false}` 與 `trackStyle` 自訂漸層軌道背景。
+
+<ComponentPreview align="stretch">
+  <div className="flex flex-col gap-md w-full max-w-sm mx-auto">
+    <Slider
+      size="sm"
+      label="Compact Slider (sm)"
+      showValue
+      defaultValue={40}
+    />
+    <Slider
+      size="sm"
+      label="Gradient Track"
+      showValue
+      showFill={false}
+      defaultValue={220}
+      minValue={0}
+      maxValue={360}
+      trackStyle={{
+        background: 'linear-gradient(to right, oklch(0.65 0.22 0), oklch(0.65 0.22 120), oklch(0.65 0.22 240), oklch(0.65 0.22 360))'
+      }}
+    />
+    <Slider
+      label="Disabled Slider"
+      showValue
+      defaultValue={50}
+      disabled
+    />
+  </div>
+</ComponentPreview>
+
+```tsx
+<Slider size="sm" label="Compact Slider (sm)" showValue defaultValue={40} />
+
+<Slider
+  size="sm"
+  label="Gradient Track"
+  showValue
+  showFill={false}
+  defaultValue={220}
+  minValue={0}
+  maxValue={360}
+  trackStyle={{ background: 'linear-gradient(...)' }}
+/>
+
+<Slider label="Disabled Slider" showValue defaultValue={50} disabled />
+```
+
+## API 參考
+
+### Slider
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | 顯示於軌道上方的標籤文字。 |
+| `description` | `ReactNode` | `—` | 顯示於軌道下方的輔助說明。 |
+| `size` | `'sm' \| 'md'` | `'md'` | 滑塊與軌道的精簡或標準尺寸。 |
+| `value` / `defaultValue` | `number \| number[]` | `0` | 受控或預設數值；傳入兩項陣列即渲染雙滑塊區間。 |
+| `minValue` / `maxValue` | `number` | `0` / `100` | 滑桿允許的最小值與最大值。 |
+| `step` | `number` | `1` | 拖曳與鍵盤調整的遞增步距。 |
+| `showValue` | `boolean` | `false` | 是否於標題列右側顯示格式化後的目前數值。 |
+| `showFill` | `boolean` | `true` | 是否渲染主色進度填充條。 |
+| `fillOffset` | `number` | `minValue` | 進度填充條的起算基準值（例如正負偏移滑桿可設為 `0`）。 |
+| `trackStyle` / `trackClassName` | `CSSProperties` / `string` | `—` | 自訂軌道內聯樣式或額外類別（常用於色相漸層軌道）。 |
+| `onChange` / `onChangeEnd` | `(value: T) => void` | `—` | 數值變動時與放開滑塊結束調整時的回呼函式。 |
+| `isDisabled` / `disabled` | `boolean` | `false` | 是否停用滑桿互動。 |
