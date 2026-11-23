@@ -1,19 +1,19 @@
 ---
-title: "Select"
-eyebrow: "Components · React Aria"
-description: "Accessible dropdown select button displaying an elevated ListBox menu with active selection indicators."
+title: "Select 下拉選單"
+eyebrow: "元件"
+description: "點擊後展開浮動清單的單選控制項，適合在精簡版面中提供多個預設選項。"
 ---
 
 <ComponentPreview>
   <div className="w-full max-w-64">
     <Select
-      label="Assigned Role"
-      description="Choose access level for workspace collaborator"
+      label="成員權限"
+      description="指定此協作者在工作區中的存取等級"
       defaultSelectedKey="admin"
     >
-      <SelectItem id="viewer">Viewer (Read-only)</SelectItem>
-      <SelectItem id="editor">Editor (Edit tokens)</SelectItem>
-      <SelectItem id="admin">Administrator (Full access)</SelectItem>
+      <SelectItem id="viewer">檢視者</SelectItem>
+      <SelectItem id="editor">編輯者</SelectItem>
+      <SelectItem id="admin">管理員</SelectItem>
     </Select>
   </div>
 </ComponentPreview>
@@ -22,92 +22,77 @@ description: "Accessible dropdown select button displaying an elevated ListBox m
 import { Select, SelectItem } from '@pact-design/react'
 
 <Select
-  label="Assigned Role"
-  description="Choose access level for workspace collaborator"
+  label="成員權限"
+  description="指定此協作者在工作區中的存取等級"
   defaultSelectedKey="admin"
 >
-  <SelectItem id="viewer">Viewer (Read-only)</SelectItem>
-  <SelectItem id="editor">Editor (Edit tokens)</SelectItem>
-  <SelectItem id="admin">Administrator (Full access)</SelectItem>
+  <SelectItem id="viewer">檢視者</SelectItem>
+  <SelectItem id="editor">編輯者</SelectItem>
+  <SelectItem id="admin">管理員</SelectItem>
 </Select>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `Select` and `ListBox`. Exports `Select`, `SelectItem`, `SelectSection`, `SelectHeader`, `SelectSeparator`, `SelectTrigger`, `SelectValue`, `SelectPopover`, and `SelectListBox`.
+- 適合用於 5 個以上固定選項的單選情境，或版面空間有限、不適合將所有選項攤開顯示的篩選列與表單。
+- 若選項數量很少且希望讓使用者一眼看清全部選擇，建議改用 **Radio 單選按鈕**。
+- 若選項清單非常長、需要讓使用者直接輸入文字過濾，建議改用 **ComboBox 組合方塊**。
 
-### Select
+## 使用範例
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `label` | `ReactNode` | `—` | Accessible label rendered above the trigger button. |
-| `description` | `ReactNode` | `—` | Supporting caption displayed below the select button. |
-| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Error text shown when validation fails. |
-| `placeholder` | `string` | `'Select an option'` (React Aria default) | Placeholder displayed when no key is selected. |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`) applied to `SelectTrigger`. |
-| `items` | `Iterable<T>` | `—` | Optional dynamic item collection paired with a render function child. |
-| `selectedKey` / `defaultSelectedKey` | `Key \| null` | `—` | Controlled or initial selected option key. |
-| `onSelectionChange` | `(key: Key \| null) => void` | `—` | Handler fired when an option is selected. |
-| `triggerProps` | `AriaButtonProps` | `—` | Additional props passed to `SelectTrigger`. |
-| `popoverProps` | `SelectPopoverProps` | `—` | Additional props passed to `SelectPopover`. |
-| `listBoxProps` | `AriaListBoxProps<T>` | `—` | Additional props passed to `SelectListBox`. |
-| `isDisabled` | `boolean` | `false` | Disables opening the select menu. |
+### 尺寸
 
-## Examples
-
-### Size
-
-Match compact filter bars (`xs`/`sm`) or form inputs (`md`/`lg`).
+提供與表單輸入框一致的五種控制項高度，方便在篩選列與設定表單中整齊並排。
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-md">
-    <Select label="Compact (sm)" size="sm" defaultSelectedKey="all">
-      <SelectItem id="all">All Tiers</SelectItem>
-      <SelectItem id="global">Global</SelectItem>
-      <SelectItem id="system">System</SelectItem>
+    <Select label="緊湊尺寸" size="sm" defaultSelectedKey="all">
+      <SelectItem id="all">全部狀態</SelectItem>
+      <SelectItem id="active">進行中</SelectItem>
+      <SelectItem id="archived">已封存</SelectItem>
     </Select>
-    <Select label="Default (md)" size="md" defaultSelectedKey="all">
-      <SelectItem id="all">All Tiers</SelectItem>
-      <SelectItem id="global">Global</SelectItem>
-      <SelectItem id="system">System</SelectItem>
+    <Select label="標準尺寸" size="md" defaultSelectedKey="all">
+      <SelectItem id="all">全部狀態</SelectItem>
+      <SelectItem id="active">進行中</SelectItem>
+      <SelectItem id="archived">已封存</SelectItem>
     </Select>
-    <Select label="Comfortable (lg)" size="lg" defaultSelectedKey="all">
-      <SelectItem id="all">All Tiers</SelectItem>
-      <SelectItem id="global">Global</SelectItem>
-      <SelectItem id="system">System</SelectItem>
+    <Select label="舒適尺寸" size="lg" defaultSelectedKey="all">
+      <SelectItem id="all">全部狀態</SelectItem>
+      <SelectItem id="active">進行中</SelectItem>
+      <SelectItem id="archived">已封存</SelectItem>
     </Select>
   </div>
 </ComponentPreview>
 
 ```tsx
-<Select label="Compact (sm)" size="sm" defaultSelectedKey="all">
-  <SelectItem id="all">All Tiers</SelectItem>
-  <SelectItem id="global">Global</SelectItem>
-  <SelectItem id="system">System</SelectItem>
+<Select label="緊湊尺寸" size="sm" defaultSelectedKey="all">
+  <SelectItem id="all">全部狀態</SelectItem>
+  <SelectItem id="active">進行中</SelectItem>
+  <SelectItem id="archived">已封存</SelectItem>
 </Select>
 ```
 
-### Grouped Sections & Disabled
+### 選項分組與停用狀態
 
-Group options with `SelectSection`, `SelectHeader`, and `SelectSeparator`.
+當選項具有明確分類時，可使用 `SelectSection`、`SelectHeader` 與 `SelectSeparator` 建立清晰的階層結構。
 
 <ComponentPreview>
   <div className="w-full max-w-64 flex flex-col gap-md">
-    <Select label="Contrast Standard" placeholder="Choose standard...">
+    <Select label="報表區間" placeholder="請選擇區間...">
       <SelectSection>
-        <SelectHeader>APCA-W3</SelectHeader>
-        <SelectItem id="lc-90">Lc 90+ (Body Fluent)</SelectItem>
-        <SelectItem id="lc-60">Lc 60+ (UI Labels)</SelectItem>
+        <SelectHeader>近期快速選擇</SelectHeader>
+        <SelectItem id="7d">最近 7 天</SelectItem>
+        <SelectItem id="30d">最近 30 天</SelectItem>
       </SelectSection>
       <SelectSeparator />
       <SelectSection>
-        <SelectHeader>WCAG 2.1</SelectHeader>
-        <SelectItem id="aaa">7.0:1 (AAA)</SelectItem>
-        <SelectItem id="aa">4.5:1 (AA)</SelectItem>
+        <SelectHeader>季度彙總</SelectHeader>
+        <SelectItem id="q1">第一季</SelectItem>
+        <SelectItem id="q2">第二季</SelectItem>
       </SelectSection>
     </Select>
-    <Select label="Locked Picker" isDisabled defaultSelectedKey="locked">
-      <SelectItem id="locked">Read-only Preset</SelectItem>
+    <Select label="鎖定欄位" isDisabled defaultSelectedKey="locked">
+      <SelectItem id="locked">系統預設方案</SelectItem>
     </Select>
   </div>
 </ComponentPreview>
@@ -121,17 +106,43 @@ import {
   SelectSeparator
 } from '@pact-design/react'
 
-<Select label="Contrast Standard" placeholder="Choose standard...">
+<Select label="報表區間" placeholder="請選擇區間...">
   <SelectSection>
-    <SelectHeader>APCA-W3</SelectHeader>
-    <SelectItem id="lc-90">Lc 90+ (Body Fluent)</SelectItem>
-    <SelectItem id="lc-60">Lc 60+ (UI Labels)</SelectItem>
+    <SelectHeader>近期快速選擇</SelectHeader>
+    <SelectItem id="7d">最近 7 天</SelectItem>
+    <SelectItem id="30d">最近 30 天</SelectItem>
   </SelectSection>
   <SelectSeparator />
   <SelectSection>
-    <SelectHeader>WCAG 2.1</SelectHeader>
-    <SelectItem id="aaa">7.0:1 (AAA)</SelectItem>
-    <SelectItem id="aa">4.5:1 (AA)</SelectItem>
+    <SelectHeader>季度彙總</SelectHeader>
+    <SelectItem id="q1">第一季</SelectItem>
+    <SelectItem id="q2">第二季</SelectItem>
   </SelectSection>
 </Select>
 ```
+
+## API 參考
+
+### Select
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | 顯示於選單上方的欄位標籤。 |
+| `description` | `ReactNode` | `—` | 顯示於選單下方的輔助說明。 |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | 驗證失敗時顯示的錯誤提示。 |
+| `placeholder` | `string` | `'Select an option'` | 尚未選取任何項目時顯示的提示文字。 |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 觸發按鈕的高度與內距大小。 |
+| `items` | `Iterable<T>` | `—` | 動態選項資料集合，可搭配渲染函式使用。 |
+| `selectedKey` / `defaultSelectedKey` | `Key \| null` | `—` | 受控或預設選取的項目鍵值。 |
+| `onSelectionChange` | `(key: Key \| null) => void` | `—` | 選取項目變更時觸發的回呼函式。 |
+| `triggerProps` | `ButtonProps` | `—` | 傳遞至內層觸發按鈕的額外屬性。 |
+| `popoverProps` | `SelectPopoverProps` | `—` | 傳遞至展開浮動視窗的額外屬性。 |
+| `listBoxProps` | `ListBoxProps<T>` | `—` | 傳遞至展開選項清單的額外屬性。 |
+| `isDisabled` | `boolean` | `false` | 是否停用下拉選單。 |
+
+### 子元件
+
+- **`SelectItem`**：下拉清單中的單一選項。
+- **`SelectSection`**：將相關選項歸納為同一群組。
+- **`SelectHeader`**：群組頂部的分類標題。
+- **`SelectSeparator`**：分隔不同群組的細線。

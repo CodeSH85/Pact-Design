@@ -1,89 +1,118 @@
 ---
-title: "Button"
-eyebrow: "Components · React Aria"
-description: "Accessible press button supporting five semantic variants and T-shirt density control heights from xs to xl."
+title: "Button 按鈕"
+eyebrow: "元件"
+description: "按鈕用於觸發即時操作，協助使用者快速辨識畫面中的主要與次要行動。"
 ---
 
 <ComponentPreview>
-  <Button variant="primary">Save Changes</Button>
+  <Button variant="primary">儲存變更</Button>
 </ComponentPreview>
 
 ```tsx
 import { Button } from '@pact-design/react'
 
-<Button variant="primary">Save Changes</Button>
+<Button variant="primary">儲存變更</Button>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `Button` (`AriaButtonProps`) with `buttonVariants` token mappings.
+按鈕用來標記單一明確的操作命令，當使用者點擊或透過鍵盤觸發時執行對應動作。
+
+Pact Design 提供五種視覺層級的按鈕，依操作重要性由高至低安排：
+
+- **主要按鈕 `primary`**：用於區域內最核心的行動點，同一操作區域建議只保留一個主要按鈕。
+- **次要按鈕 `secondary`**：用於一般輔助操作，或與主要按鈕並列呈現的取消、重設等動作。
+- **柔和按鈕 `subtle`**：以低對比底色呈現，適合工具列中不希望過度搶戲的常用動作。
+- **幽靈按鈕 `ghost`**：平時無邊框與底色，僅於互動時浮現回饋，適合高密度表格列或卡片角落的輕量操作。
+- **危險按鈕 `danger`**：用於刪除、停用權限或無法復原的風險操作，通常建議搭配二次確認流程。
+
+## 使用範例
+
+### 視覺層級
+
+透過 `variant` 切換五種語意與視覺權重，協助使用者一眼分辨操作優先順序。
+
+<ComponentPreview>
+  <Button variant="primary">主要操作</Button>
+  <Button variant="secondary">次要操作</Button>
+  <Button variant="subtle">柔和按鈕</Button>
+  <Button variant="ghost">幽靈按鈕</Button>
+  <Button variant="danger">刪除項目</Button>
+</ComponentPreview>
+
+```tsx
+<Button variant="primary">主要操作</Button>
+<Button variant="secondary">次要操作</Button>
+<Button variant="subtle">柔和按鈕</Button>
+<Button variant="ghost">幽靈按鈕</Button>
+<Button variant="danger">刪除項目</Button>
+```
+
+### 尺寸
+
+提供從超緊湊 `xs` 到寬大 `xl` 共五種高度尺寸，方便按鈕與同一列上的輸入框、下拉選單精準對齊。
+
+<ComponentPreview>
+  <Button variant="secondary" size="xs">超緊湊</Button>
+  <Button variant="secondary" size="sm">緊湊</Button>
+  <Button variant="secondary" size="md">標準</Button>
+  <Button variant="secondary" size="lg">舒適</Button>
+  <Button variant="secondary" size="xl">寬大</Button>
+</ComponentPreview>
+
+```tsx
+<Button variant="secondary" size="xs">超緊湊</Button>
+<Button variant="secondary" size="sm">緊湊</Button>
+<Button variant="secondary" size="md">標準</Button>
+<Button variant="secondary" size="lg">舒適</Button>
+<Button variant="secondary" size="xl">寬大</Button>
+```
+
+### 圓角
+
+預設採用俐落小圓角 `sm`，亦可依版面需求調整為直角或完全圓角的膠囊外觀。
+
+<ComponentPreview>
+  <Button variant="secondary" radius="none">直角</Button>
+  <Button variant="secondary" radius="sm">預設圓角</Button>
+  <Button variant="secondary" radius="lg">較大圓角</Button>
+  <Button variant="secondary" radius="full">膠囊形狀</Button>
+</ComponentPreview>
+
+```tsx
+<Button variant="secondary" radius="none">直角</Button>
+<Button variant="secondary" radius="sm">預設圓角</Button>
+<Button variant="secondary" radius="lg">較大圓角</Button>
+<Button variant="secondary" radius="full">膠囊形狀</Button>
+```
+
+### 停用狀態
+
+當前置條件尚未滿足或權限不足時，設定 `disabled` 或 `isDisabled` 可讓按鈕進入停用狀態，阻止點擊與鍵盤觸發。
+
+<ComponentPreview>
+  <Button variant="primary" disabled>主要停用</Button>
+  <Button variant="secondary" isDisabled>次要停用</Button>
+  <Button variant="danger" disabled>危險停用</Button>
+</ComponentPreview>
+
+```tsx
+<Button variant="primary" disabled>主要停用</Button>
+<Button variant="secondary" isDisabled>次要停用</Button>
+<Button variant="danger" disabled>危險停用</Button>
+```
+
+## API 參考
 
 ### Button
 
-| Prop | Type | Default | Description |
+| 屬性 | 型別 | 預設值 | 說明 |
 | :--- | :--- | :--- | :--- |
-| `variant` | `'primary' \| 'secondary' \| 'subtle' \| 'ghost' \| 'danger'` | `'primary'` | Visual hierarchy and semantic color role. |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`), padding, and label scale. |
-| `isDisabled` | `boolean` | `false` | Disables press interaction and keyboard focus (alias: `disabled`). |
-| `disabled` | `boolean` | `false` | HTML-style alias normalized to `isDisabled`. |
-| `onPress` | `(e: PressEvent) => void` | `—` | Unified mouse, touch, and keyboard activation handler. |
-| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Native button behavior inside forms. |
-| `className` | `string \| ((props) => string)` | `—` | Additional UnoCSS classes merged safely via `cn()`. |
-
-## Examples
-
-### Variant
-
-Choose from `primary`, `secondary`, `subtle`, `ghost`, and `danger` variants.
-
-<ComponentPreview>
-  <Button variant="primary">Primary</Button>
-  <Button variant="secondary">Secondary</Button>
-  <Button variant="subtle">Subtle</Button>
-  <Button variant="ghost">Ghost</Button>
-  <Button variant="danger">Danger</Button>
-</ComponentPreview>
-
-```tsx
-<Button variant="primary">Primary</Button>
-<Button variant="secondary">Secondary</Button>
-<Button variant="subtle">Subtle</Button>
-<Button variant="ghost">Ghost</Button>
-<Button variant="danger">Danger</Button>
-```
-
-### Size
-
-Compact density scale spans `xs` (24px), `sm` (28px), `md` (32px), `lg` (36px), and `xl` (40px).
-
-<ComponentPreview>
-  <Button variant="secondary" size="xs">Control XS</Button>
-  <Button variant="secondary" size="sm">Control SM</Button>
-  <Button variant="secondary" size="md">Control MD</Button>
-  <Button variant="secondary" size="lg">Control LG</Button>
-  <Button variant="secondary" size="xl">Control XL</Button>
-</ComponentPreview>
-
-```tsx
-<Button variant="secondary" size="xs">Control XS</Button>
-<Button variant="secondary" size="sm">Control SM</Button>
-<Button variant="secondary" size="md">Control MD</Button>
-<Button variant="secondary" size="lg">Control LG</Button>
-<Button variant="secondary" size="xl">Control XL</Button>
-```
-
-### Disabled
-
-Disable buttons consistently across variants via `isDisabled` or `disabled`.
-
-<ComponentPreview>
-  <Button variant="primary" disabled>Primary Disabled</Button>
-  <Button variant="secondary" isDisabled>Secondary Disabled</Button>
-  <Button variant="danger" disabled>Danger Disabled</Button>
-</ComponentPreview>
-
-```tsx
-<Button variant="primary" disabled>Primary Disabled</Button>
-<Button variant="secondary" isDisabled>Secondary Disabled</Button>
-<Button variant="danger" disabled>Danger Disabled</Button>
-```
+| `variant` | `'primary' \| 'secondary' \| 'subtle' \| 'ghost' \| 'danger'` | `'primary'` | 按鈕的視覺層級與語意風格。 |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 按鈕高度、內距與文字比例。 |
+| `radius` | `'none' \| '2xs' \| 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'sm'` | 按鈕邊框圓角大小。 |
+| `isDisabled` | `boolean` | `false` | 是否停用互動與鍵盤聚焦。 |
+| `disabled` | `boolean` | `false` | 與 `isDisabled` 等效的停用屬性。 |
+| `onPress` | `(e: PressEvent) => void` | `—` | 滑鼠點擊、觸控或鍵盤觸發時的回呼函式。 |
+| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | 在表單中的原生按鈕行為類型。 |
+| `className` | `string \| ((props) => string)` | `—` | 額外套用於按鈕上的自訂樣式類別。 |

@@ -1,23 +1,23 @@
 ---
-title: "Form"
-eyebrow: "Components · React Aria"
-description: "Structured form container paired with semantic FormSection blocks and aligned FormActions footers."
+title: "Form 表單"
+eyebrow: "元件"
+description: "組織表單欄位、分區標題與底部操作列容器，提供一致的垂直節奏與驗證流程。"
 ---
 
 <ComponentPreview align="stretch">
   <Form onSubmit={(e) => e.preventDefault()}>
     <FormSection
-      title="Workspace Profile"
-      description="Configure organization identifiers and contrast policies."
+      title="工作區基本設定"
+      description="設定工作區顯示名稱與套件命名空間。"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
-        <TextField label="Workspace Name" defaultValue="Pact Core Design" isRequired />
-        <TextField label="Package Scope" defaultValue="@pact-design" />
+        <TextField label="工作區名稱" defaultValue="Pact 核心設計" isRequired />
+        <TextField label="套件前綴" defaultValue="@pact-design" />
       </div>
     </FormSection>
     <FormActions>
-      <Button type="reset" variant="ghost">Reset</Button>
-      <Button type="submit" variant="primary">Save Settings</Button>
+      <Button type="reset" variant="ghost">重設</Button>
+      <Button type="submit" variant="primary">儲存設定</Button>
     </FormActions>
   </Form>
 </ComponentPreview>
@@ -27,72 +27,76 @@ import { Button, Form, FormActions, FormSection, TextField } from '@pact-design/
 
 <Form onSubmit={(e) => e.preventDefault()}>
   <FormSection
-    title="Workspace Profile"
-    description="Configure organization identifiers and contrast policies."
+    title="工作區基本設定"
+    description="設定工作區顯示名稱與套件命名空間。"
   >
-    <TextField label="Workspace Name" defaultValue="Pact Core Design" isRequired />
-    <TextField label="Package Scope" defaultValue="@pact-design" />
+    <TextField label="工作區名稱" defaultValue="Pact 核心設計" isRequired />
+    <TextField label="套件前綴" defaultValue="@pact-design" />
   </FormSection>
   <FormActions>
-    <Button type="reset" variant="ghost">Reset</Button>
-    <Button type="submit" variant="primary">Save Settings</Button>
+    <Button type="reset" variant="ghost">重設</Button>
+    <Button type="submit" variant="primary">儲存設定</Button>
   </FormActions>
 </Form>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `Form`. Exports `Form`, `FormSection`, `FormActions`, `FormContext`, and `formVariants`.
+- 需要收集、驗證並送出多組使用者輸入資料時使用。
+- 當表單內容較長時，使用 `FormSection` 將相關欄位歸納為具標題與說明的邏輯分區，減輕填寫壓力。
+- 使用 `FormActions` 統一排列送出、取消或重設按鈕，保持跨頁面一致的操作位置。
 
-### Form
+## 使用範例
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `gap` | `'sm' \| 'md' \| 'lg'` | `'md'` | Vertical spacing scale between sections and fields. |
-| `validationErrors` | `Record<string, string \| string[]>` | `—` | Server/external validation errors keyed by field `name`. |
-| `validationBehavior` | `'native' \| 'aria'` | `'native'` | Controls native HTML vs ARIA constraint reporting. |
-| `onSubmit` | `(e: FormEvent<HTMLFormElement>) => void` | `—` | Form submission callback. |
-| `className` | `string` | `—` | Additional CSS classes merged with the form stack. |
+### 緊湊間距與左右對齊操作列
 
-### FormSection
-
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `title` | `ReactNode` | `—` | Section heading (`h3`). |
-| `description` | `ReactNode` | `—` | Supporting caption displayed under `title`. |
-| `className` | `string` | `—` | Additional CSS classes for the section block. |
-
-### FormActions
-
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `align` | `'start' \| 'center' \| 'end' \| 'between'` | `'end'` | Horizontal alignment for action buttons. |
-| `className` | `string` | `—` | Additional CSS classes for the footer action bar. |
-
-## Examples
-
-### Footer Alignment & Compact Gap
-
-Combine `gap="sm"` on `Form` with `align="between"` on `FormActions` for compact dialogs or property inspectors.
+在側邊屬性面板或對話框內，可將 `Form` 的 `gap` 設為 `sm` 並搭配 `FormActions` 的 `align="between"`，將輔助測試按鈕與主要套用按鈕分置兩側。
 
 <ComponentPreview align="stretch">
   <Form gap="sm" onSubmit={(e) => e.preventDefault()}>
-    <TextField label="Branch Prefix" size="sm" defaultValue="feat/" />
-    <Checkbox defaultChecked label="Enforce commitlint rules" />
+    <TextField label="分支前綴" size="sm" defaultValue="feat/" />
+    <Checkbox defaultChecked label="啟用提交訊息格式檢查" />
     <FormActions align="between">
-      <Button type="button" variant="subtle" size="sm">Test Connection</Button>
-      <Button type="submit" variant="primary" size="sm">Apply</Button>
+      <Button type="button" variant="subtle" size="sm">測試連線</Button>
+      <Button type="submit" variant="primary" size="sm">套用設定</Button>
     </FormActions>
   </Form>
 </ComponentPreview>
 
 ```tsx
 <Form gap="sm" onSubmit={(e) => e.preventDefault()}>
-  <TextField label="Branch Prefix" size="sm" defaultValue="feat/" />
-  <Checkbox defaultChecked label="Enforce commitlint rules" />
+  <TextField label="分支前綴" size="sm" defaultValue="feat/" />
+  <Checkbox defaultChecked label="啟用提交訊息格式檢查" />
   <FormActions align="between">
-    <Button type="button" variant="subtle" size="sm">Test Connection</Button>
-    <Button type="submit" variant="primary" size="sm">Apply</Button>
+    <Button type="button" variant="subtle" size="sm">測試連線</Button>
+    <Button type="submit" variant="primary" size="sm">套用設定</Button>
   </FormActions>
 </Form>
 ```
+
+## API 參考
+
+### Form
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `gap` | `'sm' \| 'md' \| 'lg'` | `'md'` | 表單分區與欄位之間的垂直間距大小。 |
+| `validationErrors` | `Record<string, string \| string[]>` | `—` | 依欄位 `name` 對應的外部或伺服器端驗證錯誤訊息。 |
+| `validationBehavior` | `'native' \| 'aria'` | `'native'` | 選擇原生瀏覽器表單驗證或僅透過無障礙屬性回報。 |
+| `onSubmit` | `(e: FormEvent<HTMLFormElement>) => void` | `—` | 表單送出時觸發的回呼函式。 |
+| `className` | `string` | `—` | 額外套用的自訂樣式類別。 |
+
+### FormSection
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `title` | `ReactNode` | `—` | 分區標題文字。 |
+| `description` | `ReactNode` | `—` | 顯示於標題下方的補充說明。 |
+| `className` | `string` | `—` | 額外套用的自訂樣式類別。 |
+
+### FormActions
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `align` | `'start' \| 'center' \| 'end' \| 'between'` | `'end'` | 底部操作按鈕群組的水平對齊方式。 |
+| `className` | `string` | `—` | 額外套用的自訂樣式類別。 |

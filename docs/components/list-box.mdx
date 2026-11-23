@@ -1,21 +1,21 @@
 ---
-title: "ListBox"
-eyebrow: "Components · React Aria"
-description: "Accessible vertical list collection supporting single or multiple selection, keyboard navigation, and optional bordered surfaces."
+title: "ListBox 選項清單"
+eyebrow: "元件"
+description: "常駐展開的垂直選項清單元件，支援單選、複選、鍵盤快速導覽與分組標題。"
 ---
 
 <ComponentPreview>
   <div className="w-full max-w-64">
     <ListBox
-      aria-label="System color roles"
+      aria-label="排序方式"
       surface="bordered"
       selectionMode="single"
-      defaultSelectedKeys={['primary']}
+      defaultSelectedKeys={['updated']}
     >
-      <ListBoxItem id="primary">system.primary</ListBoxItem>
-      <ListBoxItem id="success">system.success</ListBoxItem>
-      <ListBoxItem id="warning">system.warning</ListBoxItem>
-      <ListBoxItem id="danger">system.danger</ListBoxItem>
+      <ListBoxItem id="updated">依最近更新排序</ListBoxItem>
+      <ListBoxItem id="created">依建立時間排序</ListBoxItem>
+      <ListBoxItem id="name">依名稱字母排序</ListBoxItem>
+      <ListBoxItem id="priority">依優先順序排序</ListBoxItem>
     </ListBox>
   </div>
 </ComponentPreview>
@@ -24,64 +24,48 @@ description: "Accessible vertical list collection supporting single or multiple 
 import { ListBox, ListBoxItem } from '@pact-design/react'
 
 <ListBox
-  aria-label="System color roles"
+  aria-label="排序方式"
   surface="bordered"
   selectionMode="single"
-  defaultSelectedKeys={['primary']}
+  defaultSelectedKeys={['updated']}
 >
-  <ListBoxItem id="primary">system.primary</ListBoxItem>
-  <ListBoxItem id="success">system.success</ListBoxItem>
-  <ListBoxItem id="warning">system.warning</ListBoxItem>
-  <ListBoxItem id="danger">system.danger</ListBoxItem>
+  <ListBoxItem id="updated">依最近更新排序</ListBoxItem>
+  <ListBoxItem id="created">依建立時間排序</ListBoxItem>
+  <ListBoxItem id="name">依名稱字母排序</ListBoxItem>
+  <ListBoxItem id="priority">依優先順序排序</ListBoxItem>
 </ListBox>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `ListBox`, `ListBoxItem`, `ListBoxSection`, `Header`, and `Separator`. Also shared internally by `Select`, `ComboBox`, and `Autocomplete`.
+- 適合置於側邊面板、浮動視窗或雙欄穿梭選取器中，直接呈現可供單選或複選的項目清單。
+- 選取項目右側會自動顯示勾選標記，並完整支援鍵盤上下鍵瀏覽與字首快速定位。
+- 若希望清單平時收合為單一按鈕、點擊時才展開，請改用 **Select 下拉選單**；若點擊項目是為了立即觸發動作指令而非維護選取狀態，請改用 **Menu 選單**。
 
-### ListBox
+## 使用範例
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `surface` | `'plain' \| 'bordered'` | `'plain'` | Plain padding container (for popovers) or standalone bordered card. |
-| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | Controls item check indicator behavior. |
-| `selectedKeys` / `defaultSelectedKeys` | `'all' \| Iterable<Key>` | `—` | Controlled or initial selected item keys. |
-| `onSelectionChange` | `(keys: Selection) => void` | `—` | Callback fired when item selection changes. |
-| `onAction` | `(key: Key) => void` | `—` | Callback fired when an item is activated. |
-| `disabledKeys` | `Iterable<Key>` | `—` | Disables specific items by key. |
+### 複選與分組結構
 
-### Parts
-
-- **`ListBoxItem`**: Renders collection item states and a trailing `RiCheckLine` indicator when `isSelected`.
-- **`ListBoxSection`**: Groups related options with vertical section spacing.
-- **`ListBoxHeader`**: Uppercase caption heading inside a `ListBoxSection`.
-- **`ListBoxSeparator`**: Subtle horizontal hairline divider between sections or items.
-
-## Examples
-
-### Multiple Selection & Sections
-
-Enable `selectionMode="multiple"` and organize choices with `ListBoxSection`, `ListBoxHeader`, and `ListBoxSeparator`.
+開啟 `selectionMode="multiple"` 允許同時選取多項，並透過 `ListBoxSection`、`ListBoxHeader` 與 `ListBoxSeparator` 整理分類。
 
 <ComponentPreview>
   <div className="w-full max-w-64">
     <ListBox
-      aria-label="Export targets"
+      aria-label="顯示欄位"
       surface="bordered"
       selectionMode="multiple"
-      defaultSelectedKeys={['css', 'uno']}
+      defaultSelectedKeys={['status', 'owner']}
     >
       <ListBoxSection>
-        <ListBoxHeader>Build Targets</ListBoxHeader>
-        <ListBoxItem id="css">CSS Custom Properties</ListBoxItem>
-        <ListBoxItem id="uno">UnoCSS Preset</ListBoxItem>
+        <ListBoxHeader>基本欄位</ListBoxHeader>
+        <ListBoxItem id="status">狀態</ListBoxItem>
+        <ListBoxItem id="owner">負責人</ListBoxItem>
       </ListBoxSection>
       <ListBoxSeparator />
       <ListBoxSection>
-        <ListBoxHeader>Experimental</ListBoxHeader>
-        <ListBoxItem id="swift">SwiftUI Colors</ListBoxItem>
-        <ListBoxItem id="compose" isDisabled>Jetpack Compose (WIP)</ListBoxItem>
+        <ListBoxHeader>進階欄位</ListBoxHeader>
+        <ListBoxItem id="tags">分類標籤</ListBoxItem>
+        <ListBoxItem id="audit" isDisabled>稽核雜湊值</ListBoxItem>
       </ListBoxSection>
     </ListBox>
   </div>
@@ -97,20 +81,40 @@ import {
 } from '@pact-design/react'
 
 <ListBox
-  aria-label="Export targets"
+  aria-label="顯示欄位"
   surface="bordered"
   selectionMode="multiple"
-  defaultSelectedKeys={['css', 'uno']}
+  defaultSelectedKeys={['status', 'owner']}
 >
   <ListBoxSection>
-    <ListBoxHeader>Build Targets</ListBoxHeader>
-    <ListBoxItem id="css">CSS Custom Properties</ListBoxItem>
-    <ListBoxItem id="uno">UnoCSS Preset</ListBoxItem>
+    <ListBoxHeader>基本欄位</ListBoxHeader>
+    <ListBoxItem id="status">狀態</ListBoxItem>
+    <ListBoxItem id="owner">負責人</ListBoxItem>
   </ListBoxSection>
   <ListBoxSeparator />
   <ListBoxSection>
-    <ListBoxHeader>Experimental</ListBoxHeader>
-    <ListBoxItem id="swift">SwiftUI Colors</ListBoxItem>
+    <ListBoxHeader>進階欄位</ListBoxHeader>
+    <ListBoxItem id="tags">分類標籤</ListBoxItem>
   </ListBoxSection>
 </ListBox>
 ```
+
+## API 參考
+
+### ListBox
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `surface` | `'plain' \| 'bordered'` | `'plain'` | `plain` 適合嵌於浮動容器內，`bordered` 則呈現帶外框的獨立清單卡片。 |
+| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | 設定是否啟用單選或複選與勾選指示。 |
+| `selectedKeys` / `defaultSelectedKeys` | `'all' \| Iterable<Key>` | `—` | 受控或預設已選取的項目鍵值集合。 |
+| `onSelectionChange` | `(keys: Selection) => void` | `—` | 選取狀態改變時觸發的回呼函式。 |
+| `onAction` | `(key: Key) => void` | `—` | 點擊或按下 `Enter` 觸發單一項目時的回呼函式。 |
+| `disabledKeys` | `Iterable<Key>` | `—` | 指定停用的項目鍵值集合。 |
+
+### 子元件
+
+- **`ListBoxItem`**：清單中的單一項目，選取時自動於右側顯示勾選圖示。
+- **`ListBoxSection`**：將關聯選項歸納為同一分組。
+- **`ListBoxHeader`**：分組頂部的分類標題。
+- **`ListBoxSeparator`**：分隔不同分組的水平細線。

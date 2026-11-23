@@ -1,23 +1,23 @@
 ---
-title: "Modal"
-eyebrow: "Components · React Aria"
-description: "Portal modal dialog with scrim backdrop, focus trapping, Escape dismissal, and responsive content widths."
+title: "Modal 互動視窗"
+eyebrow: "元件"
+description: "置中浮現於工作區之上的遮罩式對話視窗，讓使用者專注處理重要確認、警示或獨立表單任務。"
 ---
 
 <ComponentPreview>
   <Modal
-    trigger={<Button variant="primary">Launch Modal</Button>}
-    title="Design System Calibration"
-    description="Inspect system tokens and APCA contrast thresholds before deployment."
+    trigger={<Button variant="primary">開啟互動視窗</Button>}
+    title="發送版本更新通知"
+    description="送出後將立即通知工作區內所有訂閱成員。"
     footer={(
       <>
-        <Button variant="ghost" size="sm" slot="close">Cancel</Button>
-        <Button variant="primary" size="sm" slot="close">Confirm Changes</Button>
+        <Button variant="ghost" size="sm" slot="close">取消</Button>
+        <Button variant="primary" size="sm" slot="close">確認送出</Button>
       </>
     )}
   >
     <p className="text-body-sm text-on-surface m-0">
-      Modal renders over a full-viewport backdrop scrim with centered elevation shadow styling.
+      互動視窗會鎖定鍵盤焦點於視窗內，點擊遮罩背景或按下 Escape 鍵即可快速關閉。
     </p>
   </Modal>
 </ComponentPreview>
@@ -26,98 +26,76 @@ description: "Portal modal dialog with scrim backdrop, focus trapping, Escape di
 import { Button, Modal } from '@pact-design/react'
 
 <Modal
-  trigger={<Button variant="primary">Launch Modal</Button>}
-  title="Design System Calibration"
-  description="Inspect system tokens and APCA contrast thresholds before deployment."
+  trigger={<Button variant="primary">開啟互動視窗</Button>}
+  title="發送版本更新通知"
+  description="送出後將立即通知工作區內所有訂閱成員。"
   footer={(
     <>
-      <Button variant="ghost" size="sm" slot="close">Cancel</Button>
-      <Button variant="primary" size="sm" slot="close">Confirm Changes</Button>
+      <Button variant="ghost" size="sm" slot="close">取消</Button>
+      <Button variant="primary" size="sm" slot="close">確認送出</Button>
     </>
   )}
 >
-  <p>Modal renders over a full-viewport backdrop scrim with centered elevation styling.</p>
+  <p>互動視窗會鎖定鍵盤焦點於視窗內，方便使用者專注完成操作。</p>
 </Modal>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `ModalOverlay`, `Modal`, and Pact `Dialog` primitives. Exports `Modal`, `ModalTrigger`, `ModalContent`, `ModalDialog`, `ModalHeader`, and `ModalFooter`.
+- 適合高重要性確認、無法復原的刪除警告，或需要使用者暫停當前頁面流程專心填寫的精簡表單。
+- 開啟時會自動加上半透明背景遮罩並限制焦點在視窗範圍內，避免背景頁面被誤觸。
+- 若內容篇幅較長或希望保留部分主畫面脈絡以便對照，建議改用 **Sheet 側邊抽屜**；若僅為輕量補充說明，建議改用 **Popover 浮動視窗**。
 
-### Modal
+## 使用範例
 
-When `trigger` is provided, renders an uncontrolled or controlled `DialogTrigger` paired with `ModalContent`, `ModalDialog`, `ModalHeader`, and `ModalFooter`.
+### 寬度尺寸
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `trigger` | `ReactNode` | `—` | Button or pressable element that opens the modal dialog. |
-| `title` | `ReactNode` | `—` | Title text rendered inside `ModalHeader`. |
-| `description` | `ReactNode` | `—` | Description paragraph rendered beneath `title`. |
-| `footer` | `ReactNode` | `—` | Action controls rendered inside `ModalFooter`. |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'md'` | Max width preset for the modal panel. |
-| `isDismissable` | `boolean` | `true` | Allows dismissing the modal by clicking the backdrop scrim. |
-| `isOpen` / `defaultOpen` | `boolean` | `—` | Controlled or initial open state. |
-| `onOpenChange` | `(isOpen: boolean) => void` | `—` | Callback fired when open state changes. |
-
-### ModalContent
-
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'md'` | Controls max-width sizing tokens. |
-| `isDismissable` | `boolean` | `true` | Dismisses modal on outside backdrop click. |
-| `overlayClassName` | `string` | `—` | Additional classes for `ModalOverlay`. |
-| `className` | `string` | `—` | Additional classes for `Modal` container. |
-
-## Examples
-
-### Size
-
-Choose `sm`, `md`, `lg`, `xl`, or `full` to fit confirmation prompts or scrollable inspection content.
+提供從精簡 `sm` 到全螢幕 `full` 五種寬度預設，依內容複雜度自由選擇。
 
 <ComponentPreview>
   <Modal
     size="sm"
-    trigger={<Button variant="secondary" size="sm">Small Modal</Button>}
-    title="Delete Snapshot?"
-    description="This action cannot be undone."
-    footer={<Button variant="danger" size="sm" slot="close">Delete</Button>}
+    trigger={<Button variant="secondary" size="sm">精簡視窗</Button>}
+    title="確定要刪除此快照嗎？"
+    description="刪除後將無法還原這筆紀錄。"
+    footer={<Button variant="danger" size="sm" slot="close">確認刪除</Button>}
   >
-    <p className="text-body-sm text-on-surface m-0">Compact `sm` modal width for quick confirmations.</p>
+    <p className="text-body-sm text-on-surface m-0">精簡寬度適合簡短的二次確認提示。</p>
   </Modal>
   <Modal
     size="lg"
-    trigger={<Button variant="secondary" size="sm">Large Modal</Button>}
-    title="Generated CSS Tokens"
-    footer={<Button variant="primary" size="sm" slot="close">Done</Button>}
+    trigger={<Button variant="secondary" size="sm">較寬視窗</Button>}
+    title="變更內容摘要"
+    footer={<Button variant="primary" size="sm" slot="close">完成檢視</Button>}
   >
-    <pre className="m-0 p-sm rounded-xs bg-layer-2 border border-border-default text-mono-xs">
-      {':root {\n  --pd-system-primary: oklch(0.55 0.22 264);\n}'}
-    </pre>
+    <p className="text-body-sm text-on-surface m-0">
+      較寬尺寸能從容呈現多欄表單、設定摘要或需要細部閱讀的檢核清單。
+    </p>
   </Modal>
 </ComponentPreview>
 
 ```tsx
-<Modal size="sm" trigger={<Button variant="secondary">Small Modal</Button>} title="Delete Snapshot?" />
-<Modal size="lg" trigger={<Button variant="secondary">Large Modal</Button>} title="Generated CSS Tokens" />
+<Modal size="sm" trigger={<Button variant="secondary">精簡視窗</Button>} title="確定要刪除此快照嗎？" />
+<Modal size="lg" trigger={<Button variant="secondary">較寬視窗</Button>} title="變更內容摘要" />
 ```
 
-### Non-Dismissable Backdrop Composition
+### 禁止點擊背景關閉
 
-Use `ModalTrigger` + `ModalContent` with `isDismissable={false}` for explicit user confirmation flows.
+面對必須明確表態的操作流程，可透過 `ModalTrigger` 與 `ModalContent` 搭配 `isDismissable={false}`，防止使用者誤觸遮罩而關閉視窗。
 
 <ComponentPreview>
   <ModalTrigger>
-    <Button variant="subtle">Explicit Action Modal</Button>
+    <Button variant="subtle">強制確認視窗</Button>
     <ModalContent size="sm" isDismissable={false}>
       <ModalDialog>
         <ModalHeader
-          title="Save Uncommitted Tokens?"
-          description="Backdrop clicks are disabled; select an explicit button below."
+          title="是否儲存未完成的修改？"
+          description="請由下方按鈕明確選擇保留或捨棄目前變更。"
           showCloseButton={false}
         />
         <ModalFooter>
-          <Button variant="ghost" size="sm" slot="close">Discard</Button>
-          <Button variant="primary" size="sm" slot="close">Save to Disk</Button>
+          <Button variant="ghost" size="sm" slot="close">捨棄變更</Button>
+          <Button variant="primary" size="sm" slot="close">儲存變更</Button>
         </ModalFooter>
       </ModalDialog>
     </ModalContent>
@@ -135,19 +113,45 @@ import {
 } from '@pact-design/react'
 
 <ModalTrigger>
-  <Button variant="subtle">Explicit Action Modal</Button>
+  <Button variant="subtle">強制確認視窗</Button>
   <ModalContent size="sm" isDismissable={false}>
     <ModalDialog>
       <ModalHeader
-        title="Save Uncommitted Tokens?"
-        description="Backdrop clicks are disabled."
+        title="是否儲存未完成的修改？"
+        description="請由下方按鈕明確選擇保留或捨棄目前變更。"
         showCloseButton={false}
       />
       <ModalFooter>
-        <Button variant="ghost" size="sm" slot="close">Discard</Button>
-        <Button variant="primary" size="sm" slot="close">Save to Disk</Button>
+        <Button variant="ghost" size="sm" slot="close">捨棄變更</Button>
+        <Button variant="primary" size="sm" slot="close">儲存變更</Button>
       </ModalFooter>
     </ModalDialog>
   </ModalContent>
 </ModalTrigger>
 ```
+
+## API 參考
+
+### Modal
+
+傳入 `trigger` 時會自動組合觸發按鈕、背景遮罩、標題區與底部操作列。
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `trigger` | `ReactNode` | `—` | 點擊後開啟互動視窗的按鈕或元件。 |
+| `title` | `ReactNode` | `—` | 視窗頂部的主標題文字。 |
+| `description` | `ReactNode` | `—` | 顯示於標題下方的輔助說明。 |
+| `footer` | `ReactNode` | `—` | 顯示於底部的操作按鈕區域。 |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'md'` | 視窗面板的最大寬度等級。 |
+| `isDismissable` | `boolean` | `true` | 是否允許點擊外部遮罩關閉視窗。 |
+| `isOpen` / `defaultOpen` | `boolean` | `—` | 受控或預設的開啟狀態。 |
+| `onOpenChange` | `(isOpen: boolean) => void` | `—` | 視窗開啟或關閉時觸發的回呼函式。 |
+
+### ModalContent
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'md'` | 視窗面板的最大寬度等級。 |
+| `isDismissable` | `boolean` | `true` | 是否允許點擊外部遮罩關閉視窗。 |
+| `overlayClassName` | `string` | `—` | 額外套用於全螢幕遮罩層的自訂樣式類別。 |
+| `className` | `string` | `—` | 額外套用於視窗面板的自訂樣式類別。 |

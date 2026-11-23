@@ -1,7 +1,7 @@
 ---
-title: "DatePicker"
-eyebrow: "Components · React Aria"
-description: "Combines a segmented DateField with a calendar trigger button and floating Calendar popover."
+title: "DatePicker 日期選擇器"
+eyebrow: "元件"
+description: "結合分段日期輸入與浮動月曆視窗，同時支援鍵盤快速輸入與視覺化點選日期。"
 ---
 
 import { parseDate } from '@internationalized/date'
@@ -9,8 +9,8 @@ import { parseDate } from '@internationalized/date'
 <ComponentPreview>
   <div className="w-full max-w-64">
     <DatePicker
-      label="Release Date"
-      description="Pick a target release date"
+      label="預計發布日"
+      description="可直接輸入日期或點擊右側按鈕開啟月曆"
       defaultValue={parseDate('2026-11-18')}
     />
   </div>
@@ -21,64 +21,50 @@ import { parseDate } from '@internationalized/date'
 import { DatePicker } from '@pact-design/react'
 
 <DatePicker
-  label="Release Date"
-  description="Pick a target release date"
+  label="預計發布日"
+  description="可直接輸入日期或點擊右側按鈕開啟月曆"
   defaultValue={parseDate('2026-11-18')}
 />
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `DatePicker`, composing `DateInput`, `FieldButton`, `PopoverContent`, `Dialog`, and `Calendar`.
+- 適合需要對照星期、瀏覽當月或近期排程的表單情境，例如專案截止日、預約排程或報表查詢日期。
+- 同時保留鍵盤分段輸入與滑鼠點選月曆兩種操作路徑，兼顧高頻操作效率與視覺直覺。
+- 若只需純鍵盤快速輸入已知歷史日期，可使用更輕量的 **DateField 日期欄位**；若需將月曆直接常駐於畫面中，請改用 **Calendar 行事曆**。
 
-### DatePicker
+## 使用範例
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `label` | `ReactNode` | `—` | Accessible label rendered above the picker input. |
-| `description` | `ReactNode` | `—` | Helper caption displayed underneath. |
-| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Validation error text when invalid. |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`) for `FieldGroup`. |
-| `value` / `defaultValue` | `DateValue` | `—` | Controlled or initial selected date. |
-| `onChange` | `(value: DateValue \| null) => void` | `—` | Callback fired when date changes from input or calendar. |
-| `minValue` / `maxValue` | `DateValue` | `—` | Restricts selectable calendar dates. |
-| `isDisabled` | `boolean` | `false` | Disables text segments and calendar trigger button. |
-| `dateInputProps` | `DateInputProps` | `—` | Props forwarded to `DateInput`. |
-| `popoverProps` | `DatePickerPopoverProps` | `—` | Props forwarded to `PopoverContent` (default placement `'bottom start'`). |
-| `calendarProps` | `Partial<CalendarProps<T>>` | `—` | Props forwarded to the embedded `Calendar`. |
+### 尺寸
 
-## Examples
-
-### Size
-
-Align the picker height with compact toolbars or relaxed forms.
+支援五階高度比例，可與工具列或表單內其他輸入控制項保持齊平。
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
-    <DatePicker label="Compact (sm)" size="sm" defaultValue={parseDate('2026-11-18')} />
-    <DatePicker label="Comfortable (lg)" size="lg" defaultValue={parseDate('2026-11-18')} />
+    <DatePicker label="緊湊尺寸" size="sm" defaultValue={parseDate('2026-11-18')} />
+    <DatePicker label="舒適尺寸" size="lg" defaultValue={parseDate('2026-11-18')} />
   </div>
 </ComponentPreview>
 
 ```tsx
-<DatePicker label="Compact (sm)" size="sm" defaultValue={parseDate('2026-11-18')} />
-<DatePicker label="Comfortable (lg)" size="lg" defaultValue={parseDate('2026-11-18')} />
+<DatePicker label="緊湊尺寸" size="sm" defaultValue={parseDate('2026-11-18')} />
+<DatePicker label="舒適尺寸" size="lg" defaultValue={parseDate('2026-11-18')} />
 ```
 
-### Bounded Selection & Disabled
+### 可選範圍與停用狀態
 
-Constrain selectable dates or disable the entire control.
+透過 `minValue` 與 `maxValue` 限制可點選的日期區間，超出範圍的日期會自動呈現不可選取狀態；透過 `isDisabled` 可停用整個選擇器。
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
     <DatePicker
-      label="Window (Nov 10–25)"
+      label="限定區間"
       defaultValue={parseDate('2026-11-18')}
       minValue={parseDate('2026-11-10')}
       maxValue={parseDate('2026-11-25')}
     />
     <DatePicker
-      label="Archived Release"
+      label="停用狀態"
       isDisabled
       defaultValue={parseDate('2026-11-18')}
     />
@@ -87,9 +73,27 @@ Constrain selectable dates or disable the entire control.
 
 ```tsx
 <DatePicker
-  label="Window (Nov 10–25)"
+  label="限定區間"
   defaultValue={parseDate('2026-11-18')}
   minValue={parseDate('2026-11-10')}
   maxValue={parseDate('2026-11-25')}
 />
 ```
+
+## API 參考
+
+### DatePicker
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | 顯示於選擇器上方的欄位標籤。 |
+| `description` | `ReactNode` | `—` | 顯示於欄位下方的輔助說明。 |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | 驗證失敗時顯示的錯誤提示。 |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 欄位高度與內距大小。 |
+| `value` / `defaultValue` | `DateValue` | `—` | 受控或預設選取的日期。 |
+| `onChange` | `(value: DateValue \| null) => void` | `—` | 透過輸入或月曆變更日期時觸發的回呼函式。 |
+| `minValue` / `maxValue` | `DateValue` | `—` | 限制可選取的最早與最晚日期。 |
+| `isDisabled` | `boolean` | `false` | 是否停用輸入與展開月曆。 |
+| `dateInputProps` | `DateInputProps` | `—` | 傳遞至內層日期輸入列的額外屬性。 |
+| `popoverProps` | `DatePickerPopoverProps` | `—` | 傳遞至浮動視窗的額外屬性，預設對齊於左下方。 |
+| `calendarProps` | `Partial<CalendarProps<T>>` | `—` | 傳遞至內嵌月曆的額外屬性。 |

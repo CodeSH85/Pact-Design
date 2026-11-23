@@ -1,15 +1,15 @@
 ---
-title: "Popover"
-eyebrow: "Components · React Aria"
-description: "Floating contextual container anchored relative to a trigger element with optional directional arrow and elevation shadow."
+title: "Popover 浮動視窗"
+eyebrow: "元件"
+description: "依附於觸發按鈕周圍展開的輕量浮動容器，適合承載補充資訊、篩選面板或快速設定控制項。"
 ---
 
 <ComponentPreview>
-  <Popover trigger={<Button variant="secondary">Open Inspector</Button>}>
+  <Popover trigger={<Button variant="secondary">檢視詳細說明</Button>}>
     <div className="flex flex-col gap-xs p-xs max-w-64">
-      <span className="text-label-sm font-bold text-on-surface">Floating Inspector</span>
+      <span className="text-label-sm font-bold text-on-surface">同步狀態說明</span>
       <p className="text-caption-md text-on-surface-muted m-0">
-        Popovers render on elevated surfaces with collision detection and Escape dismissal.
+        所有設定變更會自動同步至團隊工作區，點擊視窗外部或按下 Escape 即可關閉。
       </p>
     </div>
   </Popover>
@@ -18,63 +18,67 @@ description: "Floating contextual container anchored relative to a trigger eleme
 ```tsx
 import { Button, Popover } from '@pact-design/react'
 
-<Popover trigger={<Button variant="secondary">Open Inspector</Button>}>
+<Popover trigger={<Button variant="secondary">檢視詳細說明</Button>}>
   <div className="flex flex-col gap-xs p-xs">
-    <span className="text-label-sm font-bold text-on-surface">Floating Inspector</span>
-    <p>Popovers render on elevated surfaces with collision detection.</p>
+    <span className="text-label-sm font-bold text-on-surface">同步狀態說明</span>
+    <p>所有設定變更會自動同步至團隊工作區。</p>
   </div>
 </Popover>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `DialogTrigger`, `Popover`, and `OverlayArrow`. Exports `Popover`, `PopoverTrigger`, `PopoverContent`, and `PopoverDialog`.
+- 適合呈現與特定按鈕或項目直接相關的補充資訊、小型表單、篩選條件或快速檢視面板，無須遮擋整個畫面。
+- 浮動視窗會自動偵測螢幕邊界並調整展開位置，避免內容被視窗邊緣裁切。
+- 若內容僅為一組純文字操作命令，建議改用 **Menu 選單**；若需要使用者暫停當前工作並完成重要確認或複雜表單，請改用 **Modal 互動視窗** 或 **Sheet 側邊抽屜**。
 
-### Popover
+## 使用範例
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `trigger` | `ReactNode` | `—` | Trigger element wired with `DialogTrigger`. When omitted, composes manual trigger/content children. |
-| `contentProps` | `Omit<PopoverContentProps, 'children'>` | `—` | Placement, offset, and `showArrow` options forwarded to `PopoverContent`. |
-| `dialogProps` | `PopoverDialogProps` | `—` | Props forwarded to inner `PopoverDialog`. |
-| `isOpen` / `defaultOpen` | `boolean` | `—` | Controlled or initial open state. |
-| `onOpenChange` | `(isOpen: boolean) => void` | `—` | Callback fired when popover opens or closes. |
+### 指向箭頭與展開方向
 
-### PopoverContent
-
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `placement` | `AriaPopoverProps['placement']` | `'bottom'` (React Aria default) | Preferred positioning (`'top'`, `'bottom start'`, `'right'`, etc.). |
-| `offset` | `number` | `6` | Pixel offset between trigger and popover surface. |
-| `showArrow` | `boolean` | `false` | Renders an SVG `OverlayArrow` aligned toward the trigger. |
-| `className` | `string \| ((props) => string)` | `—` | Optional CSS classes merged onto the popover panel. |
-
-## Examples
-
-### Arrow & Placement
-
-Enable `showArrow` and customize `placement` via `contentProps`.
+透過 `contentProps` 設定 `placement`、`offset` 與 `showArrow`，讓浮動視窗明確指向其觸發來源。
 
 <ComponentPreview>
   <Popover
-    trigger={<Button variant="secondary" size="sm">Top Arrow</Button>}
+    trigger={<Button variant="secondary" size="sm">上方含箭頭</Button>}
     contentProps={{ placement: 'top', showArrow: true, offset: 10 }}
   >
-    <div className="p-xs text-caption-md text-on-surface">Anchored above with OverlayArrow.</div>
+    <div className="p-xs text-caption-md text-on-surface">展開於觸發按鈕上方並附上箭頭。</div>
   </Popover>
   <Popover
-    trigger={<Button variant="secondary" size="sm">Right Placement</Button>}
+    trigger={<Button variant="secondary" size="sm">右側展開</Button>}
     contentProps={{ placement: 'right', offset: 8 }}
   >
-    <div className="p-xs text-caption-md text-on-surface">Aligned to the right edge.</div>
+    <div className="p-xs text-caption-md text-on-surface">對齊觸發按鈕右側展開。</div>
   </Popover>
 </ComponentPreview>
 
 ```tsx
 <Popover
-  trigger={<Button variant="secondary">Top Arrow</Button>}
+  trigger={<Button variant="secondary">上方含箭頭</Button>}
   contentProps={{ placement: 'top', showArrow: true, offset: 10 }}
 >
-  <div className="p-xs">Anchored above with OverlayArrow.</div>
+  <div className="p-xs">展開於觸發按鈕上方並附上箭頭。</div>
 </Popover>
 ```
+
+## API 參考
+
+### Popover
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `trigger` | `ReactNode` | `—` | 點擊後開啟浮動視窗的觸發元件；省略時可自行傳入組合子元件。 |
+| `contentProps` | `Omit<PopoverContentProps, 'children'>` | `—` | 傳遞至浮動容器的定位、間距與箭頭顯示設定。 |
+| `dialogProps` | `PopoverDialogProps` | `—` | 傳遞至內層對話框容器的額外屬性。 |
+| `isOpen` / `defaultOpen` | `boolean` | `—` | 受控或預設的開啟狀態。 |
+| `onOpenChange` | `(isOpen: boolean) => void` | `—` | 開啟或關閉狀態變化時觸發的回呼函式。 |
+
+### PopoverContent
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `placement` | `PopoverProps['placement']` | `'bottom'` | 偏好的展開方向，例如 `'top'`、`'bottom start'`、`'right'`。 |
+| `offset` | `number` | `6` | 浮動視窗與觸發元件之間的像素距離。 |
+| `showArrow` | `boolean` | `false` | 是否顯示指向觸發元件的箭頭。 |
+| `className` | `string \| ((props) => string)` | `—` | 額外套用於浮動容器的自訂樣式類別。 |

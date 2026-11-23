@@ -1,25 +1,25 @@
 ---
-title: "Menu"
-eyebrow: "Components · React Aria"
-description: "Accessible dropdown action menu supporting declarative item arrays with shortcuts or compound menu primitives."
+title: "Menu 選單"
+eyebrow: "元件"
+description: "點擊觸發按鈕後展開的指令清單，支援操作分組、快捷鍵提示與危險操作標示。"
 ---
 
 <ComponentPreview>
   <Menu
-    triggerLabel="Token Actions"
+    triggerLabel="操作選單"
     items={[
       {
         type: 'group',
-        label: 'Operations',
+        label: '常用操作',
         items: [
-          { label: 'Inspect CSS Variables', shortcut: '⌘I' },
-          { label: 'Copy UnoCSS Class', shortcut: '⌘C' }
+          { label: '檢視詳細資訊', shortcut: '⌘I' },
+          { label: '複製連結', shortcut: '⌘C' }
         ]
       },
       { type: 'separator' },
-      { label: 'Sync Tier (Disabled)', disabled: true },
+      { label: '重新同步資料', disabled: true },
       { type: 'separator' },
-      { label: 'Reset All Changes', tone: 'danger', shortcut: '⌘⌫' }
+      { label: '重設所有變更', tone: 'danger', shortcut: '⌘⌫' }
     ]}
   />
 </ComponentPreview>
@@ -28,63 +28,45 @@ description: "Accessible dropdown action menu supporting declarative item arrays
 import { Menu } from '@pact-design/react'
 
 <Menu
-  triggerLabel="Token Actions"
+  triggerLabel="操作選單"
   items={[
     {
       type: 'group',
-      label: 'Operations',
+      label: '常用操作',
       items: [
-        { label: 'Inspect CSS Variables', shortcut: '⌘I', onClick: () => {} },
-        { label: 'Copy UnoCSS Class', shortcut: '⌘C', onClick: () => {} }
+        { label: '檢視詳細資訊', shortcut: '⌘I', onClick: () => {} },
+        { label: '複製連結', shortcut: '⌘C', onClick: () => {} }
       ]
     },
     { type: 'separator' },
-    { label: 'Reset All Changes', tone: 'danger', shortcut: '⌘⌫', onClick: () => {} }
+    { label: '重設所有變更', tone: 'danger', shortcut: '⌘⌫', onClick: () => {} }
   ]}
 />
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `MenuTrigger`, `Menu`, `MenuItem`, `MenuSection`, `Header`, and `Separator`. Exports `Menu`, `MenuTrigger`, `MenuPopover`, `MenuList`, `MenuItem`, `MenuSection`, `MenuHeader`, and `MenuSeparator`.
+- 當工具列、表格列或卡片右上角有超過三個操作按鈕時，將次要操作收納進下拉選單，保持畫面清爽。
+- 適合承載「立即執行的命令」，例如複製、匯出、重新命名、刪除等，並可顯示鍵盤快捷鍵提升熟練使用者的效率。
+- 若操作目的是讓使用者在表單中挑選並保留某個值，請改用 **Select 下拉選單**。
 
-### Menu
+## 使用範例
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `items` | `MenuItemData[]` | `—` | Declarative menu items, sections (`type: 'group'`), and dividers (`type: 'separator'`). |
-| `trigger` | `ReactNode` | Default secondary `Button` | Custom pressable trigger element replacing the default button. |
-| `triggerLabel` | `string` | `'Actions'` | Button text used when neither `trigger` nor custom `children` are provided. |
-| `placement` | `PopoverProps['placement']` | `'bottom start'` | Popover positioning relative to the trigger button. |
-| `offset` | `number` | `6` | Spacing gap (in pixels) between trigger and popover. |
-| `triggerType` | `'press' \| 'longPress'` | `'press'` | Interaction mode that opens the menu. |
+### 組合式子元件
 
-### MenuItem
-
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `tone` | `'default' \| 'danger'` | `'default'` | Applies danger semantic hover/text styling for destructive actions. |
-| `shortcut` | `string` | `—` | Keyboard shortcut hint rendered with right-aligned `Keyboard`. |
-| `isDisabled` | `boolean` | `false` | Disables action activation and keyboard focus. |
-| `onAction` | `() => void` | `—` | Callback fired when the menu item is chosen. |
-
-## Examples
-
-### Compound Subcomponents
-
-Compose `Menu`, `MenuPopover`, `MenuList`, `MenuSection`, `MenuHeader`, `MenuItem`, and `MenuSeparator` directly for custom triggers or selection modes.
+透過組合 `Menu`、`MenuPopover`、`MenuList`、`MenuSection`、`MenuHeader`、`MenuItem` 與 `MenuSeparator`，可自由搭配任意觸發按鈕並控制展開對齊位置。
 
 <ComponentPreview>
-  <Menu trigger={<Button variant="primary">Custom Trigger</Button>}>
+  <Menu trigger={<Button variant="primary">自訂觸發按鈕</Button>}>
     <MenuPopover placement="bottom end">
       <MenuList>
         <MenuSection>
-          <MenuHeader>View Density</MenuHeader>
-          <MenuItem id="compact" shortcut="⌘1">Compact (28px)</MenuItem>
-          <MenuItem id="default" shortcut="⌘2">Default (32px)</MenuItem>
+          <MenuHeader>檢視密度</MenuHeader>
+          <MenuItem id="compact" shortcut="⌘1">緊湊檢視</MenuItem>
+          <MenuItem id="default" shortcut="⌘2">標準檢視</MenuItem>
         </MenuSection>
         <MenuSeparator />
-        <MenuItem id="delete" tone="danger">Clear Workspace Cache</MenuItem>
+        <MenuItem id="delete" tone="danger">清除工作區快取</MenuItem>
       </MenuList>
     </MenuPopover>
   </Menu>
@@ -102,17 +84,39 @@ import {
   MenuSeparator
 } from '@pact-design/react'
 
-<Menu trigger={<Button variant="primary">Custom Trigger</Button>}>
+<Menu trigger={<Button variant="primary">自訂觸發按鈕</Button>}>
   <MenuPopover placement="bottom end">
     <MenuList>
       <MenuSection>
-        <MenuHeader>View Density</MenuHeader>
-        <MenuItem id="compact" shortcut="⌘1">Compact (28px)</MenuItem>
-        <MenuItem id="default" shortcut="⌘2">Default (32px)</MenuItem>
+        <MenuHeader>檢視密度</MenuHeader>
+        <MenuItem id="compact" shortcut="⌘1">緊湊檢視</MenuItem>
+        <MenuItem id="default" shortcut="⌘2">標準檢視</MenuItem>
       </MenuSection>
       <MenuSeparator />
-      <MenuItem id="delete" tone="danger">Clear Workspace Cache</MenuItem>
+      <MenuItem id="delete" tone="danger">清除工作區快取</MenuItem>
     </MenuList>
   </MenuPopover>
 </Menu>
 ```
+
+## API 參考
+
+### Menu
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `items` | `MenuItemData[]` | `—` | 聲明式選單資料陣列，支援一般項目、分組與分隔線。 |
+| `trigger` | `ReactNode` | 內建次要按鈕 | 取代預設按鈕的自訂觸發元件。 |
+| `triggerLabel` | `string` | `'Actions'` | 未傳入 `trigger` 與子元件時，內建按鈕顯示的文字。 |
+| `placement` | `PopoverProps['placement']` | `'bottom start'` | 選單相對於觸發按鈕的展開對齊方向。 |
+| `offset` | `number` | `6` | 選單與觸發按鈕之間的像素間距。 |
+| `triggerType` | `'press' \| 'longPress'` | `'press'` | 開啟選單的互動觸發方式。 |
+
+### MenuItem
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `tone` | `'default' \| 'danger'` | `'default'` | 設為 `danger` 時以危險語意色提示高風險操作。 |
+| `shortcut` | `string` | `—` | 顯示於項目右側的鍵盤快捷鍵提示。 |
+| `isDisabled` | `boolean` | `false` | 是否停用該選單項目。 |
+| `onAction` | `() => void` | `—` | 使用者點選該項目時觸發的回呼函式。 |

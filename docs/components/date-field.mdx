@@ -1,7 +1,7 @@
 ---
-title: "DateField"
-eyebrow: "Components · React Aria"
-description: "Segmented keyboard-accessible date input using tabular monospace numerals powered by @internationalized/date."
+title: "DateField 日期欄位"
+eyebrow: "元件"
+description: "讓使用者直接透過鍵盤分段輸入與調整年、月、日的精準日期輸入欄位。"
 ---
 
 import { parseDate } from '@internationalized/date'
@@ -9,8 +9,8 @@ import { parseDate } from '@internationalized/date'
 <ComponentPreview>
   <div className="w-full max-w-64">
     <DateField
-      label="Audit Date"
-      description="APCA contrast certification date"
+      label="生效日期"
+      description="請輸入或使用方向鍵調整日期"
       defaultValue={parseDate('2026-11-18')}
     />
   </div>
@@ -21,67 +21,71 @@ import { parseDate } from '@internationalized/date'
 import { DateField } from '@pact-design/react'
 
 <DateField
-  label="Audit Date"
-  description="APCA contrast certification date"
+  label="生效日期"
+  description="請輸入或使用方向鍵調整日期"
   defaultValue={parseDate('2026-11-18')}
 />
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `DateField`, `DateInput`, and `DateSegment`. Exports `DateField`, `DateInput`, `DateSegment`, and type `DateValue`.
+- 當使用者已經明確知道目標日期，例如出生年月日、發票日期或歷史紀錄時間，直接透過鍵盤逐段輸入比翻找月曆更快速。
+- 每個日期區段皆可獨立聚焦並以方向鍵增減數值，避免格式輸入錯誤。
+- 若使用者需要對照星期幾或瀏覽整月排程，建議改用搭配月曆彈窗的 **DatePicker 日期選擇器**。
+
+## 使用範例
+
+### 尺寸
+
+提供五種高度規格，方便與周圍表單控制項對齊。
+
+<ComponentPreview align="stretch">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+    <DateField label="緊湊尺寸" size="sm" defaultValue={parseDate('2026-11-18')} />
+    <DateField label="舒適尺寸" size="lg" defaultValue={parseDate('2026-11-18')} />
+  </div>
+</ComponentPreview>
+
+```tsx
+<DateField label="緊湊尺寸" size="sm" defaultValue={parseDate('2026-11-18')} />
+<DateField label="舒適尺寸" size="lg" defaultValue={parseDate('2026-11-18')} />
+```
+
+### 時間精度與停用狀態
+
+可透過 `granularity` 擴充至小時、分鐘或秒數輸入，或透過 `isDisabled` 鎖定欄位內容。
+
+<ComponentPreview align="stretch">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+    <DateField label="精確至小時" granularity="hour" />
+    <DateField label="停用狀態" isDisabled defaultValue={parseDate('2026-11-18')} />
+  </div>
+</ComponentPreview>
+
+```tsx
+<DateField label="精確至小時" granularity="hour" />
+<DateField label="停用狀態" isDisabled defaultValue={parseDate('2026-11-18')} />
+```
+
+## API 參考
 
 ### DateField
 
-| Prop | Type | Default | Description |
+| 屬性 | 型別 | 預設值 | 說明 |
 | :--- | :--- | :--- | :--- |
-| `label` | `ReactNode` | `—` | Field label above the segmented date input. |
-| `description` | `ReactNode` | `—` | Supporting text beneath the input. |
-| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Error text shown when the entered date fails validation. |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`) applied to `FieldGroup`. |
-| `value` / `defaultValue` | `DateValue` | `—` | Controlled or initial date value. |
-| `onChange` | `(value: DateValue \| null) => void` | `—` | Fired when the date value changes. |
-| `minValue` / `maxValue` | `DateValue` | `—` | Valid selectable date range bounds. |
-| `granularity` | `'day' \| 'hour' \| 'minute' \| 'second'` | `'day'` | Smallest editable segment precision. |
-| `isDisabled` | `boolean` | `false` | Disables segment editing. |
-| `isReadOnly` | `boolean` | `false` | Prevents user edits while remaining focusable. |
-| `dateInputProps` | `DateInputProps` | `—` | Props forwarded to the default `DateInput`. |
+| `label` | `ReactNode` | `—` | 顯示於欄位上方的標籤文字。 |
+| `description` | `ReactNode` | `—` | 顯示於欄位下方的輔助說明。 |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | 日期驗證失敗時顯示的錯誤提示。 |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 欄位高度與內距大小。 |
+| `value` / `defaultValue` | `DateValue` | `—` | 受控或預設的日期值。 |
+| `onChange` | `(value: DateValue \| null) => void` | `—` | 日期值改變時觸發的回呼函式。 |
+| `minValue` / `maxValue` | `DateValue` | `—` | 允許輸入的最早與最晚日期邊界。 |
+| `granularity` | `'day' \| 'hour' \| 'minute' \| 'second'` | `'day'` | 可編輯的最小時間單位精度。 |
+| `isDisabled` | `boolean` | `false` | 是否停用欄位編輯。 |
+| `isReadOnly` | `boolean` | `false` | 是否設為唯讀，保留聚焦能力但禁止修改。 |
+| `dateInputProps` | `DateInputProps` | `—` | 傳遞至內層 `DateInput` 的額外屬性。 |
 
-### Parts
+### 子元件
 
-- **`DateInput`**: Flex row rendering `DateSegment` items inside `FieldGroup`.
-- **`DateSegment`**: Individual interactive year, month, day, or literal segment formatted with `tabular-nums font-mono`.
-
-## Examples
-
-### Size
-
-Scale the date field across compact (`sm`) and spacious (`lg`) form densities.
-
-<ComponentPreview align="stretch">
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
-    <DateField label="Compact (sm)" size="sm" defaultValue={parseDate('2026-11-18')} />
-    <DateField label="Comfortable (lg)" size="lg" defaultValue={parseDate('2026-11-18')} />
-  </div>
-</ComponentPreview>
-
-```tsx
-<DateField label="Compact (sm)" size="sm" defaultValue={parseDate('2026-11-18')} />
-<DateField label="Comfortable (lg)" size="lg" defaultValue={parseDate('2026-11-18')} />
-```
-
-### Granularity & Disabled
-
-Use `granularity="minute"` with `parseDateTime` or disable input with `isDisabled`.
-
-<ComponentPreview align="stretch">
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
-    <DateField label="Hourly Precision" granularity="hour" />
-    <DateField label="Disabled Field" isDisabled defaultValue={parseDate('2026-11-18')} />
-  </div>
-</ComponentPreview>
-
-```tsx
-<DateField label="Hourly Precision" granularity="hour" />
-<DateField label="Disabled Field" isDisabled defaultValue={parseDate('2026-11-18')} />
-```
+- **`DateInput`**：承載各日期區段的外層輸入列容器。
+- **`DateSegment`**：單一可聚焦與編輯的年、月、日或分隔符號區段。

@@ -1,25 +1,25 @@
 ---
-title: "Sheet"
-eyebrow: "Components · React Aria"
-description: "Swipeable edge drawer overlay sliding in from any viewport edge with backdrop scrim, scrollable body, and Escape dismissal."
+title: "Sheet 側邊抽屜"
+eyebrow: "元件"
+description: "從螢幕邊緣滑出的抽屜式覆蓋面板，適合呈現詳細屬性檢視、長篇表單或次要操作清單。"
 ---
 
 <ComponentPreview>
   <Sheet
-    trigger={<Button variant="secondary">Open Inspector Sheet</Button>}
+    trigger={<Button variant="secondary">開啟屬性面板</Button>}
     position="right"
     size="md"
-    title="Token Inspector"
-    description="Inspect resolved light and dark theme token overrides."
+    title="項目詳細屬性"
+    description="檢視與調整此項目的基本資料與存取權限。"
     footer={(
       <>
-        <Button variant="ghost" size="sm" slot="close">Cancel</Button>
-        <Button variant="primary" size="sm" slot="close">Apply Changes</Button>
+        <Button variant="ghost" size="sm" slot="close">取消</Button>
+        <Button variant="primary" size="sm" slot="close">套用變更</Button>
       </>
     )}
   >
     <p className="text-body-sm text-on-surface m-0">
-      Sheets slide smoothly from viewport edges using React Aria scroll-snap overlays and handle focus trapping and swipe dismissal natively.
+      側邊抽屜從視窗邊緣平滑滑出，支援獨立內容捲動、手勢滑動關閉與鍵盤 Escape 快速收合。
     </p>
   </Sheet>
 </ComponentPreview>
@@ -28,104 +28,89 @@ description: "Swipeable edge drawer overlay sliding in from any viewport edge wi
 import { Button, Sheet } from '@pact-design/react'
 
 <Sheet
-  trigger={<Button variant="secondary">Open Inspector Sheet</Button>}
+  trigger={<Button variant="secondary">開啟屬性面板</Button>}
   position="right"
   size="md"
-  title="Token Inspector"
-  description="Inspect resolved light and dark theme token overrides."
+  title="項目詳細屬性"
+  description="檢視與調整此項目的基本資料與存取權限。"
   footer={(
     <>
-      <Button variant="ghost" size="sm" slot="close">Cancel</Button>
-      <Button variant="primary" size="sm" slot="close">Apply Changes</Button>
+      <Button variant="ghost" size="sm" slot="close">取消</Button>
+      <Button variant="primary" size="sm" slot="close">套用變更</Button>
     </>
   )}
 >
-  <p>Sheets slide smoothly from viewport edges with swipe dismissal and focus trapping.</p>
+  <p>側邊抽屜從視窗邊緣平滑滑出，支援獨立內容捲動與快速收合。</p>
 </Sheet>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `SheetTrigger`, `SheetOverlay`, `SheetBackdrop`, `Sheet`, and `SheetContent`. Exports `Sheet`, `SheetTrigger`, `SheetOverlay`, `SheetBackdrop`, `SheetPanel`, `SheetContent`, `SheetHeader`, `SheetBody`, and `SheetFooter`.
+- 適合在不離開主清單或資料表的情況下，從右側滑出詳細檢視器、進階篩選器或較長的新增與編輯表單。
+- 亦可用於左側滑出的行動版導覽選單，或底部滑出的快速操作面板。
+- 若任務屬於高度聚焦的簡短二次確認，請改用 **Modal 互動視窗**。
 
-### Sheet
+## 使用範例
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `trigger` | `ReactNode` | `—` | Pressable element that toggles opening the sheet. |
-| `title` | `ReactNode` | `—` | Header heading rendered inside `SheetHeader`. |
-| `description` | `ReactNode` | `—` | Subtitle rendered underneath `title`. |
-| `footer` | `ReactNode` | `—` | Footer controls rendered inside `SheetFooter`. |
-| `position` | `'right' \| 'left' \| 'top' \| 'bottom' \| 'start' \| 'end' \| 'center'` | `'right'` | Viewport anchor edge or centered presentation. |
-| `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'md'` | Drawer max-width (horizontal edges) or max-height (top/bottom edges). |
-| `isDismissable` | `boolean` | `true` | Allows dismissing via backdrop click or swipe gesture. |
-| `preventDismissal` | `boolean` | `!isDismissable` | Explicitly blocks user swipe/backdrop dismissal. |
-| `swipeDirection` | `'left' \| 'right' \| 'up' \| 'down' \| 'none'` | Inferred from `position` | Overrides swipe-to-dismiss direction. |
-| `snapPoints` | `Array<number \| string>` | `—` | Scroll-snap points supported by React Aria `SheetOverlay`. |
-| `isOpen` / `defaultOpen` | `boolean` | `—` | Controlled or initial open state. |
-| `onOpenChange` | `(isOpen: boolean) => void` | `—` | Handler called when sheet open state changes. |
+### 展開位置
 
-## Examples
-
-### Position
-
-Anchor drawers to `left`, `right`, `top`, `bottom`, or `center`.
+透過 `position` 指定面板從左側、右側、頂部、底部或畫面中央滑出。
 
 <ComponentPreview>
   <Sheet
-    trigger={<Button variant="secondary" size="sm">Left Edge</Button>}
+    trigger={<Button variant="secondary" size="sm">左側滑出</Button>}
     position="left"
     size="sm"
-    title="Navigation Drawer"
+    title="導覽選單"
   >
-    <p className="text-body-sm text-on-surface m-0">Anchored to the left viewport edge.</p>
+    <p className="text-body-sm text-on-surface m-0">從視窗左緣展開，適合收納側邊導覽項目。</p>
   </Sheet>
   <Sheet
-    trigger={<Button variant="secondary" size="sm">Bottom Sheet</Button>}
+    trigger={<Button variant="secondary" size="sm">底部滑出</Button>}
     position="bottom"
     size="sm"
-    title="Quick Actions"
-    footer={<Button variant="primary" size="sm" slot="close">Done</Button>}
+    title="快速操作"
+    footer={<Button variant="primary" size="sm" slot="close">完成</Button>}
   >
-    <p className="text-body-sm text-on-surface m-0">Slides upward from the bottom edge (`max-h-[35dvh]` for size `sm`).</p>
+    <p className="text-body-sm text-on-surface m-0">從視窗底部向上展開，適合行動裝置或輔助工具面板。</p>
   </Sheet>
   <Sheet
-    trigger={<Button variant="secondary" size="sm">Top Drawer</Button>}
+    trigger={<Button variant="secondary" size="sm">頂部滑出</Button>}
     position="top"
     size="sm"
-    title="System Announcement"
+    title="系統公告"
   >
-    <p className="text-body-sm text-on-surface m-0">Slides down cleanly from the top viewport edge.</p>
+    <p className="text-body-sm text-on-surface m-0">從視窗頂部滑落展開，適合臨時通知或全域切換區。</p>
   </Sheet>
 </ComponentPreview>
 
 ```tsx
-<Sheet trigger={<Button>Left Edge</Button>} position="left" size="sm" title="Navigation Drawer">
-  <p>Anchored to the left viewport edge.</p>
+<Sheet trigger={<Button>左側滑出</Button>} position="left" size="sm" title="導覽選單">
+  <p>從視窗左緣展開。</p>
 </Sheet>
-<Sheet trigger={<Button>Bottom Sheet</Button>} position="bottom" size="sm" title="Quick Actions">
-  <p>Slides upward from the bottom edge.</p>
+<Sheet trigger={<Button>底部滑出</Button>} position="bottom" size="sm" title="快速操作">
+  <p>從視窗底部向上展開。</p>
 </Sheet>
 ```
 
-### Composable Subcomponents
+### 組合式子元件
 
-Use `SheetTrigger`, `SheetOverlay`, `SheetPanel`, `SheetContent`, `SheetHeader`, `SheetBody`, and `SheetFooter` for custom layout chrome.
+若需要更細緻的結構控制，可直接組合 `SheetTrigger`、`SheetOverlay`、`SheetPanel`、`SheetContent`、`SheetHeader`、`SheetBody` 與 `SheetFooter`。
 
 <ComponentPreview>
   <SheetTrigger>
-    <Button variant="subtle">Custom Sheet Composition</Button>
+    <Button variant="subtle">自訂抽屜結構</Button>
     <SheetOverlay position="right">
       <SheetPanel position="right" size="md">
         <SheetContent>
-          <SheetHeader title="Custom Layout" description="Composed directly with Sheet parts." />
+          <SheetHeader title="自訂版面" description="透過子元件自由控制各區塊配置。" />
           <SheetBody>
             <p className="text-body-sm text-on-surface m-0">
-              Directly control panel, overlay, and backdrop classes per slot.
+              可針對標頭、捲動主體與操作列分別套用客製化排版。
             </p>
           </SheetBody>
           <SheetFooter>
-            <Button variant="primary" size="sm" slot="close">Close Drawer</Button>
+            <Button variant="primary" size="sm" slot="close">關閉面板</Button>
           </SheetFooter>
         </SheetContent>
       </SheetPanel>
@@ -146,17 +131,36 @@ import {
 } from '@pact-design/react'
 
 <SheetTrigger>
-  <Button variant="subtle">Custom Sheet Composition</Button>
+  <Button variant="subtle">自訂抽屜結構</Button>
   <SheetOverlay position="right">
     <SheetPanel position="right" size="md">
       <SheetContent>
-        <SheetHeader title="Custom Layout" />
+        <SheetHeader title="自訂版面" />
         <SheetBody>...</SheetBody>
         <SheetFooter>
-          <Button variant="primary" size="sm" slot="close">Close Drawer</Button>
+          <Button variant="primary" size="sm" slot="close">關閉面板</Button>
         </SheetFooter>
       </SheetContent>
     </SheetPanel>
   </SheetOverlay>
 </SheetTrigger>
 ```
+
+## API 參考
+
+### Sheet
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `trigger` | `ReactNode` | `—` | 點擊後開啟側邊抽屜的觸發元件。 |
+| `title` | `ReactNode` | `—` | 抽屜標頭的主標題文字。 |
+| `description` | `ReactNode` | `—` | 顯示於標題下方的輔助說明。 |
+| `footer` | `ReactNode` | `—` | 顯示於底部的操作按鈕區域。 |
+| `position` | `'right' \| 'left' \| 'top' \| 'bottom' \| 'start' \| 'end' \| 'center'` | `'right'` | 抽屜展開的視窗邊緣位置。 |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'md'` | 左右展開時決定最大寬度，上下展開時決定最大高度。 |
+| `isDismissable` | `boolean` | `true` | 是否允許點擊遮罩背景或手勢滑動關閉。 |
+| `preventDismissal` | `boolean` | `!isDismissable` | 明確禁止透過背景點擊或滑動手勢關閉。 |
+| `swipeDirection` | `'left' \| 'right' \| 'up' \| 'down' \| 'none'` | 依 `position` 自動判斷 | 覆寫滑動關閉手勢的方向。 |
+| `snapPoints` | `Array<number \| string>` | `—` | 抽屜可停靠的滑動段落比例或尺寸點。 |
+| `isOpen` / `defaultOpen` | `boolean` | `—` | 受控或預設的開啟狀態。 |
+| `onOpenChange` | `(isOpen: boolean) => void` | `—` | 開啟或關閉狀態變化時觸發的回呼函式。 |

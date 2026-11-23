@@ -1,15 +1,15 @@
 ---
-title: "SearchField"
-eyebrow: "Components · React Aria"
-description: "Dedicated search input field with leading search icon and contextual clear button when text is entered."
+title: "SearchField 搜尋欄位"
+eyebrow: "元件"
+description: "專為搜尋與即時篩選設計的輸入欄位，內建搜尋圖示與快速清除按鈕。"
 ---
 
 <ComponentPreview>
   <div className="w-full max-w-72">
     <SearchField
-      label="Filter Tokens"
-      description="Search by token ID or CSS custom property"
-      placeholder="e.g. primary, layer-2, radius"
+      label="搜尋項目"
+      description="輸入名稱或關鍵字以即時篩選列表"
+      placeholder="搜尋關鍵字..."
     />
   </div>
 </ComponentPreview>
@@ -18,63 +18,67 @@ description: "Dedicated search input field with leading search icon and contextu
 import { SearchField } from '@pact-design/react'
 
 <SearchField
-  label="Filter Tokens"
-  description="Search by token ID or CSS custom property"
-  placeholder="e.g. primary, layer-2, radius"
+  label="搜尋項目"
+  description="輸入名稱或關鍵字以即時篩選列表"
+  placeholder="搜尋關鍵字..."
 />
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `SearchField`, composing `Label`, `FieldGroup`, `Input`, `FieldButton`, `FieldDescription`, and `FieldError`. Automatically displays an embedded clear button (`RiCloseLine`) whenever `data-[empty]` is absent.
+- 適合置於資料表上方、側邊欄頂部或工具列中，協助使用者快速查找與篩選大量內容。
+- 使用者開始輸入文字後，欄位右側會自動出現清除按鈕，也可直接按下 `Escape` 鍵一鍵清空搜尋條件。
+- 若需要邊輸入邊從下拉清單挑選特定項目，建議改用 **Autocomplete 自動完成** 或 **ComboBox 組合方塊**。
 
-### SearchField
+## 使用範例
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `label` | `ReactNode` | `—` | Accessible label rendered above the search box. |
-| `description` | `ReactNode` | `—` | Supporting caption displayed below the input. |
-| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | Validation message shown when invalid. |
-| `placeholder` | `string` | `'Search...'` | Input placeholder hint. |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Control height (`24px`–`40px`) applied to `FieldGroup`. |
-| `value` / `defaultValue` | `string` | `—` | Controlled or initial search query string. |
-| `onChange` | `(value: string) => void` | `—` | Fired whenever query text changes. |
-| `onSubmit` | `(value: string) => void` | `—` | Fired when Enter is pressed inside the input. |
-| `onClear` | `() => void` | `—` | Fired when the clear button or Escape clears the input. |
-| `isDisabled` | `boolean` | `false` | Disables text input and clear actions. |
+### 尺寸
 
-## Examples
-
-### Size
-
-Scale search fields from `xs` (24px) toolbars up to `lg` (36px) page filters.
+支援五種高度規格，可從工具列專用的超緊湊 `xs` 調整至頁面篩選列適用的舒適 `lg`。
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-3 gap-md">
-    <SearchField label="XS (24px)" size="xs" placeholder="Quick filter..." />
-    <SearchField label="SM (28px)" size="sm" placeholder="Compact search..." />
-    <SearchField label="LG (36px)" size="lg" placeholder="Comfortable search..." />
+    <SearchField label="超緊湊" size="xs" placeholder="快速篩選..." />
+    <SearchField label="緊湊" size="sm" placeholder="輸入關鍵字..." />
+    <SearchField label="舒適" size="lg" placeholder="搜尋整個工作區..." />
   </div>
 </ComponentPreview>
 
 ```tsx
-<SearchField label="XS (24px)" size="xs" placeholder="Quick filter..." />
-<SearchField label="SM (28px)" size="sm" placeholder="Compact search..." />
-<SearchField label="LG (36px)" size="lg" placeholder="Comfortable search..." />
+<SearchField label="超緊湊" size="xs" placeholder="快速篩選..." />
+<SearchField label="緊湊" size="sm" placeholder="輸入關鍵字..." />
+<SearchField label="舒適" size="lg" placeholder="搜尋整個工作區..." />
 ```
 
-### Pre-filled & Disabled States
+### 預設值與停用狀態
 
-The clear button appears automatically for populated search inputs unless `isDisabled` is active.
+當搜尋欄位已有內容時會自動顯示右側清除按鈕；設為 `isDisabled` 時則鎖定編輯與清除操作。
 
 <ComponentPreview align="stretch">
   <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
-    <SearchField label="With Default Query" defaultValue="blue.500" />
-    <SearchField label="Disabled Search" isDisabled defaultValue="Locked query" />
+    <SearchField label="已輸入條件" defaultValue="按鈕" />
+    <SearchField label="停用狀態" isDisabled defaultValue="鎖定的篩選條件" />
   </div>
 </ComponentPreview>
 
 ```tsx
-<SearchField label="With Default Query" defaultValue="blue.500" />
-<SearchField label="Disabled Search" isDisabled defaultValue="Locked query" />
+<SearchField label="已輸入條件" defaultValue="按鈕" />
+<SearchField label="停用狀態" isDisabled defaultValue="鎖定的篩選條件" />
 ```
+
+## API 參考
+
+### SearchField
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `label` | `ReactNode` | `—` | 顯示於搜尋欄位上方的標籤文字。 |
+| `description` | `ReactNode` | `—` | 顯示於欄位下方的輔助說明。 |
+| `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | 欄位驗證失敗時顯示的錯誤提示。 |
+| `placeholder` | `string` | `'Search...'` | 輸入框空白時的提示文字。 |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 搜尋欄位的高度與內距大小。 |
+| `value` / `defaultValue` | `string` | `—` | 受控或預設的搜尋字串。 |
+| `onChange` | `(value: string) => void` | `—` | 搜尋內容改變時觸發的回呼函式。 |
+| `onSubmit` | `(value: string) => void` | `—` | 在欄位中按下 `Enter` 時觸發的回呼函式。 |
+| `onClear` | `() => void` | `—` | 點擊清除按鈕或按下 `Escape` 清空內容時觸發。 |
+| `isDisabled` | `boolean` | `false` | 是否停用搜尋輸入與清除按鈕。 |

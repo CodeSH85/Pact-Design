@@ -1,19 +1,19 @@
 ---
-title: "DisclosureGroup"
-eyebrow: "Components · React Aria"
-description: "Accordion container managing single or multiple expanded Disclosure panels in separated or grouped layouts."
+title: "DisclosureGroup 折疊面板群組"
+eyebrow: "元件"
+description: "管理多個折疊面板的手風琴容器，支援單項或同時展開多項，並提供分離式與整合式兩種排版外觀。"
 ---
 
 <ComponentPreview align="stretch">
-  <DisclosureGroup defaultExpandedKeys={['tokens']}>
-    <Disclosure id="tokens" title="1. Design Token Architecture">
-      Global primitives, System semantic roles, and Component overrides form a single source of truth.
+  <DisclosureGroup defaultExpandedKeys={['install']}>
+    <Disclosure id="install" title="1. 如何安裝套件">
+      透過專案的套件管理工具安裝核心樣式與元件套件後，即可在應用程式中直接匯入使用。
     </Disclosure>
-    <Disclosure id="contrast" title="2. Perceptual Contrast Standard">
-      Calibrated against APCA-W3 ensuring |Lc| &gt;= 60 for foreground text pairs.
+    <Disclosure id="theme" title="2. 如何切換淺色與深色主題">
+      只需切換頁面的主題屬性，所有表面背景、文字對比與陰影層級便會同步更新。
     </Disclosure>
-    <Disclosure id="density" title="3. Information Density">
-      Control heights span 24px (xs) to 40px (xl) for enterprise dashboards and inspectors.
+    <Disclosure id="density" title="3. 如何調整介面密度">
+      每個互動元件皆提供一致的尺寸等級，可依工具列、表格或獨立表單的情境彈性選用。
     </Disclosure>
   </DisclosureGroup>
 </ComponentPreview>
@@ -21,68 +21,58 @@ description: "Accordion container managing single or multiple expanded Disclosur
 ```tsx
 import { Disclosure, DisclosureGroup } from '@pact-design/react'
 
-<DisclosureGroup defaultExpandedKeys={['tokens']}>
-  <Disclosure id="tokens" title="1. Design Token Architecture">
-    Global primitives, System semantic roles, and Component overrides.
+<DisclosureGroup defaultExpandedKeys={['install']}>
+  <Disclosure id="install" title="1. 如何安裝套件">
+    透過套件管理工具安裝後即可在應用程式中直接匯入使用。
   </Disclosure>
-  <Disclosure id="contrast" title="2. Perceptual Contrast Standard">
-    Calibrated against APCA-W3 ensuring |Lc| >= 60 for foreground text pairs.
+  <Disclosure id="theme" title="2. 如何切換淺色與深色主題">
+    切換頁面主題屬性後，全站色彩與陰影層級會同步更新。
   </Disclosure>
 </DisclosureGroup>
 ```
 
-## API Reference
+## 何時使用
 
-Built on React Aria `DisclosureGroup`. Exports `DisclosureGroup`, `disclosureGroupVariants`, and `DisclosureGroupItemData`.
+- 適合常見問題清單、多段屬性檢視器、側邊篩選條件群組等由多個折疊項目構成的區塊。
+- 預設為手風琴模式，展開某一項時會自動收合其他項目；若使用者需要同時對照多個面板內容，可開啟 `allowsMultipleExpanded`。
 
-### DisclosureGroup
+## 使用範例
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `variant` | `'separated' \| 'grouped'` | `'separated'` | Separated bordered items with gaps, or a unified container with `divide-y` hairlines. |
-| `items` | `DisclosureGroupItemData[]` | `—` | Data-driven items array (`{ id, title, content, isDisabled? }`). |
-| `allowsMultipleExpanded` | `boolean` | `false` | Permits more than one `Disclosure` panel to stay expanded simultaneously. |
-| `expandedKeys` / `defaultExpandedKeys` | `Iterable<Key>` | `—` | Controlled or initial set of expanded item IDs. |
-| `onExpandedChange` | `(keys: Set<Key>) => void` | `—` | Handler fired when expanded keys change. |
-| `isDisabled` | `boolean` | `false` | Disables all child disclosures. |
+### 整合外觀與同時展開多項
 
-## Examples
-
-### Grouped Variant & Multi-Expand
-
-Set `variant="grouped"` to collapse outer item borders into one crisp divided surface, and enable `allowsMultipleExpanded` when panels can remain open together.
+設定 `variant="grouped"` 將多個面板收整進單一外框內以細線區隔，搭配 `allowsMultipleExpanded` 讓多個面板能同時維持展開。
 
 <ComponentPreview align="stretch">
-  <DisclosureGroup variant="grouped" allowsMultipleExpanded defaultExpandedKeys={['global', 'system']}>
-    <Disclosure id="global" title="Global Layer">
-      Raw OKLCH palettes, numeric dimensions, durations, and easing curves.
+  <DisclosureGroup variant="grouped" allowsMultipleExpanded defaultExpandedKeys={['basic', 'notify']}>
+    <Disclosure id="basic" title="基本資訊">
+      設定專案名稱、識別代號與負責窗口等核心屬性。
     </Disclosure>
-    <Disclosure id="system" title="System Layer">
-      Light and dark theme semantic surfaces, ink contrast roles, and focus rings.
+    <Disclosure id="notify" title="通知規則">
+      設定異常警示與每日摘要的接收人員與推播時間。
     </Disclosure>
-    <Disclosure id="component" title="Component Layer">
-      Scoped component height, padding, and state overrides referencing System tokens.
+    <Disclosure id="danger" title="風險操作">
+      包含移轉擁有權、封存與永久刪除工作區等高風險項目。
     </Disclosure>
   </DisclosureGroup>
 </ComponentPreview>
 
 ```tsx
-<DisclosureGroup variant="grouped" allowsMultipleExpanded defaultExpandedKeys={['global', 'system']}>
-  <Disclosure id="global" title="Global Layer">...</Disclosure>
-  <Disclosure id="system" title="System Layer">...</Disclosure>
-  <Disclosure id="component" title="Component Layer">...</Disclosure>
+<DisclosureGroup variant="grouped" allowsMultipleExpanded defaultExpandedKeys={['basic', 'notify']}>
+  <Disclosure id="basic" title="基本資訊">...</Disclosure>
+  <Disclosure id="notify" title="通知規則">...</Disclosure>
+  <Disclosure id="danger" title="風險操作">...</Disclosure>
 </DisclosureGroup>
 ```
 
-### Data-Driven Items
+### 資料陣列快速生成
 
-Pass an `items` array directly for concise accordion lists.
+當每個折疊項目結構一致時，可直接傳入 `items` 陣列省去重複撰寫子元件標籤。
 
 <ComponentPreview align="stretch">
   <DisclosureGroup
     items={[
-      { id: 'css', title: 'CSS Variables Output', content: 'Emits Light and Dark blocks to _variables.css.' },
-      { id: 'uno', title: 'UnoCSS Theme Preset', content: 'Maps Pact tokens into atomic utility classes.' }
+      { id: 'sla', title: '服務水準協議', content: '提供全年無休的系統狀態監控與異常自動告警。' },
+      { id: 'backup', title: '資料備份頻率', content: '系統每日自動執行加密備份，並保留最近 30 天還原點。' }
     ]}
   />
 </ComponentPreview>
@@ -90,8 +80,21 @@ Pass an `items` array directly for concise accordion lists.
 ```tsx
 <DisclosureGroup
   items={[
-    { id: 'css', title: 'CSS Variables Output', content: 'Emits Light and Dark blocks to _variables.css.' },
-    { id: 'uno', title: 'UnoCSS Theme Preset', content: 'Maps Pact tokens into atomic utility classes.' }
+    { id: 'sla', title: '服務水準協議', content: '提供全年無休的系統狀態監控與異常自動告警。' },
+    { id: 'backup', title: '資料備份頻率', content: '系統每日自動執行加密備份並保留 30 天還原點。' }
   ]}
 />
 ```
+
+## API 參考
+
+### DisclosureGroup
+
+| 屬性 | 型別 | 預設值 | 說明 |
+| :--- | :--- | :--- | :--- |
+| `variant` | `'separated' \| 'grouped'` | `'separated'` | `separated` 呈現帶間距的獨立外框項目，`grouped` 則合併為單一外框並以細線分隔。 |
+| `items` | `DisclosureGroupItemData[]` | `—` | 資料驅動陣列，每筆包含 `id`、`title`、`content` 與 `isDisabled`。 |
+| `allowsMultipleExpanded` | `boolean` | `false` | 是否允許同時展開多個折疊面板。 |
+| `expandedKeys` / `defaultExpandedKeys` | `Iterable<Key>` | `—` | 受控或預設展開的面板識別鍵集合。 |
+| `onExpandedChange` | `(keys: Set<Key>) => void` | `—` | 展開項目集合變更時觸發的回呼函式。 |
+| `isDisabled` | `boolean` | `false` | 一次停用群組內所有折疊面板。 |
