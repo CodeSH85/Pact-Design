@@ -18,3 +18,28 @@
   height: var(--pd-system-icon-size-xs);
   color: var(--pd-system-on-surface-muted);
 }
+
+.pd-menu-item-content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pd-system-spacing-xs);
+  min-width: 0;
+  flex: 1;
+}
+
+.pd-menu-item-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--pd-system-on-surface-muted);
+
+  & :where(svg) {
+    width: var(--pd-system-icon-size-sm);
+    height: var(--pd-system-icon-size-sm);
+  }
+}
+
+.pd-collection-item:where([data-tone="danger"], [data-disabled]) .pd-menu-item-icon {
+  color: inherit;
+}

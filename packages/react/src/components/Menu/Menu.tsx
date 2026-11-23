@@ -17,7 +17,7 @@ import {
   Separator as AriaSeparator,
   type SeparatorProps as AriaSeparatorProps
 } from 'react-aria-components'
-import { RiArrowDownSLine } from '@remixicon/react'
+import { RiArrowDownSLine, RiCheckLine } from '@remixicon/react'
 import { Button } from '../Button/index.ts'
 import { PopoverContent } from '../Popover/index.ts'
 
@@ -25,12 +25,14 @@ export type MenuItemTone = 'default' | 'danger'
 
 export interface MenuItemProps extends Omit<AriaMenuItemProps, 'children'> {
   tone?: MenuItemTone
+  icon?: ReactNode
   shortcut?: string
   children?: ReactNode | AriaMenuItemProps['children']
 }
 
 export function MenuItem({
   tone = 'default',
+  icon,
   shortcut,
   className,
   children,
@@ -44,11 +46,23 @@ export function MenuItem({
     >
       {(renderProps) => (
         <>
-          {typeof children === 'function' ? children(renderProps) : children}
+          <span className="pd-menu-item-content">
+            {icon && (
+              <span className="pd-menu-item-icon" aria-hidden="true">
+                {icon}
+              </span>
+            )}
+            <span className="pd-collection-item-label">
+              {typeof children === 'function' ? children(renderProps) : children}
+            </span>
+          </span>
           {shortcut && (
             <AriaKeyboard className="pd-menu-shortcut">
               {shortcut}
             </AriaKeyboard>
+          )}
+          {renderProps.isSelected && (
+            <RiCheckLine className="pd-collection-item-check" aria-hidden="true" />
           )}
         </>
       )}
@@ -110,7 +124,9 @@ export const MenuTrigger = AriaMenuTrigger
 
 export interface MenuItemData {
   type?: 'item' | 'separator' | 'group'
+  id?: string
   label?: string
+  icon?: ReactNode
   tone?: MenuItemTone
   shortcut?: string
   disabled?: boolean
@@ -160,26 +176,32 @@ export function Menu({
                 return (
                   <MenuSection key={`group-${idx}`}>
                     {item.label && <MenuHeader>{item.label}</MenuHeader>}
-                    {item.items?.map((subItem) => (
-                      <MenuItem
-                        key={subItem.label}
-                        id={subItem.label}
-                        isDisabled={subItem.disabled}
-                        tone={subItem.tone}
-                        shortcut={subItem.shortcut}
-                        onAction={subItem.onClick}
-                      >
-                        {subItem.label}
-                      </MenuItem>
-                    ))}
+                    {item.items?.map((subItem) => {
+                      const subKey = subItem.id ?? subItem.label
+                      return (
+                        <MenuItem
+                          key={subKey}
+                          id={subKey}
+                          icon={subItem.icon}
+                          isDisabled={subItem.disabled}
+                          tone={subItem.tone}
+                          shortcut={subItem.shortcut}
+                          onAction={subItem.onClick}
+                        >
+                          {subItem.label}
+                        </MenuItem>
+                      )
+                    })}
                   </MenuSection>
                 )
               }
 
+              const itemKey = item.id ?? item.label
               return (
                 <MenuItem
-                  key={item.label}
-                  id={item.label}
+                  key={itemKey}
+                  id={itemKey}
+                  icon={item.icon}
                   isDisabled={item.disabled}
                   tone={item.tone}
                   shortcut={item.shortcut}
@@ -196,7 +218,7 @@ export function Menu({
   }
 
   return (
-    <AriaMenuTrigger {...props}>
+    <AriaMenuTrigger trigger={triggerType} {...props}>
       {trigger}
       {children}
     </AriaMenuTrigger>

@@ -39,6 +39,7 @@ const COMPONENTS = [
   'FileTrigger',
   'Form',
   'Toast',
+  'Tooltip',
   'Field',
   'Radio',
   'Separator',
@@ -179,7 +180,7 @@ describe('@pact-design/react package integrity', () => {
     assert.equal(fallback.onChange, onCheckedChange)
   })
 
-  it('verifies all 29 components use semantic pd-* CSS classes defined in @pact-design/styles/css', () => {
+  it('verifies all components use semantic pd-* CSS classes defined in @pact-design/styles/css', () => {
     const stylesCssPath = require.resolve('@pact-design/styles/css')
     const stylesCss = fs.readFileSync(stylesCssPath, 'utf-8')
     const definedClasses = new Set(

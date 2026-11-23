@@ -99,6 +99,7 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
       'collection.css',
       'tree.css',
       'popover.css',
+      'tooltip.css',
       'menu.css',
       'select.css',
       'dialog.css',

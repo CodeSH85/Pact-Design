@@ -7,6 +7,7 @@
   user-select: none;
   cursor: pointer;
   outline: none;
+  height: var(--_height);
 
   background-color: var(--_bg);
   color: var(--_fg);
@@ -15,6 +16,12 @@
   transition-property: color, background-color, border-color;
   transition-duration: var(--pd-system-motion-duration-fast);
   transition-timing-function: var(--pd-system-motion-easing-default);
+
+  & :where(svg) {
+    width: var(--_icon-size);
+    height: var(--_icon-size);
+    flex-shrink: 0;
+  }
 
   /* Interactive states */
   &:where(:hover, [data-hovered]) {
@@ -84,7 +91,8 @@
 
   /* Sizes */
   &:where([data-size="xs"]) {
-    height: var(--pd-component-button-height-xs);
+    --_height: var(--pd-component-button-height-xs);
+    --_icon-size: var(--pd-system-icon-size-xs);
     padding-inline: var(--pd-component-button-padding-x-xs);
     gap: var(--pd-component-button-gap-xs);
     border-radius: var(--pd-component-button-radius-xs);
@@ -93,7 +101,8 @@
   }
 
   &:where([data-size="sm"]) {
-    height: var(--pd-component-button-height-sm);
+    --_height: var(--pd-component-button-height-sm);
+    --_icon-size: var(--pd-system-icon-size-sm);
     padding-inline: var(--pd-component-button-padding-x-sm);
     gap: var(--pd-component-button-gap-sm);
     border-radius: var(--pd-component-button-radius-sm);
@@ -102,7 +111,8 @@
   }
 
   &:where([data-size="md"], :not([data-size])) {
-    height: var(--pd-component-button-height-md);
+    --_height: var(--pd-component-button-height-md);
+    --_icon-size: var(--pd-system-icon-size-sm);
     padding-inline: var(--pd-component-button-padding-x-md);
     gap: var(--pd-component-button-gap-md);
     border-radius: var(--pd-component-button-radius-md);
@@ -111,7 +121,8 @@
   }
 
   &:where([data-size="lg"]) {
-    height: var(--pd-component-button-height-lg);
+    --_height: var(--pd-component-button-height-lg);
+    --_icon-size: var(--pd-system-icon-size-md);
     padding-inline: var(--pd-component-button-padding-x-lg);
     gap: var(--pd-component-button-gap-lg);
     border-radius: var(--pd-component-button-radius-lg);
@@ -120,12 +131,18 @@
   }
 
   &:where([data-size="xl"]) {
-    height: var(--pd-component-button-height-xl);
+    --_height: var(--pd-component-button-height-xl);
+    --_icon-size: var(--pd-system-icon-size-lg);
     padding-inline: var(--pd-component-button-padding-x-xl);
     gap: var(--pd-component-button-gap-xl);
     border-radius: var(--pd-component-button-radius-xl);
     font: var(--pd-system-font-label-lg);
     letter-spacing: var(--pd-system-font-label-lg-letter-spacing);
+  }
+
+  &:where([data-icon]) {
+    width: var(--_height);
+    padding-inline: 0;
   }
 
   /* Optional explicit radius overrides */
