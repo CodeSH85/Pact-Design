@@ -21,14 +21,14 @@
 }
 
 .pd-tooltip {
-  z-index: var(--pd-system-z-index-popover);
+  z-index: var(--pd-system-elevation-z-popover);
   max-width: 20rem;
   padding-inline: var(--pd-system-spacing-sm);
   padding-block: var(--pd-system-spacing-2xs);
   border-radius: var(--pd-system-radius-xs);
-  background-color: var(--pd-system-background-elevated);
-  color: var(--pd-system-on-surface-default);
-  border: var(--pd-system-border-width-sm) solid var(--pd-system-border-default);
+  background-color: var(--pd-system-color-surface-elevated);
+  color: var(--pd-system-color-on-surface);
+  border: var(--pd-system-border-width-sm) solid var(--pd-system-color-border);
   box-shadow: var(--pd-system-elevation-md);
   font: var(--pd-system-font-label-xs);
   letter-spacing: var(--pd-system-font-label-xs-letter-spacing);
@@ -46,8 +46,8 @@
 
 .pd-tooltip-arrow {
   display: inline-flex;
-  fill: var(--pd-system-background-elevated);
-  stroke: var(--pd-system-border-default);
+  fill: var(--pd-system-color-surface-elevated);
+  stroke: var(--pd-system-color-border);
   stroke-width: 1;
 
   &:where([data-placement="bottom"]) svg {

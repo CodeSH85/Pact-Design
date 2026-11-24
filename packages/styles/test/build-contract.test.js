@@ -68,7 +68,7 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
 
   it('emits granular tokens.css, reset.css, components.css, and per-component stylesheets', () => {
     const tokensOutCss = fs.readFileSync(TOKENS_OUT_CSS_PATH, 'utf-8')
-    assert.match(tokensOutCss, /--pd-system-background-base:/)
+    assert.match(tokensOutCss, /--pd-system-color-surface-base:/)
 
     const resetCss = fs.readFileSync(RESET_CSS_PATH, 'utf-8')
     assert.match(resetCss, /:where\(\.pd-reset\)\s*\{/)
@@ -120,7 +120,7 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
   it('emits self-contained build/css/index.css (unlayered components) and opt-in build/css/layered.css', () => {
     const indexCss = fs.readFileSync(INDEX_CSS_PATH, 'utf-8')
     assert.match(indexCss, /@layer pact\.tokens,\s*pact\.theme;/)
-    assert.match(indexCss, /@layer pact\.tokens\s*\{[\s\S]*?--pd-system-background-base:/)
+    assert.match(indexCss, /@layer pact\.tokens\s*\{[\s\S]*?--pd-system-color-surface-base:/)
     assert.match(indexCss, /@layer pact\.theme\s*\{[\s\S]*?color-scheme:\s*light;[\s\S]*?color-scheme:\s*dark;/)
     assert.doesNotMatch(indexCss, /@layer pact\.components/, 'Default index.css keeps components unlayered so unlayered resets (Tailwind v3 / UnoCSS reset / Normalize) do not wipe component styles')
     assert.match(indexCss, /:where\(\.pd-reset\)\s*\{/)
@@ -179,12 +179,12 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
 
     // Component shadow and z-index rules preserve full keys while adding stripped aliases
     assert.equal(
-      mod.pactTheme.boxShadow['tab-trigger-shadow-segmented-selected'],
-      'var(--pd-component-tab-trigger-shadow-segmented-selected)'
+      mod.pactTheme.boxShadow['tab-trigger-segmented-shadow-selected'],
+      'var(--pd-component-tab-trigger-segmented-shadow-selected)'
     )
     assert.equal(
       mod.pactTheme.boxShadow['tab-trigger-segmented-selected'],
-      'var(--pd-component-tab-trigger-shadow-segmented-selected)'
+      'var(--pd-component-tab-trigger-segmented-shadow-selected)'
     )
     assert.equal(
       mod.pactTheme.boxShadow['modal-content'],

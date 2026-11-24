@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   z-index: var(--pd-component-modal-overlay-z-index);
-  background-color: var(--pd-component-modal-overlay-color-bg);
+  background-color: var(--pd-component-modal-overlay-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,9 +19,9 @@
 
 .pd-modal {
   width: 100%;
-  background-color: var(--pd-component-modal-content-color-bg);
-  color: var(--pd-component-modal-content-color-text);
-  border: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-color-border);
+  background-color: var(--pd-component-modal-content-bg);
+  color: var(--pd-component-modal-content-text);
+  border: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-border);
   box-shadow: var(--pd-component-modal-content-shadow);
   border-radius: var(--pd-component-modal-content-radius);
   outline: none;

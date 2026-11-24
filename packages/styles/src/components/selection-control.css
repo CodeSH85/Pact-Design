@@ -22,19 +22,19 @@
   font: var(--pd-system-font-label-md);
   letter-spacing: var(--pd-system-font-label-md-letter-spacing);
   line-height: 1.25;
-  color: var(--pd-system-on-surface-default);
+  color: var(--pd-system-color-on-surface);
 }
 
 :where(.pd-selection-control[data-disabled]) .pd-selection-control-label {
-  color: var(--pd-system-on-surface-disabled);
+  color: var(--pd-system-color-on-surface-disabled);
 }
 
 .pd-selection-control-description {
   font: var(--pd-system-font-caption-md);
   letter-spacing: var(--pd-system-font-caption-md-letter-spacing);
-  color: var(--pd-system-on-surface-muted);
+  color: var(--pd-system-color-on-surface-muted);
 }
 
 :where(.pd-selection-control[data-disabled]) .pd-selection-control-description {
-  color: var(--pd-system-on-surface-disabled);
+  color: var(--pd-system-color-on-surface-disabled);
 }

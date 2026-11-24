@@ -1,5 +1,11 @@
 import { kebab } from '@pact-design/tokens/utils/helper.js'
-import { resolveUnoRule, type TokenMetaEntry, type UnoRule, type UnoSlot } from './rules.ts'
+import {
+  normalizeTokenPath,
+  resolveUnoRule,
+  type TokenMetaEntry,
+  type UnoRule,
+  type UnoSlot
+} from './rules.ts'
 
 export type FontSizeValue = string | [string, Record<string, string>]
 
@@ -58,8 +64,8 @@ function createEmptyTheme(): UnoTheme {
   }
 }
 
-function resolveBaseKey(path: string[], keyFrom: UnoRule['keyFrom'] = 'category'): string {
-  const [, category, ...rest] = path
+function resolveBaseKey(rawPath: string[], keyFrom: UnoRule['keyFrom'] = 'category'): string {
+  const [, category, ...rest] = normalizeTokenPath(rawPath)
   switch (keyFrom) {
     case 'self':
       return category
@@ -67,18 +73,18 @@ function resolveBaseKey(path: string[], keyFrom: UnoRule['keyFrom'] = 'category'
       return rest.join('-')
     case 'category-sub':
       return rest.slice(1).join('-')
-    case 'scale-kebab':
-      return `${kebab(category)}-${rest.join('-')}`
+    case 'sub-kebab':
+      return rest.map(kebab).join('-')
     case 'tier':
       return `${category}-${rest.join('-')}`
   }
 }
 
-function resolveKeys(path: string[], rule: UnoRule): string[] {
-  const [, category, ...rest] = path
-  const baseKey = resolveBaseKey(path, rule.keyFrom)
+function resolveKeys(rawPath: string[], rule: UnoRule): string[] {
+  const [, category, ...rest] = normalizeTokenPath(rawPath)
+  const baseKey = resolveBaseKey(rawPath, rule.keyFrom)
   const primary = `${rule.prefix ?? ''}${baseKey}`
-  const keys: string[] = [primary]
+  const keys: string[] = primary ? [primary] : []
 
   if (rule.stripSegment) {
     const stripList = Array.isArray(rule.stripSegment) ? rule.stripSegment : [rule.stripSegment]

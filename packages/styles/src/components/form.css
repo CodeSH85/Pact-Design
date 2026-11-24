@@ -31,14 +31,14 @@
 .pd-form-section-title {
   font: var(--pd-system-font-heading-xs);
   letter-spacing: var(--pd-system-font-heading-xs-letter-spacing);
-  color: var(--pd-system-on-surface-default);
+  color: var(--pd-system-color-on-surface);
   margin: 0;
 }
 
 .pd-form-section-description {
   font: var(--pd-system-font-caption-md);
   letter-spacing: var(--pd-system-font-caption-md-letter-spacing);
-  color: var(--pd-system-on-surface-muted);
+  color: var(--pd-system-color-on-surface-muted);
   margin: 0;
 }
 

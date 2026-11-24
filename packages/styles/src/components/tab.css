@@ -15,13 +15,13 @@
 
   &:where([data-variant="underline"], :not([data-variant])) {
     display: flex;
-    border-bottom: var(--pd-system-border-width-sm) solid var(--pd-component-tab-list-underline-color-border);
+    border-bottom: var(--pd-system-border-width-sm) solid var(--pd-component-tab-list-underline-border);
     gap: var(--pd-component-tab-list-underline-gap);
 
     &:where([data-orientation="vertical"]) {
       flex-direction: column;
       border-bottom: 0;
-      border-right: var(--pd-system-border-width-sm) solid var(--pd-component-tab-list-underline-color-border);
+      border-right: var(--pd-system-border-width-sm) solid var(--pd-component-tab-list-underline-border);
       gap: var(--pd-system-spacing-xs);
     }
   }
@@ -29,8 +29,8 @@
   &:where([data-variant="segmented"]) {
     display: inline-flex;
     padding: var(--pd-component-tab-list-segmented-padding);
-    background-color: var(--pd-component-tab-list-segmented-color-bg);
-    border: var(--pd-system-border-width-sm) solid var(--pd-component-tab-list-segmented-color-border);
+    background-color: var(--pd-component-tab-list-segmented-bg);
+    border: var(--pd-system-border-width-sm) solid var(--pd-component-tab-list-segmented-border);
     border-radius: var(--pd-component-tab-list-segmented-radius);
     gap: var(--pd-component-tab-list-segmented-gap);
 
@@ -73,10 +73,10 @@
   outline: none;
   transition-property: color, background-color, border-color, box-shadow;
   transition-duration: var(--pd-system-motion-duration-fast);
-  transition-timing-function: var(--pd-system-motion-easing-default);
+  transition-timing-function: var(--pd-system-motion-easing);
 
   &:where([data-disabled]) {
-    color: var(--pd-component-tab-trigger-color-text-disabled);
+    color: var(--pd-component-tab-trigger-text-disabled);
     cursor: not-allowed;
   }
 
@@ -85,15 +85,15 @@
     position: relative;
     border-bottom: var(--pd-system-border-width-md) solid transparent;
     margin-bottom: -1px;
-    color: var(--pd-component-tab-trigger-color-text);
+    color: var(--pd-component-tab-trigger-text);
 
     &:where(:hover, [data-hovered]) {
-      color: var(--pd-component-tab-trigger-color-text-hover);
+      color: var(--pd-component-tab-trigger-text-hover);
     }
 
     &:where([data-selected]) {
-      color: var(--pd-component-tab-trigger-color-text-selected);
-      border-color: var(--pd-component-tab-trigger-color-border-selected);
+      color: var(--pd-component-tab-trigger-text-selected);
+      border-color: var(--pd-component-tab-trigger-border-selected);
     }
 
     &:where([data-orientation="vertical"]) {
@@ -104,48 +104,48 @@
     }
 
     &:where(:focus-visible, [data-focus-visible]) {
-      outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
-      outline-offset: var(--pd-system-focus-offset-inset);
+      outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+      outline-offset: var(--pd-system-border-focus-offset-inset);
     }
   }
 
   &:where([data-variant="segmented"]) {
     border-radius: var(--pd-system-radius-xs);
-    color: var(--pd-component-tab-trigger-color-text);
+    color: var(--pd-component-tab-trigger-text);
 
     &:where(:hover, [data-hovered]) {
-      color: var(--pd-component-tab-trigger-color-text-hover);
+      color: var(--pd-component-tab-trigger-text-hover);
     }
 
     &:where([data-selected]) {
-      background-color: var(--pd-component-tab-trigger-color-segmented-bg-selected);
-      color: var(--pd-component-tab-trigger-color-text-selected);
-      box-shadow: var(--pd-component-tab-trigger-shadow-segmented-selected);
+      background-color: var(--pd-component-tab-trigger-segmented-bg-selected);
+      color: var(--pd-component-tab-trigger-text-selected);
+      box-shadow: var(--pd-component-tab-trigger-segmented-shadow-selected);
     }
 
     &:where(:focus-visible, [data-focus-visible]) {
-      outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
-      outline-offset: var(--pd-system-focus-offset-default);
+      outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+      outline-offset: var(--pd-system-border-focus-offset);
     }
   }
 
   &:where([data-variant="pill"]) {
     border-radius: var(--pd-system-radius-full);
-    color: var(--pd-component-tab-trigger-color-text);
+    color: var(--pd-component-tab-trigger-text);
 
     &:where(:hover, [data-hovered]) {
-      color: var(--pd-component-tab-trigger-color-text-hover);
-      background-color: var(--pd-component-tab-trigger-color-pill-bg-hover);
+      color: var(--pd-component-tab-trigger-text-hover);
+      background-color: var(--pd-component-tab-trigger-pill-bg-hover);
     }
 
     &:where([data-selected]) {
-      background-color: var(--pd-component-tab-trigger-color-pill-bg-selected);
-      color: var(--pd-component-tab-trigger-color-pill-text-selected);
+      background-color: var(--pd-component-tab-trigger-pill-bg-selected);
+      color: var(--pd-component-tab-trigger-pill-text-selected);
     }
 
     &:where(:focus-visible, [data-focus-visible]) {
-      outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
-      outline-offset: var(--pd-system-focus-offset-default);
+      outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+      outline-offset: var(--pd-system-border-focus-offset);
     }
   }
 
@@ -184,5 +184,5 @@
   padding-top: var(--pd-component-tab-panel-padding-top);
   font: var(--pd-system-font-body-sm);
   letter-spacing: var(--pd-system-font-body-sm-letter-spacing);
-  color: var(--pd-component-tab-panel-color-text);
+  color: var(--pd-component-tab-panel-text);
 }

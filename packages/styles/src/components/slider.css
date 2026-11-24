@@ -32,14 +32,14 @@
   font: var(--pd-system-font-mono-xs);
   letter-spacing: var(--pd-system-font-mono-xs-letter-spacing);
   font-variant-numeric: tabular-nums;
-  color: var(--pd-system-on-surface-secondary);
+  color: var(--pd-system-color-on-surface-secondary);
 }
 
 .pd-slider-track {
   position: relative;
   border-radius: var(--pd-system-radius-full);
-  background-color: var(--pd-system-background-layer-2-hover);
-  border: var(--pd-system-border-width-sm) solid var(--pd-system-border-default);
+  background-color: var(--pd-system-color-surface-layer-2-hover);
+  border: var(--pd-system-border-width-sm) solid var(--pd-system-color-border);
   cursor: pointer;
   flex-shrink: 0;
 
@@ -69,19 +69,19 @@
   }
 
   &:where([data-disabled]) {
-    background-color: var(--pd-system-background-disabled);
-    border-color: var(--pd-system-border-subtle);
+    background-color: var(--pd-system-color-surface-disabled);
+    border-color: var(--pd-system-color-border-subtle);
     cursor: not-allowed;
   }
 }
 
 .pd-slider-fill {
   border-radius: var(--pd-system-radius-full);
-  background-color: var(--pd-system-semantic-primary);
+  background-color: var(--pd-system-color-primary);
   pointer-events: none;
 
   &:where([data-disabled]) {
-    background-color: var(--pd-system-on-surface-disabled);
+    background-color: var(--pd-system-color-on-surface-disabled);
   }
 }
 
@@ -89,14 +89,14 @@
   width: var(--_thumb-size);
   height: var(--_thumb-size);
   border-radius: var(--pd-system-radius-full);
-  background-color: var(--pd-system-background-layer-1);
-  border: var(--pd-system-border-width-md) solid var(--pd-system-semantic-primary);
+  background-color: var(--pd-system-color-surface-layer-1);
+  border: var(--pd-system-border-width-md) solid var(--pd-system-color-primary);
   box-shadow: var(--pd-system-elevation-xs);
   outline: none;
   cursor: grab;
   transition-property: scale, border-color, box-shadow;
   transition-duration: var(--pd-system-motion-duration-fast);
-  transition-timing-function: var(--pd-system-motion-easing-default);
+  transition-timing-function: var(--pd-system-motion-easing);
 
   &:where([data-orientation="horizontal"], :not([data-orientation])) {
     top: 50%;
@@ -108,23 +108,23 @@
 
   &:where(:hover, [data-hovered]) {
     scale: 1.08;
-    border-color: var(--pd-system-semantic-primary-hover);
+    border-color: var(--pd-system-color-primary-hover);
   }
 
   &:where([data-dragging]) {
     scale: 1.12;
     cursor: grabbing;
-    border-color: var(--pd-system-semantic-primary-active);
+    border-color: var(--pd-system-color-primary-active);
   }
 
   &:where(:focus-visible, [data-focus-visible]) {
-    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
-    outline-offset: var(--pd-system-focus-offset-default);
+    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+    outline-offset: var(--pd-system-border-focus-offset);
   }
 
   &:where([data-disabled]) {
-    background-color: var(--pd-system-background-disabled);
-    border-color: var(--pd-system-on-surface-disabled);
+    background-color: var(--pd-system-color-surface-disabled);
+    border-color: var(--pd-system-color-on-surface-disabled);
     cursor: not-allowed;
     scale: 1;
   }

@@ -6,41 +6,41 @@
   width: var(--pd-component-radio-size);
   height: var(--pd-component-radio-size);
   border-radius: var(--pd-component-radio-radius);
-  border: var(--pd-system-border-width-sm) solid var(--pd-component-radio-color-border);
-  background-color: var(--pd-component-radio-color-bg);
+  border: var(--pd-system-border-width-sm) solid var(--pd-component-radio-border);
+  background-color: var(--pd-component-radio-bg);
   transition-property: color, background-color, border-color;
   transition-duration: var(--pd-system-motion-duration-fast);
-  transition-timing-function: var(--pd-system-motion-easing-default);
+  transition-timing-function: var(--pd-system-motion-easing);
 }
 
 :where(.pd-radio:hover, .pd-radio[data-hovered]) .pd-radio-circle {
-  border-color: var(--pd-component-radio-color-border-hover);
+  border-color: var(--pd-component-radio-border-hover);
 }
 
 :where(.pd-radio[data-focus-visible]) .pd-radio-circle {
-  outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
-  outline-offset: var(--pd-system-focus-offset-default);
+  outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+  outline-offset: var(--pd-system-border-focus-offset);
 }
 
 :where(.pd-radio[data-selected]) .pd-radio-circle {
-  background-color: var(--pd-component-radio-color-bg-selected);
-  border-color: var(--pd-component-radio-color-border-selected);
+  background-color: var(--pd-component-radio-bg-selected);
+  border-color: var(--pd-component-radio-border-selected);
 }
 
 :where(.pd-radio[data-disabled]) .pd-radio-circle {
-  background-color: var(--pd-component-radio-color-bg-disabled);
-  border-color: var(--pd-component-radio-color-border-disabled);
+  background-color: var(--pd-component-radio-bg-disabled);
+  border-color: var(--pd-component-radio-border-disabled);
 }
 
 .pd-radio-dot {
   width: var(--pd-component-radio-dot-size);
   height: var(--pd-component-radio-dot-size);
   border-radius: var(--pd-component-radio-radius);
-  background-color: var(--pd-component-radio-color-dot);
+  background-color: var(--pd-component-radio-dot-bg);
 }
 
 :where(.pd-radio[data-disabled]) .pd-radio-dot {
-  background-color: var(--pd-component-radio-color-dot-disabled);
+  background-color: var(--pd-component-radio-dot-bg-disabled);
 }
 
 .pd-radio-group {

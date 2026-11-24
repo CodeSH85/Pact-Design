@@ -1,9 +1,9 @@
 .pd-sheet-overlay {
-  z-index: var(--pd-system-z-index-drawer);
+  z-index: var(--pd-system-elevation-z-drawer);
 }
 
 .pd-sheet-backdrop {
-  background-color: var(--pd-component-modal-overlay-color-bg);
+  background-color: var(--pd-component-modal-overlay-bg);
 
   &:where([data-entering]) {
     animation: pd-fade-in var(--pd-system-motion-duration-fast) var(--pd-system-motion-easing-enter);
@@ -15,9 +15,9 @@
 }
 
 .pd-sheet-panel {
-  background-color: var(--pd-component-modal-content-color-bg);
-  color: var(--pd-component-modal-content-color-text);
-  border-color: var(--pd-component-modal-content-color-border);
+  background-color: var(--pd-component-modal-content-bg);
+  color: var(--pd-component-modal-content-text);
+  border-color: var(--pd-component-modal-content-border);
   box-shadow: var(--pd-component-modal-content-shadow);
   outline: none;
   display: flex;
@@ -28,7 +28,7 @@
   &:where([data-position="right"], [data-position="end"], :not([data-position])) {
     height: 100%;
     width: 100%;
-    border-left: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-color-border);
+    border-left: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-border);
     border-top-left-radius: var(--pd-system-radius-md);
     border-bottom-left-radius: var(--pd-system-radius-md);
   }
@@ -36,7 +36,7 @@
   &:where([data-position="left"], [data-position="start"]) {
     height: 100%;
     width: 100%;
-    border-right: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-color-border);
+    border-right: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-border);
     border-top-right-radius: var(--pd-system-radius-md);
     border-bottom-right-radius: var(--pd-system-radius-md);
   }
@@ -44,7 +44,7 @@
   &:where([data-position="bottom"]) {
     width: 100%;
     max-height: 85dvh;
-    border-top: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-color-border);
+    border-top: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-border);
     border-top-left-radius: var(--pd-system-radius-md);
     border-top-right-radius: var(--pd-system-radius-md);
   }
@@ -52,7 +52,7 @@
   &:where([data-position="top"]) {
     width: 100%;
     max-height: 85dvh;
-    border-bottom: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-color-border);
+    border-bottom: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-border);
     border-bottom-left-radius: var(--pd-system-radius-md);
     border-bottom-right-radius: var(--pd-system-radius-md);
   }
@@ -60,7 +60,7 @@
   &:where([data-position="center"]) {
     width: 100%;
     max-height: 90dvh;
-    border: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-color-border);
+    border: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-border);
     border-radius: var(--pd-system-radius-md);
   }
 

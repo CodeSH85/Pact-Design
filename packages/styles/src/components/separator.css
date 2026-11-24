@@ -14,14 +14,14 @@
   }
 
   &:where([data-tone="subtle"], :not([data-tone])) {
-    background-color: var(--pd-system-border-subtle);
+    background-color: var(--pd-system-color-border-subtle);
   }
 
   &:where([data-tone="default"]) {
-    background-color: var(--pd-system-border-default);
+    background-color: var(--pd-system-color-border);
   }
 
   &:where([data-tone="strong"]) {
-    background-color: var(--pd-system-border-strong);
+    background-color: var(--pd-system-color-border-strong);
   }
 }

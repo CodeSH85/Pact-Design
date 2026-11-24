@@ -29,7 +29,7 @@ export type UnoSlot =
 
 export interface UnoRule {
   slots: UnoSlot[]
-  keyFrom?: 'tier' | 'category' | 'category-sub' | 'scale-kebab' | 'self'
+  keyFrom?: 'tier' | 'category' | 'category-sub' | 'sub-kebab' | 'self'
   prefix?: string
   stripSegment?: string | string[]
   defaultAlias?: 'strip' | 'DEFAULT'
@@ -44,12 +44,8 @@ export type UnoRuleResolution = false | UnoRuleConfig | undefined
 const GLOBAL_OMITTED_CATEGORIES = new Set([
   'border',
   'radius',
-  'offset',
-  'blur',
-  'spread',
-  'z-index',
-  'duration',
-  'easing',
+  'elevation',
+  'motion',
   'size',
   'spacing'
 ])
@@ -62,33 +58,36 @@ const GLOBAL_FONT_RULES: Record<string, UnoRuleConfig | false> = {
   'letter-spacing': { slots: ['letterSpacing'], keyFrom: 'category-sub' }
 }
 
-const SYSTEM_SUB_RULES: Record<string, UnoRuleConfig> = {
+const SYSTEM_COLOR_RULES: Record<string, UnoRuleConfig | false> = {
+  surface: { slots: ['colors'], keyFrom: 'category-sub' },
+  shadow: false,
+  util: false
+}
+
+const SYSTEM_SUB_RULES: Record<string, UnoRuleConfig | false> = {
   'border.width': {
     slots: ['borderWidth', 'lineWidth', 'ringWidth'],
     keyFrom: 'category-sub',
     defaultFor: 'sm'
   },
-  'control.height': {
+  'border.focus': false,
+  'size.control': {
     slots: ['spacing', 'height', 'minHeight', 'width'],
     keyFrom: 'category-sub',
     prefix: 'control-'
   },
-  'icon.size': {
+  'size.icon': {
     slots: ['spacing', 'width', 'height'],
     keyFrom: 'category-sub',
     prefix: 'icon-'
   },
+  'elevation.z': { slots: ['zIndex'], keyFrom: 'category-sub' },
   'motion.duration': { slots: ['duration'], keyFrom: 'category-sub' },
-  'motion.easing': { slots: ['easing'], keyFrom: 'category-sub' },
   'font.family': { slots: ['fontFamily'], keyFrom: 'category-sub' },
   'font.weight': { slots: ['fontWeight'], keyFrom: 'category-sub' }
 }
 
 const SYSTEM_RULES: Record<string, UnoRuleConfig | false> = {
-  background: { slots: ['colors'], keyFrom: 'category' },
-  'on-surface': { slots: ['colors'], keyFrom: 'category', prefix: 'on-surface-', defaultAlias: 'strip' },
-  border: { slots: ['colors'], keyFrom: 'category', prefix: 'border-' },
-  semantic: { slots: ['colors'], keyFrom: 'category' },
   radius: { slots: ['borderRadius'], keyFrom: 'category' },
   spacing: { slots: ['spacing'], keyFrom: 'category' },
   size: [
@@ -96,18 +95,12 @@ const SYSTEM_RULES: Record<string, UnoRuleConfig | false> = {
     { slots: ['width', 'height'], keyFrom: 'category', prefix: 'size-' }
   ],
   elevation: { slots: ['boxShadow'], keyFrom: 'category', prefix: 'elevation-' },
-  'z-index': { slots: ['zIndex'], keyFrom: 'category' },
-  font: { slots: ['fontSize'], keyFrom: 'category', typographyTuple: true },
-  focus: false,
-  shadow: false,
-  util: false
+  font: { slots: ['fontSize'], keyFrom: 'category', typographyTuple: true }
 }
 
 const COMPONENT_COLOR_RULE: UnoRuleConfig = {
   slots: ['colors'],
-  keyFrom: 'tier',
-  stripSegment: 'color',
-  defaultAlias: 'strip'
+  keyFrom: 'tier'
 }
 
 const COMPONENT_SHADOW_RULE: UnoRuleConfig = [
@@ -159,26 +152,55 @@ const COMPONENT_DIMENSION_RULES: Record<string, UnoRuleConfig> = {
 }
 
 /**
+ * Strips the leading `pd` root namespace from canonical token paths.
+ */
+export function normalizeTokenPath(path: string[]): string[] {
+  return path[0] === 'pd' ? path.slice(1) : path
+}
+
+/**
  * Resolves the UnoCSS theme mapping rule(s) for a token metadata entry.
  * - Returns `false` for tokens intentionally omitted from UnoCSS (CSS-only).
  * - Returns `undefined` for unrecognized tokens so the build fails fast.
  */
 export function resolveUnoRule(token: TokenMetaEntry): UnoRuleResolution {
-  const [tier, category, sub] = token.path
+  const path = normalizeTokenPath(token.path)
+  const [tier, category, sub, ...tail] = path
   const type = token.$type
 
   if (tier === 'global') {
     if (category === 'font') return GLOBAL_FONT_RULES[sub]
     if (GLOBAL_OMITTED_CATEGORIES.has(category)) return false
-    if (type === 'color') {
-      return token.path.length === 2
-        ? { slots: ['colors'], keyFrom: 'self' }
-        : { slots: ['colors'], keyFrom: 'scale-kebab' }
+    if (category === 'color') {
+      return path.length === 3
+        ? { slots: ['colors'], keyFrom: 'category' }
+        : { slots: ['colors'], keyFrom: 'sub-kebab' }
     }
     return undefined
   }
 
   if (tier === 'system') {
+    if (category === 'color') {
+      if (sub in SYSTEM_COLOR_RULES) return SYSTEM_COLOR_RULES[sub]
+      if (sub === 'on-surface') {
+        return tail.length === 0
+          ? { slots: ['colors'], keyFrom: 'category', extraKeys: ['on-surface-default'] }
+          : { slots: ['colors'], keyFrom: 'category' }
+      }
+      if (sub === 'border') {
+        return tail.length === 0
+          ? { slots: ['colors'], keyFrom: 'category', extraKeys: ['border-default'] }
+          : { slots: ['colors'], keyFrom: 'category' }
+      }
+      return { slots: ['colors'], keyFrom: 'category' }
+    }
+
+    if (category === 'motion' && sub === 'easing') {
+      return tail.length === 0
+        ? { slots: ['easing'], extraKeys: ['default', 'DEFAULT'] }
+        : { slots: ['easing'], keyFrom: 'category-sub' }
+    }
+
     const compound = sub ? SYSTEM_SUB_RULES[`${category}.${sub}`] : undefined
     if (compound !== undefined) return compound
     return SYSTEM_RULES[category]
@@ -187,9 +209,9 @@ export function resolveUnoRule(token: TokenMetaEntry): UnoRuleResolution {
   if (tier === 'component') {
     if (type === 'color') return COMPONENT_COLOR_RULE
     if (type === 'shadow') return COMPONENT_SHADOW_RULE
-    if (type === 'number' && token.path.includes('z-index')) return COMPONENT_ZINDEX_RULE
+    if (type === 'number' && path.includes('z-index')) return COMPONENT_ZINDEX_RULE
     if (type === 'dimension') {
-      const rest = token.path.slice(2)
+      const rest = path.slice(2)
       for (const segment of rest) {
         const matched = COMPONENT_DIMENSION_RULES[segment]
         if (matched) return matched
