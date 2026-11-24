@@ -1,5 +1,6 @@
-import { ref, refMap, shadow, themed } from '../dsl/index.ts'
+import { refMap, shadow } from '../dsl/index.ts'
 import type { GlobalRefPath } from '../global/index.ts'
+import { color } from './color.ts'
 
 type ElevationLevel = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
@@ -20,9 +21,6 @@ function elevationShadow(
     color: `{system.shadow.color.${level}}`
   })
 }
-
-const tShadowColor = (light: GlobalRefPath<'color'>, dark: GlobalRefPath<'color'>) =>
-  themed(ref('color', light), ref('color', dark))
 
 export const systemElevation = {
   elevation: {
@@ -69,11 +67,11 @@ export const systemElevation = {
   } as Record<string, GlobalRefPath<'number'>>),
   shadow: {
     color: {
-      xs: tShadowColor('global.shadow.color.01', 'global.shadow.color.06'),
-      sm: tShadowColor('global.shadow.color.02', 'global.shadow.color.07'),
-      md: tShadowColor('global.shadow.color.03', 'global.shadow.color.08'),
-      lg: tShadowColor('global.shadow.color.04', 'global.shadow.color.09'),
-      xl: tShadowColor('global.shadow.color.05', 'global.shadow.color.10')
+      xs: color({ light: 'shadow.color.01', dark: 'shadow.color.06' }),
+      sm: color({ light: 'shadow.color.02', dark: 'shadow.color.07' }),
+      md: color({ light: 'shadow.color.03', dark: 'shadow.color.08' }),
+      lg: color({ light: 'shadow.color.04', dark: 'shadow.color.09' }),
+      xl: color({ light: 'shadow.color.05', dark: 'shadow.color.10' })
     }
   }
 } as const
