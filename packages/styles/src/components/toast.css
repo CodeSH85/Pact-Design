@@ -162,7 +162,7 @@
   user-select: none;
   transition-property: color, background-color, border-color, transform, opacity;
   transition-duration: var(--pd-system-motion-duration-normal);
-  transition-timing-function: var(--pd-system-motion-easing-default);
+  transition-timing-function: var(--pd-system-motion-easing);
 
   &:where([data-entering]) {
     animation: var(--_toast-in, pd-slide-in-right) var(--pd-system-motion-duration-normal) var(--pd-system-motion-easing-enter);
@@ -173,44 +173,44 @@
   }
 
   &:where([data-tone="default"], :not([data-tone])) {
-    --_bg: var(--pd-component-toast-tone-default-color-bg);
-    --_border: var(--pd-component-toast-tone-default-color-border);
-    --_fg: var(--pd-component-toast-tone-default-color-text);
-    --_icon: var(--pd-component-toast-tone-default-color-icon);
+    --_bg: var(--pd-component-toast-tone-default-bg);
+    --_border: var(--pd-component-toast-tone-default-border);
+    --_fg: var(--pd-component-toast-tone-default-text);
+    --_icon: var(--pd-component-toast-tone-default-icon);
   }
 
   &:where([data-tone="info"]) {
-    --_bg: var(--pd-component-toast-tone-info-color-bg);
-    --_border: var(--pd-component-toast-tone-info-color-border);
-    --_fg: var(--pd-component-toast-tone-info-color-text);
-    --_icon: var(--pd-component-toast-tone-info-color-icon);
+    --_bg: var(--pd-component-toast-tone-info-bg);
+    --_border: var(--pd-component-toast-tone-info-border);
+    --_fg: var(--pd-component-toast-tone-info-text);
+    --_icon: var(--pd-component-toast-tone-info-icon);
   }
 
   &:where([data-tone="success"]) {
-    --_bg: var(--pd-component-toast-tone-success-color-bg);
-    --_border: var(--pd-component-toast-tone-success-color-border);
-    --_fg: var(--pd-component-toast-tone-success-color-text);
-    --_icon: var(--pd-component-toast-tone-success-color-icon);
+    --_bg: var(--pd-component-toast-tone-success-bg);
+    --_border: var(--pd-component-toast-tone-success-border);
+    --_fg: var(--pd-component-toast-tone-success-text);
+    --_icon: var(--pd-component-toast-tone-success-icon);
   }
 
   &:where([data-tone="warning"]) {
-    --_bg: var(--pd-component-toast-tone-warning-color-bg);
-    --_border: var(--pd-component-toast-tone-warning-color-border);
-    --_fg: var(--pd-component-toast-tone-warning-color-text);
-    --_icon: var(--pd-component-toast-tone-warning-color-icon);
+    --_bg: var(--pd-component-toast-tone-warning-bg);
+    --_border: var(--pd-component-toast-tone-warning-border);
+    --_fg: var(--pd-component-toast-tone-warning-text);
+    --_icon: var(--pd-component-toast-tone-warning-icon);
   }
 
   &:where([data-tone="danger"]) {
-    --_bg: var(--pd-component-toast-tone-danger-color-bg);
-    --_border: var(--pd-component-toast-tone-danger-color-border);
-    --_fg: var(--pd-component-toast-tone-danger-color-text);
-    --_icon: var(--pd-component-toast-tone-danger-color-icon);
+    --_bg: var(--pd-component-toast-tone-danger-bg);
+    --_border: var(--pd-component-toast-tone-danger-border);
+    --_fg: var(--pd-component-toast-tone-danger-text);
+    --_icon: var(--pd-component-toast-tone-danger-icon);
   }
 }
 
 .pd-toast-icon {
-  width: var(--pd-system-icon-size-sm);
-  height: var(--pd-system-icon-size-sm);
+  width: var(--pd-system-size-icon-sm);
+  height: var(--pd-system-size-icon-sm);
   flex-shrink: 0;
   margin-top: 2px;
   color: var(--_icon);
@@ -247,22 +247,22 @@
   margin-inline-end: calc(var(--pd-system-spacing-xs) * -1);
   margin-top: calc(var(--pd-system-spacing-xs) * -1);
   border-radius: var(--pd-system-radius-2xs);
-  color: var(--pd-system-on-surface-muted);
+  color: var(--pd-system-color-on-surface-muted);
   cursor: pointer;
   outline: none;
 
   &:where(:hover, [data-hovered]) {
-    color: var(--pd-system-on-surface-default);
-    background-color: var(--pd-system-background-hover);
+    color: var(--pd-system-color-on-surface);
+    background-color: var(--pd-system-color-surface-hover);
   }
 
   &:where(:focus-visible, [data-focus-visible]) {
-    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
-    outline-offset: var(--pd-system-focus-offset-default);
+    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+    outline-offset: var(--pd-system-border-focus-offset);
   }
 }
 
 .pd-toast-close-icon {
-  width: var(--pd-system-icon-size-xs);
-  height: var(--pd-system-icon-size-xs);
+  width: var(--pd-system-size-icon-xs);
+  height: var(--pd-system-size-icon-xs);
 }

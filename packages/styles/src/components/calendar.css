@@ -16,7 +16,7 @@
 .pd-calendar-heading {
   font: var(--pd-system-font-heading-xs);
   letter-spacing: var(--pd-system-font-heading-xs-letter-spacing);
-  color: var(--pd-system-on-surface-default);
+  color: var(--pd-system-color-on-surface);
   margin: 0;
 }
 
@@ -24,32 +24,32 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--pd-system-control-height-xs);
-  height: var(--pd-system-control-height-xs);
+  width: var(--pd-system-size-control-xs);
+  height: var(--pd-system-size-control-xs);
   border-radius: var(--pd-system-radius-xs);
-  color: var(--pd-system-on-surface-secondary);
+  color: var(--pd-system-color-on-surface-secondary);
   cursor: pointer;
   outline: none;
 
   &:where(:hover, [data-hovered]) {
-    color: var(--pd-system-on-surface-default);
-    background-color: var(--pd-system-background-layer-2-hover);
+    color: var(--pd-system-color-on-surface);
+    background-color: var(--pd-system-color-surface-layer-2-hover);
   }
 
   &:where(:disabled, [data-disabled]) {
-    color: var(--pd-system-on-surface-disabled);
+    color: var(--pd-system-color-on-surface-disabled);
     cursor: not-allowed;
   }
 
   &:where(:focus-visible, [data-focus-visible]) {
-    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
-    outline-offset: var(--pd-system-focus-offset-default);
+    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+    outline-offset: var(--pd-system-border-focus-offset);
   }
 }
 
 .pd-calendar-nav-icon {
-  width: var(--pd-system-icon-size-sm);
-  height: var(--pd-system-icon-size-sm);
+  width: var(--pd-system-size-icon-sm);
+  height: var(--pd-system-size-icon-sm);
 }
 
 .pd-calendar-grid {
@@ -60,9 +60,9 @@
   font: var(--pd-system-font-caption-sm);
   letter-spacing: var(--pd-system-font-caption-sm-letter-spacing);
   font-weight: var(--pd-system-font-weight-medium);
-  color: var(--pd-system-on-surface-muted);
+  color: var(--pd-system-color-on-surface-muted);
   padding-bottom: var(--pd-system-spacing-xs);
-  width: var(--pd-system-control-height-sm);
+  width: var(--pd-system-size-control-sm);
   text-align: center;
 }
 
@@ -70,8 +70,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--pd-system-control-height-sm);
-  height: var(--pd-system-control-height-sm);
+  width: var(--pd-system-size-control-sm);
+  height: var(--pd-system-size-control-sm);
   border-radius: var(--pd-system-radius-xs);
   font: var(--pd-system-font-label-sm);
   letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
@@ -83,46 +83,46 @@
   transition-duration: var(--pd-system-motion-duration-fast);
 
   &:where(:hover, [data-hovered]) {
-    background-color: var(--pd-system-background-layer-2-hover);
+    background-color: var(--pd-system-color-surface-layer-2-hover);
   }
 
   &:where(:focus-visible, [data-focus-visible]) {
-    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
-    outline-offset: var(--pd-system-focus-offset-default);
+    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+    outline-offset: var(--pd-system-border-focus-offset);
   }
 
   &:where([data-today]) {
     font-weight: var(--pd-system-font-weight-bold);
-    border: var(--pd-system-border-width-sm) solid var(--pd-system-border-strong);
+    border: var(--pd-system-border-width-sm) solid var(--pd-system-color-border-strong);
   }
 
   &:where([data-selected]) {
-    background-color: var(--pd-system-semantic-primary);
-    color: var(--pd-system-semantic-on-primary);
+    background-color: var(--pd-system-color-primary);
+    color: var(--pd-system-color-on-primary);
 
     &:where(:hover, [data-hovered]) {
-      background-color: var(--pd-system-semantic-primary-hover);
+      background-color: var(--pd-system-color-primary-hover);
     }
 
     &:where([data-invalid]) {
-      background-color: var(--pd-system-semantic-danger);
-      color: var(--pd-system-semantic-on-danger);
+      background-color: var(--pd-system-color-danger);
+      color: var(--pd-system-color-on-danger);
     }
   }
 
   &:where([data-outside-month]) {
-    color: var(--pd-system-on-surface-disabled);
+    color: var(--pd-system-color-on-surface-disabled);
     pointer-events: none;
   }
 
   &:where([data-disabled]) {
-    color: var(--pd-system-on-surface-disabled);
+    color: var(--pd-system-color-on-surface-disabled);
     cursor: not-allowed;
     pointer-events: none;
   }
 
   &:where([data-unavailable]) {
-    color: var(--pd-system-on-surface-disabled);
+    color: var(--pd-system-color-on-surface-disabled);
     text-decoration: line-through;
     cursor: not-allowed;
   }
@@ -146,16 +146,16 @@
   outline: none;
 
   &:where([data-placeholder]) {
-    color: var(--pd-component-field-color-text-placeholder);
+    color: var(--pd-component-field-text-placeholder);
   }
 
   &:where([data-focused]) {
-    background-color: var(--pd-system-semantic-primary);
-    color: var(--pd-system-semantic-on-primary);
+    background-color: var(--pd-system-color-primary);
+    color: var(--pd-system-color-on-primary);
 
     &:where([data-invalid]) {
-      background-color: var(--pd-system-semantic-danger);
-      color: var(--pd-system-semantic-on-danger);
+      background-color: var(--pd-system-color-danger);
+      color: var(--pd-system-color-on-danger);
     }
   }
 }

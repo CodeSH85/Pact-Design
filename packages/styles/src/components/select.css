@@ -4,12 +4,12 @@
   outline: none;
 
   &:where([data-open]) {
-    border-color: var(--pd-component-field-color-border-focus);
+    border-color: var(--pd-component-field-border-focus);
   }
 
   &:where(:focus-visible, [data-focus-visible]) {
-    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
-    outline-offset: var(--pd-system-focus-offset-default);
+    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+    outline-offset: var(--pd-system-border-focus-offset);
   }
 }
 
@@ -20,18 +20,18 @@
   color: inherit;
 
   &:where([data-placeholder]) {
-    color: var(--pd-component-field-color-text-placeholder);
+    color: var(--pd-component-field-text-placeholder);
   }
 }
 
 .pd-select-chevron {
-  width: var(--pd-system-icon-size-xs);
-  height: var(--pd-system-icon-size-xs);
-  color: var(--pd-component-field-color-text-muted);
+  width: var(--pd-system-size-icon-xs);
+  height: var(--pd-system-size-icon-xs);
+  color: var(--pd-component-field-text-muted);
   flex-shrink: 0;
   transition-property: transform;
   transition-duration: var(--pd-system-motion-duration-normal);
-  transition-timing-function: var(--pd-system-motion-easing-default);
+  transition-timing-function: var(--pd-system-motion-easing);
 }
 
 :where(.pd-select-trigger[data-open]) .pd-select-chevron {

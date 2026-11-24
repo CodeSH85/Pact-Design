@@ -43,9 +43,9 @@
   min-width: var(--pd-component-popover-surface-min-width);
   padding: var(--pd-component-popover-surface-padding);
   border-radius: var(--pd-component-popover-surface-radius);
-  background-color: var(--pd-component-popover-surface-color-bg);
-  color: var(--pd-component-popover-surface-color-text);
-  border: var(--pd-system-border-width-sm) solid var(--pd-component-popover-surface-color-border);
+  background-color: var(--pd-component-popover-surface-bg);
+  color: var(--pd-component-popover-surface-text);
+  border: var(--pd-system-border-width-sm) solid var(--pd-component-popover-surface-border);
   box-shadow: var(--pd-component-popover-surface-shadow);
   outline: none;
   transform-origin: top center;
@@ -64,7 +64,7 @@
 }
 
 .pd-popover-arrow {
-  fill: var(--pd-system-background-elevated);
-  stroke: var(--pd-system-border-default);
+  fill: var(--pd-system-color-surface-elevated);
+  stroke: var(--pd-system-color-border);
   stroke-width: 1;
 }

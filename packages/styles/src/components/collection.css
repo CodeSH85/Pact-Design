@@ -8,8 +8,8 @@
   padding: var(--pd-component-popover-listbox-padding);
 
   &:where([data-surface="bordered"]) {
-    background-color: var(--pd-system-background-layer-1);
-    border: var(--pd-system-border-width-sm) solid var(--pd-system-border-default);
+    background-color: var(--pd-system-color-surface-layer-1);
+    border: var(--pd-system-border-width-sm) solid var(--pd-system-color-border);
     border-radius: var(--pd-system-radius-sm);
     box-shadow: var(--pd-system-elevation-sm);
   }
@@ -27,14 +27,14 @@
   font: var(--pd-system-font-caption-sm);
   letter-spacing: var(--pd-system-font-caption-sm-letter-spacing);
   font-weight: var(--pd-system-font-weight-medium);
-  color: var(--pd-system-on-surface-muted);
+  color: var(--pd-system-color-on-surface-muted);
   user-select: none;
 }
 
 .pd-collection-separator {
   margin-block: var(--pd-component-popover-separator-margin-y);
   height: var(--pd-component-popover-separator-height);
-  background-color: var(--pd-component-popover-separator-color-border);
+  background-color: var(--pd-component-popover-separator-border);
   border: 0;
 }
 
@@ -53,33 +53,33 @@
   outline: none;
 
   &:where(:focus-visible, [data-focus-visible]) {
-    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
-    outline-offset: var(--pd-system-focus-offset-inset);
+    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+    outline-offset: var(--pd-system-border-focus-offset-inset);
   }
 
   &:where([data-tone="default"], :not([data-tone])) {
-    color: var(--pd-component-popover-item-color-text);
+    color: var(--pd-component-popover-item-text);
 
     &:where([data-focused], [data-hovered], :hover) {
-      background-color: var(--pd-component-popover-item-color-bg-hover);
+      background-color: var(--pd-component-popover-item-bg-hover);
     }
 
     &:where([data-selected]) {
-      background-color: var(--pd-component-popover-item-color-bg-selected);
+      background-color: var(--pd-component-popover-item-bg-selected);
       font-weight: var(--pd-system-font-weight-medium);
     }
   }
 
   &:where([data-tone="danger"]) {
-    color: var(--pd-component-popover-item-color-text-danger);
+    color: var(--pd-component-popover-item-text-danger);
 
     &:where([data-focused], [data-hovered], :hover) {
-      background-color: var(--pd-component-popover-item-color-bg-danger-hover);
+      background-color: var(--pd-component-popover-item-bg-danger-hover);
     }
   }
 
   &:where([data-disabled]) {
-    color: var(--pd-component-popover-item-color-text-disabled);
+    color: var(--pd-component-popover-item-text-disabled);
     cursor: not-allowed;
   }
 }
@@ -91,9 +91,9 @@
 }
 
 .pd-collection-item-check {
-  width: var(--pd-system-icon-size-xs);
-  height: var(--pd-system-icon-size-xs);
-  color: var(--pd-system-semantic-primary);
+  width: var(--pd-system-size-icon-xs);
+  height: var(--pd-system-size-icon-xs);
+  color: var(--pd-system-color-primary);
   flex-shrink: 0;
   margin-inline-start: auto;
 }

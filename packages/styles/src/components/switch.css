@@ -6,11 +6,11 @@
   cursor: pointer;
   border-radius: var(--pd-component-switch-track-radius);
   padding: var(--pd-component-switch-track-padding);
-  background-color: var(--pd-component-switch-track-color-bg-unchecked);
-  border: var(--pd-system-border-width-sm) solid var(--pd-component-switch-track-color-border-unchecked);
+  background-color: var(--pd-component-switch-track-bg-unchecked);
+  border: var(--pd-system-border-width-sm) solid var(--pd-component-switch-track-border-unchecked);
   transition-property: color, background-color, border-color;
   transition-duration: var(--pd-system-motion-duration-normal);
-  transition-timing-function: var(--pd-system-motion-easing-default);
+  transition-timing-function: var(--pd-system-motion-easing);
 
   &:where([data-size="sm"]) {
     width: var(--pd-component-switch-track-width-sm);
@@ -24,18 +24,18 @@
 }
 
 :where(.pd-switch[data-focus-visible]) .pd-switch-track {
-  outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
-  outline-offset: var(--pd-system-focus-offset-default);
+  outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+  outline-offset: var(--pd-system-border-focus-offset);
 }
 
 :where(.pd-switch[data-selected]) .pd-switch-track {
-  background-color: var(--pd-component-switch-track-color-bg-checked);
-  border-color: var(--pd-component-switch-track-color-border-checked);
+  background-color: var(--pd-component-switch-track-bg-checked);
+  border-color: var(--pd-component-switch-track-border-checked);
 }
 
 :where(.pd-switch[data-disabled]) .pd-switch-track {
-  background-color: var(--pd-component-switch-track-color-bg-disabled);
-  border-color: var(--pd-component-switch-track-color-border-disabled);
+  background-color: var(--pd-component-switch-track-bg-disabled);
+  border-color: var(--pd-component-switch-track-border-disabled);
   cursor: not-allowed;
 }
 
@@ -43,11 +43,11 @@
   pointer-events: none;
   display: block;
   border-radius: var(--pd-component-switch-thumb-radius);
-  background-color: var(--pd-component-switch-thumb-color-bg);
+  background-color: var(--pd-component-switch-thumb-bg);
   box-shadow: var(--pd-component-switch-thumb-shadow);
   transition-property: transform;
   transition-duration: var(--pd-system-motion-duration-normal);
-  transition-timing-function: var(--pd-system-motion-easing-default);
+  transition-timing-function: var(--pd-system-motion-easing);
 
   &:where([data-size="sm"]) {
     width: var(--pd-component-switch-thumb-size-sm);

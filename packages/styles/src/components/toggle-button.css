@@ -15,7 +15,7 @@
 
   transition-property: color, background-color, border-color;
   transition-duration: var(--pd-system-motion-duration-fast);
-  transition-timing-function: var(--pd-system-motion-easing-default);
+  transition-timing-function: var(--pd-system-motion-easing);
 
   & :where(svg) {
     width: var(--_icon-size);
@@ -33,66 +33,66 @@
   }
 
   &:where(:focus-visible, [data-focus-visible]) {
-    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
-    outline-offset: var(--pd-system-focus-offset-default);
+    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+    outline-offset: var(--pd-system-border-focus-offset);
   }
 
   &:where(:disabled, [data-disabled]) {
-    background-color: var(--pd-component-button-color-disabled-bg);
-    color: var(--pd-component-button-color-disabled-text);
-    border-color: var(--pd-component-button-color-disabled-border);
+    background-color: var(--pd-component-button-disabled-bg);
+    color: var(--pd-component-button-disabled-text);
+    border-color: var(--pd-component-button-disabled-border);
     cursor: not-allowed;
     pointer-events: none;
   }
 
   /* Variants */
   &:where([data-variant="secondary"], :not([data-variant])) {
-    --_bg: var(--pd-component-button-color-secondary-bg);
-    --_bg-hover: var(--pd-component-button-color-secondary-bg-hover);
-    --_bg-active: var(--pd-component-button-color-secondary-bg-active);
-    --_fg: var(--pd-component-button-color-secondary-text);
-    --_border: var(--pd-component-button-color-secondary-border);
+    --_bg: var(--pd-component-button-secondary-bg);
+    --_bg-hover: var(--pd-component-button-secondary-bg-hover);
+    --_bg-active: var(--pd-component-button-secondary-bg-active);
+    --_fg: var(--pd-component-button-secondary-text);
+    --_border: var(--pd-component-button-secondary-border);
 
     &:where([data-selected]) {
-      --_bg: var(--pd-component-button-color-secondary-bg-selected);
-      --_fg: var(--pd-component-button-color-secondary-text-selected);
-      --_border: var(--pd-component-button-color-secondary-border-selected);
+      --_bg: var(--pd-component-button-secondary-bg-selected);
+      --_fg: var(--pd-component-button-secondary-text-selected);
+      --_border: var(--pd-component-button-secondary-border-selected);
     }
   }
 
   &:where([data-variant="ghost"]) {
-    --_bg: var(--pd-component-button-color-ghost-bg);
-    --_bg-hover: var(--pd-component-button-color-ghost-bg-hover);
-    --_bg-active: var(--pd-component-button-color-ghost-bg-active);
-    --_fg: var(--pd-component-button-color-ghost-text);
-    --_border: var(--pd-component-button-color-ghost-border);
+    --_bg: var(--pd-component-button-ghost-bg);
+    --_bg-hover: var(--pd-component-button-ghost-bg-hover);
+    --_bg-active: var(--pd-component-button-ghost-bg-active);
+    --_fg: var(--pd-component-button-ghost-text);
+    --_border: var(--pd-component-button-ghost-border);
 
     &:where([data-selected]) {
-      --_bg: var(--pd-component-button-color-ghost-bg-selected);
-      --_fg: var(--pd-component-button-color-ghost-text-selected);
+      --_bg: var(--pd-component-button-ghost-bg-selected);
+      --_fg: var(--pd-component-button-ghost-text-selected);
     }
   }
 
   &:where([data-variant="primary"]) {
-    --_bg: var(--pd-component-button-color-secondary-bg);
-    --_bg-hover: var(--pd-component-button-color-secondary-bg-hover);
-    --_bg-active: var(--pd-component-button-color-secondary-bg-active);
-    --_fg: var(--pd-component-button-color-secondary-text);
-    --_border: var(--pd-component-button-color-secondary-border);
+    --_bg: var(--pd-component-button-secondary-bg);
+    --_bg-hover: var(--pd-component-button-secondary-bg-hover);
+    --_bg-active: var(--pd-component-button-secondary-bg-active);
+    --_fg: var(--pd-component-button-secondary-text);
+    --_border: var(--pd-component-button-secondary-border);
 
     &:where([data-selected]) {
-      --_bg: var(--pd-component-button-color-primary-bg);
-      --_bg-hover: var(--pd-component-button-color-primary-bg-hover);
-      --_bg-active: var(--pd-component-button-color-primary-bg-active);
-      --_fg: var(--pd-component-button-color-primary-text);
-      --_border: var(--pd-component-button-color-primary-border);
+      --_bg: var(--pd-component-button-primary-bg);
+      --_bg-hover: var(--pd-component-button-primary-bg-hover);
+      --_bg-active: var(--pd-component-button-primary-bg-active);
+      --_fg: var(--pd-component-button-primary-text);
+      --_border: var(--pd-component-button-primary-border);
     }
   }
 
   /* Sizes */
   &:where([data-size="xs"]) {
     --_height: var(--pd-component-button-height-xs);
-    --_icon-size: var(--pd-system-icon-size-xs);
+    --_icon-size: var(--pd-system-size-icon-xs);
     padding-inline: var(--pd-component-button-padding-x-xs);
     gap: var(--pd-component-button-gap-xs);
     border-radius: var(--pd-component-button-radius-xs);
@@ -102,7 +102,7 @@
 
   &:where([data-size="sm"]) {
     --_height: var(--pd-component-button-height-sm);
-    --_icon-size: var(--pd-system-icon-size-sm);
+    --_icon-size: var(--pd-system-size-icon-sm);
     padding-inline: var(--pd-component-button-padding-x-sm);
     gap: var(--pd-component-button-gap-sm);
     border-radius: var(--pd-component-button-radius-sm);
@@ -112,7 +112,7 @@
 
   &:where([data-size="md"], :not([data-size])) {
     --_height: var(--pd-component-button-height-md);
-    --_icon-size: var(--pd-system-icon-size-sm);
+    --_icon-size: var(--pd-system-size-icon-sm);
     padding-inline: var(--pd-component-button-padding-x-md);
     gap: var(--pd-component-button-gap-md);
     border-radius: var(--pd-component-button-radius-md);
@@ -122,7 +122,7 @@
 
   &:where([data-size="lg"]) {
     --_height: var(--pd-component-button-height-lg);
-    --_icon-size: var(--pd-system-icon-size-md);
+    --_icon-size: var(--pd-system-size-icon-md);
     padding-inline: var(--pd-component-button-padding-x-lg);
     gap: var(--pd-component-button-gap-lg);
     border-radius: var(--pd-component-button-radius-lg);
@@ -132,7 +132,7 @@
 
   &:where([data-size="xl"]) {
     --_height: var(--pd-component-button-height-xl);
-    --_icon-size: var(--pd-system-icon-size-lg);
+    --_icon-size: var(--pd-system-size-icon-lg);
     padding-inline: var(--pd-component-button-padding-x-xl);
     gap: var(--pd-component-button-gap-xl);
     border-radius: var(--pd-component-button-radius-xl);

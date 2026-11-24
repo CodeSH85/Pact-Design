@@ -3,16 +3,16 @@
   overflow: hidden;
   transition-property: color, background-color, border-color;
   transition-duration: var(--pd-system-motion-duration-fast);
-  transition-timing-function: var(--pd-system-motion-easing-default);
+  transition-timing-function: var(--pd-system-motion-easing);
 
   &:where([data-variant="bordered"], :not([data-variant])) {
-    border: var(--pd-system-border-width-sm) solid var(--pd-component-disclosure-container-color-border);
+    border: var(--pd-system-border-width-sm) solid var(--pd-component-disclosure-container-border);
     border-radius: var(--pd-component-disclosure-container-radius);
-    background-color: var(--pd-component-disclosure-container-color-bg);
+    background-color: var(--pd-component-disclosure-container-bg);
   }
 
   &:where([data-variant="ghost"]) {
-    border-bottom: var(--pd-system-border-width-sm) solid var(--pd-component-disclosure-container-color-divider);
+    border-bottom: var(--pd-system-border-width-sm) solid var(--pd-component-disclosure-container-divider);
     background-color: transparent;
   }
 
@@ -35,42 +35,42 @@
   border-radius: var(--pd-component-disclosure-trigger-radius);
   font: var(--pd-system-font-label-md);
   letter-spacing: var(--pd-system-font-label-md-letter-spacing);
-  color: var(--pd-component-disclosure-trigger-color-text);
+  color: var(--pd-component-disclosure-trigger-text);
   background-color: transparent;
   user-select: none;
   cursor: pointer;
   outline: none;
   transition-property: color, background-color;
   transition-duration: var(--pd-system-motion-duration-fast);
-  transition-timing-function: var(--pd-system-motion-easing-default);
+  transition-timing-function: var(--pd-system-motion-easing);
 
   &:where(:hover, [data-hovered]) {
-    background-color: var(--pd-component-disclosure-trigger-color-bg-hover);
+    background-color: var(--pd-component-disclosure-trigger-bg-hover);
   }
 
   &:where(:active, [data-pressed]) {
-    background-color: var(--pd-component-disclosure-trigger-color-bg-active);
+    background-color: var(--pd-component-disclosure-trigger-bg-active);
   }
 
   &:where(:focus-visible, [data-focus-visible]) {
-    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
-    outline-offset: var(--pd-system-focus-offset-inset);
+    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+    outline-offset: var(--pd-system-border-focus-offset-inset);
   }
 
   &:where(:disabled, [data-disabled]) {
-    color: var(--pd-component-disclosure-trigger-color-text-disabled);
+    color: var(--pd-component-disclosure-trigger-text-disabled);
     cursor: not-allowed;
   }
 }
 
 .pd-disclosure-chevron {
-  width: var(--pd-system-icon-size-xs);
-  height: var(--pd-system-icon-size-xs);
-  color: var(--pd-system-on-surface-muted);
+  width: var(--pd-system-size-icon-xs);
+  height: var(--pd-system-size-icon-xs);
+  color: var(--pd-system-color-on-surface-muted);
   flex-shrink: 0;
   transition-property: transform;
   transition-duration: var(--pd-system-motion-duration-normal);
-  transition-timing-function: var(--pd-system-motion-easing-default);
+  transition-timing-function: var(--pd-system-motion-easing);
 }
 
 :where(.pd-disclosure-trigger[aria-expanded="true"]) .pd-disclosure-chevron {
@@ -82,7 +82,7 @@
   padding-block: var(--pd-component-disclosure-panel-padding-y);
   font: var(--pd-system-font-body-sm);
   letter-spacing: var(--pd-system-font-body-sm-letter-spacing);
-  color: var(--pd-component-disclosure-panel-color-text);
+  color: var(--pd-component-disclosure-panel-text);
 
   &:where([aria-hidden="true"], [hidden]) {
     display: none;
@@ -99,13 +99,13 @@
   }
 
   &:where([data-variant="grouped"]) {
-    border: var(--pd-system-border-width-sm) solid var(--pd-component-disclosure-container-color-border);
+    border: var(--pd-system-border-width-sm) solid var(--pd-component-disclosure-container-border);
     border-radius: var(--pd-component-disclosure-container-radius);
     overflow: hidden;
-    background-color: var(--pd-component-disclosure-container-color-bg);
+    background-color: var(--pd-component-disclosure-container-bg);
   }
 }
 
 :where(.pd-disclosure-group[data-variant="grouped"]) > .pd-disclosure + .pd-disclosure {
-  border-top: var(--pd-system-border-width-sm) solid var(--pd-component-disclosure-container-color-divider);
+  border-top: var(--pd-system-border-width-sm) solid var(--pd-component-disclosure-container-divider);
 }

@@ -8,7 +8,7 @@
   justify-content: space-between;
   gap: var(--pd-component-modal-header-gap);
   padding-bottom: var(--pd-component-modal-header-padding-bottom);
-  border-bottom: var(--pd-system-border-width-sm) solid var(--pd-component-modal-header-color-border);
+  border-bottom: var(--pd-system-border-width-sm) solid var(--pd-component-modal-header-border);
   flex-shrink: 0;
 }
 
@@ -21,14 +21,14 @@
 .pd-dialog-title {
   font: var(--pd-system-font-heading-sm);
   letter-spacing: var(--pd-system-font-heading-sm-letter-spacing);
-  color: var(--pd-system-on-surface-default);
+  color: var(--pd-system-color-on-surface);
   margin: 0;
 }
 
 .pd-dialog-description {
   font: var(--pd-system-font-body-sm);
   letter-spacing: var(--pd-system-font-body-sm-letter-spacing);
-  color: var(--pd-system-on-surface-muted);
+  color: var(--pd-system-color-on-surface-muted);
   margin: 0;
 }
 
@@ -44,7 +44,7 @@
   justify-content: flex-end;
   gap: var(--pd-component-modal-footer-gap);
   padding-top: var(--pd-component-modal-footer-padding-top);
-  border-top: var(--pd-system-border-width-sm) solid var(--pd-component-modal-footer-color-border);
+  border-top: var(--pd-system-border-width-sm) solid var(--pd-component-modal-footer-border);
   flex-shrink: 0;
 }
 
@@ -54,28 +54,28 @@
   justify-content: center;
   padding: var(--pd-system-spacing-2xs);
   border-radius: var(--pd-system-radius-xs);
-  color: var(--pd-system-on-surface-muted);
+  color: var(--pd-system-color-on-surface-muted);
   cursor: pointer;
   outline: none;
   transition-property: color, background-color;
   transition-duration: var(--pd-system-motion-duration-fast);
 
   &:where(:hover, [data-hovered]) {
-    background-color: var(--pd-system-background-hover);
-    color: var(--pd-system-on-surface-default);
+    background-color: var(--pd-system-color-surface-hover);
+    color: var(--pd-system-color-on-surface);
   }
 
   &:where(:active, [data-pressed]) {
-    background-color: var(--pd-system-background-active);
+    background-color: var(--pd-system-color-surface-active);
   }
 
   &:where(:focus-visible, [data-focus-visible]) {
-    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
-    outline-offset: var(--pd-system-focus-offset-default);
+    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+    outline-offset: var(--pd-system-border-focus-offset);
   }
 }
 
 .pd-dialog-close-icon {
-  width: var(--pd-system-icon-size-sm);
-  height: var(--pd-system-icon-size-sm);
+  width: var(--pd-system-size-icon-sm);
+  height: var(--pd-system-size-icon-sm);
 }

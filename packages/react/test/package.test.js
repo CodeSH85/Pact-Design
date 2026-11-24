@@ -86,7 +86,7 @@ describe('@pact-design/react package integrity', () => {
     const distStylesPath = path.join(distRoot, 'styles.css')
     assert.ok(fs.existsSync(distStylesPath), 'dist/styles.css must exist')
     const distStyles = fs.readFileSync(distStylesPath, 'utf-8')
-    assert.match(distStyles, /--pd-system-background-base:/)
+    assert.match(distStyles, /--pd-system-color-surface-base:/)
     assert.match(distStyles, /:where\(\.pd-reset\)/)
     assert.match(distStyles, /\.pd-button\s*\{/)
 

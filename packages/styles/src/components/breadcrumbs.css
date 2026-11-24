@@ -36,19 +36,19 @@
   align-items: center;
   border-radius: var(--pd-system-radius-xs);
   outline: none;
-  color: var(--pd-system-on-surface-muted);
+  color: var(--pd-system-color-on-surface-muted);
   text-decoration: none;
   cursor: pointer;
   transition-property: color;
   transition-duration: var(--pd-system-motion-duration-fast);
 
   &:where(:hover, [data-hovered]) {
-    color: var(--pd-system-on-surface-default);
+    color: var(--pd-system-color-on-surface);
     text-decoration: underline;
   }
 
   &:where([data-current]) {
-    color: var(--pd-system-on-surface-default);
+    color: var(--pd-system-color-on-surface);
     font-weight: var(--pd-system-font-weight-medium);
     text-decoration: none;
     cursor: default;
@@ -56,25 +56,25 @@
   }
 
   &:where([data-disabled]) {
-    color: var(--pd-system-on-surface-disabled);
+    color: var(--pd-system-color-on-surface-disabled);
     cursor: not-allowed;
   }
 
   &:where(:focus-visible, [data-focus-visible]) {
-    outline: var(--pd-system-focus-width) var(--pd-system-focus-style) var(--pd-system-border-focus);
-    outline-offset: var(--pd-system-focus-offset-default);
+    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+    outline-offset: var(--pd-system-border-focus-offset);
   }
 }
 
 .pd-breadcrumb-separator {
   display: inline-flex;
   align-items: center;
-  color: var(--pd-system-on-surface-disabled);
+  color: var(--pd-system-color-on-surface-disabled);
   flex-shrink: 0;
   user-select: none;
 }
 
 .pd-breadcrumb-separator-icon {
-  width: var(--pd-system-icon-size-xs);
-  height: var(--pd-system-icon-size-xs);
+  width: var(--pd-system-size-icon-xs);
+  height: var(--pd-system-size-icon-xs);
 }
