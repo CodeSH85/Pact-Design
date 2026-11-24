@@ -31,3 +31,5 @@ export const globalTokens = {
 
 export type GlobalTree = typeof globalTokens
 export type GlobalRefPath<T extends DtcgType> = TypedTokenPath<GlobalTree, T>
+export type GlobalShortRefPath<T extends DtcgType> =
+  GlobalRefPath<T> extends `global.${infer Rest}` ? Rest : never
