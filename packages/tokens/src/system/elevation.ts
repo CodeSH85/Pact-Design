@@ -1,6 +1,5 @@
-import { refMap, shadow } from '../dsl/index.ts'
+import { refMap, shadow } from '../factory.ts'
 import type { GlobalRefPath } from '../global/index.ts'
-import { color } from './color.ts'
 
 type ElevationLevel = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
@@ -18,60 +17,49 @@ function elevationShadow(
     offsetY: `{${cfg.offsetY}}`,
     blur: `{${cfg.blur}}`,
     spread: `{${cfg.spread}}`,
-    color: `{system.shadow.color.${level}}`
+    color: `{pd.system.color.shadow.${level}}`
   })
 }
 
 export const systemElevation = {
-  elevation: {
-    xs: elevationShadow('xs', {
-      offsetX: 'global.offset.00',
-      offsetY: 'global.offset.01',
-      blur: 'global.blur.01',
-      spread: 'global.spread.00'
-    }),
-    sm: elevationShadow('sm', {
-      offsetX: 'global.offset.00',
-      offsetY: 'global.offset.02',
-      blur: 'global.blur.02',
-      spread: 'global.spread.00'
-    }),
-    md: elevationShadow('md', {
-      offsetX: 'global.offset.00',
-      offsetY: 'global.offset.03',
-      blur: 'global.blur.03',
-      spread: 'global.spread.01'
-    }),
-    lg: elevationShadow('lg', {
-      offsetX: 'global.offset.00',
-      offsetY: 'global.offset.04',
-      blur: 'global.blur.04',
-      spread: 'global.spread.02'
-    }),
-    xl: elevationShadow('xl', {
-      offsetX: 'global.offset.00',
-      offsetY: 'global.offset.05',
-      blur: 'global.blur.05',
-      spread: 'global.spread.03'
-    })
-  },
-  'z-index': refMap('number', {
-    base: 'global.z-index.00',
-    docked: 'global.z-index.01',
-    dropdown: 'global.z-index.02',
-    sticky: 'global.z-index.03',
-    drawer: 'global.z-index.04',
-    modal: 'global.z-index.05',
-    popover: 'global.z-index.06',
-    toast: 'global.z-index.07'
-  } as Record<string, GlobalRefPath<'number'>>),
-  shadow: {
-    color: {
-      xs: color({ light: 'shadow.color.01', dark: 'shadow.color.06' }),
-      sm: color({ light: 'shadow.color.02', dark: 'shadow.color.07' }),
-      md: color({ light: 'shadow.color.03', dark: 'shadow.color.08' }),
-      lg: color({ light: 'shadow.color.04', dark: 'shadow.color.09' }),
-      xl: color({ light: 'shadow.color.05', dark: 'shadow.color.10' })
-    }
-  }
+  xs: elevationShadow('xs', {
+    offsetX: 'pd.global.elevation.offset.00',
+    offsetY: 'pd.global.elevation.offset.01',
+    blur: 'pd.global.elevation.blur.01',
+    spread: 'pd.global.elevation.spread.00'
+  }),
+  sm: elevationShadow('sm', {
+    offsetX: 'pd.global.elevation.offset.00',
+    offsetY: 'pd.global.elevation.offset.02',
+    blur: 'pd.global.elevation.blur.02',
+    spread: 'pd.global.elevation.spread.00'
+  }),
+  md: elevationShadow('md', {
+    offsetX: 'pd.global.elevation.offset.00',
+    offsetY: 'pd.global.elevation.offset.03',
+    blur: 'pd.global.elevation.blur.03',
+    spread: 'pd.global.elevation.spread.01'
+  }),
+  lg: elevationShadow('lg', {
+    offsetX: 'pd.global.elevation.offset.00',
+    offsetY: 'pd.global.elevation.offset.04',
+    blur: 'pd.global.elevation.blur.04',
+    spread: 'pd.global.elevation.spread.02'
+  }),
+  xl: elevationShadow('xl', {
+    offsetX: 'pd.global.elevation.offset.00',
+    offsetY: 'pd.global.elevation.offset.05',
+    blur: 'pd.global.elevation.blur.05',
+    spread: 'pd.global.elevation.spread.03'
+  }),
+  z: refMap('number', {
+    base: 'pd.global.elevation.z-index.00',
+    docked: 'pd.global.elevation.z-index.01',
+    dropdown: 'pd.global.elevation.z-index.02',
+    sticky: 'pd.global.elevation.z-index.03',
+    drawer: 'pd.global.elevation.z-index.04',
+    modal: 'pd.global.elevation.z-index.05',
+    popover: 'pd.global.elevation.z-index.06',
+    toast: 'pd.global.elevation.z-index.07'
+  } as const satisfies Record<string, GlobalRefPath<'number'>>)
 } as const

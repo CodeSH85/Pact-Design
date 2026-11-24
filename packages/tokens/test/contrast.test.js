@@ -27,22 +27,22 @@ const SEMANTIC_ROLES = [
 ]
 
 const SURFACE_VARS = [
-  '--pd-system-background-base',
-  '--pd-system-background-layer-1',
-  '--pd-system-background-layer-1-hover',
-  '--pd-system-background-layer-1-active',
-  '--pd-system-background-layer-1-selected',
-  '--pd-system-background-layer-1-selected-hover',
-  '--pd-system-background-layer-2',
-  '--pd-system-background-layer-2-hover',
-  '--pd-system-background-layer-2-active',
-  '--pd-system-background-layer-2-selected',
-  '--pd-system-background-layer-2-selected-hover',
-  '--pd-system-background-elevated',
-  '--pd-system-background-hover',
-  '--pd-system-background-active',
-  '--pd-system-background-selected',
-  '--pd-system-background-selected-hover'
+  '--pd-system-color-surface-base',
+  '--pd-system-color-surface-layer-1',
+  '--pd-system-color-surface-layer-1-hover',
+  '--pd-system-color-surface-layer-1-active',
+  '--pd-system-color-surface-layer-1-selected',
+  '--pd-system-color-surface-layer-1-selected-hover',
+  '--pd-system-color-surface-layer-2',
+  '--pd-system-color-surface-layer-2-hover',
+  '--pd-system-color-surface-layer-2-active',
+  '--pd-system-color-surface-layer-2-selected',
+  '--pd-system-color-surface-layer-2-selected-hover',
+  '--pd-system-color-surface-elevated',
+  '--pd-system-color-surface-hover',
+  '--pd-system-color-surface-active',
+  '--pd-system-color-surface-selected',
+  '--pd-system-color-surface-selected-hover'
 ]
 
 describe('CSS Variables Build Output (build/css/_variables.css)', () => {
@@ -80,7 +80,7 @@ describe('Global Color Scale Midpoint (600) Contrast Audit', () => {
   )
 
   for (const [paletteName] of palettes) {
-    const cssVarName = `--pd-global-${kebab(paletteName)}-600`
+    const cssVarName = `--pd-global-color-${kebab(paletteName)}-600`
     it(`${cssVarName} passes APCA |Lc| >= 60 against #ffffff`, () => {
       const cssColor = resolveCssVariable(cssVarName, lightRaw)
       const res = evaluateWCAG(cssColor, '#ffffff', 4.5, 60)
@@ -105,9 +105,9 @@ describe('System Semantic Color Contrast Audit (Light & Dark CSS Variables)', ()
     describe(`Theme: [data-theme="${themeName}"]`, () => {
       it('maintains readable text hierarchy across all surface and interactive backgrounds', () => {
         const textRules = [
-          { textVar: '--pd-system-on-surface-default', minLc: 75, minRatio: 7.0 },
-          { textVar: '--pd-system-on-surface-secondary', minLc: 60, minRatio: 4.5 },
-          { textVar: '--pd-system-on-surface-muted', minLc: 45, minRatio: 3.0 }
+          { textVar: '--pd-system-color-on-surface', minLc: 75, minRatio: 7.0 },
+          { textVar: '--pd-system-color-on-surface-secondary', minLc: 60, minRatio: 4.5 },
+          { textVar: '--pd-system-color-on-surface-muted', minLc: 45, minRatio: 3.0 }
         ]
 
         for (const bgVar of SURFACE_VARS) {
@@ -125,12 +125,12 @@ describe('System Semantic Color Contrast Audit (Light & Dark CSS Variables)', ()
 
       it('maintains high contrast on solid semantic action states (default, hover, active)', () => {
         for (const role of SEMANTIC_ROLES) {
-          const onVar = `--pd-system-semantic-on-${role}`
+          const onVar = `--pd-system-color-on-${role}`
           const onColor = resolveCssVariable(onVar, varMap)
           const bgVars = [
-            `--pd-system-semantic-${role}`,
-            `--pd-system-semantic-${role}-hover`,
-            `--pd-system-semantic-${role}-active`
+            `--pd-system-color-${role}`,
+            `--pd-system-color-${role}-hover`,
+            `--pd-system-color-${role}-active`
           ]
 
           for (const bgVar of bgVars) {
@@ -145,11 +145,11 @@ describe('System Semantic Color Contrast Audit (Light & Dark CSS Variables)', ()
       })
 
       it('maintains high contrast on subtle status containers (on-<role>-subtle on <role>-subtle & layer-2)', () => {
-        const layer2Color = resolveCssVariable('--pd-system-background-layer-2', varMap)
+        const layer2Color = resolveCssVariable('--pd-system-color-surface-layer-2', varMap)
 
         for (const role of SEMANTIC_ROLES) {
-          const onSubtleVar = `--pd-system-semantic-on-${role}-subtle`
-          const subtleBgVar = `--pd-system-semantic-${role}-subtle`
+          const onSubtleVar = `--pd-system-color-on-${role}-subtle`
+          const subtleBgVar = `--pd-system-color-${role}-subtle`
           const onSubtleColor = resolveCssVariable(onSubtleVar, varMap)
           const subtleBgColor = resolveCssVariable(subtleBgVar, varMap)
 
@@ -162,19 +162,19 @@ describe('System Semantic Color Contrast Audit (Light & Dark CSS Variables)', ()
           const onLayer2Res = evaluateWCAG(onSubtleColor, layer2Color, 4.5, 60)
           assert.ok(
             onLayer2Res.passesTarget,
-            `[${themeName}] ${onSubtleVar} (${onSubtleColor}) on --pd-system-background-layer-2 (${layer2Color}) failed: APCA |Lc|=${onLayer2Res.absLc} (min 60), WCAG=${onLayer2Res.ratio}:1 (min 4.5:1)`
+            `[${themeName}] ${onSubtleVar} (${onSubtleColor}) on --pd-system-color-surface-layer-2 (${layer2Color}) failed: APCA |Lc|=${onLayer2Res.absLc} (min 60), WCAG=${onLayer2Res.ratio}:1 (min 4.5:1)`
           )
         }
       })
 
       it('maintains non-text contrast for strong borders and focus rings on layer-2', () => {
-        const layer2Color = resolveCssVariable('--pd-system-background-layer-2', varMap)
-        for (const borderVar of ['--pd-system-border-strong', '--pd-system-border-focus']) {
+        const layer2Color = resolveCssVariable('--pd-system-color-surface-layer-2', varMap)
+        for (const borderVar of ['--pd-system-color-border-strong', '--pd-system-color-border-focus']) {
           const borderColor = resolveCssVariable(borderVar, varMap)
           const res = evaluateWCAG(borderColor, layer2Color, 3.0, 45)
           assert.ok(
             res.passesTarget,
-            `[${themeName}] ${borderVar} (${borderColor}) on --pd-system-background-layer-2 (${layer2Color}) failed: APCA |Lc|=${res.absLc} (min 45), WCAG=${res.ratio}:1 (min 3.0:1)`
+            `[${themeName}] ${borderVar} (${borderColor}) on --pd-system-color-surface-layer-2 (${layer2Color}) failed: APCA |Lc|=${res.absLc} (min 45), WCAG=${res.ratio}:1 (min 3.0:1)`
           )
         }
       })

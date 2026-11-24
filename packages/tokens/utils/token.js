@@ -107,7 +107,7 @@ export function flatten(files, theme = 'light') {
       return
     }
     for (const [key, child] of orderedEntries(node)) {
-      if (!key.startsWith('$')) walk(child, [...path, key], type, file)
+      if (key === '$root' || !key.startsWith('$')) walk(child, [...path, key], type, file)
     }
   }
 
@@ -187,7 +187,11 @@ export function buildUsage(tokens) {
 
 export const CSS_VAR_PREFIX = 'pd'
 
-export const cssName = (path) => `--${CSS_VAR_PREFIX}-${(Array.isArray(path) ? path : path.split('.')).map(kebab).join('-')}`
+export const cssName = (path) => {
+  const segments = (Array.isArray(path) ? path : path.split('.')).filter((seg) => seg !== '$root')
+  const full = segments[0] === CSS_VAR_PREFIX ? segments : [CSS_VAR_PREFIX, ...segments]
+  return `--${full.map(kebab).join('-')}`
+}
 
 export function toPx(dim) {
   if (!dim || typeof dim !== 'object') return null

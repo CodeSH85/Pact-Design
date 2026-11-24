@@ -1,33 +1,29 @@
-import { colorMap, dim } from './helpers.ts'
+import { colorMap, colorRef, dim } from './helpers.ts'
 
 export const disclosureTokens = {
-  disclosure: {
-    container: {
-      radius: dim('system.radius.sm'),
-      gap: dim('system.spacing.xs'),
-      color: colorMap({
-        bg: 'system.background.layer-1',
-        border: 'system.border.default',
-        divider: 'system.border.subtle'
-      })
-    },
-    trigger: {
-      height: dim('system.control.height.md'),
-      'padding-x': dim('system.spacing.md'),
-      radius: dim('system.radius.xs'),
-      color: colorMap({
-        text: 'system.on-surface.default',
-        'text-disabled': 'system.on-surface.disabled',
-        'bg-hover': 'system.background.hover',
-        'bg-active': 'system.background.active'
-      })
-    },
-    panel: {
-      'padding-x': dim('system.spacing.md'),
-      'padding-y': dim('system.spacing.sm'),
-      color: colorMap({
-        text: 'system.on-surface.secondary'
-      })
-    }
+  container: {
+    radius: dim('pd.system.radius.sm'),
+    gap: dim('pd.system.spacing.xs'),
+    bg: colorRef('pd.system.color.surface.layer-1.$root'),
+    border: colorRef('pd.system.color.border.$root'),
+    divider: colorRef('pd.system.color.border.subtle')
+  },
+  trigger: {
+    height: dim('pd.system.size.control.md'),
+    'padding-x': dim('pd.system.spacing.md'),
+    radius: dim('pd.system.radius.xs'),
+    text: colorMap({
+      $root: 'pd.system.color.on-surface.$root',
+      disabled: 'pd.system.color.on-surface.disabled'
+    }),
+    bg: colorMap({
+      hover: 'pd.system.color.surface.hover',
+      active: 'pd.system.color.surface.active'
+    })
+  },
+  panel: {
+    'padding-x': dim('pd.system.spacing.md'),
+    'padding-y': dim('pd.system.spacing.sm'),
+    text: colorRef('pd.system.color.on-surface.secondary')
   }
 } as const

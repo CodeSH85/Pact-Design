@@ -1,15 +1,22 @@
-import type { TokenGroup } from './dsl/index.ts'
-import { globalFiles } from './global/index.ts'
-import { systemFiles } from './system/index.ts'
-import { componentFiles } from './component/index.ts'
+import { componentTokens } from './component/index.ts'
+import { globalTokens } from './global/index.ts'
+import { systemTokens } from './system/index.ts'
 
-export const tokenModules: Record<string, TokenGroup> = {
-  ...globalFiles,
-  ...systemFiles,
-  ...componentFiles
-}
+/**
+ * Canonical design token tree (`pd.<tier>.<domain>.*`).
+ * This object is the single source of truth for token namespaces and emitted CSS variable names.
+ */
+export const tokens = {
+  pd: {
+    global: globalTokens,
+    system: systemTokens,
+    component: componentTokens
+  }
+} as const
 
-export * from './dsl/index.ts'
-export { globalFiles, globalTokens } from './global/index.ts'
-export { systemFiles, systemTokens } from './system/index.ts'
-export { componentFiles } from './component/index.ts'
+export type TokensTree = typeof tokens
+
+export * from './factory.ts'
+export { globalTokens } from './global/index.ts'
+export { systemTokens } from './system/index.ts'
+export { componentTokens } from './component/index.ts'

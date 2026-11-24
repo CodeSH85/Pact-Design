@@ -3,7 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { describe, it } from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { isDtcgToken, isThemedToken, tokenModules } from '../src/index.ts'
+import { isDtcgToken, isThemedToken, tokens } from '../src/index.ts'
 import { parseCssVariables } from '../utils/contrast.js'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -29,6 +29,7 @@ describe('Build Contract (CSS Variables + Token Metadata)', () => {
     for (const entry of entries) {
       assert.equal(typeof entry.name, 'string')
       assert.ok(Array.isArray(entry.path) && entry.path.length > 0)
+      assert.ok(!entry.path.includes('$root'), `Metadata path leaked $root segment: ${entry.path.join('.')}`)
       if (!lightRaw.has(`--${entry.name}`)) {
         missing.push(`${entry.path.join('.')} -> --${entry.name}`)
       }
@@ -55,9 +56,7 @@ describe('Build Contract (CSS Variables + Token Metadata)', () => {
         }
       }
     }
-    for (const [mod, tree] of Object.entries(tokenModules)) {
-      inspect(tree, mod)
-    }
+    inspect(tokens, '')
     assert.deepEqual(withExtensions, [], `Unexpected $extensions in source tokens:\n${withExtensions.join('\n')}`)
   })
 })

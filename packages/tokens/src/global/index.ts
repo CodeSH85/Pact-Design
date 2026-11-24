@@ -1,35 +1,24 @@
-import type { DtcgType, TypedTokenPath } from '../dsl/index.ts'
+import type { DtcgType, TypedTokenPath } from '../factory.ts'
 import { globalBorder } from './border.ts'
 import { globalColor } from './color.ts'
 import { globalElevation } from './elevation.ts'
 import { globalMotion } from './motion.ts'
-import { globalSizing } from './sizing.ts'
+import { globalRadius } from './radius.ts'
+import { globalSize } from './sizing.ts'
 import { globalSpacing } from './spacing.ts'
-import { globalTypography } from './typography.ts'
-
-export const globalFiles = {
-  'global/border': { global: globalBorder },
-  'global/color': { global: globalColor },
-  'global/elevation': { global: globalElevation },
-  'global/motion': { global: globalMotion },
-  'global/sizing': { global: globalSizing },
-  'global/spacing': { global: globalSpacing },
-  'global/typography': { global: globalTypography }
-} as const
+import { globalFont } from './typography.ts'
 
 export const globalTokens = {
-  global: {
-    ...globalBorder,
-    ...globalColor,
-    ...globalElevation,
-    ...globalMotion,
-    ...globalSizing,
-    ...globalSpacing,
-    ...globalTypography
-  }
+  border: globalBorder,
+  color: globalColor,
+  elevation: globalElevation,
+  font: globalFont,
+  motion: globalMotion,
+  radius: globalRadius,
+  size: globalSize,
+  spacing: globalSpacing
 } as const
 
-export type GlobalTree = typeof globalTokens
+export type GlobalTree = { pd: { global: typeof globalTokens } }
 export type GlobalRefPath<T extends DtcgType> = TypedTokenPath<GlobalTree, T>
-export type GlobalShortRefPath<T extends DtcgType> =
-  GlobalRefPath<T> extends `global.${infer Rest}` ? Rest : never
+export type GlobalColorKey = TypedTokenPath<typeof globalColor, 'color'>

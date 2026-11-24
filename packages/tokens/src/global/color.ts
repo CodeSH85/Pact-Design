@@ -1,4 +1,4 @@
-import { oklch, oklchPalette } from '../dsl/index.ts'
+import { oklch, oklchPalette } from '../factory.ts'
 
 export const globalColor = {
   gray: oklchPalette({
@@ -186,6 +186,18 @@ export const globalColor = {
   scrim: oklchPalette({
     '01': [0, 0, 0, 0.48],
     '02': [0, 0, 0, 0.68]
+  }),
+  shadow: oklchPalette({
+    '01': [0, 0, 0, 0.06],
+    '02': [0, 0, 0, 0.08],
+    '03': [0, 0, 0, 0.1],
+    '04': [0, 0, 0, 0.14],
+    '05': [0, 0, 0, 0.18],
+    '06': [0, 0, 0, 0.28],
+    '07': [0, 0, 0, 0.36],
+    '08': [0, 0, 0, 0.45],
+    '09': [0, 0, 0, 0.56],
+    '10': [0, 0, 0, 0.68]
   }),
   white: oklch(1, 0, 0),
   black: oklch(0, 0, 0)

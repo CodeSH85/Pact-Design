@@ -1,4 +1,4 @@
-import { cubicBezier, ms, scale } from '../dsl/index.ts'
+import { cubicBezier, ms, scale } from '../factory.ts'
 
 export const globalMotion = {
   duration: scale({ '00': 0, '01': 50, '02': 100, '03': 150, '04': 200 }, ms),
