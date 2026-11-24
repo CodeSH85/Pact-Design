@@ -1,9 +1,7 @@
 import type { Config, DesignTokens, Dictionary } from 'style-dictionary/types'
-import { cssTransformList, customTransforms } from './transforms/dtcg.ts'
 import { formatThemedCss } from './formats/css.ts'
 import { formatTokenMeta } from './formats/meta.ts'
-
-export const TOKEN_PREFIX = 'pd'
+import { cssTransformList, customTransforms } from './transforms/dtcg.ts'
 
 export function createDarkConfig(tokens: DesignTokens): Config {
   return {
@@ -14,7 +12,6 @@ export function createDarkConfig(tokens: DesignTokens): Config {
     },
     platforms: {
       css: {
-        prefix: TOKEN_PREFIX,
         transforms: cssTransformList
       }
     }
@@ -44,7 +41,6 @@ export function createLightConfig(
     },
     platforms: {
       css: {
-        prefix: TOKEN_PREFIX,
         transforms: cssTransformList,
         buildPath: 'build/css/',
         files: [
@@ -60,7 +56,6 @@ export function createLightConfig(
         ]
       },
       meta: {
-        prefix: TOKEN_PREFIX,
         transforms: cssTransformList,
         buildPath: 'build/meta/',
         files: [

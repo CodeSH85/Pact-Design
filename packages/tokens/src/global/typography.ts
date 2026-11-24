@@ -1,77 +1,76 @@
-import { fontFamily, fontWeight, num, rem, scale } from '../dsl/index.ts'
+import { fontFamily, fontWeight, num, rem, scale } from '../factory.ts'
 
-export const globalTypography = {
-  font: {
-    family: {
-      sans: fontFamily(
-        'Inter',
-        'ui-sans-serif',
-        'system-ui',
-        'PingFang TC',
-        'PingFang SC',
-        'Microsoft JhengHei',
-        'Microsoft YaHei',
-        'Noto Sans CJK TC',
-        'Noto Sans CJK SC',
-        'sans-serif'
-      ),
-      mono: fontFamily('ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace')
+export const globalFont = {
+  family: {
+    sans: fontFamily(
+      'Inter',
+      'ui-sans-serif',
+      'system-ui',
+      'PingFang TC',
+      'PingFang SC',
+      'Microsoft JhengHei',
+      'Microsoft YaHei',
+      'Noto Sans CJK TC',
+      'Noto Sans CJK SC',
+      'sans-serif'
+    ),
+    mono: fontFamily('ui-monospace', 'SFMono-Regular', 'Menlo', 'Consolas', 'monospace')
+  },
+  size: scale(
+    {
+      '01': 0.5,
+      '02': 0.625,
+      '03': 0.75,
+      '04': 0.875,
+      '05': 1,
+      '06': 1.125,
+      '07': 1.25,
+      '08': 1.5,
+      '09': 1.75,
+      '10': 2,
+      '11': 2.25,
+      '12': 3,
+      '13': 3.75
     },
-    size: scale(
-      {
-        '01': 0.5,
-        '02': 0.625,
-        '03': 0.75,
-        '04': 0.875,
-        '05': 1,
-        '06': 1.125,
-        '07': 1.25,
-        '08': 1.5,
-        '09': 1.75,
-        '10': 2,
-        '11': 2.25,
-        '12': 3,
-        '13': 3.75
-      },
-      rem
-    ),
-    weight: scale(
-      {
-        '01': 300,
-        '02': 400,
-        '03': 500,
-        '04': 600,
-        '05': 700
-      }, fontWeight
-    ),
-    'line-height': scale(
-      {
-        '01': 1.1,
-        '02': 1.15,
-        '03': 1.2,
-        '04': 1.25,
-        '05': 1.3,
-        '06': 1.4,
-        '07': 1.5,
-        '08': 1.6,
-        '09': 1.7
-      },
-      num
-    ),
-    'letter-spacing': scale(
-      {
-        '01': -0.04,
-        '02': -0.03,
-        '03': -0.02,
-        '04': -0.01,
-        '05': 0,
-        '06': 0.01,
-        '07': 0.02,
-        '08': 0.03,
-        '09': 0.04,
-        '10': 0.05
-      },
-      rem
-    )
-  }
+    rem
+  ),
+  weight: scale(
+    {
+      '01': 300,
+      '02': 400,
+      '03': 500,
+      '04': 600,
+      '05': 700
+    },
+    fontWeight
+  ),
+  'line-height': scale(
+    {
+      '01': 1.1,
+      '02': 1.15,
+      '03': 1.2,
+      '04': 1.25,
+      '05': 1.3,
+      '06': 1.4,
+      '07': 1.5,
+      '08': 1.6,
+      '09': 1.7
+    },
+    num
+  ),
+  'letter-spacing': scale(
+    {
+      '01': -0.04,
+      '02': -0.03,
+      '03': -0.02,
+      '04': -0.01,
+      '05': 0,
+      '06': 0.01,
+      '07': 0.02,
+      '08': 0.03,
+      '09': 0.04,
+      '10': 0.05
+    },
+    rem
+  )
 } as const

@@ -1,36 +1,34 @@
-import { colorMap, controlGeometry } from './helpers.ts'
+import { colorMap, colorRef, controlGeometry } from './helpers.ts'
 
 export const fieldTokens = {
-  field: {
-    ...controlGeometry(),
-    color: {
-      bg: colorMap({
-        default: 'system.background.layer-1',
-        disabled: 'system.background.disabled'
-      }),
-      border: colorMap({
-        default: 'system.border.default',
-        hover: 'system.border.strong',
-        focus: 'system.border.focus',
-        invalid: 'system.semantic.danger',
-        'invalid-hover': 'system.semantic.danger-hover',
-        disabled: 'system.border.subtle'
-      }),
-      text: colorMap({
-        default: 'system.on-surface.default',
-        placeholder: 'system.on-surface.disabled',
-        disabled: 'system.on-surface.disabled',
-        muted: 'system.on-surface.muted'
-      }),
-      label: colorMap({
-        text: 'system.on-surface.default'
-      }),
-      description: colorMap({
-        text: 'system.on-surface.muted'
-      }),
-      error: colorMap({
-        text: 'system.semantic.on-danger-subtle'
-      })
-    }
+  ...controlGeometry(),
+  bg: colorMap({
+    $root: 'pd.system.color.surface.layer-1.$root',
+    disabled: 'pd.system.color.surface.disabled'
+  }),
+  border: {
+    $root: colorRef('pd.system.color.border.$root'),
+    hover: colorRef('pd.system.color.border.strong'),
+    focus: colorRef('pd.system.color.border.focus'),
+    invalid: colorMap({
+      $root: 'pd.system.color.danger.$root',
+      hover: 'pd.system.color.danger.hover'
+    }),
+    disabled: colorRef('pd.system.color.border.subtle')
+  },
+  text: colorMap({
+    $root: 'pd.system.color.on-surface.$root',
+    placeholder: 'pd.system.color.on-surface.disabled',
+    disabled: 'pd.system.color.on-surface.disabled',
+    muted: 'pd.system.color.on-surface.muted'
+  }),
+  label: {
+    text: colorRef('pd.system.color.on-surface.$root')
+  },
+  description: {
+    text: colorRef('pd.system.color.on-surface.muted')
+  },
+  error: {
+    text: colorRef('pd.system.color.on-danger.subtle')
   }
 } as const

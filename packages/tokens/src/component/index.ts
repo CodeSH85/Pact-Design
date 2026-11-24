@@ -9,15 +9,15 @@ import { switchTokens } from './switch.ts'
 import { tabTokens } from './tab.ts'
 import { toastTokens } from './toast.ts'
 
-export const componentFiles = {
-  'component/button': { component: buttonTokens },
-  'component/checkbox': { component: checkboxTokens },
-  'component/disclosure': { component: disclosureTokens },
-  'component/field': { component: fieldTokens },
-  'component/modal': { component: modalTokens },
-  'component/popover': { component: popoverTokens },
-  'component/radio': { component: radioTokens },
-  'component/switch': { component: switchTokens },
-  'component/tab': { component: tabTokens },
-  'component/toast': { component: toastTokens }
+export const componentTokens = {
+  button: buttonTokens,
+  checkbox: checkboxTokens,
+  disclosure: disclosureTokens,
+  field: fieldTokens,
+  modal: modalTokens,
+  popover: popoverTokens,
+  radio: radioTokens,
+  switch: switchTokens,
+  tab: tabTokens,
+  toast: toastTokens
 } as const

@@ -92,6 +92,10 @@ export function expandAndFormatTokens(
         if (rawSub === undefined) continue
 
         const refTarget = lookupRefToken(rawSub, dictionary)
+        if (outputReferences && refTarget) {
+          lines.push(`  --${subName}: var(--${refTarget.name});`)
+          continue
+        }
         const resolvedSub = refTarget ? getTokenValue(refTarget) : dimensionToCss(rawSub)
 
         lines.push(
@@ -124,6 +128,13 @@ export function expandAndFormatTokens(
       } else {
         lines.push(`  --${token.name}: ${getTokenValue(token)};`)
       }
+      continue
+    }
+
+    const origVal = usesDtcg ? token.original?.$value : token.original?.value
+    const aliasTarget = outputReferences ? lookupRefToken(origVal, dictionary) : null
+    if (aliasTarget) {
+      lines.push(`  --${token.name}: var(--${aliasTarget.name});`)
       continue
     }
 

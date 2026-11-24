@@ -10,7 +10,8 @@ export interface TokenMetaEntry {
 export function formatTokenMeta({ dictionary }: FormatFnArguments): string {
   const entries: TokenMetaEntry[] = dictionary.allTokens.map((token) => {
     const $type = getTokenType(token)
-    return $type ? { name: token.name, path: token.path, $type } : { name: token.name, path: token.path }
+    const path = token.path.filter((seg) => seg !== '$root')
+    return $type ? { name: token.name, path, $type } : { name: token.name, path }
   })
   return `${JSON.stringify(entries, null, 2)}\n`
 }

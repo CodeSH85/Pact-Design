@@ -1,54 +1,66 @@
-import { colorMap, controlGeometry } from './helpers.ts'
+import { colorMap, colorRef, controlGeometry } from './helpers.ts'
 
 export const buttonTokens = {
-  button: {
-    ...controlGeometry(),
-    color: {
-      primary: colorMap({
-        bg: 'system.semantic.primary',
-        'bg-hover': 'system.semantic.primary-hover',
-        'bg-active': 'system.semantic.primary-active',
-        text: 'system.semantic.on-primary',
-        border: 'transparent'
-      }),
-      secondary: colorMap({
-        bg: 'system.background.layer-1',
-        'bg-hover': 'system.background.layer-1-hover',
-        'bg-active': 'system.background.layer-1-active',
-        'bg-selected': 'system.background.layer-1-selected',
-        text: 'system.on-surface.default',
-        'text-selected': 'system.on-surface.default',
-        border: 'system.border.default',
-        'border-selected': 'system.border.strong'
-      }),
-      ghost: colorMap({
-        bg: 'transparent',
-        'bg-hover': 'system.background.hover',
-        'bg-active': 'system.background.active',
-        'bg-selected': 'system.background.layer-1-selected',
-        text: 'system.on-surface.default',
-        'text-selected': 'system.on-surface.default',
-        border: 'transparent'
-      }),
-      danger: colorMap({
-        bg: 'system.semantic.danger',
-        'bg-hover': 'system.semantic.danger-hover',
-        'bg-active': 'system.semantic.danger-active',
-        text: 'system.semantic.on-danger',
-        border: 'transparent'
-      }),
-      subtle: colorMap({
-        bg: 'system.semantic.info-subtle',
-        'bg-hover': 'system.background.layer-2-hover',
-        'bg-active': 'system.background.layer-2-active',
-        text: 'system.semantic.on-info-subtle',
-        border: 'system.semantic.info-border'
-      }),
-      disabled: colorMap({
-        bg: 'system.background.disabled',
-        text: 'system.on-surface.disabled',
-        border: 'transparent'
-      })
-    }
+  ...controlGeometry(),
+  primary: {
+    bg: colorMap({
+      $root: 'pd.system.color.primary.$root',
+      hover: 'pd.system.color.primary.hover',
+      active: 'pd.system.color.primary.active'
+    }),
+    text: colorRef('pd.system.color.on-primary.$root'),
+    border: colorRef('transparent')
+  },
+  secondary: {
+    bg: colorMap({
+      $root: 'pd.system.color.surface.layer-1.$root',
+      hover: 'pd.system.color.surface.layer-1.hover',
+      active: 'pd.system.color.surface.layer-1.active',
+      selected: 'pd.system.color.surface.layer-1.selected.$root'
+    }),
+    text: colorMap({
+      $root: 'pd.system.color.on-surface.$root',
+      selected: 'pd.system.color.on-surface.$root'
+    }),
+    border: colorMap({
+      $root: 'pd.system.color.border.$root',
+      selected: 'pd.system.color.border.strong'
+    })
+  },
+  ghost: {
+    bg: colorMap({
+      $root: 'transparent',
+      hover: 'pd.system.color.surface.hover',
+      active: 'pd.system.color.surface.active',
+      selected: 'pd.system.color.surface.layer-1.selected.$root'
+    }),
+    text: colorMap({
+      $root: 'pd.system.color.on-surface.$root',
+      selected: 'pd.system.color.on-surface.$root'
+    }),
+    border: colorRef('transparent')
+  },
+  danger: {
+    bg: colorMap({
+      $root: 'pd.system.color.danger.$root',
+      hover: 'pd.system.color.danger.hover',
+      active: 'pd.system.color.danger.active'
+    }),
+    text: colorRef('pd.system.color.on-danger.$root'),
+    border: colorRef('transparent')
+  },
+  subtle: {
+    bg: colorMap({
+      $root: 'pd.system.color.info.subtle',
+      hover: 'pd.system.color.surface.layer-2.hover',
+      active: 'pd.system.color.surface.layer-2.active'
+    }),
+    text: colorRef('pd.system.color.on-info.subtle'),
+    border: colorRef('pd.system.color.info.border')
+  },
+  disabled: {
+    bg: colorRef('pd.system.color.surface.disabled'),
+    text: colorRef('pd.system.color.on-surface.disabled'),
+    border: colorRef('transparent')
   }
 } as const

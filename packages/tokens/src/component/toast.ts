@@ -3,39 +3,33 @@ import { colorMap, dim, shadowRef, zIndexRef } from './helpers.ts'
 type ToastSemanticTone = 'info' | 'success' | 'warning' | 'danger'
 
 function semanticTone(tone: ToastSemanticTone) {
-  return {
-    color: colorMap({
-      bg: `system.semantic.${tone}-subtle`,
-      border: `system.semantic.${tone}-border`,
-      text: `system.semantic.on-${tone}-subtle`,
-      icon: `system.semantic.${tone}`
-    })
-  }
+  return colorMap({
+    bg: `pd.system.color.${tone}.subtle`,
+    border: `pd.system.color.${tone}.border`,
+    text: `pd.system.color.on-${tone}.subtle`,
+    icon: `pd.system.color.${tone}.$root`
+  })
 }
 
 export const toastTokens = {
-  toast: {
-    container: {
-      'max-width': dim('global.size.16'),
-      padding: dim('system.spacing.md'),
-      gap: dim('system.spacing.sm'),
-      radius: dim('system.radius.md'),
-      shadow: shadowRef('system.elevation.lg'),
-      'z-index': zIndexRef('system.z-index.toast')
-    },
-    tone: {
-      default: {
-        color: colorMap({
-          bg: 'system.background.elevated',
-          border: 'system.border.default',
-          text: 'system.on-surface.default',
-          icon: 'system.on-surface.muted'
-        })
-      },
-      info: semanticTone('info'),
-      success: semanticTone('success'),
-      warning: semanticTone('warning'),
-      danger: semanticTone('danger')
-    }
+  container: {
+    'max-width': dim('pd.global.size.16'),
+    padding: dim('pd.system.spacing.md'),
+    gap: dim('pd.system.spacing.sm'),
+    radius: dim('pd.system.radius.md'),
+    shadow: shadowRef('pd.system.elevation.lg'),
+    'z-index': zIndexRef('pd.system.elevation.z.toast')
+  },
+  tone: {
+    default: colorMap({
+      bg: 'pd.system.color.surface.elevated',
+      border: 'pd.system.color.border.$root',
+      text: 'pd.system.color.on-surface.$root',
+      icon: 'pd.system.color.on-surface.muted'
+    }),
+    info: semanticTone('info'),
+    success: semanticTone('success'),
+    warning: semanticTone('warning'),
+    danger: semanticTone('danger')
   }
 } as const

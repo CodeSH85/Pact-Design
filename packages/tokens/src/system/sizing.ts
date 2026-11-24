@@ -1,39 +1,35 @@
-import { refMap } from '../dsl/index.ts'
+import { refMap } from '../factory.ts'
 import type { GlobalRefPath } from '../global/index.ts'
 
 const dimMap = <K extends string>(entries: Record<K, GlobalRefPath<'dimension'>>) =>
   refMap('dimension', entries)
 
-export const systemSizing = {
-  size: dimMap({
-    '3xs': 'global.size.01',
-    '2xs': 'global.size.02',
-    xs: 'global.size.04',
-    sm: 'global.size.05',
-    md: 'global.size.06',
-    lg: 'global.size.08',
-    xl: 'global.size.09',
-    '2xl': 'global.size.10',
-    '3xl': 'global.size.11',
-    '4xl': 'global.size.12',
-    '5xl': 'global.size.13'
+export const systemSize = {
+  ...dimMap({
+    '3xs': 'pd.global.size.01',
+    '2xs': 'pd.global.size.02',
+    xs: 'pd.global.size.04',
+    sm: 'pd.global.size.05',
+    md: 'pd.global.size.06',
+    lg: 'pd.global.size.08',
+    xl: 'pd.global.size.09',
+    '2xl': 'pd.global.size.10',
+    '3xl': 'pd.global.size.11',
+    '4xl': 'pd.global.size.12',
+    '5xl': 'pd.global.size.13'
   }),
-  control: {
-    height: dimMap({
-      xs: 'global.size.06',
-      sm: 'global.size.07',
-      md: 'global.size.08',
-      lg: 'global.size.09',
-      xl: 'global.size.10'
-    })
-  },
-  icon: {
-    size: dimMap({
-      xs: 'global.size.03',
-      sm: 'global.size.04',
-      md: 'global.size.05',
-      lg: 'global.size.06',
-      xl: 'global.size.08'
-    })
-  }
+  control: dimMap({
+    xs: 'pd.global.size.06',
+    sm: 'pd.global.size.07',
+    md: 'pd.global.size.08',
+    lg: 'pd.global.size.09',
+    xl: 'pd.global.size.10'
+  }),
+  icon: dimMap({
+    xs: 'pd.global.size.03',
+    sm: 'pd.global.size.04',
+    md: 'pd.global.size.05',
+    lg: 'pd.global.size.06',
+    xl: 'pd.global.size.08'
+  })
 } as const
