@@ -1,7 +1,7 @@
 import { useState, type CSSProperties, type ReactNode } from 'react'
 import { colorValueToHex } from '@pact-design/tokens/utils/color.js'
 import { apcaContrast, apcaLevel, contrast, readableOn, wcagLevel } from '@pact-design/tokens/utils/contrast.js'
-import { cssName, formatValue, refOf } from '@pact-design/tokens/utils/token.js'
+import { categoryOf, cssName, formatValue, refOf } from '@pact-design/tokens/utils/token.js'
 import {
   Badge,
   Button,
@@ -130,7 +130,7 @@ function MotionRow({ token, resolvedVal, isDuration, onJump }: MotionRowProps) {
       className="grid grid-cols-[12rem_1fr_12rem] items-center gap-sm px-sm py-xs rounded-xs bg-layer-2 border-sm border-border-subtle hover:border-border-strong cursor-pointer"
     >
       <code className="text-mono-xs text-on-surface truncate">
-        {token.path.slice(1).join('.')}
+        {token.path.filter((seg) => seg !== '$root').slice(2).join('.')}
       </code>
       <div className="relative h-5 rounded-full bg-layer-1 border-sm border-border-default overflow-hidden p-3xs flex items-center">
         <div
@@ -139,7 +139,7 @@ function MotionRow({ token, resolvedVal, isDuration, onJump }: MotionRowProps) {
             transform: hovered ? 'translateX(calc(100cqw - 100%))' : 'translateX(0)',
             transitionProperty: 'transform',
             transitionDuration: isDuration ? vCss : '250ms',
-            transitionTimingFunction: isDuration ? `var(${cssName('system.motion.easing.default')}, ease)` : vCss
+            transitionTimingFunction: isDuration ? `var(${cssName('pd.system.motion.easing.$root')}, ease)` : vCss
           }}
         />
       </div>
@@ -185,12 +185,15 @@ export function TokenPreview({
   const v = (id?: string, fallback = ''): string =>
     has(id) ? `var(${cssName(id)}${fallback ? `, ${fallback}` : ''})` : fallback
   const byType = (type: string): Token[] => all.filter((t) => t.type === type)
-  const inFile = (word: string): Token[] => all.filter((t) => t.file.includes(`/${word}/`))
-  const isSystem = (t: Token): boolean => t.path[0] === 'system'
+  const inFile = (word: string): Token[] => all.filter((t) => categoryOf(t.file) === word)
+  const isSystem = (t: Token): boolean => t.path[1] === 'system'
+  const cleanPath = (t: Token): string[] => t.path.filter((seg) => seg !== '$root')
+  const displayPath = (t: Token): string => cleanPath(t).slice(2).join('.')
+  const leafName = (t: Token): string => cleanPath(t).at(-1) ?? ''
 
   const typos = byType('typography')
   const pickTypo = (role: string, size: string): string | undefined =>
-    typos.find((t) => t.path.includes(role) && t.path.at(-1) === size)?.id ??
+    typos.find((t) => t.path.includes(role) && leafName(t) === size)?.id ??
     typos.find((t) => t.path.includes(role))?.id
 
   const fontStyle = (id?: string): CSSProperties => {
@@ -202,38 +205,28 @@ export function TokenPreview({
     }
   }
 
-  // Semantic colour pairs (x / on-x / hover / active / subtle / on-subtle / border)
+  // Semantic colour pairs (pd.system.color.<role>.$root / on-<role>.$root / hover / active / subtle / on-subtle / border)
   const pairs: SemanticColorPair[] = byType('color')
-    .filter((t) => {
-      const name = t.path.at(-1) ?? ''
-      return (
-        !name.startsWith('on-') &&
-        !name.endsWith('-subtle') &&
-        !name.endsWith('-hover') &&
-        !name.endsWith('-active') &&
-        !name.endsWith('-border')
-      )
-    })
+    .filter((t) => t.path[1] === 'system' && t.path[2] === 'color' && t.path.length === 5 && t.path[4] === '$root')
     .map((t): SemanticColorPair | null => {
-      const prefix = t.path.slice(0, -1)
-      const name = t.path.at(-1) ?? ''
-      const sibling = (n: string) => tokens.get([...prefix, n].join('.'))
-      const on = sibling(`on-${name}`)
+      const name = t.path[3]
+      if (!name || name.startsWith('on-')) return null
+      const on = tokens.get(`pd.system.color.on-${name}.$root`)
       if (!on) return null
       return {
         bg: t,
         on,
-        hover: sibling(`${name}-hover`),
-        active: sibling(`${name}-active`),
-        subtle: sibling(`${name}-subtle`),
-        onSubtle: sibling(`on-${name}-subtle`),
-        border: sibling(`${name}-border`)
+        hover: tokens.get(`pd.system.color.${name}.hover`),
+        active: tokens.get(`pd.system.color.${name}.active`),
+        subtle: tokens.get(`pd.system.color.${name}.subtle`),
+        onSubtle: tokens.get(`pd.system.color.on-${name}.subtle`),
+        border: tokens.get(`pd.system.color.${name}.border`)
       }
     })
     .filter((p): p is SemanticColorPair => p !== null)
 
   const pairFor = (name: string): SemanticColorPair | undefined =>
-    pairs.find((p) => p.bg.path.at(-1) === name)
+    pairs.find((p) => leafName(p.bg) === name)
 
   const headingId = pickTypo('heading', 'md') ?? pickTypo('heading', 'sm')
   const headingXsId = pickTypo('heading', 'xs')
@@ -243,28 +236,31 @@ export function TokenPreview({
   const monoXsId = pickTypo('mono', 'xs') ?? pickTypo('mono', 'sm')
   const monoSmId = pickTypo('mono', 'sm')
 
-  const bgBaseId = pick('system.background.base')
-  const bgL1Id = pick('system.background.layer-1')
-  const bgL1SelectedId = pick('system.background.layer-1-selected', 'system.background.layer-2')
-  const bgL2Id = pick('system.background.layer-2')
-  const bgElevId = pick('system.background.elevated', 'system.background.layer-2-elevated')
-  const bgHoverId = pick('system.background.layer-2-hover', 'system.background.hover')
-  const bgSelectedId = pick('system.background.layer-2-selected', 'system.background.selected')
-  const txtPrimaryId = pick('system.text.primary')
+  const bgBaseId = pick('pd.system.color.surface.base')
+  const bgL1Id = pick('pd.system.color.surface.layer-1.$root')
+  const bgL1SelectedId = pick('pd.system.color.surface.layer-1.selected.$root', 'pd.system.color.surface.layer-2.$root')
+  const bgL2Id = pick('pd.system.color.surface.layer-2.$root')
+  const bgElevId = pick('pd.system.color.surface.elevated')
+  const bgHoverId = pick('pd.system.color.surface.layer-2.hover', 'pd.system.color.surface.hover')
+  const bgSelectedId = pick('pd.system.color.surface.layer-2.selected.$root', 'pd.system.color.surface.selected.$root')
+  const txtPrimaryId = pick('pd.system.color.on-surface.$root')
 
-  const bgTokens = byType('color').filter((t) => t.path[0] === 'system' && t.path[1] === 'background')
-  const isInteractiveBg = (key: string): boolean => /^(?:layer-[12]-)?(?:hover|active|selected|selected-hover)$/.test(key)
-  const bgLayerTokens = bgTokens.filter((t) => !isInteractiveBg(t.path.at(-1) ?? ''))
-  const bgInteractiveTokens = bgTokens.filter((t) => isInteractiveBg(t.path.at(-1) ?? ''))
+  const bgTokens = byType('color').filter((t) => t.path[1] === 'system' && t.path[2] === 'color' && t.path[3] === 'surface')
+  const isInteractiveBg = (t: Token): boolean => {
+    const tail = cleanPath(t).slice(4)
+    return tail.some((seg) => seg === 'hover' || seg === 'active' || seg === 'selected')
+  }
+  const bgLayerTokens = bgTokens.filter((t) => !isInteractiveBg(t))
+  const bgInteractiveTokens = bgTokens.filter((t) => isInteractiveBg(t))
 
-  const textTokens = byType('color').filter((t) => t.path[0] === 'system' && t.path[1] === 'text')
-  const borderColorTokens = byType('color').filter((t) => t.path[0] === 'system' && t.path[1] === 'border')
+  const textTokens = byType('color').filter((t) => t.path[1] === 'system' && t.path[2] === 'color' && t.path[3] === 'on-surface')
+  const borderColorTokens = byType('color').filter((t) => t.path[1] === 'system' && t.path[2] === 'color' && t.path[3] === 'border')
 
   // Global raw palettes
   const rawColors = inFile('color').filter((t) => t.type === 'color' && !refOf(t.node.$value))
   const colorGroups = new Map<string, Token[]>()
   for (const t of rawColors) {
-    const key = t.path.slice(0, -1).join('.')
+    const key = cleanPath(t).slice(0, -1).join('.')
     const bucket = colorGroups.get(key)
     if (bucket) {
       bucket.push(t)
@@ -295,13 +291,13 @@ export function TokenPreview({
   const widths = borderTokens.filter((t) => t.type === 'dimension' && t.path.includes('width') && !t.path.includes('focus'))
   const offsets = borderTokens.filter((t) => t.type === 'dimension' && t.path.includes('offset') && !t.path.includes('focus'))
   const styles = borderTokens.filter((t) => t.type === 'strokeStyle' && !t.path.includes('focus'))
-  const focusColorCss = v('system.border.focus', '#3b63fb')
-  const focusWidthCss = v('system.focus.width', '2px')
-  const focusStyleCss = v('system.focus.style', 'solid')
+  const focusColorCss = v('pd.system.color.border.focus', '#3b63fb')
+  const focusWidthCss = v('pd.system.border.focus.width', '2px')
+  const focusStyleCss = v('pd.system.border.focus.style', 'solid')
 
   // Elevation
   const shadows = byType('shadow')
-  const zIndexTokens = inFile('elevation').filter((t) => t.path.includes('z-index'))
+  const zIndexTokens = inFile('elevation').filter((t) => t.type === 'number')
   const sysZIndex = zIndexTokens.filter(isSystem)
   const globalZIndex = zIndexTokens.filter((t) => !isSystem(t))
   const elevationDims = inFile('elevation').filter((t) => t.type === 'dimension')
@@ -313,7 +309,7 @@ export function TokenPreview({
 
   const renderBadge = (p: SemanticColorPair | undefined) => {
     if (!p) return null
-    const name = p.bg.path.at(-1)
+    const name = leafName(p.bg)
     const bgCss = p.subtle ? v(p.subtle.id) : v(p.bg.id)
     const fgCss = p.onSubtle ? v(p.onSubtle.id) : v(p.on.id)
     const borderCss = p.border ? v(p.border.id) : 'transparent'
@@ -379,16 +375,16 @@ export function TokenPreview({
       type: 'group',
       label: 'Jump to Token',
       items: [
-        { label: 'system.primary', shortcut: 'Color', onClick: () => onJump('system.primary') },
-        { label: 'system.background.elevated', shortcut: 'Surface', onClick: () => onJump('system.background.elevated') },
-        { label: 'system.elevation.lg', shortcut: 'Shadow', onClick: () => onJump('system.elevation.lg') }
+        { label: 'pd.system.color.primary', shortcut: 'Color', onClick: () => onJump('pd.system.color.primary.$root') },
+        { label: 'pd.system.color.surface.elevated', shortcut: 'Surface', onClick: () => onJump('pd.system.color.surface.elevated') },
+        { label: 'pd.system.elevation.lg', shortcut: 'Shadow', onClick: () => onJump('pd.system.elevation.lg') }
       ]
     },
     { type: 'separator' },
     {
       label: 'Inspect Danger Token',
       tone: 'danger',
-      onClick: () => onJump('system.danger')
+      onClick: () => onJump('pd.system.color.danger.$root')
     }
   ]
 
@@ -506,16 +502,16 @@ export function TokenPreview({
               </div>
 
               <div className="flex flex-wrap items-center gap-2xs pt-2xs">
-                <Button variant="primary" size="sm" onPress={() => onJump('system.primary')}>
+                <Button variant="primary" size="sm" onPress={() => onJump('pd.system.color.primary.$root')}>
                   Primary
                 </Button>
-                <Button variant="secondary" size="sm" onPress={() => onJump('system.background.layer-1')}>
+                <Button variant="secondary" size="sm" onPress={() => onJump('pd.system.color.surface.layer-1.$root')}>
                   Secondary
                 </Button>
-                <Button variant="subtle" size="sm" onPress={() => onJump('system.info-subtle')}>
+                <Button variant="subtle" size="sm" onPress={() => onJump('pd.system.color.info.subtle')}>
                   Subtle
                 </Button>
-                <Button variant="danger" size="sm" onPress={() => onJump('system.danger')}>
+                <Button variant="danger" size="sm" onPress={() => onJump('pd.system.color.danger.$root')}>
                   Danger
                 </Button>
                 <Menu triggerLabel="更多操作" items={sampleMenuItems} />
@@ -545,7 +541,7 @@ export function TokenPreview({
                 </h4>
                 <div className="flex flex-wrap gap-2xs">
                   {pairs.map((p) => {
-                    const name = p.bg.path.at(-1)
+                    const name = leafName(p.bg)
                     return (
                       <button
                         key={name}
@@ -621,7 +617,7 @@ export function TokenPreview({
                           key={tool}
                           style={
                             i === 0
-                              ? { background: v(bgL1SelectedId), color: v('system.on-surface.default') }
+                              ? { background: v(bgL1SelectedId), color: v('pd.system.color.on-surface.$root') }
                               : undefined
                           }
                           className={`px-xs py-3xs rounded-2xs text-body-sm ${i === 0 ? 'font-medium' : 'text-on-surface-muted'}`}
@@ -699,7 +695,7 @@ export function TokenPreview({
               {/* Background Layer Swatches */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-xs">
                 {bgLayerTokens.map((t) => {
-                  const last = t.path.at(-1) ?? ''
+                  const last = leafName(t)
                   const isElevated = last.includes('elevated')
                   const isBackdrop = last === 'backdrop'
                   const fg = readableOn(val(t.id))
@@ -714,13 +710,13 @@ export function TokenPreview({
                       }}
                       className={`flex flex-col gap-3xs p-sm rounded-xs border-sm border-border-default cursor-pointer ${isElevated ? 'shadow-elevation-md' : ''}`}
                     >
-                      <strong className="text-label-sm">{t.path.slice(1).join('.')}</strong>
+                      <strong className="text-label-sm">{displayPath(t)}</strong>
                       <span className="text-mono-xs opacity-85">
                         {formatValue('color', val(t.id))} → {refOf(t.node.$value) ?? '自訂值'}
                       </span>
                       {isElevated && (
                         <span className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-on-surface border-sm border-border-subtle w-fit">
-                          + system.elevation.md
+                          + pd.system.elevation.md
                         </span>
                       )}
                       {isBackdrop && (
@@ -748,7 +744,7 @@ export function TokenPreview({
                         style={{ background: v(t.id) }}
                         className="flex flex-col gap-3xs p-sm rounded-xs border-sm border-border-default text-on-surface cursor-pointer"
                       >
-                        <strong className="text-label-sm">{t.path.slice(1).join('.')}</strong>
+                        <strong className="text-label-sm">{displayPath(t)}</strong>
                         <span className="text-mono-xs text-on-surface-muted">
                           {formatValue('color', val(t.id))} → {refOf(t.node.$value) ?? '自訂值'}
                         </span>
@@ -843,7 +839,7 @@ export function TokenPreview({
                     style={{ color: v(t.id) }}
                     className="flex flex-col gap-3xs p-sm rounded-xs bg-layer-2 border-sm border-border-default cursor-pointer"
                   >
-                    <strong className="text-label-sm">{t.path.slice(1).join('.')}</strong>
+                    <strong className="text-label-sm">{displayPath(t)}</strong>
                     <span className="text-mono-xs opacity-85">
                       {formatValue('color', val(t.id))} → {refOf(t.node.$value) ?? '自訂值'}
                     </span>
@@ -858,7 +854,7 @@ export function TokenPreview({
                     style={{ borderColor: v(t.id), borderWidth: '2px' }}
                     className="flex flex-col gap-3xs p-sm rounded-xs bg-layer-2 border-solid text-on-surface cursor-pointer"
                   >
-                    <strong className="text-label-sm">{t.path.slice(1).join('.')}</strong>
+                    <strong className="text-label-sm">{displayPath(t)}</strong>
                     <span className="text-mono-xs text-on-surface-muted">
                       {formatValue('color', val(t.id))} → {refOf(t.node.$value) ?? '自訂值'}
                     </span>
@@ -887,12 +883,12 @@ export function TokenPreview({
                     }}
                     className="flex flex-col gap-2xs p-sm rounded-xs border-sm border-border-default cursor-pointer"
                   >
-                    <strong className="text-label-md">{bg.path.at(-1)}</strong>
+                    <strong className="text-label-md">{leafName(bg)}</strong>
                     <span className="text-mono-xs opacity-90">
                       {formatValue('color', val(bg.id))} → {refOf(bg.node.$value) ?? '自訂值'}
                     </span>
                     <span className="text-mono-xs opacity-90">
-                      on-{bg.path.at(-1)} → {refOf(on.node.$value) ?? formatValue('color', val(on.id))}
+                      on-{leafName(bg)} → {refOf(on.node.$value) ?? formatValue('color', val(on.id))}
                     </span>
                     {(hover || active) && (
                       <div className="flex gap-2xs pt-3xs">
@@ -939,7 +935,7 @@ export function TokenPreview({
                 {pairs
                   .filter((p): p is SemanticColorPair & { subtle: Token; onSubtle: Token } => Boolean(p.subtle && p.onSubtle))
                   .map(({ bg, subtle, onSubtle, border }) => {
-                    const name = bg.path.at(-1)
+                    const name = leafName(bg)
                     return (
                       <div
                         key={subtle.id}
@@ -1070,7 +1066,7 @@ export function TokenPreview({
                         }}
                         className="flex flex-col px-xs py-2xs rounded-2xs border-sm border-border-default cursor-pointer text-mono-xs"
                       >
-                        <b>{t.path.slice(1).join('.')}</b>
+                        <b>{displayPath(t)}</b>
                         <span>{formatValue('color', val(t.id))}</span>
                       </div>
                     ))}
@@ -1098,7 +1094,7 @@ export function TokenPreview({
                   className="flex flex-col gap-3xs p-sm rounded-xs bg-layer-2 border-sm border-border-subtle hover:border-border-strong cursor-pointer"
                 >
                   <div className="flex items-center justify-between gap-sm">
-                    <code className="text-mono-xs text-primary">{t.path.slice(1).join('.')}</code>
+                    <code className="text-mono-xs text-primary">{displayPath(t)}</code>
                     <span className="text-mono-xs text-on-surface-muted">
                       {formatValue('typography', val(t.id) ?? {})}
                     </span>
@@ -1112,7 +1108,7 @@ export function TokenPreview({
           </div>
 
           <h3 className="text-label-md text-on-surface m-0 pt-xs">
-            等寬字體與對齊數字排版對照（system.font.mono vs .tabular-nums）
+            等寬字體與對齊數字排版對照（pd.system.font.mono vs .tabular-nums）
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-xs">
             <div
@@ -1120,7 +1116,7 @@ export function TokenPreview({
               className="flex flex-col gap-xs p-sm rounded-xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
             >
               <h4 className="text-label-xs text-on-surface m-0">
-                1. 等寬字體 <code>system.font.mono.sm</code>
+                1. 等寬字體 <code>pd.system.font.mono.sm</code>
               </h4>
               <div style={fontStyle(monoSmId)} className="flex flex-col text-on-surface">
                 <span>ID-2026-0011 · v1.0.4</span>
@@ -1228,10 +1224,10 @@ export function TokenPreview({
 
         {/* 4. Spacing */}
         <PreviewSection id="spacing" title="間距 Spacing">
-          {has('system.spacing.md') && (
+          {has('pd.system.spacing.md') && (
             <div className="flex flex-wrap gap-md">
-              {['xs', 'sm', 'md', 'lg', 'xl'].filter((s) => has(`system.spacing.${s}`)).map((s) => {
-                const id = `system.spacing.${s}`
+              {['xs', 'sm', 'md', 'lg', 'xl'].filter((s) => has(`pd.system.spacing.${s}`)).map((s) => {
+                const id = `pd.system.spacing.${s}`
                 return (
                   <div
                     key={id}
@@ -1261,7 +1257,7 @@ export function TokenPreview({
                 title={t.id}
                 className="grid grid-cols-[10rem_1fr_6rem] items-center gap-sm px-sm py-2xs rounded-2xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
               >
-                <code className="text-mono-xs text-on-surface">{t.path.slice(1).join('.')}</code>
+                <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
                 <div className="h-3 rounded-2xs bg-primary" style={{ width: v(t.id) }} />
                 <span className="text-mono-xs text-on-surface-muted text-right">
                   {formatValue(t.type, val(t.id))}
@@ -1279,7 +1275,7 @@ export function TokenPreview({
                 title={t.id}
                 className="grid grid-cols-[10rem_1fr_6rem] items-center gap-sm px-sm py-2xs rounded-2xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
               >
-                <code className="text-mono-xs text-on-surface">{t.path.slice(1).join('.')}</code>
+                <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
                 <div className="h-3 rounded-2xs bg-primary" style={{ width: v(t.id) }} />
                 <span className="text-mono-xs text-on-surface-muted text-right">
                   {formatValue(t.type, val(t.id))}
@@ -1294,7 +1290,7 @@ export function TokenPreview({
           {controlHeights.length > 0 && (
             <div className="flex flex-col gap-xs">
               <h3 className="text-label-md text-on-surface m-0">
-                System · 控制項與列高密度階層（system.control.height.*）
+                System · 控制項與列高密度階層（pd.system.size.control.*）
               </h3>
               <div className="flex flex-col gap-xs">
                 {controlHeights.map((t) => {
@@ -1314,7 +1310,7 @@ export function TokenPreview({
                         <span>{DENSITY_LABELS[key] ?? key}</span>
                       </div>
                       <code className="text-mono-xs text-on-surface-muted">
-                        {t.path.slice(1).join('.')} · {formatValue('dimension', val(t.id))}
+                        {displayPath(t)} · {formatValue('dimension', val(t.id))}
                       </code>
                     </div>
                   )
@@ -1326,7 +1322,7 @@ export function TokenPreview({
           {iconSizes.length > 0 && (
             <div className="flex flex-col gap-xs pt-xs">
               <h3 className="text-label-md text-on-surface m-0">
-                System · 圖示尺寸語意階層（system.icon.size.*）
+                System · 圖示尺寸語意階層（pd.system.size.icon.*）
               </h3>
               <div className="flex flex-col gap-xs">
                 {iconSizes.map((t) => {
@@ -1353,7 +1349,7 @@ export function TokenPreview({
                         </svg>
                       </div>
                       <code className="text-mono-xs text-on-surface">
-                        {t.path.slice(1).join('.')} · {formatValue('dimension', val(t.id))}
+                        {displayPath(t)} · {formatValue('dimension', val(t.id))}
                       </code>
                       <span className="text-body-sm text-on-surface-muted">
                         {ICON_ROLE_LABELS[key] ?? ''}
@@ -1365,7 +1361,7 @@ export function TokenPreview({
             </div>
           )}
 
-          <h3 className="text-label-md text-on-surface m-0 pt-xs">System · 基礎尺寸（system.size.*）</h3>
+          <h3 className="text-label-md text-on-surface m-0 pt-xs">System · 基礎尺寸（pd.system.size.*）</h3>
           <div className="flex flex-wrap items-end gap-md">
             {systemSizes.map((t) => (
               <div
@@ -1378,7 +1374,7 @@ export function TokenPreview({
                   style={{ width: v(t.id), height: v(t.id) }}
                   className="bg-primary/20 border-sm border-primary rounded-2xs"
                 />
-                <code className="text-mono-xs text-on-surface">{t.path.slice(1).join('.')}</code>
+                <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
                 <span className="text-mono-xs text-on-surface-muted">
                   {formatValue('dimension', val(t.id))}
                 </span>
@@ -1399,7 +1395,7 @@ export function TokenPreview({
                   style={{ width: v(t.id), height: v(t.id) }}
                   className="bg-primary/20 border-sm border-primary rounded-2xs"
                 />
-                <code className="text-mono-xs text-on-surface">{t.path.slice(1).join('.')}</code>
+                <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
                 <span className="text-mono-xs text-on-surface-muted">
                   {formatValue('dimension', val(t.id))}
                 </span>
@@ -1413,13 +1409,13 @@ export function TokenPreview({
           {focusTokens.length > 0 && (
             <div className="flex flex-col gap-xs">
               <h3 className="text-label-md text-on-surface m-0">
-                System · 無障礙焦點環幾何規範（system.focus.* + system.border.focus）
+                System · 無障礙焦點環幾何規範（pd.system.border.focus.* + pd.system.color.border.focus）
               </h3>
               <div className="flex flex-wrap gap-md">
                 {([
-                  ['system.focus.offset.default', 'offset.default (+2px)', '獨立按鈕與控制項外擴焦點環', '2px'],
-                  ['system.focus.offset.flush', 'offset.flush (0px)', '輸入框與停靠面板貼齊焦點環', '0px'],
-                  ['system.focus.offset.inset', 'offset.inset (-2px)', '高密度表格儲存格與清單內縮焦點環（防裁切）', '-2px']
+                  ['pd.system.border.focus.offset.$root', 'offset (+2px)', '獨立按鈕與控制項外擴焦點環', '2px'],
+                  ['pd.system.border.focus.offset.flush', 'offset.flush (0px)', '輸入框與停靠面板貼齊焦點環', '0px'],
+                  ['pd.system.border.focus.offset.inset', 'offset.inset (-2px)', '高密度表格儲存格與清單內縮焦點環（防裁切）', '-2px']
                 ] as const).map(([id, label, desc, fb]) => (
                   <div
                     key={id}
@@ -1451,7 +1447,7 @@ export function TokenPreview({
                   style={{ borderRadius: v(t.id) }}
                   className="w-16 h-16 bg-layer-2 border-md border-primary"
                 />
-                <code className="text-mono-xs text-on-surface">{t.path.slice(1).join('.')}</code>
+                <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
                 <span className="text-mono-xs text-on-surface-muted">
                   {formatValue('dimension', val(t.id))}
                 </span>
@@ -1472,7 +1468,7 @@ export function TokenPreview({
                   style={{ borderWidth: v(t.id) }}
                   className="w-16 h-16 rounded-xs bg-layer-2 border-solid border-primary"
                 />
-                <code className="text-mono-xs text-on-surface">{t.path.slice(1).join('.')}</code>
+                <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
                 <span className="text-mono-xs text-on-surface-muted">
                   {formatValue('dimension', val(t.id))}
                 </span>
@@ -1498,7 +1494,7 @@ export function TokenPreview({
                       }}
                       className="w-16 h-16 rounded-xs bg-layer-2 border-sm border-border-default"
                     />
-                    <code className="text-mono-xs text-on-surface">{t.path.slice(1).join('.')}</code>
+                    <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
                     <span className="text-mono-xs text-on-surface-muted">
                       {formatValue('dimension', val(t.id))}
                     </span>
@@ -1521,7 +1517,7 @@ export function TokenPreview({
                   style={{ borderStyle: v(t.id), borderWidth: '3px' }}
                   className="w-16 h-16 rounded-xs bg-layer-2 border-primary"
                 />
-                <code className="text-mono-xs text-on-surface">{t.path.slice(1).join('.')}</code>
+                <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
               </div>
             ))}
           </div>
@@ -1556,7 +1552,7 @@ export function TokenPreview({
           {sysZIndex.length > 0 && (
             <div className="flex flex-col gap-xs pt-xs">
               <h3 className="text-label-md text-on-surface m-0">
-                System · 圖層堆疊階層（system.z-index.*）
+                System · 圖層堆疊階層（pd.system.elevation.z.*）
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-xs">
                 {sysZIndex.map((t) => {
@@ -1596,7 +1592,7 @@ export function TokenPreview({
                     className="flex flex-col gap-3xs p-xs rounded-xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
                   >
                     <strong className="text-label-xs text-on-surface">
-                      {t.path.slice(1).join('.')}
+                      {displayPath(t)}
                     </strong>
                     <span className="text-mono-xs text-on-surface-muted">
                       z-index: {String(val(t.id) ?? '')}
@@ -1617,7 +1613,7 @@ export function TokenPreview({
                   title={t.id}
                   className="grid grid-cols-[10rem_1fr_6rem] items-center gap-sm px-sm py-2xs rounded-2xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
                 >
-                  <code className="text-mono-xs text-on-surface">{t.path.slice(1).join('.')}</code>
+                  <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
                   <div className="h-3 rounded-2xs bg-primary" style={{ width: v(t.id) }} />
                   <span className="text-mono-xs text-on-surface-muted text-right">
                     {formatValue(t.type, val(t.id))}

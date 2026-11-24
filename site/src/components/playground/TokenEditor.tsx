@@ -72,7 +72,7 @@ function candidatesFor(
   }
   if (hint) narrow((t) => t.id.includes(hint))
   else narrow((t) => T.categoryOf(t.file) === T.categoryOf(self.file))
-  const rank = (t: Token) => (t.path[0] === self.path[0] ? 1 : 0)
+  const rank = (t: Token) => (t.path[1] === self.path[1] ? 1 : 0)
   return list.sort((a, b) => rank(a) - rank(b))
 }
 
@@ -631,7 +631,7 @@ function RowHeader({
         </TooltipTrigger>
       )}
       <div className={`flex items-center gap-3xs ${users.length > 0 ? '' : 'ml-auto'}`}>
-        {linkable && !isAlias && token.type !== 'typography' && token.type !== 'shadow' && token.path[0] !== 'global' && (
+        {linkable && !isAlias && token.type !== 'typography' && token.type !== 'shadow' && token.path[1] !== 'global' && (
           <TooltipTrigger>
             <Button
               variant="secondary"

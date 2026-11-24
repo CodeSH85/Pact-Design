@@ -113,3 +113,17 @@ declare module '@pact-design/tokens/utils/token.js' {
     darkTokens?: Map<string, Token> | null
   ): { css: string; errors: TokenIssue[] }
 }
+
+declare module '@pact-design/tokens/utils/theme.js' {
+  import type { ThemeMode } from '../types/tokens'
+
+  export function isThemedNode(node: unknown): boolean
+  export function isDtcgNode(node: unknown): boolean
+  export function resolveTheme(tree: unknown, mode: ThemeMode): Record<string, unknown>
+  export function splitModes(tree: unknown): {
+    base: Record<string, unknown> | null
+    light: Record<string, unknown> | null
+    dark: Record<string, unknown> | null
+  }
+  export function collectThemedPaths(tree: unknown): Set<string>
+}

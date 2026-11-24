@@ -27,12 +27,10 @@ interface ColorPaletteGroup {
 
 const { files, lightTokens } = loadTokenCatalog()
 
-const colorGlobalRoot = files['tokens/global/color.json']
-const colorGlobalJson = (
-  colorGlobalRoot && typeof colorGlobalRoot === 'object' && 'global' in colorGlobalRoot
-    ? colorGlobalRoot.global
-    : {}
-) as Record<string, Record<string, unknown>>
+const colorGlobalRoot = files['tokens/global/color.json'] as
+  | { pd?: { global?: { color?: Record<string, Record<string, unknown>> } } }
+  | undefined
+const colorGlobalJson = colorGlobalRoot?.pd?.global?.color ?? {}
 
 const scaleNames = [
   'gray',
@@ -56,12 +54,12 @@ const globalPalettes: ColorPaletteGroup[] = scaleNames.map((scale) => {
     .filter((k) => !k.startsWith('$'))
     .sort((a, b) => Number(a) - Number(b))
     .map((step) => {
-      const tokenId = `global.${scale}.${step}`
+      const tokenId = `pd.global.color.${scale}.${step}`
       const token = lightTokens.get(tokenId)
       const val = token?.node.$value
       const hex = colorValueToHex(val)
       const [L, C, H] = colorValueToOklch(val)
-      const cssVar = cssName(['global', scale, step])
+      const cssVar = cssName(['pd', 'global', 'color', scale, step])
       const lcWhite = Math.abs(calculateAPCA('#ffffff', val))
       const fg = readableOn(val)
       return {
@@ -115,7 +113,7 @@ export function ColorPalette() {
             <div className="flex items-center justify-between text-label-sm">
               <strong className="text-on-surface">{palette.scale}</strong>
               <code className="text-mono-xs text-on-surface-muted">
-                --pd-global-{palette.scale.replace(/([A-Z])/g, '-$1').toLowerCase()}-{'{100..1200}'}
+                --pd-global-color-{palette.scale.replace(/([A-Z])/g, '-$1').toLowerCase()}-{'{100..1200}'}
               </code>
             </div>
             <div className="grid grid-cols-[repeat(12,minmax(64px,1fr))] gap-3xs overflow-x-auto">

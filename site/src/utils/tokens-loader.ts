@@ -1,4 +1,4 @@
-import { splitModes, tokenModules } from '@pact-design/tokens/src/index.ts'
+import { tokens } from '@pact-design/tokens/src/index.ts'
 import {
   colorValueToCss,
   colorValueToHex,
@@ -10,7 +10,9 @@ import {
   calculateContrast,
   readableOn
 } from '@pact-design/tokens/utils/contrast.js'
+import { splitModes } from '@pact-design/tokens/utils/theme.js'
 import {
+  categoryOf,
   cssName,
   dimensionToCss,
   flatten,
@@ -27,17 +29,53 @@ export interface TokenCatalog {
   darkTokens: Map<string, Token>
 }
 
+const DOMAIN_TO_CATEGORY: Record<string, string> = {
+  color: 'color',
+  font: 'typography',
+  spacing: 'spacing',
+  size: 'sizing',
+  border: 'border',
+  radius: 'border',
+  elevation: 'elevation',
+  motion: 'motion'
+}
+
+function groupDomainsByCategory(tierTree: Record<string, unknown>): Record<string, Record<string, unknown>> {
+  const grouped: Record<string, Record<string, unknown>> = {}
+  for (const [domain, value] of Object.entries(tierTree)) {
+    const category = DOMAIN_TO_CATEGORY[domain] ?? domain
+    grouped[category] ??= {}
+    grouped[category][domain] = value
+  }
+  return grouped
+}
+
 let cachedData: TokenCatalog | null = null
 
 export function loadTokenCatalog(): TokenCatalog {
   if (cachedData) return cachedData
 
   const files: TokenFiles = {}
-  for (const [moduleKey, tree] of Object.entries(tokenModules)) {
-    const { base, light, dark } = splitModes(tree)
-    if (base) files[`tokens/${moduleKey}.json`] = base as TokenGroupJson
-    if (light) files[`tokens/${moduleKey}.light.json`] = light as TokenGroupJson
-    if (dark) files[`tokens/${moduleKey}.dark.json`] = dark as TokenGroupJson
+
+  for (const [category, domains] of Object.entries(groupDomainsByCategory(tokens.pd.global))) {
+    const { base, light, dark } = splitModes({ pd: { global: domains } })
+    if (base) files[`tokens/global/${category}.json`] = base as TokenGroupJson
+    if (light) files[`tokens/global/${category}.light.json`] = light as TokenGroupJson
+    if (dark) files[`tokens/global/${category}.dark.json`] = dark as TokenGroupJson
+  }
+
+  for (const [category, domains] of Object.entries(groupDomainsByCategory(tokens.pd.system))) {
+    const { base, light, dark } = splitModes({ pd: { system: domains } })
+    if (base) files[`tokens/system/${category}.json`] = base as TokenGroupJson
+    if (light) files[`tokens/system/${category}.light.json`] = light as TokenGroupJson
+    if (dark) files[`tokens/system/${category}.dark.json`] = dark as TokenGroupJson
+  }
+
+  for (const [compName, compTree] of Object.entries(tokens.pd.component)) {
+    const { base, light, dark } = splitModes({ pd: { component: { [compName]: compTree } } })
+    if (base) files[`tokens/component/${compName}.json`] = base as TokenGroupJson
+    if (light) files[`tokens/component/${compName}.light.json`] = light as TokenGroupJson
+    if (dark) files[`tokens/component/${compName}.dark.json`] = dark as TokenGroupJson
   }
 
   const light = flatten(files, 'light')
@@ -55,6 +93,7 @@ export {
   apcaLevel,
   calculateAPCA,
   calculateContrast,
+  categoryOf,
   colorValueToCss,
   colorValueToHex,
   colorValueToOklch,

@@ -6,48 +6,46 @@ All token files strictly follow the **W3C Design Tokens Community Group (DTCG) F
 
 ## 1. Architecture & Principles
 
-### 1.1 Three-Tier Token Hierarchy
+### 1.1 Three-Tier Token Hierarchy (Category–Type–Item)
 
-Pact Design organizes design tokens into three distinct tiers to separate raw primitives from semantic intent and component-specific overrides:
+Pact Design organizes design tokens into a single canonical tree (`tokens = { pd: { global, system, component } }`) in `packages/tokens/src/`, following Material 3's **Category–Type–Item** taxonomy and W3C DTCG 2025.10 (`$value`, `$type`, `$root`):
 
-1. **Global (`global.*`)**: Foundation primitives with no semantic meaning.
-2. **System (`system.*`)**: Semantic tokens representing themeable UI roles, hierarchy, and density.
-3. **Component (`component.*`)**: Scoped tokens bound to specific UI components (e.g., Data Grid, Tree View, Button, Modal).
+1. **Global (`pd.global.<domain>.*`)**: Foundation primitives with no semantic meaning (`color`, `spacing`, `size`, `border`, `radius`, `elevation`, `motion`, `font`).
+2. **System (`pd.system.<domain>.*`)**: Semantic tokens representing themeable UI roles, hierarchy, and density (`color`, `spacing`, `size`, `border`, `radius`, `elevation`, `motion`, `font`).
+3. **Component (`pd.component.<component>[.<variant-or-part>].<property>[.<state>]`)**: Scoped tokens bound to explicit property slots (`bg`, `text`, `border`, `icon`, `dot`) of specific UI components.
 
-#### Global Level (`src/global/*.json`)
+#### Global Level (`packages/tokens/src/global/*.ts`)
 
-- Serves as the single source of truth for raw values (OKLCH colors, `rem`/`px` dimensions, font weights, stroke styles).
-- Uses numeric scales (`00`, `01`, `02`... or `50`–`1000` for 11-step color palettes) rather than semantic names.
+- Each file owns one disjoint namespace (`border`, `color`, `elevation`, `font`, `motion`, `radius`, `size`, `spacing`) with no cross-file merging.
+- Serves as the single source of truth for raw values (OKLCH colors including `scrim` and `shadow` alphas, `rem`/`px` dimensions, font weights, stroke styles).
+- Uses numeric scales (`00`, `01`, `02`... or `100`–`1200` for 12-step color palettes) rather than semantic names.
 
 > [!IMPORTANT]
-> Never reference `global.*` tokens directly in application or component stylesheets. Always consume `system.*` (or `component.*`) tokens so themes and density adjustments propagate automatically.
+> Never reference `pd.global.*` tokens directly in application or component stylesheets. Always consume `pd.system.*` (or `pd.component.*`) tokens so themes and density adjustments propagate automatically.
 
-#### System Level (`src/system/*.json`)
+#### System Level (`packages/tokens/src/system/*.ts`)
 
-- Maps `global.*` primitives to semantic roles (`background`, `text`, `border`, `semantic`, `font`, `spacing`, `size`, `radius`, `stroke`, `elevation`).
-- Uses a unified **T-shirt sizing scale** (`xs`, `sm`, `md`, `lg`, `xl`, with `3xs`–`5xl` extensions for spacing/sizing) anchored around `md` (`0.5rem` / `8px` for spacing, `1rem` / `16px` for sizing).
+- Maps `pd.global.*` primitives to semantic roles (`color.{surface, on-surface, border, primary..neutral, shadow}`, `border.{width, focus}`, `radius`, `spacing`, `size.{3xs..5xl, control, icon}`, `font`, `elevation.{xs..xl, z}`, `motion.{duration, easing}`).
+- Uses DTCG `$root` for base values inside nested state groups (e.g., `pd.system.color.surface.layer-1.$root` → `--pd-system-color-surface-layer-1`, `pd.system.color.surface.layer-1.hover` → `--pd-system-color-surface-layer-1-hover`).
+- Uses a unified **T-shirt sizing scale** (`xs`, `sm`, `md`, `lg`, `xl`, with `3xs`–`5xl` extensions for spacing/sizing) anchored around `md`.
 
-#### Component Level (`src/component/*.json`)
+#### Component Level (`packages/tokens/src/component/*.ts`)
 
-- Maps `system.*` tokens to specific component slots and interactive state variants (e.g., `button.json`, `field.json`, `switch.json`, `modal.json`, `popover.json`, `tab.json`, `toast.json`, `disclosure.json`, `checkbox.json`), enabling scoped customization without breaking system-wide semantics.
+- Maps `pd.system.*` tokens to explicit component property slots (`bg`, `text`, `border`, `icon`, `dot`) and interactive state groups (`$root`, `hover`, `active`, `selected`, `disabled`, `focus`, `invalid`), enabling scoped customization without breaking system-wide semantics.
 
 ### 1.2 Structural Conventions
 
-- **Nested Hierarchy over Hyphenated Keys**: Token groups use nested JSON objects (e.g., `global.font.weight.regular`, `global.shadow.color.01`, `system.background.layer-1`, `component.button.height.md`) rather than flat hyphenated keys.
-- **Property Ordering**: Within token leaf nodes, `$value` is placed before `$type`.
+- **1:1 Source-to-CSS Path**: The object path in `packages/tokens/src/` maps directly to the emitted CSS variable (with `$root` stripped by `name/dtcg-kebab`). Build scripts carry no prefix injection or structural business logic.
+- **Minimal Factory (`packages/tokens/src/factory.ts`)**: Provides pure leaf constructors (`oklch`, `rem`, `px`, `ms`, `num`, `ref`, `themed`, `scale`) only; theme resolution lives in `packages/tokens/utils/theme.js`.
 
 ---
 
 ## 2. Theming Strategy (Light & Dark Modes)
 
-Pact Design implements theming at the **System (`system.*`)** layer using **split token sets** (`system/*.light.json` and `system/*.dark.json`):
+Pact Design implements theming at the **System (`pd.system.color.*`)** layer using explicit side-by-side declarations via `color({ light, dark })` in `packages/tokens/src/system/color.ts`:
 
-- **100% Identical Token Paths**: Light and Dark files define the exact same JSON hierarchy and token names. Theme names (`light` / `dark`) are never embedded in token paths.
-- **File Structure**:
-  - `src/global/color.json` — Shared perceptual OKLCH palettes.
-  - `src/system/color.light.json` — Light mode semantic mappings (`:root, [data-theme="light"]`).
-  - `src/system/color.dark.json` — Dark mode semantic mappings (`[data-theme="dark"]`).
-  - `src/component/*.json` — Component token definitions referencing semantic system tokens.
+- **100% Identical Token Paths**: Light and Dark values are paired directly on every leaf token. Theme names (`light` / `dark`) are never embedded in token paths.
+- **Build-Time Resolution**: `scripts/build.ts` resolves the canonical `tokens` tree for `'light'` and `'dark'` via `utils/theme.js`, emitting `:root, [data-theme="light"]` defaults and `[data-theme="dark"]` overrides through Style Dictionary v5.
 
 ---
 

@@ -8,29 +8,30 @@ Design Token 是設計系統中最小單位的視覺決策記錄。透過將色�
 
 ---
 
-## 三層式語意架構
+## 三層式語意架構（Category–Type–Item）
 
-Pact Design 將所有 Design Token 劃分為三個職責明確的層級，並嚴格遵守由下而上的單向參照原則，讓原始數值與介面語意、元件封裝徹底解耦：
+Pact Design 參考 Material 3 的 **Category–Type–Item** 命名語法，將所有 Design Token 統一宣告於 `pd.<tier>.<domain>.*` 命名空間中，並嚴格遵守由下而上的單向參照原則：
 
 | 層級 | CSS 變數前綴 | 職責說明 | 範例 |
 | :--- | :--- | :--- | :--- |
-| **Global 原始層** | `--pd-global-*` | 儲存不含情境語意的基礎原始值，涵蓋 13 組 OKLCH 色盤、尺寸與間距階梯、字重與動效時間刻度。 | `--pd-global-indigo-600`、`--pd-global-spacing-05` |
-| **System 語意層** | `--pd-system-*` | 賦予設計意圖與主題感知能力，定義工作區表面、表面文字、語意狀態色、邊框、焦點與複合排版字階。 | `--pd-system-background-layer-1`、`--pd-system-on-surface-default` |
-| **Component 元件層** | `--pd-component-*` | 針對特定互動元件封裝專屬變數，預設參照 System 層，方便針對單一元件微調而不影響全域樣式。 | `--pd-component-button-height-sm`、`--pd-component-field-color-border-focus` |
+| **Global 原始層** | `--pd-global-*` | 儲存不含情境語意的基礎原始值，涵蓋 13 組 OKLCH 色盤、尺寸與間距階梯、字重與動效時間刻度。 | `--pd-global-color-indigo-600`、`--pd-global-spacing-05` |
+| **System 語意層** | `--pd-system-*` | 賦予設計意圖與主題感知能力，定義工作區表面、表面文字、語意狀態色、邊框、焦點與複合排版字階。 | `--pd-system-color-surface-layer-1`、`--pd-system-color-on-surface` |
+| **Component 元件層** | `--pd-component-*` | 針對特定互動元件的屬性插槽（`bg`、`text`、`border`、`icon`）封裝專屬變數，預設參照 System 層。 | `--pd-component-button-primary-bg-hover`、`--pd-component-field-border-focus` |
 
 ---
 
-## TypeScript DSL 與 W3C DTCG 2025.10 規範
+## 宣告式原始碼與 W3C DTCG 2025.10 規範
 
-所有原始 Token 皆於 `packages/tokens/src/` 內透過強型別 TypeScript DSL 撰寫，並在建置階段於記憶體中組裝為完全符合 **W3C Design Tokens Community Group 2025.10** 標準的結構化樹狀資料：
+所有原始 Token 皆於 `packages/tokens/src/` 內透過精簡純函式工廠（`factory.ts`）撰寫，檔案目錄與物件結構直接決定最終的命名空間與 CSS 變數名稱，並完全符合 **W3C Design Tokens Community Group 2025.10** 標準（包含 `$value`、`$type` 與群組基準值 `$root`）：
 
+- **單一資料來源**：`tokens = { pd: { global, system, component } }` 的結構與編譯產出的 CSS 變數名稱維持 1:1 對應，建置腳本不包含任何隱性前綴或跨檔合併邏輯。
 - **編譯期路徑檢查**：System 層與 Component 層的參照路徑在 TypeScript 型別階段即受檢驗，避免拼寫錯誤或無效參照流入建置產物。
-- **保留變數參照鏈**：編譯為 CSS Custom Properties 時保留層級間的 `var(--pd-*)` 參照關係，讓主題切換與覆寫能在瀏覽器原生完成，不需額外執行期成本。
-- **純淨原始定義**：原始 Token 不混雜特定框架或目標平台的擴充屬性，保持跨平台中立與可移植性。
+- **DTCG `$root` 群組基準**：互動狀態群組使用 `$root` 定義預設值（例如 `primary.$root` 與 `primary.hover`），編譯時自動省略 `$root` 區段，輸出 `--pd-system-color-primary` 與 `--pd-system-color-primary-hover`。
+- **保留變數參照鏈**：編譯為 CSS Custom Properties 時保留層級間的 `var(--pd-*)` 參照關係，讓主題切換與覆寫能在瀏覽器原生完成。
 
 ```ts
 // packages/tokens/src/global/color.ts
-import { oklchPalette } from '../dsl/index.ts'
+import { oklchPalette } from '../factory.ts'
 
 export const globalColor = {
   indigo: oklchPalette({
@@ -40,11 +41,11 @@ export const globalColor = {
 } as const
 
 // packages/tokens/src/system/color.ts
-import { ref, themed } from '../dsl/index.ts'
-
 export const systemColor = {
-  semantic: {
-    primary: themed(ref('color', 'global.indigo.600'), ref('color', 'global.indigo.700'))
+  primary: {
+    $root: color({ light: 'indigo.600', dark: 'indigo.700' }),
+    hover: color({ light: 'indigo.700', dark: 'indigo.600' }),
+    active: color({ light: 'indigo.800', dark: 'indigo.800' })
   }
 } as const
 ```
@@ -53,21 +54,21 @@ export const systemColor = {
 
 ## 單一來源的深淺主題策略
 
-Pact Design 在 System 層透過 `themed(light, dark)` 於同一份定義檔中同步宣告淺色與深色主題對應值，而非拆分兩份容易不同步的設定檔：
+Pact Design 在 System 層透過 `color({ light, dark })` 於同一份定義檔中同步宣告淺色與深色主題對應值，而非拆分兩份容易不同步的設定檔：
 
 - **鍵名完全對稱**：淺色與深色模式天生維持 100% 一致的 Token 名稱與路徑結構，不會在路徑中混入 `light` 或 `dark` 字樣。
 - **CSS 選擇器隔離**：建置工具會將預設淺色變數輸出至 `:root, [data-theme="light"]`，深色覆寫變數則輸出至 `[data-theme="dark"]`，只需切換根節點屬性即可完成全站主題切換。
 
 ```css
 :root, [data-theme="light"] {
-  --pd-global-indigo-600: oklch(0.6 0.192 274.9733);
-  --pd-system-semantic-primary: var(--pd-global-indigo-600);
-  --pd-system-on-surface-default: var(--pd-global-gray-1200);
+  --pd-global-color-indigo-600: oklch(0.6 0.192 274.9733);
+  --pd-system-color-primary: var(--pd-global-color-indigo-600);
+  --pd-system-color-on-surface: var(--pd-global-color-gray-1100);
 }
 
 [data-theme="dark"] {
-  --pd-system-semantic-primary: var(--pd-global-indigo-700);
-  --pd-system-on-surface-default: var(--pd-global-white);
+  --pd-system-color-primary: var(--pd-global-color-indigo-700);
+  --pd-system-color-on-surface: var(--pd-global-color-gray-200);
 }
 ```
 
@@ -77,7 +78,7 @@ Pact Design 在 System 層透過 `themed(light, dark)` 於同一份定義檔中�
 
 Pact Design 將純資料層與 Web 樣式層拆分為兩個協同套件，讓團隊可依專案架構彈性引入：
 
-1. **`@pact-design/tokens`**：使用 Style Dictionary v5 編譯 TypeScript DSL，產出全套 `--pd-*` CSS 變數與純淨的 Token 中繼資料清單，並內建自動化 APCA 對比度測試與契約驗證。
+1. **`@pact-design/tokens`**：使用 Style Dictionary v5 編譯宣告式 Token 樹，產出全套 `--pd-*` CSS 變數與純淨的 Token 中繼資料清單，並內建自動化 APCA 對比度測試與契約驗證。
 2. **`@pact-design/styles`**：消費 `@pact-design/tokens` 產物，透過 Lightning CSS 編譯為開箱即用的分層現代 CSS 樣式表，整合原生深淺色 `color-scheme` 支援、局部重設樣式與各元件語意樣式，亦提供選用的 UnoCSS 預設集供應用程式層排版使用。
 
 ```css
