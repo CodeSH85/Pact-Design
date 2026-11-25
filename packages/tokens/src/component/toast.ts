@@ -7,7 +7,8 @@ function semanticTone(tone: ToastSemanticTone) {
     bg: `pd.system.color.${tone}.subtle.$root`,
     border: `pd.system.color.${tone}.border.$root`,
     text: `pd.system.color.on-${tone}.subtle`,
-    icon: `pd.system.color.${tone}.text.$root`
+    icon: `pd.system.color.${tone}.text.$root`,
+    'close-hover': `pd.system.color.${tone}.subtle.hover`
   })
 }
 
@@ -25,7 +26,8 @@ export const toastTokens = {
       bg: 'pd.system.color.surface.elevated',
       border: 'pd.system.color.border.$root',
       text: 'pd.system.color.on-surface.$root',
-      icon: 'pd.system.color.on-surface.muted'
+      icon: 'pd.system.color.on-surface.muted',
+      'close-hover': 'pd.system.color.surface.layer-2.hover'
     }),
     info: semanticTone('info'),
     success: semanticTone('success'),

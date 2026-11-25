@@ -53,7 +53,7 @@ export function controlGeometry() {
       md: 'pd.system.radius.sm',
       lg: 'pd.system.radius.md',
       xl: 'pd.system.radius.lg',
-      full: 'pd.system.radius.xl'
+      full: 'pd.system.radius.full'
     })
   }
 }
