@@ -45,7 +45,7 @@ Pact Design organizes design tokens into a single canonical tree (`tokens = { pd
 Pact Design implements theming at the **System (`pd.system.color.*`)** layer using explicit side-by-side declarations via `color({ light, dark })` in `packages/tokens/src/system/color.ts`:
 
 - **100% Identical Token Paths**: Light and Dark values are paired directly on every leaf token. Theme names (`light` / `dark`) are never embedded in token paths.
-- **Build-Time Resolution**: `scripts/build.ts` resolves the canonical `tokens` tree for `'light'` and `'dark'` via `utils/theme.js`, emitting `:root, [data-theme="light"]` defaults and `[data-theme="dark"]` overrides through Style Dictionary v5.
+- **Build-Time Resolution**: `scripts/build.ts` resolves the canonical `tokens` tree for `'light'` and `'dark'` via `utils/theme.js`, emitting `:root, [data-theme="light"]` defaults, `[data-theme="dark"]` overrides, and opt-in `@media (prefers-color-scheme: dark) { [data-theme="system"] { ... } }` overrides through Style Dictionary v5.
 
 ---
 
@@ -58,10 +58,10 @@ Pact Design implements theming at the **System (`pd.system.color.*`)** layer usi
 - **Color Space**: Perceptually uniform **OKLCH** (`colorSpace: "oklch"`, `components: [L, C, H]`, `alpha`, plus sRGB `hex` fallback).
 - **13 Scales × 12 Shades (`100`–`1200`)**: `gray`, `coolGray`, `warmGray`, `cyan`, `blue`, `indigo`, `purple`, `magenta`, `red`, `orange`, `yellow`, `green` (clean emerald hue at `H = 148°`), and `mint`, plus `white` (`#ffffff`) and `black` (`#000000`).
 - **12-Step Perceptual Lightness Curve (`100` to `1200`)**:
-  - `100` (`L = 0.968`) → `200` (`0.930`) → `300` (`0.870`) → `400` (`0.790`) → `500` (`0.698`) → **`600` (`0.600`, true perceptual midpoint)** → `700` (`0.504`) → `800` (`0.416`) → `900` (`0.344`) → `1000` (`0.288`) → `1100` (`0.244`) → `1200` (`0.208`).
-  - `yellow` features elevated high-luminance light steps (`100`–`500`: `0.975`, `0.945`, `0.895`, `0.825`, `0.725`), joining the standard curve at `600` (`0.600`).
-- **APCA & sRGB Gamut Baseline**:
-  - All `600`–`1200` shades pass **APCA `|Lc| >= 60`** against `#ffffff` (`600` reaches `Lc +63.9` to `+74.4` as text on white and `Lc -69.4` to `-74.4` with white text on solid backgrounds; `700` reaches `Lc +77.1` to `+86.1` and WCAG `≥ 5.5:1`).
+  - `100` (`L = 0.968`) → `200` (`0.930`) → `300` (`0.870`) → `400` (`0.790`) → `500` (`0.698`) → **`600` (`0.550`, WCAG AA + APCA midpoint)** → `700` (`0.468`) → `800` (`0.396`) → `900` (`0.344`) → `1000` (`0.288`) → `1100` (`0.244`) → `1200` (`0.208`).
+  - `yellow` features elevated high-luminance light steps (`100`–`500`: `0.975`, `0.945`, `0.895`, `0.825`, `0.725`), joining the standard curve at `600` (`0.550`).
+- **APCA, WCAG 2.1 AA & sRGB Gamut Baseline**:
+  - All `600`–`1200` shades pass **both APCA `|Lc| >= 60` and WCAG 2.1 AA `>= 4.5:1`** against `#ffffff` (`600` reaches `Lc -76.3` to `-80.5` and WCAG `4.54:1`–`5.39:1` across solid semantic roles; `700` reaches `Lc -86.5` to `-89.9` and WCAG `>= 6.45:1`).
   - All 156 shades lie 100% within the standard sRGB gamut.
 
 #### System Background Layers & Interactive Surface States (`system.background.*`)
@@ -105,7 +105,7 @@ Engineered to pass **APCA** (`Lc`) and WCAG 2.1 contrast across **all background
 | :--- | :--- | :--- | :--- |
 | `system.border.subtle` | `{global.gray.200}` (`#e8e8e8`) | `{global.gray.900}` (`#393939`) | Internal panel dividers and dense table row hairlines (`|Lc| ~16` on dark `layer-2`). |
 | `system.border.default` | `{global.gray.300}` (`#d4d4d4`) | `{global.gray.800}` (`#4c4c4c`) | Default container, card, and panel borders (`|Lc| ~28` on dark `layer-2`). |
-| `system.border.strong` | `{global.gray.500}` (`#9e9e9e`) | `{global.gray.400}` (`#bababa`) | High-contrast form input borders (`|Lc| ~61` on dark `layer-2`). |
+| `system.border.strong` | `{global.gray.600}` (`#717171`) | `{global.gray.400}` (`#bababa`) | High-contrast form input borders (`WCAG >= 3.0:1` & `|Lc| >= 61` on `layer-2`). |
 | `system.border.focus` | `{system.semantic.primary}` | `{global.indigo.400}` | Keyboard focus ring indicator (`|Lc| > 55` across all surfaces). |
 
 #### System Semantic Status & Action Colors (`pd.system.color.<role>.*`)
@@ -113,7 +113,7 @@ Engineered to pass **APCA** (`Lc`) and WCAG 2.1 contrast across **all background
 Each semantic role (`primary`, `secondary`, `success`, `danger`, `warning`, `info`, `neutral`) defines a symmetric 4-pattern structure:
 
 1. **Solid Action Pattern (`<role>.$root`, `hover`, `active`, `on-<role>.$root`)**:
-   - Maintains a consistent **light-text on deep-background** hierarchy in both Light and Dark themes (`|Lc| >= 69` in Light, `|Lc| >= 82` in Dark).
+   - Maintains a consistent **light-text on deep-background** hierarchy in both Light and Dark themes, passing both **APCA (`|Lc| >= 76`)** and **WCAG 2.1 AA (`>= 4.5:1`)** across all rest, hover, and active states.
 2. **Subtle Status Container Pattern (`<role>.subtle.{ $root, hover, active }`, `on-<role>.subtle`, `<role>.border.$root`)**:
    - Uses same-hue soft backgrounds (`100 / 200 / 300` Light, `1000 / 900 / 800` Dark) paired with `on-<role>.subtle` (`800` Light, `300` Dark) — passing WCAG `>= 5.76:1` and APCA `|Lc| >= 63` across all interactive states.
 3. **Foreground Text & Icons on Neutral Surfaces (`<role>.text.{ $root, hover, active }`)**:
