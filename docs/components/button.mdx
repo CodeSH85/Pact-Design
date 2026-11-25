@@ -94,10 +94,7 @@ Pact Design 提供六種視覺層級的按鈕，依操作重要性由高至低�
 按鈕內嵌 `<svg>` 圖示時會依 `size` 自動縮放尺寸；設定 `icon` 布林屬性即可呈現等寬高的正方形純圖示按鈕。若同時傳入 `href`，元件底層會改為渲染無障礙原生 `<a>` 連結。
 
 <ComponentPreview>
-  <Button variant="primary">
-    <RiAddLine />
-    新增項目
-  </Button>
+  <Button variant="primary"><RiAddLine />新增項目</Button>
   <Button variant="secondary" size="xs" icon aria-label="設定">
     <RiSettings3Line />
   </Button>
@@ -107,10 +104,7 @@ Pact Design 提供六種視覺層級的按鈕，依操作重要性由高至低�
   <Button variant="ghost" size="sm" icon href="https://github.com/CodeSH85/Pact-UI" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
     <RiGithubFill />
   </Button>
-  <Button variant="link" href="https://github.com/CodeSH85/Pact-UI" target="_blank" rel="noopener noreferrer">
-    GitHub
-    <RiArrowRightUpLine />
-  </Button>
+  <Button variant="link" href="https://github.com/CodeSH85/Pact-UI" target="_blank" rel="noopener noreferrer">GitHub<RiArrowRightUpLine /></Button>
 </ComponentPreview>
 
 ```tsx
