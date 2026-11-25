@@ -1,4 +1,4 @@
-import { colorMap, colorRef, controlGeometry } from './helpers.ts'
+import { colorMap, colorRef, controlGeometry, shadowMap } from './helpers.ts'
 
 export const fieldTokens = {
   ...controlGeometry(),
@@ -9,13 +9,18 @@ export const fieldTokens = {
   border: {
     $root: colorRef('pd.system.color.border.$root'),
     hover: colorRef('pd.system.color.border.strong'),
-    focus: colorRef('pd.system.color.border.focus'),
+    focus: colorRef('pd.system.color.border.focus.$root'),
     invalid: colorMap({
-      $root: 'pd.system.color.danger.$root',
-      hover: 'pd.system.color.danger.hover'
+      $root: 'pd.system.color.danger.border.strong',
+      hover: 'pd.system.color.danger.text.hover',
+      focus: 'pd.system.color.border.focus.danger'
     }),
     disabled: colorRef('pd.system.color.border.subtle')
   },
+  shadow: shadowMap({
+    focus: 'pd.system.elevation.focus.$root',
+    'invalid-focus': 'pd.system.elevation.focus.danger'
+  }),
   text: colorMap({
     $root: 'pd.system.color.on-surface.$root',
     placeholder: 'pd.system.color.on-surface.disabled',
@@ -29,6 +34,6 @@ export const fieldTokens = {
     text: colorRef('pd.system.color.on-surface.muted')
   },
   error: {
-    text: colorRef('pd.system.color.on-danger.subtle')
+    text: colorRef('pd.system.color.danger.text.$root')
   }
 } as const

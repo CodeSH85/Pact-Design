@@ -52,6 +52,22 @@ export const systemElevation = {
     blur: 'pd.global.elevation.blur.05',
     spread: 'pd.global.elevation.spread.03'
   }),
+  focus: {
+    $root: shadow({
+      offsetX: '{pd.global.elevation.offset.00}',
+      offsetY: '{pd.global.elevation.offset.00}',
+      blur: '{pd.global.elevation.blur.00}',
+      spread: '{pd.global.elevation.spread.06}',
+      color: '{pd.system.color.border.focus.halo}'
+    }),
+    danger: shadow({
+      offsetX: '{pd.global.elevation.offset.00}',
+      offsetY: '{pd.global.elevation.offset.00}',
+      blur: '{pd.global.elevation.blur.00}',
+      spread: '{pd.global.elevation.spread.06}',
+      color: '{pd.system.color.border.focus.danger-halo}'
+    })
+  },
   z: refMap('number', {
     base: 'pd.global.elevation.z-index.00',
     docked: 'pd.global.elevation.z-index.01',

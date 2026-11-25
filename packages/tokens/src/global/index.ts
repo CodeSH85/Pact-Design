@@ -3,6 +3,7 @@ import { globalBorder } from './border.ts'
 import { globalColor } from './color.ts'
 import { globalElevation } from './elevation.ts'
 import { globalMotion } from './motion.ts'
+import { globalOpacity } from './opacity.ts'
 import { globalRadius } from './radius.ts'
 import { globalSize } from './sizing.ts'
 import { globalSpacing } from './spacing.ts'
@@ -14,6 +15,7 @@ export const globalTokens = {
   elevation: globalElevation,
   font: globalFont,
   motion: globalMotion,
+  opacity: globalOpacity,
   radius: globalRadius,
   size: globalSize,
   spacing: globalSpacing
@@ -22,3 +24,4 @@ export const globalTokens = {
 export type GlobalTree = { pd: { global: typeof globalTokens } }
 export type GlobalRefPath<T extends DtcgType> = TypedTokenPath<GlobalTree, T>
 export type GlobalColorKey = TypedTokenPath<typeof globalColor, 'color'>
+export type GlobalOpacityKey = keyof typeof globalOpacity

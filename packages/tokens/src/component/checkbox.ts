@@ -11,7 +11,8 @@ export const checkboxTokens = {
   }),
   border: colorMap({
     $root: 'pd.system.color.border.strong',
-    hover: 'pd.system.color.primary.$root',
+    hover: 'pd.system.color.primary.border.strong',
+    focus: 'pd.system.color.border.focus.$root',
     selected: 'pd.system.color.primary.$root',
     disabled: 'pd.system.color.border.subtle'
   }),
