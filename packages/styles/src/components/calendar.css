@@ -52,6 +52,14 @@
   height: var(--pd-system-size-icon-sm);
 }
 
+:where([dir="rtl"]) .pd-calendar-nav-icon {
+  transform: scaleX(-1);
+}
+
+:where([dir="ltr"]) .pd-calendar-nav-icon {
+  transform: none;
+}
+
 .pd-calendar-grid {
   border-collapse: collapse;
 }
@@ -162,4 +170,21 @@
 
 .pd-date-picker-dialog {
   padding: var(--pd-system-spacing-xs);
+}
+
+@media (forced-colors: active) {
+  .pd-calendar-cell:where([data-selected]),
+  .pd-date-segment:where([data-focused]) {
+    forced-color-adjust: none;
+    background-color: Highlight;
+    color: HighlightText;
+  }
+
+  .pd-calendar-cell:where([data-today]) {
+    border-color: CanvasText;
+  }
+
+  .pd-calendar-cell:where([data-disabled], [data-unavailable], [data-outside-month]) {
+    color: GrayText;
+  }
 }

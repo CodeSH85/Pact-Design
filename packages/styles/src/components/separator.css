@@ -25,3 +25,9 @@
     background-color: var(--pd-system-color-border-strong);
   }
 }
+
+@media (forced-colors: active) {
+  .pd-separator {
+    background-color: CanvasText;
+  }
+}

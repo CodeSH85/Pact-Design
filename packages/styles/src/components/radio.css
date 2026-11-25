@@ -61,3 +61,26 @@
     gap: var(--pd-system-spacing-md);
   }
 }
+
+@media (forced-colors: active) {
+  .pd-radio-circle {
+    border-color: ButtonText;
+  }
+
+  :where(.pd-radio[data-selected]) .pd-radio-circle {
+    border-color: Highlight;
+  }
+
+  .pd-radio-dot {
+    forced-color-adjust: none;
+    background-color: Highlight;
+  }
+
+  :where(.pd-radio[data-disabled]) .pd-radio-circle {
+    border-color: GrayText;
+  }
+
+  :where(.pd-radio[data-disabled]) .pd-radio-dot {
+    background-color: GrayText;
+  }
+}

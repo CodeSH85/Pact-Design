@@ -103,6 +103,22 @@
   }
 }
 
+:where([dir="rtl"]) .pd-tree-chevron-icon {
+  transform: scaleX(-1) rotate(0deg);
+
+  &:where([data-expanded]) {
+    transform: scaleX(-1) rotate(90deg);
+  }
+}
+
+:where([dir="ltr"]) .pd-tree-chevron-icon {
+  transform: none;
+
+  &:where([data-expanded]) {
+    transform: rotate(90deg);
+  }
+}
+
 .pd-tree-chevron-spacer {
   width: var(--pd-system-size-control-xs);
   margin-inline-start: calc(var(--pd-system-spacing-2xs) * -1);
@@ -115,4 +131,20 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+@media (forced-colors: active) {
+  .pd-tree-item:where([data-selected]) {
+    forced-color-adjust: none;
+    background-color: Highlight;
+    color: HighlightText;
+  }
+
+  .pd-tree-item:where([data-selected]) .pd-tree-chevron-btn {
+    color: HighlightText;
+  }
+
+  .pd-tree-item:where([data-disabled]) {
+    color: GrayText;
+  }
 }

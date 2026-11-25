@@ -144,6 +144,30 @@
   }
 }
 
+:where([dir="rtl"]) .pd-toast-region {
+  &:where([data-placement="bottom-end"], [data-placement="top-end"], :not([data-placement])) {
+    --_toast-in: pd-slide-in-left;
+    --_toast-out: pd-slide-out-left;
+  }
+
+  &:where([data-placement="bottom-start"], [data-placement="top-start"]) {
+    --_toast-in: pd-slide-in-right;
+    --_toast-out: pd-slide-out-right;
+  }
+}
+
+:where([dir="ltr"]) .pd-toast-region {
+  &:where([data-placement="bottom-end"], [data-placement="top-end"], :not([data-placement])) {
+    --_toast-in: pd-slide-in-right;
+    --_toast-out: pd-slide-out-right;
+  }
+
+  &:where([data-placement="bottom-start"], [data-placement="top-start"]) {
+    --_toast-in: pd-slide-in-left;
+    --_toast-out: pd-slide-out-left;
+  }
+}
+
 :where(.pd-toast-region) > * {
   pointer-events: auto;
 }

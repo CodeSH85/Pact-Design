@@ -129,3 +129,38 @@
     scale: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .pd-slider-thumb:where(:hover, [data-hovered], [data-dragging]) {
+    scale: 1;
+  }
+}
+
+@media (forced-colors: active) {
+  .pd-slider-track {
+    border-color: ButtonText;
+
+    &:where([data-disabled]) {
+      border-color: GrayText;
+    }
+  }
+
+  .pd-slider-fill {
+    forced-color-adjust: none;
+    background-color: Highlight;
+
+    &:where([data-disabled]) {
+      background-color: GrayText;
+    }
+  }
+
+  .pd-slider-thumb {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    border-color: Highlight;
+
+    &:where([data-disabled]) {
+      border-color: GrayText;
+    }
+  }
+}

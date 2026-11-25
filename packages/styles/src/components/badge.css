@@ -113,3 +113,9 @@
     letter-spacing: var(--pd-system-font-label-xs-letter-spacing);
   }
 }
+
+@media (forced-colors: active) {
+  .pd-badge:where([data-variant="solid"]) {
+    border-color: CanvasText;
+  }
+}

@@ -40,6 +40,8 @@
 }
 
 .pd-switch-thumb {
+  --_switch-dir: 1;
+
   pointer-events: none;
   display: block;
   border-radius: var(--pd-component-switch-thumb-radius);
@@ -60,10 +62,49 @@
   }
 }
 
+:where([dir="rtl"]) .pd-switch-thumb {
+  --_switch-dir: -1;
+}
+
+:where([dir="ltr"]) .pd-switch-thumb {
+  --_switch-dir: 1;
+}
+
 :where(.pd-switch[data-selected]) .pd-switch-thumb:where([data-size="sm"]) {
-  transform: translateX(var(--pd-component-switch-thumb-translate-sm));
+  transform: translateX(calc(var(--pd-component-switch-thumb-translate-sm) * var(--_switch-dir)));
 }
 
 :where(.pd-switch[data-selected]) .pd-switch-thumb:where([data-size="md"], :not([data-size])) {
-  transform: translateX(var(--pd-component-switch-thumb-translate-md));
+  transform: translateX(calc(var(--pd-component-switch-thumb-translate-md) * var(--_switch-dir)));
+}
+
+@media (forced-colors: active) {
+  .pd-switch-track {
+    border-color: ButtonText;
+  }
+
+  :where(.pd-switch[data-selected]) .pd-switch-track {
+    forced-color-adjust: none;
+    background-color: Highlight;
+    border-color: Highlight;
+  }
+
+  :where(.pd-switch[data-disabled]) .pd-switch-track {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    border-color: GrayText;
+  }
+
+  .pd-switch-thumb {
+    forced-color-adjust: none;
+    background-color: ButtonText;
+  }
+
+  :where(.pd-switch[data-selected]) .pd-switch-thumb {
+    background-color: HighlightText;
+  }
+
+  :where(.pd-switch[data-disabled]) .pd-switch-thumb {
+    background-color: GrayText;
+  }
 }

@@ -50,3 +50,23 @@
   flex-direction: column;
   gap: var(--pd-system-spacing-sm);
 }
+
+@media (forced-colors: active) {
+  .pd-checkbox-box {
+    border-color: ButtonText;
+  }
+
+  :where(.pd-checkbox[data-selected], .pd-checkbox[data-indeterminate]) .pd-checkbox-box {
+    forced-color-adjust: none;
+    background-color: Highlight;
+    border-color: Highlight;
+    color: HighlightText;
+  }
+
+  :where(.pd-checkbox[data-disabled]) .pd-checkbox-box {
+    forced-color-adjust: none;
+    background-color: Canvas;
+    border-color: GrayText;
+    color: GrayText;
+  }
+}

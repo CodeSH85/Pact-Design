@@ -78,3 +78,11 @@
   width: var(--pd-system-size-icon-xs);
   height: var(--pd-system-size-icon-xs);
 }
+
+:where([dir="rtl"]) .pd-breadcrumb-separator-icon {
+  transform: scaleX(-1);
+}
+
+:where([dir="ltr"]) .pd-breadcrumb-separator-icon {
+  transform: none;
+}

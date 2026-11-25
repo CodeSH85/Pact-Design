@@ -61,10 +61,12 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
   const tokensCss = fs.readFileSync(TOKENS_CSS_PATH, 'utf-8')
   const { lightRaw } = parseCssVariables(tokensCss)
 
-  it('emits build/css/theme.css with light and dark color-scheme declarations and shared overlay keyframes', () => {
+  it('emits build/css/theme.css with light/dark/system color-scheme, reduced-motion, and shared overlay keyframes', () => {
     const themeCss = fs.readFileSync(THEME_CSS_PATH, 'utf-8')
-    assert.match(themeCss, /:root,\s*\[data-theme="light"\]\s*\{[\s\S]*?color-scheme:\s*light;[\s\S]*?\}/)
+    assert.match(themeCss, /:root,\s*\[data-theme="light"\],\s*\[data-theme="system"\]\s*\{[\s\S]*?color-scheme:\s*light;[\s\S]*?\}/)
     assert.match(themeCss, /\[data-theme="dark"\]\s*\{[\s\S]*?color-scheme:\s*dark;[\s\S]*?\}/)
+    assert.match(themeCss, /@media\s*\(prefers-color-scheme:\s*dark\)\s*\{[\s\S]*?\[data-theme="system"\]\s*\{[\s\S]*?color-scheme:\s*dark;[\s\S]*?\}[\s\S]*?\}/)
+    assert.match(themeCss, /@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*?--pd-system-motion-duration-fast:\s*0\.01ms;[\s\S]*?--pd-system-motion-duration-slower:\s*0\.01ms;[\s\S]*?\}/)
     for (const kf of ['pd-fade-in', 'pd-fade-out', 'pd-zoom-in', 'pd-zoom-out']) {
       assert.match(themeCss, new RegExp(`@keyframes\\s+${kf}\\b`), `Expected shared @keyframes ${kf} in theme.css`)
     }
@@ -73,6 +75,7 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
   it('emits granular tokens.css, reset.css, components.css, and per-component stylesheets', () => {
     const tokensOutCss = fs.readFileSync(TOKENS_OUT_CSS_PATH, 'utf-8')
     assert.match(tokensOutCss, /--pd-system-color-surface-base:/)
+    assert.match(tokensOutCss, /@media\s*\(prefers-color-scheme:\s*dark\)\s*\{[\s\S]*?\[data-theme="system"\]/)
 
     const resetCss = fs.readFileSync(RESET_CSS_PATH, 'utf-8')
     assert.match(resetCss, /:where\(\.pd-reset\)\s*\{/)
@@ -85,6 +88,10 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
     assert.match(componentsCss, /\.pd-button:where\(\[data-radius="?full"?\]\)/)
     assert.match(componentsCss, /\.pd-toggle-button\s*\{/)
     assert.match(componentsCss, /\.pd-toggle-button-group\s*\{/)
+    assert.match(componentsCss, /@media\s*\(forced-colors:\s*active\)/)
+    assert.match(componentsCss, /@media\s*\(prefers-reduced-motion:\s*reduce\)/)
+    assert.match(componentsCss, /\[dir="?rtl"?\]/)
+    assert.doesNotMatch(componentsCss, /:lang\(/, 'Expected RTL selectors to use [dir="rtl"] instead of Lightning CSS :lang() fallback')
     assert.doesNotMatch(componentsCss, /&/, 'Expected Lightning CSS to flatten nested selectors in components.css')
 
     for (const fileName of [
