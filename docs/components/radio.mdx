@@ -36,9 +36,21 @@ import { Radio, RadioGroup } from '@pact-design/react'
   description="Choose the output format for this export"
   defaultValue="csv"
 >
-  <Radio value="csv" label="CSV" description="Compatible with spreadsheets." />
-  <Radio value="json" label="JSON" description="Preserves nested structures." />
-  <Radio value="pdf" label="PDF" description="Fixed layout for sharing." />
+  <Radio
+    value="csv"
+    label="CSV"
+    description="Compatible with spreadsheets and tabular tools."
+  />
+  <Radio
+    value="json"
+    label="JSON"
+    description="Preserves nested structures for programmatic parsing."
+  />
+  <Radio
+    value="pdf"
+    label="PDF"
+    description="Fixed layout suited for sharing and printing."
+  />
 </RadioGroup>
 ```
 

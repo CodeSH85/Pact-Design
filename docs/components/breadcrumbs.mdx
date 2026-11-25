@@ -66,9 +66,32 @@ import { Breadcrumbs } from '@pact-design/react'
 </ComponentPreview>
 
 ```tsx
-<Breadcrumbs size="sm" items={[...]} />
-<Breadcrumbs size="md" items={[...]} />
-<Breadcrumbs size="lg" items={[...]} />
+<Breadcrumbs
+  size="sm"
+  items={[
+    { id: 's-1', label: 'Workspace', href: '#workspace' },
+    { id: 's-2', label: 'Settings', href: '#settings' },
+    { id: 's-3', label: 'SM' }
+  ]}
+/>
+
+<Breadcrumbs
+  size="md"
+  items={[
+    { id: 'm-1', label: 'Workspace', href: '#workspace' },
+    { id: 'm-2', label: 'Settings', href: '#settings' },
+    { id: 'm-3', label: 'MD' }
+  ]}
+/>
+
+<Breadcrumbs
+  size="lg"
+  items={[
+    { id: 'l-1', label: 'Workspace', href: '#workspace' },
+    { id: 'l-2', label: 'Settings', href: '#settings' },
+    { id: 'l-3', label: 'LG' }
+  ]}
+/>
 ```
 
 ## 自訂分隔符號與停用節點

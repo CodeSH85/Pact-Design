@@ -28,6 +28,9 @@ import { Disclosure, DisclosureGroup } from '@pact-design/react'
   <Disclosure id="two" title="Section 2">
     Content for the second collapsible section.
   </Disclosure>
+  <Disclosure id="three" title="Section 3">
+    Content for the third collapsible section.
+  </Disclosure>
 </DisclosureGroup>
 ```
 
@@ -56,9 +59,15 @@ import { Disclosure, DisclosureGroup } from '@pact-design/react'
 
 ```tsx
 <DisclosureGroup variant="grouped" allowsMultipleExpanded defaultExpandedKeys={['general', 'notifications']}>
-  <Disclosure id="general" title="General">...</Disclosure>
-  <Disclosure id="notifications" title="Notifications">...</Disclosure>
-  <Disclosure id="danger" title="Danger Zone">...</Disclosure>
+  <Disclosure id="general" title="General">
+    Workspace name, identifier, and default owner settings.
+  </Disclosure>
+  <Disclosure id="notifications" title="Notifications">
+    Alert routing rules and summary delivery schedules.
+  </Disclosure>
+  <Disclosure id="danger" title="Danger Zone">
+    Ownership transfer, archiving, and permanent deletion.
+  </Disclosure>
 </DisclosureGroup>
 ```
 

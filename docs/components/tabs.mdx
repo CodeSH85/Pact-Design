@@ -32,8 +32,8 @@ import { Tab, TabList, TabPanel, Tabs } from '@pact-design/react'
     <Tab id="members">Members</Tab>
     <Tab id="activity">Activity</Tab>
   </TabList>
-  <TabPanel id="overview">Overview panel content.</TabPanel>
-  <TabPanel id="members">Members panel content.</TabPanel>
+  <TabPanel id="overview">Overview panel content for the active tab.</TabPanel>
+  <TabPanel id="members">Members panel content and access roles.</TabPanel>
   <TabPanel id="activity">Recent activity log entries.</TabPanel>
 </Tabs>
 ```
@@ -82,9 +82,22 @@ import { Tab, TabList, TabPanel, Tabs } from '@pact-design/react'
   <TabList aria-label="Segmented tabs">
     <Tab id="preview">Preview</Tab>
     <Tab id="code">Code</Tab>
+    <Tab id="api">API</Tab>
   </TabList>
-  <TabPanel id="preview">...</TabPanel>
-  <TabPanel id="code">...</TabPanel>
+  <TabPanel id="preview">Segmented variant panel.</TabPanel>
+  <TabPanel id="code">Source snippet panel.</TabPanel>
+  <TabPanel id="api">API reference panel.</TabPanel>
+</Tabs>
+
+<Tabs variant="pill" defaultSelectedKey="all">
+  <TabList aria-label="Pill tabs">
+    <Tab id="all">All</Tab>
+    <Tab id="open">Open</Tab>
+    <Tab id="done">Done</Tab>
+  </TabList>
+  <TabPanel id="all">Pill variant panel for all items.</TabPanel>
+  <TabPanel id="open">Filtered view for open items.</TabPanel>
+  <TabPanel id="done">Filtered view for completed items.</TabPanel>
 </Tabs>
 ```
 
@@ -108,6 +121,7 @@ import { Tab, TabList, TabPanel, Tabs } from '@pact-design/react'
 ```tsx
 <Tabs
   orientation="vertical"
+  variant="underline"
   defaultSelectedKey="general"
   items={[
     { id: 'general', label: 'General', content: 'General workspace preferences.' },

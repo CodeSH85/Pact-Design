@@ -54,8 +54,8 @@ import { Checkbox, CheckboxGroup } from '@pact-design/react'
   description="Select preferred delivery methods"
   defaultValue={['inbox', 'email']}
 >
-  <Checkbox value="inbox" label="In-App" />
-  <Checkbox value="email" label="Email Digest" />
+  <Checkbox value="inbox" label="In-App" description="Show instant alerts inside the workspace." />
+  <Checkbox value="email" label="Email Digest" description="Send a daily summary of key updates." />
   <Checkbox value="webhook" label="Webhook" />
 </CheckboxGroup>
 ```

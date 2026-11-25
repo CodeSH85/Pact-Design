@@ -83,6 +83,16 @@ import { ToggleButton, ToggleButtonGroup } from '@pact-design/react'
   <ToggleButton id="grid" size="sm" variant="primary">Grid</ToggleButton>
   <ToggleButton id="table" size="sm" variant="primary">Table</ToggleButton>
 </ToggleButtonGroup>
+
+<ToggleButtonGroup
+  aria-label="Text formatting"
+  selectionMode="multiple"
+  defaultSelectedKeys={['bold']}
+>
+  <ToggleButton id="bold" size="sm">Bold</ToggleButton>
+  <ToggleButton id="italic" size="sm">Italic</ToggleButton>
+  <ToggleButton id="mono" size="sm">Mono</ToggleButton>
+</ToggleButtonGroup>
 ```
 
 ## 純圖示切換 (`icon`)
@@ -112,6 +122,10 @@ import { RiBookmarkLine, RiCodeSSlashLine, RiLayoutGridLine, RiListCheck } from 
 
 <ToggleButton variant="ghost" size="sm" icon defaultSelected aria-label="書籤">
   <RiBookmarkLine />
+</ToggleButton>
+
+<ToggleButton variant="secondary" size="sm" icon aria-label="檢視原始碼">
+  <RiCodeSSlashLine />
 </ToggleButton>
 
 <ToggleButtonGroup aria-label="Layout" selectionMode="single" defaultSelectedKeys={['grid']}>

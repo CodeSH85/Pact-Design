@@ -53,10 +53,17 @@ import { Button, Popover } from '@pact-design/react'
 
 ```tsx
 <Popover
-  trigger={<Button variant="secondary">Top + Arrow</Button>}
+  trigger={<Button variant="secondary" size="sm">Top + Arrow</Button>}
   contentProps={{ placement: 'top', showArrow: true, offset: 10 }}
 >
   <div className="p-xs">placement="top" showArrow</div>
+</Popover>
+
+<Popover
+  trigger={<Button variant="secondary" size="sm">Right</Button>}
+  contentProps={{ placement: 'right', offset: 8 }}
+>
+  <div className="p-xs">placement="right"</div>
 </Popover>
 ```
 

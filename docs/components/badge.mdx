@@ -48,6 +48,9 @@ import { Badge } from '@pact-design/react'
 <Badge variant="subtle" tone="primary">Subtle</Badge>
 <Badge variant="solid" tone="primary">Solid</Badge>
 <Badge variant="outline" tone="primary">Outline</Badge>
+<Badge variant="subtle" tone="success">Subtle</Badge>
+<Badge variant="solid" tone="success">Solid</Badge>
+<Badge variant="outline" tone="success">Outline</Badge>
 ```
 
 ## 尺寸與圖示
@@ -62,20 +65,12 @@ import { Badge } from '@pact-design/react'
 </ComponentPreview>
 
 ```tsx
-import { RiCheckLine, RiErrorWarningLine, RiInformationLine } from '@remixicon/react'
+import { RiCheckLine, RiErrorWarningLine, RiInformationLine, RiSparklingLine } from '@remixicon/react'
 
-<Badge size="xs" tone="info">
-  <RiInformationLine aria-hidden="true" />
-  XS Badge
-</Badge>
-<Badge size="sm" tone="success">
-  <RiCheckLine aria-hidden="true" />
-  SM Badge
-</Badge>
-<Badge size="md" tone="warning">
-  <RiErrorWarningLine aria-hidden="true" />
-  MD Badge
-</Badge>
+<Badge size="xs" tone="info"><RiInformationLine aria-hidden="true" />XS Badge</Badge>
+<Badge size="sm" tone="success"><RiCheckLine aria-hidden="true" />SM Badge</Badge>
+<Badge size="md" tone="warning"><RiErrorWarningLine aria-hidden="true" />MD Badge</Badge>
+<Badge size="md" variant="solid" tone="primary"><RiSparklingLine aria-hidden="true" />New</Badge>
 ```
 
 ## API 參考

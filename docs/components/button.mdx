@@ -109,11 +109,12 @@ Pact Design 提供六種視覺層級的按鈕，依操作重要性由高至低�
 
 ```tsx
 import { Button } from '@pact-design/react'
-import { RiAddLine, RiGithubFill, RiSettings3Line } from '@remixicon/react'
+import { RiAddLine, RiArrowRightUpLine, RiGithubFill, RiSettings3Line } from '@remixicon/react'
 
-<Button variant="primary">
-  <RiAddLine />
-  新增項目
+<Button variant="primary"><RiAddLine />新增項目</Button>
+
+<Button variant="secondary" size="xs" icon aria-label="設定">
+  <RiSettings3Line />
 </Button>
 
 <Button variant="secondary" size="sm" icon aria-label="設定">
@@ -130,6 +131,16 @@ import { RiAddLine, RiGithubFill, RiSettings3Line } from '@remixicon/react'
   aria-label="GitHub"
 >
   <RiGithubFill />
+</Button>
+
+<Button
+  variant="link"
+  href="https://github.com/CodeSH85/Pact-UI"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  GitHub
+  <RiArrowRightUpLine />
 </Button>
 ```
 

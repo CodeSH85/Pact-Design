@@ -121,7 +121,9 @@ import { Slider } from '@pact-design/react'
   defaultValue={220}
   minValue={0}
   maxValue={360}
-  trackStyle={{ background: 'linear-gradient(...)' }}
+  trackStyle={{
+    background: 'linear-gradient(to right, oklch(0.65 0.22 0), oklch(0.65 0.22 120), oklch(0.65 0.22 240), oklch(0.65 0.22 360))'
+  }}
 />
 
 <Slider label="Disabled Slider" showValue defaultValue={50} disabled />
