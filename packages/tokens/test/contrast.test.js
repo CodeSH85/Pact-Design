@@ -47,11 +47,16 @@ const SURFACE_VARS = [
 
 describe('CSS Variables Build Output (build/css/_variables.css)', () => {
   const cssContent = fs.readFileSync(CSS_VARS_PATH, 'utf-8')
-  const { lightRaw, darkOverrides, darkRaw } = parseCssVariables(cssContent)
+  const { lightRaw, darkOverrides, systemDarkOverrides, darkRaw } = parseCssVariables(cssContent)
 
-  it('generates non-empty Light and Dark theme blocks without unserialized values', () => {
+  it('generates non-empty Light, Dark, and System-Dark theme blocks without unserialized values', () => {
     assert.ok(lightRaw.size > 0, 'Expected Light theme variables in :root, [data-theme="light"]')
     assert.ok(darkOverrides.size > 0, 'Expected Dark theme override variables in [data-theme="dark"]')
+    assert.deepEqual(
+      [...systemDarkOverrides.entries()],
+      [...darkOverrides.entries()],
+      'Expected @media (prefers-color-scheme: dark) [data-theme="system"] overrides to match [data-theme="dark"]'
+    )
 
     for (const [name, val] of [...lightRaw.entries(), ...darkOverrides.entries()]) {
       assert.ok(!val.includes('[object Object]'), `${name} has unserialized [object Object]: ${val}`)
@@ -81,12 +86,12 @@ describe('Global Color Scale Midpoint (600) Contrast Audit', () => {
 
   for (const [paletteName] of palettes) {
     const cssVarName = `--pd-global-color-${kebab(paletteName)}-600`
-    it(`${cssVarName} passes APCA |Lc| >= 60 against #ffffff`, () => {
+    it(`${cssVarName} passes APCA |Lc| >= 60 and WCAG >= 4.5:1 against #ffffff`, () => {
       const cssColor = resolveCssVariable(cssVarName, lightRaw)
       const res = evaluateWCAG(cssColor, '#ffffff', 4.5, 60)
       assert.ok(
-        res.passesTarget,
-        `${cssVarName} (${cssColor}) failed on #ffffff: APCA Lc=${res.lc} (min |60|), WCAG=${res.ratio}:1`
+        res.passesTarget && res.passesWcag,
+        `${cssVarName} (${cssColor}) failed on #ffffff: APCA Lc=${res.lc} (min |60|), WCAG=${res.ratio}:1 (min 4.5:1)`
       )
     })
   }
@@ -116,7 +121,7 @@ describe('System Semantic Color Contrast Audit (Light & Dark CSS Variables)', ()
             const txtColor = resolveCssVariable(textVar, varMap)
             const res = evaluateWCAG(txtColor, bgColor, minRatio, minLc)
             assert.ok(
-              res.passesTarget,
+              res.passesTarget && res.passesWcag,
               `[${themeName}] ${textVar} (${txtColor}) on ${bgVar} (${bgColor}) failed: APCA |Lc|=${res.absLc} (min ${minLc}), WCAG=${res.ratio}:1 (min ${minRatio}:1)`
             )
           }
@@ -137,7 +142,7 @@ describe('System Semantic Color Contrast Audit (Light & Dark CSS Variables)', ()
             const bgColor = resolveCssVariable(bgVar, varMap)
             const res = evaluateWCAG(onColor, bgColor, 4.5, 60)
             assert.ok(
-              res.passesTarget,
+              res.passesTarget && res.passesWcag,
               `[${themeName}] ${onVar} (${onColor}) on ${bgVar} (${bgColor}) failed: APCA |Lc|=${res.absLc} (min 60), WCAG=${res.ratio}:1 (min 4.5:1)`
             )
           }
@@ -207,8 +212,8 @@ describe('System Semantic Color Contrast Audit (Light & Dark CSS Variables)', ()
         const neutralStrong = resolveCssVariable('--pd-system-color-border-strong', varMap)
         const neutralRes = evaluateWCAG(neutralStrong, layer2Color, 3.0, 45)
         assert.ok(
-          neutralRes.passesTarget,
-          `[${themeName}] --pd-system-color-border-strong (${neutralStrong}) on --pd-system-color-surface-layer-2 (${layer2Color}) failed: APCA |Lc|=${neutralRes.absLc} (min 45), WCAG=${neutralRes.ratio}:1`
+          neutralRes.passesTarget && neutralRes.passesWcag,
+          `[${themeName}] --pd-system-color-border-strong (${neutralStrong}) on --pd-system-color-surface-layer-2 (${layer2Color}) failed: APCA |Lc|=${neutralRes.absLc} (min 45), WCAG=${neutralRes.ratio}:1 (min 3.0:1)`
         )
 
         const semanticBorderVars = [
