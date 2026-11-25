@@ -177,6 +177,7 @@
     --_border: var(--pd-component-toast-tone-default-border);
     --_fg: var(--pd-component-toast-tone-default-text);
     --_icon: var(--pd-component-toast-tone-default-icon);
+    --_close-hover: var(--pd-component-toast-tone-default-close-hover);
   }
 
   &:where([data-tone="info"]) {
@@ -184,6 +185,7 @@
     --_border: var(--pd-component-toast-tone-info-border);
     --_fg: var(--pd-component-toast-tone-info-text);
     --_icon: var(--pd-component-toast-tone-info-icon);
+    --_close-hover: var(--pd-component-toast-tone-info-close-hover);
   }
 
   &:where([data-tone="success"]) {
@@ -191,6 +193,7 @@
     --_border: var(--pd-component-toast-tone-success-border);
     --_fg: var(--pd-component-toast-tone-success-text);
     --_icon: var(--pd-component-toast-tone-success-icon);
+    --_close-hover: var(--pd-component-toast-tone-success-close-hover);
   }
 
   &:where([data-tone="warning"]) {
@@ -198,6 +201,7 @@
     --_border: var(--pd-component-toast-tone-warning-border);
     --_fg: var(--pd-component-toast-tone-warning-text);
     --_icon: var(--pd-component-toast-tone-warning-icon);
+    --_close-hover: var(--pd-component-toast-tone-warning-close-hover);
   }
 
   &:where([data-tone="danger"]) {
@@ -205,6 +209,7 @@
     --_border: var(--pd-component-toast-tone-danger-border);
     --_fg: var(--pd-component-toast-tone-danger-text);
     --_icon: var(--pd-component-toast-tone-danger-icon);
+    --_close-hover: var(--pd-component-toast-tone-danger-close-hover);
   }
 }
 
@@ -247,16 +252,21 @@
   margin-inline-end: calc(var(--pd-system-spacing-xs) * -1);
   margin-top: calc(var(--pd-system-spacing-xs) * -1);
   border-radius: var(--pd-system-radius-2xs);
-  color: var(--pd-system-color-on-surface-muted);
+  color: var(--_fg);
+  opacity: 0.72;
   cursor: pointer;
   outline: none;
+  transition-property: opacity, background-color;
+  transition-duration: var(--pd-system-motion-duration-fast);
+  transition-timing-function: var(--pd-system-motion-easing);
 
   &:where(:hover, [data-hovered]) {
-    color: var(--pd-system-color-on-surface);
-    background-color: var(--pd-system-color-surface-hover);
+    opacity: 1;
+    background-color: var(--_close-hover);
   }
 
   &:where(:focus-visible, [data-focus-visible]) {
+    opacity: 1;
     outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
     outline-offset: var(--pd-system-border-focus-offset);
   }

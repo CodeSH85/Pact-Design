@@ -61,10 +61,13 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
   const tokensCss = fs.readFileSync(TOKENS_CSS_PATH, 'utf-8')
   const { lightRaw } = parseCssVariables(tokensCss)
 
-  it('emits build/css/theme.css with light and dark color-scheme declarations', () => {
+  it('emits build/css/theme.css with light and dark color-scheme declarations and shared overlay keyframes', () => {
     const themeCss = fs.readFileSync(THEME_CSS_PATH, 'utf-8')
     assert.match(themeCss, /:root,\s*\[data-theme="light"\]\s*\{[\s\S]*?color-scheme:\s*light;[\s\S]*?\}/)
     assert.match(themeCss, /\[data-theme="dark"\]\s*\{[\s\S]*?color-scheme:\s*dark;[\s\S]*?\}/)
+    for (const kf of ['pd-fade-in', 'pd-fade-out', 'pd-zoom-in', 'pd-zoom-out']) {
+      assert.match(themeCss, new RegExp(`@keyframes\\s+${kf}\\b`), `Expected shared @keyframes ${kf} in theme.css`)
+    }
   })
 
   it('emits granular tokens.css, reset.css, components.css, and per-component stylesheets', () => {

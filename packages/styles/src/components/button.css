@@ -9,6 +9,8 @@
   cursor: pointer;
   outline: none;
   height: var(--_height);
+  font: var(--pd-system-font-label-sm);
+  letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
 
   background-color: var(--_bg);
   color: var(--_fg);
@@ -121,6 +123,7 @@
     --_icon-size: var(--pd-system-size-icon-xs);
     padding-inline: var(--pd-component-button-padding-x-xs);
     gap: var(--pd-component-button-gap-xs);
+    border-radius: var(--pd-component-button-radius-xs);
     font: var(--pd-system-font-label-xs);
     letter-spacing: var(--pd-system-font-label-xs-letter-spacing);
   }
@@ -130,6 +133,7 @@
     --_icon-size: var(--pd-system-size-icon-sm);
     padding-inline: var(--pd-component-button-padding-x-sm);
     gap: var(--pd-component-button-gap-sm);
+    border-radius: var(--pd-component-button-radius-sm);
     font: var(--pd-system-font-label-sm);
     letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
   }
@@ -139,6 +143,7 @@
     --_icon-size: var(--pd-system-size-icon-sm);
     padding-inline: var(--pd-component-button-padding-x-md);
     gap: var(--pd-component-button-gap-md);
+    border-radius: var(--pd-component-button-radius-md);
     font: var(--pd-system-font-label-sm);
     letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
   }
@@ -148,6 +153,7 @@
     --_icon-size: var(--pd-system-size-icon-md);
     padding-inline: var(--pd-component-button-padding-x-lg);
     gap: var(--pd-component-button-gap-lg);
+    border-radius: var(--pd-component-button-radius-lg);
     font: var(--pd-system-font-label-md);
     letter-spacing: var(--pd-system-font-label-md-letter-spacing);
   }
@@ -157,6 +163,7 @@
     --_icon-size: var(--pd-system-size-icon-lg);
     padding-inline: var(--pd-component-button-padding-x-xl);
     gap: var(--pd-component-button-gap-xl);
+    border-radius: var(--pd-component-button-radius-xl);
     font: var(--pd-system-font-label-lg);
     letter-spacing: var(--pd-system-font-label-lg-letter-spacing);
   }
