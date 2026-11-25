@@ -47,16 +47,24 @@ export const buttonTokens = {
       active: 'pd.system.color.danger.active'
     }),
     text: colorRef('pd.system.color.on-danger.$root'),
-    border: colorRef('transparent')
+    border: colorRef('transparent'),
+    focus: colorRef('pd.system.color.border.focus.danger')
   },
   subtle: {
     bg: colorMap({
-      $root: 'pd.system.color.info.subtle',
-      hover: 'pd.system.color.surface.layer-2.hover',
-      active: 'pd.system.color.surface.layer-2.active'
+      $root: 'pd.system.color.info.subtle.$root',
+      hover: 'pd.system.color.info.subtle.hover',
+      active: 'pd.system.color.info.subtle.active'
     }),
     text: colorRef('pd.system.color.on-info.subtle'),
-    border: colorRef('pd.system.color.info.border')
+    border: colorRef('pd.system.color.info.border.$root')
+  },
+  link: {
+    text: colorMap({
+      $root: 'pd.system.color.primary.text.$root',
+      hover: 'pd.system.color.primary.text.hover',
+      active: 'pd.system.color.primary.text.active'
+    })
   },
   disabled: {
     bg: colorRef('pd.system.color.surface.disabled'),

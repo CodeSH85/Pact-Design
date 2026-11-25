@@ -1,19 +1,84 @@
-import { ref, themed } from '../factory.ts'
-import type { GlobalColorKey, GlobalRefPath } from '../global/index.ts'
+import { oklch, ref, themed, type DtcgToken, type OklchColorValue } from '../factory.ts'
+import { globalColor } from '../global/color.ts'
+import { globalOpacity } from '../global/opacity.ts'
+import type { GlobalColorKey, GlobalOpacityKey, GlobalRefPath } from '../global/index.ts'
 
 type SystemSelfColorRef =
   | 'pd.system.color.surface.layer-2.$root'
-  | 'pd.system.color.primary.$root'
+  | 'pd.system.color.primary.border.strong'
+  | 'pd.system.color.danger.border.strong'
 
 export type SystemColorRef = GlobalColorKey | GlobalRefPath<'color'> | SystemSelfColorRef
 type ResolvedColorRef = GlobalRefPath<'color'> | SystemSelfColorRef
+export type SystemColorInput = SystemColorRef | DtcgToken<'color', OklchColorValue>
 
 function resolveColorRef(path: SystemColorRef): ResolvedColorRef {
   return (path.startsWith('pd.') ? path : `pd.global.color.${path}`) as ResolvedColorRef
 }
 
-export function color({ light, dark }: { light: SystemColorRef, dark: SystemColorRef }) {
-  return themed(ref('color', resolveColorRef(light)), ref('color', resolveColorRef(dark)))
+function lookupGlobalColor(key: GlobalColorKey): DtcgToken<'color', OklchColorValue> {
+  const parts = key.split('.')
+  let cur: unknown = globalColor
+  for (const part of parts) {
+    cur = (cur as Record<string, unknown>)[part]
+  }
+  return cur as DtcgToken<'color', OklchColorValue>
+}
+
+/**
+ * Derives a build-time DTCG OKLCH color token with an alpha channel from `globalOpacity`.
+ * Emits a concrete `oklch(L C H / alpha)` literal compatible with older CSS targets and contrast tools.
+ */
+export function alpha(
+  colorKey: GlobalColorKey,
+  opacityKey: GlobalOpacityKey
+): DtcgToken<'color', OklchColorValue> {
+  const [l, c, h] = lookupGlobalColor(colorKey).$value.components
+  return oklch(l, c, h, globalOpacity[opacityKey].$value)
+}
+
+function toColorToken(input: SystemColorInput) {
+  return typeof input === 'string' ? ref('color', resolveColorRef(input)) : input
+}
+
+export function color({ light, dark }: { light: SystemColorInput, dark: SystemColorInput }) {
+  return themed(toColorToken(light), toColorToken(dark))
+}
+
+type HuePalette = 'indigo' | 'blue' | 'green' | 'red' | 'orange' | 'coolGray'
+type Stop = '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900' | '1000'
+
+function semanticScale(
+  hue: HuePalette,
+  solidLight: readonly [Stop, Stop, Stop] = ['600', '700', '800']
+) {
+  const [lRoot, lHover, lActive] = solidLight
+  return {
+    $root: color({ light: `${hue}.${lRoot}`, dark: `${hue}.700` }),
+    hover: color({ light: `${hue}.${lHover}`, dark: `${hue}.600` }),
+    active: color({ light: `${hue}.${lActive}`, dark: `${hue}.800` }),
+    subtle: {
+      $root: color({ light: `${hue}.100`, dark: `${hue}.1000` }),
+      hover: color({ light: `${hue}.200`, dark: `${hue}.900` }),
+      active: color({ light: `${hue}.300`, dark: `${hue}.800` })
+    },
+    text: {
+      $root: color({ light: `${hue}.700`, dark: `${hue}.400` }),
+      hover: color({ light: `${hue}.800`, dark: `${hue}.300` }),
+      active: color({ light: `${hue}.900`, dark: `${hue}.200` })
+    },
+    border: {
+      $root: color({ light: `${hue}.300`, dark: `${hue}.800` }),
+      strong: color({ light: `${hue}.600`, dark: `${hue}.400` })
+    }
+  } as const
+}
+
+function onSemanticScale(hue: HuePalette) {
+  return {
+    $root: color({ light: 'white', dark: 'white' }),
+    subtle: color({ light: `${hue}.800`, dark: `${hue}.300` })
+  } as const
 }
 
 export const systemColor = {
@@ -60,85 +125,39 @@ export const systemColor = {
     $root: color({ light: 'gray.300', dark: 'gray.800' }),
     subtle: color({ light: 'gray.200', dark: 'gray.900' }),
     strong: color({ light: 'gray.500', dark: 'gray.400' }),
-    focus: color({ light: 'pd.system.color.primary.$root', dark: 'indigo.400' })
+    focus: {
+      $root: color({
+        light: 'pd.system.color.primary.border.strong',
+        dark: 'pd.system.color.primary.border.strong'
+      }),
+      danger: color({
+        light: 'pd.system.color.danger.border.strong',
+        dark: 'pd.system.color.danger.border.strong'
+      }),
+      halo: color({
+        light: alpha('indigo.600', '20'),
+        dark: alpha('indigo.400', '28')
+      }),
+      'danger-halo': color({
+        light: alpha('red.600', '20'),
+        dark: alpha('red.400', '28')
+      })
+    }
   },
-  primary: {
-    $root: color({ light: 'indigo.600', dark: 'indigo.700' }),
-    hover: color({ light: 'indigo.700', dark: 'indigo.600' }),
-    active: color({ light: 'indigo.800', dark: 'indigo.800' }),
-    subtle: color({ light: 'indigo.200', dark: 'indigo.1000' }),
-    border: color({ light: 'indigo.300', dark: 'indigo.800' })
-  },
-  'on-primary': {
-    $root: color({ light: 'white', dark: 'white' }),
-    subtle: color({ light: 'indigo.800', dark: 'indigo.300' })
-  },
-  secondary: {
-    $root: color({ light: 'blue.700', dark: 'blue.700' }),
-    hover: color({ light: 'blue.800', dark: 'blue.600' }),
-    active: color({ light: 'blue.900', dark: 'blue.800' }),
-    subtle: color({ light: 'blue.200', dark: 'blue.1000' }),
-    border: color({ light: 'blue.300', dark: 'blue.800' })
-  },
-  'on-secondary': {
-    $root: color({ light: 'white', dark: 'white' }),
-    subtle: color({ light: 'blue.800', dark: 'blue.300' })
-  },
-  success: {
-    $root: color({ light: 'green.600', dark: 'green.700' }),
-    hover: color({ light: 'green.700', dark: 'green.600' }),
-    active: color({ light: 'green.800', dark: 'green.800' }),
-    subtle: color({ light: 'green.200', dark: 'green.1000' }),
-    border: color({ light: 'green.300', dark: 'green.800' })
-  },
-  'on-success': {
-    $root: color({ light: 'white', dark: 'white' }),
-    subtle: color({ light: 'green.800', dark: 'green.300' })
-  },
-  danger: {
-    $root: color({ light: 'red.600', dark: 'red.700' }),
-    hover: color({ light: 'red.700', dark: 'red.600' }),
-    active: color({ light: 'red.800', dark: 'red.800' }),
-    subtle: color({ light: 'red.200', dark: 'red.1000' }),
-    border: color({ light: 'red.300', dark: 'red.800' })
-  },
-  'on-danger': {
-    $root: color({ light: 'white', dark: 'white' }),
-    subtle: color({ light: 'red.800', dark: 'red.300' })
-  },
-  warning: {
-    $root: color({ light: 'orange.600', dark: 'orange.700' }),
-    hover: color({ light: 'orange.700', dark: 'orange.600' }),
-    active: color({ light: 'orange.800', dark: 'orange.800' }),
-    subtle: color({ light: 'orange.200', dark: 'orange.1000' }),
-    border: color({ light: 'orange.300', dark: 'orange.800' })
-  },
-  'on-warning': {
-    $root: color({ light: 'white', dark: 'white' }),
-    subtle: color({ light: 'orange.800', dark: 'orange.300' })
-  },
-  info: {
-    $root: color({ light: 'blue.600', dark: 'blue.700' }),
-    hover: color({ light: 'blue.700', dark: 'blue.600' }),
-    active: color({ light: 'blue.800', dark: 'blue.800' }),
-    subtle: color({ light: 'blue.200', dark: 'blue.1000' }),
-    border: color({ light: 'blue.300', dark: 'blue.800' })
-  },
-  'on-info': {
-    $root: color({ light: 'white', dark: 'white' }),
-    subtle: color({ light: 'blue.800', dark: 'blue.300' })
-  },
-  neutral: {
-    $root: color({ light: 'coolGray.700', dark: 'coolGray.700' }),
-    hover: color({ light: 'coolGray.800', dark: 'coolGray.600' }),
-    active: color({ light: 'coolGray.900', dark: 'coolGray.800' }),
-    subtle: color({ light: 'coolGray.200', dark: 'coolGray.1000' }),
-    border: color({ light: 'coolGray.300', dark: 'coolGray.800' })
-  },
-  'on-neutral': {
-    $root: color({ light: 'white', dark: 'white' }),
-    subtle: color({ light: 'coolGray.800', dark: 'coolGray.300' })
-  },
+  primary: semanticScale('indigo'),
+  'on-primary': onSemanticScale('indigo'),
+  secondary: semanticScale('blue', ['700', '800', '900']),
+  'on-secondary': onSemanticScale('blue'),
+  success: semanticScale('green'),
+  'on-success': onSemanticScale('green'),
+  danger: semanticScale('red'),
+  'on-danger': onSemanticScale('red'),
+  warning: semanticScale('orange'),
+  'on-warning': onSemanticScale('orange'),
+  info: semanticScale('blue'),
+  'on-info': onSemanticScale('blue'),
+  neutral: semanticScale('coolGray', ['700', '800', '900']),
+  'on-neutral': onSemanticScale('coolGray'),
   shadow: {
     xs: color({ light: 'shadow.01', dark: 'shadow.06' }),
     sm: color({ light: 'shadow.02', dark: 'shadow.07' }),

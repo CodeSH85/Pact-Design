@@ -88,6 +88,7 @@ export function evaluateWCAG(colorVal, backgroundVal = '#ffffff', targetMinRatio
 
   // APCA |Lc| is the primary perceptual contrast criterion
   const passesTarget = absLc >= targetMinLc
+  const passesWcag = ratio >= targetMinRatio
 
   return {
     lc,
@@ -96,6 +97,7 @@ export function evaluateWCAG(colorVal, backgroundVal = '#ffffff', targetMinRatio
     ratio,
     targetMinRatio,
     passesTarget,
+    passesWcag,
     passesAANormal: ratio >= 4.5,
     passesAALarge: ratio >= 3.0,
     passesAAANormal: ratio >= 7.0,

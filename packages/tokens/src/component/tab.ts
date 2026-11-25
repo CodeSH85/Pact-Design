@@ -40,7 +40,8 @@ export const tabTokens = {
       disabled: 'pd.system.color.on-surface.disabled'
     }),
     border: colorMap({
-      selected: 'pd.system.color.primary.$root'
+      selected: 'pd.system.color.primary.border.strong',
+      focus: 'pd.system.color.border.focus.$root'
     }),
     segmented: {
       bg: colorMap({

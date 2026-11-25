@@ -9,6 +9,7 @@ export type ZIndexPath = FoundationRefPath<'number'>
 export const dim = (path: DimPath) => ref('dimension', path)
 export const dimMap = <K extends string>(entries: Record<K, DimPath>) => refMap('dimension', entries)
 export const shadowRef = (path: ShadowPath) => ref('shadow', path)
+export const shadowMap = <K extends string>(entries: Record<K, ShadowPath>) => refMap('shadow', entries)
 export const zIndexRef = (path: ZIndexPath) => ref('number', path)
 
 export const colorRef = (v: ColorRefInput) =>

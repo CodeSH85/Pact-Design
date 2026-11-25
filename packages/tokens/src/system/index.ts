@@ -4,6 +4,7 @@ import { systemBorder } from './border.ts'
 import { systemColor } from './color.ts'
 import { systemElevation } from './elevation.ts'
 import { systemMotion } from './motion.ts'
+import { systemOpacity } from './opacity.ts'
 import { systemRadius } from './radius.ts'
 import { systemSize } from './sizing.ts'
 import { systemSpacing } from './spacing.ts'
@@ -15,6 +16,7 @@ export const systemTokens = {
   elevation: systemElevation,
   font: systemFont,
   motion: systemMotion,
+  opacity: systemOpacity,
   radius: systemRadius,
   size: systemSize,
   spacing: systemSpacing

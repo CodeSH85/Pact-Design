@@ -144,36 +144,84 @@ describe('System Semantic Color Contrast Audit (Light & Dark CSS Variables)', ()
         }
       })
 
-      it('maintains high contrast on subtle status containers (on-<role>-subtle on <role>-subtle & layer-2)', () => {
+      it('maintains high contrast on subtle status containers (on-<role>-subtle on <role>-subtle states & layer-2)', () => {
         const layer2Color = resolveCssVariable('--pd-system-color-surface-layer-2', varMap)
 
         for (const role of SEMANTIC_ROLES) {
           const onSubtleVar = `--pd-system-color-on-${role}-subtle`
-          const subtleBgVar = `--pd-system-color-${role}-subtle`
           const onSubtleColor = resolveCssVariable(onSubtleVar, varMap)
-          const subtleBgColor = resolveCssVariable(subtleBgVar, varMap)
+          const subtleBgVars = [
+            `--pd-system-color-${role}-subtle`,
+            `--pd-system-color-${role}-subtle-hover`,
+            `--pd-system-color-${role}-subtle-active`
+          ]
 
-          const onSubtleRes = evaluateWCAG(onSubtleColor, subtleBgColor, 4.5, 60)
-          assert.ok(
-            onSubtleRes.passesTarget,
-            `[${themeName}] ${onSubtleVar} (${onSubtleColor}) on ${subtleBgVar} (${subtleBgColor}) failed: APCA |Lc|=${onSubtleRes.absLc} (min 60), WCAG=${onSubtleRes.ratio}:1 (min 4.5:1)`
-          )
+          for (const subtleBgVar of subtleBgVars) {
+            const subtleBgColor = resolveCssVariable(subtleBgVar, varMap)
+            const onSubtleRes = evaluateWCAG(onSubtleColor, subtleBgColor, 4.5, 60)
+            assert.ok(
+              onSubtleRes.passesTarget && onSubtleRes.passesWcag,
+              `[${themeName}] ${onSubtleVar} (${onSubtleColor}) on ${subtleBgVar} (${subtleBgColor}) failed: APCA |Lc|=${onSubtleRes.absLc} (min 60), WCAG=${onSubtleRes.ratio}:1 (min 4.5:1)`
+            )
+          }
 
           const onLayer2Res = evaluateWCAG(onSubtleColor, layer2Color, 4.5, 60)
           assert.ok(
-            onLayer2Res.passesTarget,
+            onLayer2Res.passesTarget && onLayer2Res.passesWcag,
             `[${themeName}] ${onSubtleVar} (${onSubtleColor}) on --pd-system-color-surface-layer-2 (${layer2Color}) failed: APCA |Lc|=${onLayer2Res.absLc} (min 60), WCAG=${onLayer2Res.ratio}:1 (min 4.5:1)`
           )
         }
       })
 
-      it('maintains non-text contrast for strong borders and focus rings on layer-2', () => {
+      it('maintains readable contrast for semantic foreground text & icons on neutral surfaces', () => {
+        const layer1Color = resolveCssVariable('--pd-system-color-surface-layer-1', varMap)
+        const layer2HoverColor = resolveCssVariable('--pd-system-color-surface-layer-2-hover', varMap)
+
+        for (const role of SEMANTIC_ROLES) {
+          const textVars = [
+            `--pd-system-color-${role}-text`,
+            `--pd-system-color-${role}-text-hover`,
+            `--pd-system-color-${role}-text-active`
+          ]
+
+          for (const textVar of textVars) {
+            const textColor = resolveCssVariable(textVar, varMap)
+
+            const onLayer1 = evaluateWCAG(textColor, layer1Color, 4.5, 60)
+            assert.ok(
+              onLayer1.passesTarget && onLayer1.passesWcag,
+              `[${themeName}] ${textVar} (${textColor}) on --pd-system-color-surface-layer-1 (${layer1Color}) failed: APCA |Lc|=${onLayer1.absLc} (min 60), WCAG=${onLayer1.ratio}:1 (min 4.5:1)`
+            )
+
+            const onLayer2Hover = evaluateWCAG(textColor, layer2HoverColor, 4.5, 45)
+            assert.ok(
+              onLayer2Hover.passesTarget && onLayer2Hover.passesWcag,
+              `[${themeName}] ${textVar} (${textColor}) on --pd-system-color-surface-layer-2-hover (${layer2HoverColor}) failed: APCA |Lc|=${onLayer2Hover.absLc} (min 45), WCAG=${onLayer2Hover.ratio}:1 (min 4.5:1)`
+            )
+          }
+        }
+      })
+
+      it('maintains non-text contrast for strong borders, semantic strong borders, and focus rings on layer-2', () => {
         const layer2Color = resolveCssVariable('--pd-system-color-surface-layer-2', varMap)
-        for (const borderVar of ['--pd-system-color-border-strong', '--pd-system-color-border-focus']) {
+        const neutralStrong = resolveCssVariable('--pd-system-color-border-strong', varMap)
+        const neutralRes = evaluateWCAG(neutralStrong, layer2Color, 3.0, 45)
+        assert.ok(
+          neutralRes.passesTarget,
+          `[${themeName}] --pd-system-color-border-strong (${neutralStrong}) on --pd-system-color-surface-layer-2 (${layer2Color}) failed: APCA |Lc|=${neutralRes.absLc} (min 45), WCAG=${neutralRes.ratio}:1`
+        )
+
+        const semanticBorderVars = [
+          '--pd-system-color-border-focus',
+          '--pd-system-color-border-focus-danger',
+          ...SEMANTIC_ROLES.map((role) => `--pd-system-color-${role}-border-strong`)
+        ]
+
+        for (const borderVar of semanticBorderVars) {
           const borderColor = resolveCssVariable(borderVar, varMap)
           const res = evaluateWCAG(borderColor, layer2Color, 3.0, 45)
           assert.ok(
-            res.passesTarget,
+            res.passesTarget && res.passesWcag,
             `[${themeName}] ${borderVar} (${borderColor}) on --pd-system-color-surface-layer-2 (${layer2Color}) failed: APCA |Lc|=${res.absLc} (min 45), WCAG=${res.ratio}:1 (min 3.0:1)`
           )
         }

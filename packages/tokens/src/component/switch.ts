@@ -20,6 +20,7 @@ export const switchTokens = {
     border: colorMap({
       unchecked: 'pd.system.color.border.$root',
       checked: 'pd.system.color.primary.$root',
+      focus: 'pd.system.color.border.focus.$root',
       disabled: 'pd.system.color.border.subtle'
     })
   },
