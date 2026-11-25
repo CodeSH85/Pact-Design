@@ -26,6 +26,7 @@ export type UnoSlot =
   | 'letterSpacing'
   | 'duration'
   | 'easing'
+  | 'opacity'
 
 export interface UnoRule {
   slots: UnoSlot[]
@@ -46,6 +47,7 @@ const GLOBAL_OMITTED_CATEGORIES = new Set([
   'radius',
   'elevation',
   'motion',
+  'opacity',
   'size',
   'spacing'
 ])
@@ -81,6 +83,7 @@ const SYSTEM_SUB_RULES: Record<string, UnoRuleConfig | false> = {
     keyFrom: 'category-sub',
     prefix: 'icon-'
   },
+  'elevation.focus': { slots: ['boxShadow'], keyFrom: 'category' },
   'elevation.z': { slots: ['zIndex'], keyFrom: 'category-sub' },
   'motion.duration': { slots: ['duration'], keyFrom: 'category-sub' },
   'font.family': { slots: ['fontFamily'], keyFrom: 'category-sub' },
@@ -95,7 +98,8 @@ const SYSTEM_RULES: Record<string, UnoRuleConfig | false> = {
     { slots: ['width', 'height'], keyFrom: 'category', prefix: 'size-' }
   ],
   elevation: { slots: ['boxShadow'], keyFrom: 'category', prefix: 'elevation-' },
-  font: { slots: ['fontSize'], keyFrom: 'category', typographyTuple: true }
+  font: { slots: ['fontSize'], keyFrom: 'category', typographyTuple: true },
+  opacity: { slots: ['opacity'], keyFrom: 'category' }
 }
 
 const COMPONENT_COLOR_RULE: UnoRuleConfig = {

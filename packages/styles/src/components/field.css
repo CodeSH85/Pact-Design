@@ -34,7 +34,7 @@
   background-color: var(--pd-component-field-bg);
   border: var(--pd-system-border-width-sm) solid var(--pd-component-field-border);
   color: var(--pd-component-field-text);
-  transition-property: color, background-color, border-color;
+  transition-property: color, background-color, border-color, box-shadow;
   transition-duration: var(--pd-system-motion-duration-fast);
   transition-timing-function: var(--pd-system-motion-easing);
 
@@ -42,8 +42,14 @@
     border-color: var(--pd-component-field-border-hover);
   }
 
-  &:where([data-focused], [data-focus-within]) {
+  &:where([data-focused], [data-focus-within], :focus-visible, [data-focus-visible]) {
     border-color: var(--pd-component-field-border-focus);
+    box-shadow: var(--pd-component-field-shadow-focus);
+
+    @media (forced-colors: active) {
+      outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) Highlight;
+      outline-offset: var(--pd-system-border-focus-offset);
+    }
   }
 
   &:where([data-invalid]) {
@@ -51,6 +57,11 @@
 
     &:where(:hover, [data-hovered]) {
       border-color: var(--pd-component-field-border-invalid-hover);
+    }
+
+    &:where([data-focused], [data-focus-within], :focus-visible, [data-focus-visible]) {
+      border-color: var(--pd-component-field-border-invalid-focus);
+      box-shadow: var(--pd-component-field-shadow-invalid-focus);
     }
   }
 

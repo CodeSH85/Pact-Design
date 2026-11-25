@@ -24,7 +24,7 @@
 }
 
 :where(.pd-switch[data-focus-visible]) .pd-switch-track {
-  outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+  outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-component-switch-track-border-focus);
   outline-offset: var(--pd-system-border-focus-offset);
 }
 

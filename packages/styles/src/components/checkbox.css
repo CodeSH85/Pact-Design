@@ -19,7 +19,7 @@
 }
 
 :where(.pd-checkbox[data-focus-visible]) .pd-checkbox-box {
-  outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+  outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-component-checkbox-border-focus);
   outline-offset: var(--pd-system-border-focus-offset);
 }
 

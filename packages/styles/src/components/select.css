@@ -5,11 +5,12 @@
 
   &:where([data-open]) {
     border-color: var(--pd-component-field-border-focus);
+    box-shadow: var(--pd-component-field-shadow-focus);
   }
 
-  &:where(:focus-visible, [data-focus-visible]) {
-    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
-    outline-offset: var(--pd-system-border-focus-offset);
+  &:where([data-invalid][data-open]) {
+    border-color: var(--pd-component-field-border-invalid-focus);
+    box-shadow: var(--pd-component-field-shadow-invalid-focus);
   }
 }
 

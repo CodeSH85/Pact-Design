@@ -36,7 +36,7 @@
     --_tone-subtle-border: var(--pd-system-color-primary-border);
     --_tone-solid-bg: var(--pd-system-color-primary);
     --_tone-solid-fg: var(--pd-system-color-on-primary);
-    --_tone-outline-fg: var(--pd-system-color-on-primary-subtle);
+    --_tone-outline-fg: var(--pd-system-color-primary-text);
   }
 
   &:where([data-tone="info"]) {
@@ -45,7 +45,7 @@
     --_tone-subtle-border: var(--pd-system-color-info-border);
     --_tone-solid-bg: var(--pd-system-color-info);
     --_tone-solid-fg: var(--pd-system-color-on-info);
-    --_tone-outline-fg: var(--pd-system-color-on-info-subtle);
+    --_tone-outline-fg: var(--pd-system-color-info-text);
   }
 
   &:where([data-tone="success"]) {
@@ -54,7 +54,7 @@
     --_tone-subtle-border: var(--pd-system-color-success-border);
     --_tone-solid-bg: var(--pd-system-color-success);
     --_tone-solid-fg: var(--pd-system-color-on-success);
-    --_tone-outline-fg: var(--pd-system-color-on-success-subtle);
+    --_tone-outline-fg: var(--pd-system-color-success-text);
   }
 
   &:where([data-tone="warning"]) {
@@ -63,7 +63,7 @@
     --_tone-subtle-border: var(--pd-system-color-warning-border);
     --_tone-solid-bg: var(--pd-system-color-warning);
     --_tone-solid-fg: var(--pd-system-color-on-warning);
-    --_tone-outline-fg: var(--pd-system-color-on-warning-subtle);
+    --_tone-outline-fg: var(--pd-system-color-warning-text);
   }
 
   &:where([data-tone="danger"]) {
@@ -72,7 +72,7 @@
     --_tone-subtle-border: var(--pd-system-color-danger-border);
     --_tone-solid-bg: var(--pd-system-color-danger);
     --_tone-solid-fg: var(--pd-system-color-on-danger);
-    --_tone-outline-fg: var(--pd-system-color-on-danger-subtle);
+    --_tone-outline-fg: var(--pd-system-color-danger-text);
   }
 
   /* Variants */
