@@ -77,6 +77,10 @@
     --_bg-active: var(--pd-component-button-danger-bg-active);
     --_fg: var(--pd-component-button-danger-text);
     --_border: var(--pd-component-button-danger-border);
+
+    &:where(:focus-visible, [data-focus-visible]) {
+      outline-color: var(--pd-component-button-danger-focus);
+    }
   }
 
   &:where([data-variant="subtle"]) {
@@ -91,17 +95,17 @@
     --_bg: transparent;
     --_bg-hover: transparent;
     --_bg-active: transparent;
-    --_fg: var(--pd-system-color-primary);
+    --_fg: var(--pd-component-button-link-text);
     --_border: transparent;
 
     &:where(:hover, [data-hovered]) {
-      color: var(--pd-system-color-primary-hover);
+      color: var(--pd-component-button-link-text-hover);
       text-decoration: underline;
       text-underline-offset: 2px;
     }
 
     &:where(:active, [data-pressed]) {
-      color: var(--pd-system-color-primary-active);
+      color: var(--pd-component-button-link-text-active);
     }
 
     &:where(:disabled, [data-disabled]) {

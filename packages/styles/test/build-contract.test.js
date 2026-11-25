@@ -43,7 +43,8 @@ const EXPECTED_THEME_SLOTS = [
   'lineHeight',
   'letterSpacing',
   'duration',
-  'easing'
+  'easing',
+  'opacity'
 ]
 
 function extractCssVarRefs(value) {
@@ -213,6 +214,12 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
     assert.equal(mod.pactTheme.fontWeight.normal, 'var(--pd-system-font-weight-normal)')
     assert.equal(mod.pactTheme.fontWeight.medium, 'var(--pd-system-font-weight-medium)')
     assert.equal(mod.pactTheme.fontWeight.bold, 'var(--pd-system-font-weight-bold)')
+
+    // Focus shadow halos and system opacity utilities
+    assert.equal(mod.pactTheme.boxShadow.focus, 'var(--pd-system-elevation-focus)')
+    assert.equal(mod.pactTheme.boxShadow['focus-danger'], 'var(--pd-system-elevation-focus-danger)')
+    assert.equal(mod.pactTheme.opacity.halo, 'var(--pd-system-opacity-halo)')
+    assert.equal(mod.pactTheme.opacity.disabled, 'var(--pd-system-opacity-disabled)')
   })
 
   it('ensures every var(--pd-*) referenced in pactTheme exists in @pact-design/tokens/css', async() => {

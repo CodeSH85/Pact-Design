@@ -31,6 +31,7 @@ export interface UnoTheme {
   letterSpacing: Record<string, string>
   duration: Record<string, string>
   easing: Record<string, string>
+  opacity: Record<string, string>
 }
 
 const FILE_HEADER = `/**
@@ -60,7 +61,8 @@ function createEmptyTheme(): UnoTheme {
     lineHeight: {},
     letterSpacing: {},
     duration: {},
-    easing: {}
+    easing: {},
+    opacity: {}
   }
 }
 
@@ -218,6 +220,7 @@ export interface PactTheme {
   letterSpacing: Record<string, string>
   duration: Record<string, string>
   easing: Record<string, string>
+  opacity: Record<string, string>
 }
 
 export interface PactPresetOptions {

@@ -104,7 +104,7 @@
     }
 
     &:where(:focus-visible, [data-focus-visible]) {
-      outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+      outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-component-tab-trigger-border-focus);
       outline-offset: var(--pd-system-border-focus-offset-inset);
     }
   }
@@ -124,7 +124,7 @@
     }
 
     &:where(:focus-visible, [data-focus-visible]) {
-      outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+      outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-component-tab-trigger-border-focus);
       outline-offset: var(--pd-system-border-focus-offset);
     }
   }
@@ -144,7 +144,7 @@
     }
 
     &:where(:focus-visible, [data-focus-visible]) {
-      outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+      outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-component-tab-trigger-border-focus);
       outline-offset: var(--pd-system-border-focus-offset);
     }
   }

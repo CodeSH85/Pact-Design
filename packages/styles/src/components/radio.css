@@ -18,7 +18,7 @@
 }
 
 :where(.pd-radio[data-focus-visible]) .pd-radio-circle {
-  outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+  outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-component-radio-border-focus);
   outline-offset: var(--pd-system-border-focus-offset);
 }
 
