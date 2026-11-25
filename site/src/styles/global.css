@@ -4,3 +4,10 @@
 [data-theme='dark'] .shiki span {
   color: var(--shiki-dark) !important;
 }
+
+@media (prefers-color-scheme: dark) {
+  [data-theme='system'] .shiki,
+  [data-theme='system'] .shiki span {
+    color: var(--shiki-dark) !important;
+  }
+}
