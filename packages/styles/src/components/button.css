@@ -206,3 +206,18 @@
     border-radius: var(--pd-system-radius-full);
   }
 }
+
+@media (forced-colors: active) {
+  .pd-button:where(:not([data-variant="link"])) {
+    border-color: ButtonText;
+  }
+
+  .pd-button:where(:disabled, [data-disabled]) {
+    border-color: GrayText;
+    color: GrayText;
+  }
+
+  .pd-button:where([data-variant="link"]):where(:disabled, [data-disabled]) {
+    border-color: transparent;
+  }
+}

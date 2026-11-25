@@ -101,3 +101,23 @@
   flex-shrink: 0;
   margin-inline-start: auto;
 }
+
+@media (forced-colors: active) {
+  .pd-collection-separator {
+    background-color: CanvasText;
+  }
+
+  .pd-collection-item:where([data-selected], [data-focused]) {
+    forced-color-adjust: none;
+    background-color: Highlight;
+    color: HighlightText;
+  }
+
+  .pd-collection-item:where([data-selected], [data-focused]) .pd-collection-item-check {
+    color: HighlightText;
+  }
+
+  .pd-collection-item:where([data-disabled]) {
+    color: GrayText;
+  }
+}

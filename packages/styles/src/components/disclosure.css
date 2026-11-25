@@ -77,6 +77,22 @@
   transform: rotate(90deg);
 }
 
+:where([dir="rtl"]) .pd-disclosure-chevron {
+  transform: scaleX(-1) rotate(0deg);
+}
+
+:where([dir="rtl"]) :where(.pd-disclosure-trigger[aria-expanded="true"]) .pd-disclosure-chevron {
+  transform: scaleX(-1) rotate(90deg);
+}
+
+:where([dir="ltr"]) .pd-disclosure-chevron {
+  transform: none;
+}
+
+:where([dir="ltr"]) :where(.pd-disclosure-trigger[aria-expanded="true"]) .pd-disclosure-chevron {
+  transform: rotate(90deg);
+}
+
 .pd-disclosure-panel {
   padding-inline: var(--pd-component-disclosure-panel-padding-x);
   padding-block: var(--pd-component-disclosure-panel-padding-y);

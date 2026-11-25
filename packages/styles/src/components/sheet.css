@@ -25,7 +25,7 @@
   overflow: hidden;
 
   /* Positions */
-  &:where([data-position="right"], [data-position="end"], :not([data-position])) {
+  &:where([data-position="right"], :not([data-position])) {
     height: 100%;
     width: 100%;
     border-left: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-border);
@@ -33,7 +33,7 @@
     border-bottom-left-radius: var(--pd-system-radius-md);
   }
 
-  &:where([data-position="left"], [data-position="start"]) {
+  &:where([data-position="left"]) {
     height: 100%;
     width: 100%;
     border-right: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-border);
@@ -41,20 +41,36 @@
     border-bottom-right-radius: var(--pd-system-radius-md);
   }
 
+  &:where([data-position="end"]) {
+    height: 100%;
+    width: 100%;
+    border-inline-start: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-border);
+    border-start-start-radius: var(--pd-system-radius-md);
+    border-end-start-radius: var(--pd-system-radius-md);
+  }
+
+  &:where([data-position="start"]) {
+    height: 100%;
+    width: 100%;
+    border-inline-end: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-border);
+    border-start-end-radius: var(--pd-system-radius-md);
+    border-end-end-radius: var(--pd-system-radius-md);
+  }
+
   &:where([data-position="bottom"]) {
     width: 100%;
     max-height: 85dvh;
-    border-top: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-border);
-    border-top-left-radius: var(--pd-system-radius-md);
-    border-top-right-radius: var(--pd-system-radius-md);
+    border-block-start: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-border);
+    border-start-start-radius: var(--pd-system-radius-md);
+    border-start-end-radius: var(--pd-system-radius-md);
   }
 
   &:where([data-position="top"]) {
     width: 100%;
     max-height: 85dvh;
-    border-bottom: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-border);
-    border-bottom-left-radius: var(--pd-system-radius-md);
-    border-bottom-right-radius: var(--pd-system-radius-md);
+    border-block-end: var(--pd-system-border-width-sm) solid var(--pd-component-modal-content-border);
+    border-end-start-radius: var(--pd-system-radius-md);
+    border-end-end-radius: var(--pd-system-radius-md);
   }
 
   &:where([data-position="center"]) {

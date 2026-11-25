@@ -15,13 +15,13 @@
 
   &:where([data-variant="underline"], :not([data-variant])) {
     display: flex;
-    border-bottom: var(--pd-system-border-width-sm) solid var(--pd-component-tab-list-underline-border);
+    border-block-end: var(--pd-system-border-width-sm) solid var(--pd-component-tab-list-underline-border);
     gap: var(--pd-component-tab-list-underline-gap);
 
     &:where([data-orientation="vertical"]) {
       flex-direction: column;
-      border-bottom: 0;
-      border-right: var(--pd-system-border-width-sm) solid var(--pd-component-tab-list-underline-border);
+      border-block-end: 0;
+      border-inline-end: var(--pd-system-border-width-sm) solid var(--pd-component-tab-list-underline-border);
       gap: var(--pd-system-spacing-xs);
     }
   }
@@ -83,8 +83,8 @@
   /* Variants */
   &:where([data-variant="underline"], :not([data-variant])) {
     position: relative;
-    border-bottom: var(--pd-system-border-width-md) solid transparent;
-    margin-bottom: -1px;
+    border-block-end: var(--pd-system-border-width-md) solid transparent;
+    margin-block-end: -1px;
     color: var(--pd-component-tab-trigger-text);
 
     &:where(:hover, [data-hovered]) {
@@ -97,10 +97,10 @@
     }
 
     &:where([data-orientation="vertical"]) {
-      border-bottom: 0;
-      margin-bottom: 0;
-      border-right: var(--pd-system-border-width-md) solid transparent;
-      margin-right: -1px;
+      border-block-end: 0;
+      margin-block-end: 0;
+      border-inline-end: var(--pd-system-border-width-md) solid transparent;
+      margin-inline-end: -1px;
     }
 
     &:where(:focus-visible, [data-focus-visible]) {
@@ -181,8 +181,24 @@
 
 .pd-tab-panel {
   outline: none;
-  padding-top: var(--pd-component-tab-panel-padding-top);
+  padding-block-start: var(--pd-component-tab-panel-padding-top);
   font: var(--pd-system-font-body-sm);
   letter-spacing: var(--pd-system-font-body-sm-letter-spacing);
   color: var(--pd-component-tab-panel-text);
+}
+
+@media (forced-colors: active) {
+  .pd-tab:where([data-variant="underline"], :not([data-variant])):where([data-selected]) {
+    border-color: Highlight;
+  }
+
+  .pd-tab:where([data-variant="segmented"], [data-variant="pill"]):where([data-selected]) {
+    forced-color-adjust: none;
+    background-color: Highlight;
+    color: HighlightText;
+  }
+
+  .pd-tab:where([data-disabled]) {
+    color: GrayText;
+  }
 }

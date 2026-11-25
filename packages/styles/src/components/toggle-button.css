@@ -184,3 +184,23 @@
   align-items: center;
   gap: var(--pd-system-spacing-2xs);
 }
+
+@media (forced-colors: active) {
+  .pd-toggle-button {
+    border-color: ButtonText;
+
+    &:where([data-selected]) {
+      forced-color-adjust: none;
+      background-color: Highlight;
+      border-color: Highlight;
+      color: HighlightText;
+    }
+
+    &:where(:disabled, [data-disabled]) {
+      forced-color-adjust: none;
+      background-color: Canvas;
+      border-color: GrayText;
+      color: GrayText;
+    }
+  }
+}
