@@ -78,7 +78,10 @@ export const readableOn = (value) =>
     : '#000'
 
 /**
- * Evaluates APCA and WCAG 2.1 compliance details for a color against a background
+ * Evaluates both APCA-W3 (perceptual) and WCAG 2.x (luminance ratio) contrast
+ * for a foreground color against a background color.
+ * - `passesTarget`: satisfies APCA `|Lc| >= targetMinLc`
+ * - `passesWcag`: satisfies WCAG `ratio >= targetMinRatio`
  */
 export function evaluateWCAG(colorVal, backgroundVal = '#ffffff', targetMinRatio = 4.5, targetMinLc = 60) {
   const ratio = calculateContrast(colorVal, backgroundVal)
@@ -86,7 +89,6 @@ export function evaluateWCAG(colorVal, backgroundVal = '#ffffff', targetMinRatio
   const absLc = Math.abs(lc)
   const colorStr = getTokenColorString(colorVal) || colorVal
 
-  // APCA |Lc| is the primary perceptual contrast criterion
   const passesTarget = absLc >= targetMinLc
   const passesWcag = ratio >= targetMinRatio
 
@@ -107,11 +109,14 @@ export function evaluateWCAG(colorVal, backgroundVal = '#ffffff', targetMinRatio
 }
 
 /**
- * Parses `build/css/_variables.css` into Light and Dark CSS custom property maps
+ * Parses `build/css/_variables.css` into Light, Dark, and System-Dark CSS custom property maps
  */
 export function parseCssVariables(cssContent) {
   const lightBlockMatch = cssContent.match(/:root,\s*\[data-theme="light"\]\s*\{([\s\S]*?)\}/)
-  const darkBlockMatch = cssContent.match(/\[data-theme="dark"\]\s*\{([\s\S]*?)\}/)
+  const darkBlockMatch = cssContent.match(/^\[data-theme="dark"\]\s*\{([\s\S]*?)\n\}/m)
+  const systemDarkMatch = cssContent.match(
+    /@media\s*\(prefers-color-scheme:\s*dark\)\s*\{\s*\[data-theme="system"\]\s*\{([\s\S]*?)\}\s*\}/
+  )
 
   const parseDecls = (block = '') => {
     const map = new Map()
@@ -125,9 +130,10 @@ export function parseCssVariables(cssContent) {
 
   const lightRaw = parseDecls(lightBlockMatch?.[1])
   const darkOverrides = parseDecls(darkBlockMatch?.[1])
+  const systemDarkOverrides = parseDecls(systemDarkMatch?.[1])
   const darkRaw = new Map([...lightRaw, ...darkOverrides])
 
-  return { lightRaw, darkOverrides, darkRaw }
+  return { lightRaw, darkOverrides, systemDarkOverrides, darkRaw }
 }
 
 /**

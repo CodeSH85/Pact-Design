@@ -124,7 +124,7 @@ export const systemColor = {
   border: {
     $root: color({ light: 'gray.300', dark: 'gray.800' }),
     subtle: color({ light: 'gray.200', dark: 'gray.900' }),
-    strong: color({ light: 'gray.500', dark: 'gray.400' }),
+    strong: color({ light: 'gray.600', dark: 'gray.400' }),
     focus: {
       $root: color({
         light: 'pd.system.color.primary.border.strong',

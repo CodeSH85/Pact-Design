@@ -164,6 +164,14 @@ export async function formatThemedCss({ dictionary, file, options }: FormatFnArg
     allTokens: darkDictionary.allTokens.filter((t) => themedPaths.has(t.path.join('.')))
   }
   const darkVars = expandAndFormatTokens(darkOnlyDict, { outputReferences, usesDtcg })
+  const indentedDarkVars = darkVars
+    .split('\n')
+    .map((line) => (line.length > 0 ? `  ${line}` : line))
+    .join('\n')
 
-  return `${header}:root, [data-theme="light"] {\n${lightVars}\n}\n\n[data-theme="dark"] {\n${darkVars}\n}\n`
+  return (
+    `${header}:root, [data-theme="light"] {\n${lightVars}\n}\n\n` +
+    `[data-theme="dark"] {\n${darkVars}\n}\n\n` +
+    `@media (prefers-color-scheme: dark) {\n  [data-theme="system"] {\n${indentedDarkVars}\n  }\n}\n`
+  )
 }
