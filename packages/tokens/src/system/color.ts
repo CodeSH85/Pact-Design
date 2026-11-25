@@ -98,7 +98,7 @@ export const systemColor = {
       hover: color({ light: 'gray.200', dark: 'gray.900' }),
       active: color({ light: 'gray.300', dark: 'gray.800' }),
       selected: {
-        $root: color({ light: 'gray.200', dark: 'gray.800' }),
+        $root: color({ light: 'gray.200', dark: 'gray.900' }),
         hover: color({ light: 'gray.300', dark: 'gray.800' })
       }
     },

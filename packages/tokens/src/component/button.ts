@@ -30,8 +30,8 @@ export const buttonTokens = {
   ghost: {
     bg: colorMap({
       $root: 'transparent',
-      hover: 'pd.system.color.surface.hover',
-      active: 'pd.system.color.surface.active',
+      hover: 'pd.system.color.surface.layer-2.hover',
+      active: 'pd.system.color.surface.layer-2.active',
       selected: 'pd.system.color.surface.layer-1.selected.$root'
     }),
     text: colorMap({

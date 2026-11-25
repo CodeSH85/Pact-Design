@@ -23,7 +23,7 @@ export const fieldTokens = {
   }),
   text: colorMap({
     $root: 'pd.system.color.on-surface.$root',
-    placeholder: 'pd.system.color.on-surface.disabled',
+    placeholder: 'pd.system.color.on-surface.muted',
     disabled: 'pd.system.color.on-surface.disabled',
     muted: 'pd.system.color.on-surface.muted'
   }),
