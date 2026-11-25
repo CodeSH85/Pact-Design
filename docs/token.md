@@ -10,13 +10,13 @@ All token files strictly follow the **W3C Design Tokens Community Group (DTCG) F
 
 Pact Design organizes design tokens into a single canonical tree (`tokens = { pd: { global, system, component } }`) in `packages/tokens/src/`, following Material 3's **Category–Type–Item** taxonomy and W3C DTCG 2025.10 (`$value`, `$type`, `$root`):
 
-1. **Global (`pd.global.<domain>.*`)**: Foundation primitives with no semantic meaning (`color`, `spacing`, `size`, `border`, `radius`, `elevation`, `motion`, `font`).
-2. **System (`pd.system.<domain>.*`)**: Semantic tokens representing themeable UI roles, hierarchy, and density (`color`, `spacing`, `size`, `border`, `radius`, `elevation`, `motion`, `font`).
-3. **Component (`pd.component.<component>[.<variant-or-part>].<property>[.<state>]`)**: Scoped tokens bound to explicit property slots (`bg`, `text`, `border`, `icon`, `dot`) of specific UI components.
+1. **Global (`pd.global.<domain>.*`)**: Foundation primitives with no semantic meaning (`color`, `opacity`, `spacing`, `size`, `border`, `radius`, `elevation`, `motion`, `font`).
+2. **System (`pd.system.<domain>.*`)**: Semantic tokens representing themeable UI roles, hierarchy, and density (`color`, `opacity`, `spacing`, `size`, `border`, `radius`, `elevation`, `motion`, `font`).
+3. **Component (`pd.component.<component>[.<variant-or-part>].<property>[.<state>]`)**: Scoped tokens bound to explicit property slots (`bg`, `text`, `border`, `icon`, `dot`, `shadow`) of specific UI components.
 
 #### Global Level (`packages/tokens/src/global/*.ts`)
 
-- Each file owns one disjoint namespace (`border`, `color`, `elevation`, `font`, `motion`, `radius`, `size`, `spacing`) with no cross-file merging.
+- Each file owns one disjoint namespace (`border`, `color`, `elevation`, `font`, `motion`, `opacity`, `radius`, `size`, `spacing`) with no cross-file merging.
 - Serves as the single source of truth for raw values (OKLCH colors including `scrim` and `shadow` alphas, `rem`/`px` dimensions, font weights, stroke styles).
 - Uses numeric scales (`00`, `01`, `02`... or `100`–`1200` for 12-step color palettes) rather than semantic names.
 
@@ -108,24 +108,34 @@ Engineered to pass **APCA** (`Lc`) and WCAG 2.1 contrast across **all background
 | `system.border.strong` | `{global.gray.500}` (`#9e9e9e`) | `{global.gray.400}` (`#bababa`) | High-contrast form input borders (`|Lc| ~61` on dark `layer-2`). |
 | `system.border.focus` | `{system.semantic.primary}` | `{global.indigo.400}` | Keyboard focus ring indicator (`|Lc| > 55` across all surfaces). |
 
-#### System Semantic Status & Action Colors (`system.semantic.*`)
+#### System Semantic Status & Action Colors (`pd.system.color.<role>.*`)
 
-Each semantic role (`primary`, `secondary`, `success`, `danger`, `warning`, `info`, `neutral`) defines 7 coordinated tokens divided into two patterns:
+Each semantic role (`primary`, `secondary`, `success`, `danger`, `warning`, `info`, `neutral`) defines a symmetric 4-pattern structure:
 
-1. **Solid Action Pattern (`<role>`, `<role>-hover`, `<role>-active`, `on-<role>`)**:
-   - Maintains a consistent **light-text on deep-background (`字淺背景深`)** visual hierarchy in both Light and Dark themes (`|Lc| >= 69` in Light, `|Lc| >= 82` in Dark).
-2. **Subtle Status Container Pattern (`<role>-subtle`, `on-<role>-subtle`, `<role>-border`)**:
-   - Uses **same-hue (`同色系`)** soft backgrounds, high-contrast colored text (`|Lc| >= 75` on `*-subtle` and `|Lc| >= 72` on `layer-2`), and subtle borders for compact status badges, inline banners, and outline controls.
+1. **Solid Action Pattern (`<role>.$root`, `hover`, `active`, `on-<role>.$root`)**:
+   - Maintains a consistent **light-text on deep-background** hierarchy in both Light and Dark themes (`|Lc| >= 69` in Light, `|Lc| >= 82` in Dark).
+2. **Subtle Status Container Pattern (`<role>.subtle.{ $root, hover, active }`, `on-<role>.subtle`, `<role>.border.$root`)**:
+   - Uses same-hue soft backgrounds (`100 / 200 / 300` Light, `1000 / 900 / 800` Dark) paired with `on-<role>.subtle` (`800` Light, `300` Dark) — passing WCAG `>= 5.76:1` and APCA `|Lc| >= 63` across all interactive states.
+3. **Foreground Text & Icons on Neutral Surfaces (`<role>.text.{ $root, hover, active }`)**:
+   - Monotonically darker in Light (`700 → 800 → 900`) and monotonically lighter in Dark (`400 → 300 → 200`), ensuring links, checkmarks, toast icons, and error messages pass WCAG `>= 4.5:1` and APCA `|Lc| >= 60` on `surface.layer-1` (and `>= 4.5:1` / `|Lc| >= 45` on `surface.layer-2.hover`).
+4. **Strong Graphic Borders & Focus Rings (`<role>.border.strong`, `border.focus.{ $root, danger, halo, danger-halo }`)**:
+   - `600` (Light) / `400` (Dark) for active underlines, slider tracks/thumbs, and invalid/focus borders (WCAG `>= 3.0:1`, APCA `|Lc| >= 45` on `surface.layer-2`).
+   - Translucent focus halos (`border.focus.halo`, `border.focus.danger-halo`) are derived at build time via `alpha(colorKey, opacityKey)` backed by `globalOpacity` and paired with `pd.system.elevation.focus.{ $root, danger }` (and `@media (forced-colors: active)` outline fallback on form fields). Because build-time `alpha()` emits concrete `oklch(L C H / alpha)` literals for Lightning CSS browser-target compatibility, runtime overrides of `--pd-global-color-*` will not dynamically re-tint baked halo tokens — override the semantic halo token directly instead.
 
-| Role | Hue Family | Light Solid (`default / hover / active / on`) | Dark Solid (`default / hover / active / on`) | Light Subtle (`bg / on / border`) | Dark Subtle (`bg / on / border`) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Primary** | `indigo` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `200 / 800 / 300` | `1000 / 300 / 800` |
-| **Secondary** | `blue` | `700 / 800 / 900 / white` | `700 / 600 / 800 / white` | `200 / 800 / 300` | `1000 / 300 / 800` |
-| **Success** | `green` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `200 / 800 / 300` | `1000 / 300 / 800` |
-| **Danger** | `red` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `200 / 800 / 300` | `1000 / 300 / 800` |
-| **Warning** | `orange` | `600 / 700 / 800 / white` | `600 / 700 / 800 / white` | `200 / 800 / 300` | `900 / 200 / 700` |
-| **Info** | `blue` | `600 / 700 / 800 / white` | `600 / 700 / 800 / white` | `200 / 800 / 300` | `900 / 200 / 700` |
-| **Neutral** | `coolGray` | `700 / 800 / 900 / white` | `700 / 600 / 800 / white` | `200 / 800 / 300` | `1000 / 300 / 800` |
+| Role | Hue Family | Light Solid (`$root / hover / active / on`) | Dark Solid (`$root / hover / active / on`) | Light Subtle (`$root / hover / active / on / border`) | Dark Subtle (`$root / hover / active / on / border`) | Text (`Light` / `Dark`) | Border Strong (`Light` / `Dark`) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Primary** | `indigo` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Secondary** | `blue` | `700 / 800 / 900 / white` | `700 / 600 / 800 / white` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Success** | `green` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Danger** | `red` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Warning** | `orange` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Info** | `blue` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Neutral** | `coolGray` | `700 / 800 / 900 / white` | `700 / 600 / 800 / white` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+
+#### Opacity (`pd.global.opacity.*`, `pd.system.opacity.*`)
+
+- **Global (`packages/tokens/src/global/opacity.ts`)**: `$type: "number"` scale (`00`, `05`, `08`, `12`, `16`, `20`, `24`, `28`, `32`, `48`, `64`, `80`, `100` → `0` to `1`).
+- **System (`packages/tokens/src/system/opacity.ts`)**: Semantic opacity roles `disabled` (`0.48`), `hover` (`0.08`), `focus` (`0.12`), `pressed` (`0.16`), plus themed `halo` (`0.2` Light / `0.28` Dark) and `scrim` (`0.48` Light / `0.64` Dark).
 
 ---
 

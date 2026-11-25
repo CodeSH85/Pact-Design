@@ -42,6 +42,7 @@ import type {
 
 export const CATEGORY_LABELS: Record<string, string> = {
   color: '色彩',
+  opacity: '透明度',
   typography: '字體',
   spacing: '間距',
   sizing: '尺寸',

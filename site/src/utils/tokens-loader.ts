@@ -31,6 +31,7 @@ export interface TokenCatalog {
 
 const DOMAIN_TO_CATEGORY: Record<string, string> = {
   color: 'color',
+  opacity: 'opacity',
   font: 'typography',
   spacing: 'spacing',
   size: 'sizing',

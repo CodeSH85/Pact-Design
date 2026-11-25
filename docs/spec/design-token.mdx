@@ -43,12 +43,32 @@ export const globalColor = {
 // packages/tokens/src/system/color.ts
 export const systemColor = {
   primary: {
-    $root: color({ light: 'indigo.600', dark: 'indigo.700' }),
+    $root: color({ light: 'indigo.600', dark: 'indigo.700' }),       // 實心填色背景
     hover: color({ light: 'indigo.700', dark: 'indigo.600' }),
-    active: color({ light: 'indigo.800', dark: 'indigo.800' })
+    active: color({ light: 'indigo.800', dark: 'indigo.800' }),
+    subtle: {
+      $root: color({ light: 'indigo.100', dark: 'indigo.1000' }),    // 柔和容器背景
+      hover: color({ light: 'indigo.200', dark: 'indigo.900' }),
+      active: color({ light: 'indigo.300', dark: 'indigo.800' })
+    },
+    text: {
+      $root: color({ light: 'indigo.700', dark: 'indigo.400' }),     // 中性表面上的語意文字與圖示
+      hover: color({ light: 'indigo.800', dark: 'indigo.300' }),
+      active: color({ light: 'indigo.900', dark: 'indigo.200' })
+    },
+    border: {
+      $root: color({ light: 'indigo.300', dark: 'indigo.800' }),     // 柔和容器邊框
+      strong: color({ light: 'indigo.600', dark: 'indigo.400' })     // 強調指示線與圖形描邊
+    }
   }
 } as const
 ```
+
+### 語意色彩角色、透明度與混合式焦點狀態
+
+- **實心填色與前景分離**：所有 7 組語意角色（`primary`、`secondary`、`success`、`danger`、`warning`、`info`、`neutral`）皆區分實心背景（`<role>.$root`）、柔和容器（`<role>.subtle.*`）、中性表面前景文字與圖示（`<role>.text.*`），以及強調邊框（`<role>.border.strong`），確保在深淺主題下皆通過 APCA 與 WCAG 對比標準。
+- **透明度領域與型別安全的 `alpha()`**：透過 `pd.global.opacity.*` 與 `pd.system.opacity.*` 提供標準化透明度階梯；在 `system/color.ts` 中使用 `alpha('indigo.600', '20')` 於建置期解析為標準 DTCG OKLCH 透明度色彩（`oklch(L C H / alpha)`），相容舊版瀏覽器目標與對比測試工具（注意：建置期固化的透明度色值不會隨執行期覆寫 `--pd-global-color-*` 連動，需直接覆寫語意光暈變數）。
+- **混合式焦點規範**：鍵盤 `:focus-visible` 在按鈕、分頁、清單與核取元件上維持高對比 `outline`（並提供 `border.focus.danger` 危險焦點色）；表單輸入框與 `SelectTrigger` 則採用 `--pd-system-elevation-focus` / `focus-danger` 柔和焦點光暈，並搭配 `@media (forced-colors: active)` 高對比模式備援外框。
 
 ---
 
