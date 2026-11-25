@@ -36,7 +36,7 @@ import { Button, Modal } from '@pact-design/react'
     </>
   )}
 >
-  <p>Focus is trapped inside the modal while open.</p>
+  <p>Focus is trapped inside the modal while open. Press Escape or click the backdrop to dismiss.</p>
 </Modal>
 ```
 
@@ -73,8 +73,24 @@ import { Button, Modal } from '@pact-design/react'
 </ComponentPreview>
 
 ```tsx
-<Modal size="sm" trigger={<Button variant="secondary">Size SM</Button>} title="Delete Snapshot?" />
-<Modal size="lg" trigger={<Button variant="secondary">Size LG</Button>} title="Change Summary" />
+<Modal
+  size="sm"
+  trigger={<Button variant="secondary" size="sm">Size SM</Button>}
+  title="Delete Snapshot?"
+  description="This action cannot be undone."
+  footer={<Button variant="danger" size="sm" slot="close">Delete</Button>}
+>
+  <p>Compact modal width for quick confirmations.</p>
+</Modal>
+
+<Modal
+  size="lg"
+  trigger={<Button variant="secondary" size="sm">Size LG</Button>}
+  title="Change Summary"
+  footer={<Button variant="primary" size="sm" slot="close">Done</Button>}
+>
+  <p>Wider modal container suited for multi-column forms and detailed review checklists.</p>
+</Modal>
 ```
 
 ## 禁止點擊背景關閉
@@ -116,7 +132,7 @@ import {
     <ModalDialog>
       <ModalHeader
         title="Save Changes?"
-        description="Backdrop clicks are disabled."
+        description="Backdrop clicks are disabled; choose an explicit action below."
         showCloseButton={false}
       />
       <ModalFooter>

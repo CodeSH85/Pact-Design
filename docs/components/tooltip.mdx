@@ -59,11 +59,28 @@ import { RiFileCopyLine } from '@remixicon/react'
 </ComponentPreview>
 
 ```tsx
+import { Button, Tooltip, TooltipTrigger } from '@pact-design/react'
+import { RiDeleteBinLine, RiFileCopyLine, RiSettings3Line } from '@remixicon/react'
+
 <TooltipTrigger delay={0}>
   <Button variant="secondary" size="sm" icon aria-label="上方提示">
     <RiFileCopyLine />
   </Button>
   <Tooltip placement="top" showArrow>Top Tooltip</Tooltip>
+</TooltipTrigger>
+
+<TooltipTrigger delay={0}>
+  <Button variant="secondary" size="sm" icon aria-label="下方提示">
+    <RiSettings3Line />
+  </Button>
+  <Tooltip placement="bottom" showArrow>Bottom Tooltip</Tooltip>
+</TooltipTrigger>
+
+<TooltipTrigger delay={0}>
+  <Button variant="danger" size="sm" icon aria-label="刪除項目">
+    <RiDeleteBinLine />
+  </Button>
+  <Tooltip placement="right" showArrow>Delete Item</Tooltip>
 </TooltipTrigger>
 ```
 

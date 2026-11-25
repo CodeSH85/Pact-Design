@@ -40,7 +40,7 @@ import { Button, Sheet } from '@pact-design/react'
     </>
   )}
 >
-  <p>Sheets slide in from any viewport edge with scrollable content.</p>
+  <p>Sheets slide in from any viewport edge with scrollable content and Escape dismissal.</p>
 </Sheet>
 ```
 
@@ -83,11 +83,32 @@ import { Button, Sheet } from '@pact-design/react'
 </ComponentPreview>
 
 ```tsx
-<Sheet trigger={<Button>Left</Button>} position="left" size="sm" title="Left Sheet">
+<Sheet
+  trigger={<Button variant="secondary" size="sm">Left</Button>}
+  position="left"
+  size="sm"
+  title="Left Sheet"
+>
   <p>Anchored to the left viewport edge.</p>
 </Sheet>
-<Sheet trigger={<Button>Bottom</Button>} position="bottom" size="sm" title="Bottom Sheet">
+
+<Sheet
+  trigger={<Button variant="secondary" size="sm">Bottom</Button>}
+  position="bottom"
+  size="sm"
+  title="Bottom Sheet"
+  footer={<Button variant="primary" size="sm" slot="close">Done</Button>}
+>
   <p>Slides upward from the bottom edge.</p>
+</Sheet>
+
+<Sheet
+  trigger={<Button variant="secondary" size="sm">Top</Button>}
+  position="top"
+  size="sm"
+  title="Top Sheet"
+>
+  <p>Slides downward from the top edge.</p>
 </Sheet>
 ```
 
@@ -133,8 +154,10 @@ import {
   <SheetOverlay position="right">
     <SheetPanel position="right" size="md">
       <SheetContent>
-        <SheetHeader title="Custom Layout" />
-        <SheetBody>...</SheetBody>
+        <SheetHeader title="Custom Layout" description="Composed directly with Sheet parts." />
+        <SheetBody>
+          <p>Control panel, overlay, and footer slots independently.</p>
+        </SheetBody>
         <SheetFooter>
           <Button variant="primary" size="sm" slot="close">Close</Button>
         </SheetFooter>

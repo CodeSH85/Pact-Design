@@ -66,6 +66,11 @@ import { ComboBox, ComboBoxItem } from '@pact-design/react'
   <ComboBoxItem id="xs">XS</ComboBoxItem>
   <ComboBoxItem id="sm">SM</ComboBoxItem>
 </ComboBox>
+
+<ComboBox label="Size LG" size="lg" defaultSelectedKey="lg">
+  <ComboBoxItem id="md">MD</ComboBoxItem>
+  <ComboBoxItem id="lg">LG</ComboBoxItem>
+</ComboBox>
 ```
 
 ## 選項分組與停用狀態
@@ -101,6 +106,15 @@ import { ComboBox, ComboBoxItem, ComboBoxSection, ListBoxHeader } from '@pact-de
     <ComboBoxItem id="pg">PostgreSQL Primary</ComboBoxItem>
     <ComboBoxItem id="replica">PostgreSQL Replica</ComboBoxItem>
   </ComboBoxSection>
+  <ComboBoxSection>
+    <ListBoxHeader>Cache</ListBoxHeader>
+    <ComboBoxItem id="redis">Redis Cluster</ComboBoxItem>
+    <ComboBoxItem id="edge">Edge Cache</ComboBoxItem>
+  </ComboBoxSection>
+</ComboBox>
+
+<ComboBox label="Disabled" isDisabled defaultSelectedKey="prod">
+  <ComboBoxItem id="prod">Production</ComboBoxItem>
 </ComboBox>
 ```
 
