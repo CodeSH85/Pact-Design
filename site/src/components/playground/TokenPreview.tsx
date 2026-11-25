@@ -59,7 +59,9 @@ interface SemanticColorPair {
   active?: Token
   subtle?: Token
   onSubtle?: Token
+  text?: Token
   border?: Token
+  borderStrong?: Token
 }
 
 interface ContrastBadgeProps {
@@ -218,9 +220,11 @@ export function TokenPreview({
         on,
         hover: tokens.get(`pd.system.color.${name}.hover`),
         active: tokens.get(`pd.system.color.${name}.active`),
-        subtle: tokens.get(`pd.system.color.${name}.subtle`),
+        subtle: tokens.get(`pd.system.color.${name}.subtle.$root`),
         onSubtle: tokens.get(`pd.system.color.on-${name}.subtle`),
-        border: tokens.get(`pd.system.color.${name}.border`)
+        text: tokens.get(`pd.system.color.${name}.text.$root`),
+        border: tokens.get(`pd.system.color.${name}.border.$root`),
+        borderStrong: tokens.get(`pd.system.color.${name}.border.strong`)
       }
     })
     .filter((p): p is SemanticColorPair => p !== null)
@@ -291,9 +295,14 @@ export function TokenPreview({
   const widths = borderTokens.filter((t) => t.type === 'dimension' && t.path.includes('width') && !t.path.includes('focus'))
   const offsets = borderTokens.filter((t) => t.type === 'dimension' && t.path.includes('offset') && !t.path.includes('focus'))
   const styles = borderTokens.filter((t) => t.type === 'strokeStyle' && !t.path.includes('focus'))
-  const focusColorCss = v('pd.system.color.border.focus', '#3b63fb')
+  const focusColorCss = v('pd.system.color.border.focus.$root', '#3b63fb')
   const focusWidthCss = v('pd.system.border.focus.width', '2px')
   const focusStyleCss = v('pd.system.border.focus.style', 'solid')
+
+  // Opacity
+  const opacityTokens = inFile('opacity').filter((t) => t.type === 'number')
+  const sysOpacity = opacityTokens.filter(isSystem)
+  const globalOpacity = opacityTokens.filter((t) => !isSystem(t))
 
   // Elevation
   const shadows = byType('shadow')
@@ -981,6 +990,53 @@ export function TokenPreview({
             </div>
           )}
 
+          {/* Semantic Foreground Text & Strong Borders */}
+          {pairs.some((p) => p.text) && (
+            <div className="flex flex-col gap-xs pt-xs">
+              <h3 className="text-label-md text-on-surface m-0">
+                System · 語意前景文字與強調邊框（Semantic Text / Icons & Border Strong on Layer-1）
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-xs">
+                {pairs
+                  .filter((p): p is SemanticColorPair & { text: Token } => Boolean(p.text))
+                  .map(({ bg, text, borderStrong }) => {
+                    const name = leafName(bg)
+                    return (
+                      <div
+                        key={text.id}
+                        onClick={() => onJump(text.id)}
+                        title={text.id}
+                        style={{
+                          borderColor: borderStrong ? v(borderStrong.id) : undefined,
+                          borderWidth: '2px'
+                        }}
+                        className="flex flex-col gap-3xs p-sm rounded-xs bg-layer-1 border-solid cursor-pointer"
+                      >
+                        <strong style={{ color: v(text.id) }} className="text-label-md">
+                          {name}.text · Link &amp; Checkmark
+                        </strong>
+                        <span className="text-mono-xs text-on-surface-muted">
+                          text → {refOf(text.node.$value) ?? formatValue('color', val(text.id))}
+                        </span>
+                        {borderStrong && (
+                          <span
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              onJump(borderStrong.id)
+                            }}
+                            className="text-mono-xs text-on-surface-muted underline decoration-dotted"
+                          >
+                            border.strong → {refOf(borderStrong.node.$value) ?? formatValue('color', val(borderStrong.id))}
+                          </span>
+                        )}
+                        {bgL1Id && <ContrastBadge txtVal={val(text.id)} bgVal={val(bgL1Id)} />}
+                      </div>
+                    )
+                  })}
+              </div>
+            </div>
+          )}
+
           {/* Global Palettes */}
           <div className="flex flex-col gap-xs pt-xs">
             <div className="flex flex-wrap items-center justify-between gap-sm">
@@ -1539,7 +1595,7 @@ export function TokenPreview({
                     style={{ boxShadow: v(t.id) }}
                     className="flex flex-col gap-2xs p-md rounded-md bg-layer-2 border-sm border-border-subtle cursor-pointer"
                   >
-                    <strong className="text-label-md text-on-surface">{t.path.at(-1)}</strong>
+                    <strong className="text-label-md text-on-surface">{cleanPath(t).slice(3).join('.')}</strong>
                     <code className="text-mono-xs text-on-surface-muted whitespace-pre-wrap">
                       {formatValue('shadow', val(t.id) ?? {}).replaceAll(' · ', '\n')}
                     </code>
@@ -1684,6 +1740,66 @@ export function TokenPreview({
                 />
               ))}
             </div>
+          </PreviewSection>
+        )}
+        {/* 9. Opacity */}
+        {opacityTokens.length > 0 && (
+          <PreviewSection id="opacity" title="透明度 Opacity">
+            {sysOpacity.length > 0 && (
+              <div className="flex flex-col gap-xs">
+                <h3 className="text-label-md text-on-surface m-0">
+                  System · 語意透明度（pd.system.opacity.*）
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-xs">
+                  {sysOpacity.map((t) => (
+                    <div
+                      key={t.id}
+                      onClick={() => onJump(t.id)}
+                      title={t.id}
+                      className="flex flex-col gap-2xs p-sm rounded-xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
+                    >
+                      <div className="h-8 rounded-2xs bg-layer-1 border-sm border-border-default p-3xs flex items-center">
+                        <div
+                          className="w-full h-full rounded-2xs bg-primary"
+                          style={{ opacity: v(t.id) }}
+                        />
+                      </div>
+                      <strong className="text-label-xs text-on-surface">{leafName(t)}</strong>
+                      <code className="text-mono-xs text-on-surface-muted">
+                        {String(val(t.id) ?? '')}
+                      </code>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {globalOpacity.length > 0 && (
+              <div className="flex flex-col gap-xs pt-xs">
+                <h3 className="text-label-md text-on-surface m-0">
+                  Global · 透明度尺度（pd.global.opacity.*）
+                </h3>
+                <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-xs">
+                  {globalOpacity.map((t) => (
+                    <div
+                      key={t.id}
+                      onClick={() => onJump(t.id)}
+                      title={t.id}
+                      className="flex flex-col gap-3xs p-xs rounded-xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
+                    >
+                      <div className="h-6 rounded-2xs bg-layer-1 border-sm border-border-default p-3xs">
+                        <div
+                          className="w-full h-full rounded-2xs bg-primary"
+                          style={{ opacity: v(t.id) }}
+                        />
+                      </div>
+                      <code className="text-mono-xs text-on-surface">
+                        {leafName(t)} · {String(val(t.id) ?? '')}
+                      </code>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </PreviewSection>
         )}
       </div>
