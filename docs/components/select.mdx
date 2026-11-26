@@ -135,6 +135,61 @@ import {
 </Select>
 ```
 
+## 多選與可清除
+
+透過 `selectionMode="multiple"` 啟用多選模式，並透過 `clearable` 顯示一鍵清除按鈕。
+
+<ComponentPreview align="stretch">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+    <Select
+      label="Clearable Role"
+      clearable
+      defaultSelectedKey="editor"
+      placeholder="Select role..."
+    >
+      <SelectItem id="viewer">Viewer</SelectItem>
+      <SelectItem id="editor">Editor</SelectItem>
+      <SelectItem id="admin">Admin</SelectItem>
+    </Select>
+    <Select
+      label="Multiple Roles"
+      selectionMode="multiple"
+      clearable
+      defaultValue={['viewer', 'editor']}
+      placeholder="Select roles..."
+    >
+      <SelectItem id="viewer">Viewer</SelectItem>
+      <SelectItem id="editor">Editor</SelectItem>
+      <SelectItem id="admin">Admin</SelectItem>
+    </Select>
+  </div>
+</ComponentPreview>
+
+```tsx
+<Select
+  label="Clearable Role"
+  clearable
+  defaultSelectedKey="editor"
+  placeholder="Select role..."
+>
+  <SelectItem id="viewer">Viewer</SelectItem>
+  <SelectItem id="editor">Editor</SelectItem>
+  <SelectItem id="admin">Admin</SelectItem>
+</Select>
+
+<Select
+  label="Multiple Roles"
+  selectionMode="multiple"
+  clearable
+  defaultValue={['viewer', 'editor']}
+  placeholder="Select roles..."
+>
+  <SelectItem id="viewer">Viewer</SelectItem>
+  <SelectItem id="editor">Editor</SelectItem>
+  <SelectItem id="admin">Admin</SelectItem>
+</Select>
+```
+
 ## API 參考
 
 ### Select
@@ -146,13 +201,18 @@ import {
 | `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | 驗證失敗時顯示的錯誤提示。 |
 | `placeholder` | `string` | `'Select an option'` | 尚未選取任何項目時顯示的提示文字。 |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 觸發按鈕的高度與內距大小。 |
+| `selectionMode` | `'single' \| 'multiple'` | `'single'` | 單選或多選模式。 |
 | `items` | `Iterable<T>` | `—` | 動態選項資料集合，可搭配渲染函式使用。 |
-| `selectedKey` / `defaultSelectedKey` | `Key \| null` | `—` | 受控或預設選取的項目鍵值。 |
-| `onSelectionChange` | `(key: Key \| null) => void` | `—` | 選取項目變更時觸發的回呼函式。 |
-| `triggerProps` | `ButtonProps` | `—` | 傳遞至內層觸發按鈕的額外屬性。 |
+| `value` / `defaultValue` | `Key \| null \| Key[]` | `—` | 受控或預設選取值（多選模式為陣列）。 |
+| `onChange` | `(value: Key \| null \| Key[]) => void` | `—` | 選取值變更時觸發的回呼函式。 |
+| `clearable` | `boolean \| { icon?: IconSlot; label?: string; onClear?: () => void }` | `false` | 是否顯示快速清除按鈕，可傳入物件自訂圖示與標籤。 |
+| `onClear` | `() => void` | `—` | 點擊清除按鈕時觸發的回呼函式。 |
+| `icons` | `{ chevron?: IconSlot; clear?: IconSlot }` | `—` | 自訂展開箭頭與清除圖示。 |
+| `renderValue` | `SelectValueProps<T>['children']` | `—` | 自訂已選值的顯示內容。 |
+| `triggerProps` | `SelectTriggerProps` | `—` | 傳遞至內層觸發按鈕的額外屬性。 |
 | `popoverProps` | `SelectPopoverProps` | `—` | 傳遞至展開浮動視窗的額外屬性。 |
 | `listBoxProps` | `ListBoxProps<T>` | `—` | 傳遞至展開選項清單的額外屬性。 |
-| `isDisabled` | `boolean` | `false` | 是否停用下拉選單。 |
+| `disabled` / `isDisabled` | `boolean` | `false` | 是否停用下拉選單。 |
 
 ### 子元件
 

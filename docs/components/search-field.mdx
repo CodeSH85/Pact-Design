@@ -79,4 +79,6 @@ import { SearchField } from '@pact-design/react'
 | `onChange` | `(value: string) => void` | `—` | 搜尋內容改變時觸發的回呼函式。 |
 | `onSubmit` | `(value: string) => void` | `—` | 在欄位中按下 `Enter` 時觸發的回呼函式。 |
 | `onClear` | `() => void` | `—` | 點擊清除按鈕或按下 `Escape` 清空內容時觸發。 |
-| `isDisabled` | `boolean` | `false` | 是否停用搜尋輸入與清除按鈕。 |
+| `clearable` | `boolean \| { icon?: IconSlot; label?: string; onClear?: () => void }` | `true` | 是否顯示清除按鈕，可設為 `false` 隱藏或傳入物件自訂圖示。 |
+| `icons` | `{ search?: IconSlot; clear?: IconSlot }` | `—` | 自訂放大鏡與清除按鈕圖示。 |
+| `disabled` / `isDisabled` | `boolean` | `false` | 是否停用搜尋輸入與清除按鈕。 |

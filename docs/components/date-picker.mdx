@@ -97,7 +97,10 @@ import { DatePicker } from '@pact-design/react'
 | `value` / `defaultValue` | `DateValue` | `—` | 受控或預設選取的日期。 |
 | `onChange` | `(value: DateValue \| null) => void` | `—` | 透過輸入或月曆變更日期時觸發的回呼函式。 |
 | `minValue` / `maxValue` | `DateValue` | `—` | 限制可選取的最早與最晚日期。 |
-| `isDisabled` | `boolean` | `false` | 是否停用輸入與展開月曆。 |
+| `clearable` | `boolean \| { icon?: IconSlot; label?: string; onClear?: () => void }` | `false` | 是否在已選日期時顯示快速清除按鈕，可傳入物件自訂圖示。 |
+| `onClear` | `() => void` | `—` | 點擊清除按鈕清空日期時觸發。 |
+| `icons` | `{ calendar?: IconSlot; clear?: IconSlot }` | `—` | 自訂月曆與清除圖示。 |
+| `disabled` / `isDisabled` | `boolean` | `false` | 是否停用輸入與展開月曆。 |
 | `dateInputProps` | `DateInputProps` | `—` | 傳遞至內層日期輸入列的額外屬性。 |
 | `popoverProps` | `DatePickerPopoverProps` | `—` | 傳遞至浮動視窗的額外屬性，預設對齊於左下方。 |
 | `calendarProps` | `Partial<CalendarProps<T>>` | `—` | 傳遞至內嵌月曆的額外屬性。 |

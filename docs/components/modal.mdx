@@ -158,6 +158,7 @@ import {
 | `footer` | `ReactNode` | `—` | 顯示於底部的操作按鈕區域。 |
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'md'` | 視窗面板的最大寬度等級。 |
 | `isDismissable` | `boolean` | `true` | 是否允許點擊外部遮罩關閉視窗。 |
+| `icons` | `{ close?: IconSlot }` | `—` | 自訂右上角關閉按鈕圖示（接受 JSX 元素或圖示元件）。 |
 | `isOpen` / `defaultOpen` | `boolean` | `—` | 受控或預設的開啟狀態。 |
 | `onOpenChange` | `(isOpen: boolean) => void` | `—` | 視窗開啟或關閉時觸發的回呼函式。 |
 
@@ -169,3 +170,13 @@ import {
 | `isDismissable` | `boolean` | `true` | 是否允許點擊外部遮罩關閉視窗。 |
 | `overlayClassName` | `string` | `—` | 額外套用於全螢幕遮罩層的自訂樣式類別。 |
 | `className` | `string` | `—` | 額外套用於視窗面板的自訂樣式類別。 |
+
+### 子元件
+
+- **`ModalTrigger`**：串聯觸發按鈕與互動視窗的控制器。
+- **`ModalContent`**：全螢幕遮罩與置中視窗外框容器。
+- **`ModalDialog`**：負責焦點管理與無障礙標題關聯的內部對話框容器。
+- **`ModalHeader`**：呈現標題、副標與關閉按鈕的標頭區。
+- **`ModalBody`**：可獨立垂直捲動的主體內容區。
+- **`ModalFooter`**：靠右對齊的底部操作按鈕區。
+- **`ModalCloseButton`**：觸發關閉互動視窗的圖示按鈕（支援 `icons` 與 `disabled` / `isDisabled`）。

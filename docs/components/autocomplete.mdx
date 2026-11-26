@@ -111,6 +111,11 @@ import { Autocomplete, AutocompleteItem } from '@pact-design/react'
 | `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | 欄位無效時顯示的錯誤提示。 |
 | `placeholder` | `string` | `—` | 傳遞至內嵌搜尋欄位的提示文字。 |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 內嵌搜尋欄位的高度尺寸。 |
+| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | 內嵌選項清單的選取模式。 |
+| `clearable` | `boolean \| { icon?: IconSlot; label?: string; onClear?: () => void }` | `true` | 是否顯示搜尋欄清除按鈕，可傳入物件自訂圖示與標籤。 |
+| `onClear` | `() => void` | `—` | 清空搜尋字串時觸發的回呼函式。 |
+| `icons` | `{ search?: IconSlot; clear?: IconSlot }` | `—` | 自訂搜尋與清除圖示。 |
+| `disabled` / `isDisabled` | `boolean` | `false` | 是否停用搜尋欄位與清單互動。 |
 | `filter` | `(textValue: string, inputValue: string) => boolean` | 不分大小寫包含比對 | 自訂清單項目的過濾條件函式。 |
 | `searchFieldProps` | `Partial<SearchFieldProps>` | `—` | 傳遞至內嵌搜尋欄位的額外屬性。 |
 | `listBoxProps` | `Partial<AutocompleteListBoxProps<T>>` | `—` | 傳遞至選項清單的額外屬性，例如 `onAction` 與 `selectionMode`。 |

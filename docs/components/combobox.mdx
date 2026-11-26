@@ -118,6 +118,63 @@ import { ComboBox, ComboBoxItem, ComboBoxSection, ListBoxHeader } from '@pact-de
 </ComboBox>
 ```
 
+## 多選與可清除
+
+點擊整個輸入欄位即可展開選單；搭配 `selectionMode="multiple"` 可於欄位內顯示可個別移除的標籤，搭配 `clearable` 則可一鍵清空輸入與已選項目。
+
+<ComponentPreview align="stretch">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+    <ComboBox
+      label="Clearable Region"
+      clearable
+      defaultSelectedKey="taipei"
+      placeholder="Select region..."
+    >
+      <ComboBoxItem id="taipei">Taipei</ComboBoxItem>
+      <ComboBoxItem id="tokyo">Tokyo</ComboBoxItem>
+      <ComboBoxItem id="london">London</ComboBoxItem>
+    </ComboBox>
+    <ComboBox
+      label="Multiple Regions"
+      selectionMode="multiple"
+      clearable
+      defaultValue={['taipei', 'tokyo']}
+      placeholder="Add regions..."
+    >
+      <ComboBoxItem id="taipei">Taipei</ComboBoxItem>
+      <ComboBoxItem id="tokyo">Tokyo</ComboBoxItem>
+      <ComboBoxItem id="london">London</ComboBoxItem>
+      <ComboBoxItem id="berlin">Berlin</ComboBoxItem>
+    </ComboBox>
+  </div>
+</ComponentPreview>
+
+```tsx
+<ComboBox
+  label="Clearable Region"
+  clearable
+  defaultSelectedKey="taipei"
+  placeholder="Select region..."
+>
+  <ComboBoxItem id="taipei">Taipei</ComboBoxItem>
+  <ComboBoxItem id="tokyo">Tokyo</ComboBoxItem>
+  <ComboBoxItem id="london">London</ComboBoxItem>
+</ComboBox>
+
+<ComboBox
+  label="Multiple Regions"
+  selectionMode="multiple"
+  clearable
+  defaultValue={['taipei', 'tokyo']}
+  placeholder="Add regions..."
+>
+  <ComboBoxItem id="taipei">Taipei</ComboBoxItem>
+  <ComboBoxItem id="tokyo">Tokyo</ComboBoxItem>
+  <ComboBoxItem id="london">London</ComboBoxItem>
+  <ComboBoxItem id="berlin">Berlin</ComboBoxItem>
+</ComboBox>
+```
+
 ## API 參考
 
 ### ComboBox
@@ -129,13 +186,18 @@ import { ComboBox, ComboBoxItem, ComboBoxSection, ListBoxHeader } from '@pact-de
 | `errorMessage` | `ReactNode \| ((validation) => ReactNode)` | `—` | 欄位無效時顯示的錯誤提示。 |
 | `placeholder` | `string` | `—` | 輸入框空白時的提示文字。 |
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 欄位高度與內距大小。 |
+| `selectionMode` | `'single' \| 'multiple'` | `'single'` | 單選或多選模式（多選時會於輸入框內顯示可移除標籤）。 |
+| `menuTrigger` | `'focus' \| 'input' \| 'manual'` | `'focus'` | 觸發展開下拉選單的時機。 |
 | `items` | `Iterable<T>` | `—` | 動態選項資料集合，可搭配渲染函式使用。 |
-| `selectedKey` / `defaultSelectedKey` | `Key \| null` | `—` | 受控或預設選取的項目鍵值。 |
-| `onSelectionChange` | `(key: Key \| null) => void` | `—` | 選取項目變更時觸發的回呼函式。 |
+| `value` / `defaultValue` | `Key \| null \| Key[]` | `—` | 受控或預設選取值（多選模式為陣列）。 |
+| `onChange` | `(value: Key \| null \| Key[]) => void` | `—` | 選取值變更時觸發的回呼函式。 |
+| `clearable` | `boolean \| { icon?: IconSlot; label?: string; onClear?: () => void }` | `false` | 是否顯示快速清除按鈕，可傳入物件自訂圖示與標籤。 |
+| `onClear` | `() => void` | `—` | 點擊清除按鈕時觸發的回呼函式。 |
+| `icons` | `{ chevron?: IconSlot; clear?: IconSlot; removeTag?: IconSlot }` | `—` | 自訂展開箭頭、清除與標籤移除圖示。 |
 | `inputProps` | `InputProps` | `—` | 傳遞至內層輸入框的額外屬性。 |
 | `popoverProps` | `ComboBoxPopoverProps` | `—` | 傳遞至下拉浮動視窗的額外屬性。 |
 | `listBoxProps` | `ListBoxProps<T>` | `—` | 傳遞至下拉選項清單的額外屬性。 |
-| `isDisabled` | `boolean` | `false` | 是否停用輸入與下拉展開。 |
+| `disabled` / `isDisabled` | `boolean` | `false` | 是否停用輸入與下拉展開。 |
 
 ### 子元件
 

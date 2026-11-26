@@ -51,7 +51,6 @@ export const navSections: NavSection[] = [
       { id: 'combobox', label: 'ComboBox 組合方塊', title: 'ComboBox 組合方塊', to: '/components/$id', params: { id: 'combobox' } },
       { id: 'date-field', label: 'DateField 日期欄位', title: 'DateField 日期欄位', to: '/components/$id', params: { id: 'date-field' } },
       { id: 'date-picker', label: 'DatePicker 日期選擇器', title: 'DatePicker 日期選擇器', to: '/components/$id', params: { id: 'date-picker' } },
-      { id: 'dialog', label: 'Dialog 對話框', title: 'Dialog 對話框', to: '/components/$id', params: { id: 'dialog' } },
       { id: 'disclosure', label: 'Disclosure 折疊面板', title: 'Disclosure 折疊面板', to: '/components/$id', params: { id: 'disclosure' } },
       { id: 'disclosure-group', label: 'DisclosureGroup 折疊面板群組', title: 'DisclosureGroup 折疊面板群組', to: '/components/$id', params: { id: 'disclosure-group' } },
       { id: 'field', label: 'Field 表單欄位', title: 'Field 表單欄位', to: '/components/$id', params: { id: 'field' } },

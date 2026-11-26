@@ -113,7 +113,10 @@ import { TextField } from '@pact-design/react'
 | `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | 輸入框高度與文字比例。 |
 | `value` / `defaultValue` | `string` | `—` | 受控或預設的文字內容。 |
 | `onChange` | `(value: string) => void` | `—` | 輸入內容變更時觸發的回呼函式。 |
+| `clearable` | `boolean \| { icon?: IconSlot; label?: string; onClear?: () => void }` | `false` | 是否在有值時顯示清除按鈕，可傳入物件自訂圖示與標籤。 |
+| `onClear` | `() => void` | `—` | 點擊清除按鈕清空內容時觸發。 |
+| `icons` | `{ clear?: IconSlot }` | `—` | 自訂清除按鈕圖示。 |
 | `inputProps` | `InputProps` | `—` | 傳遞至內層原生輸入元素的屬性，例如 `type` 或 `autoComplete`。 |
-| `isDisabled` | `boolean` | `false` | 是否停用輸入互動。 |
+| `disabled` / `isDisabled` | `boolean` | `false` | 是否停用輸入互動。 |
 | `isInvalid` | `boolean` | `false` | 是否標示為驗證錯誤狀態。 |
 | `isReadOnly` | `boolean` | `false` | 是否設為唯讀，保留聚焦與選取文字能力但禁止編輯。 |
