@@ -1,7 +1,6 @@
 import { useContext, type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  Button as AriaButton,
   composeRenderProps,
   Disclosure as AriaDisclosure,
   DisclosurePanel as AriaDisclosurePanel,
@@ -11,6 +10,7 @@ import {
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
 import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
+import { Button } from '../Button/index.ts'
 import { DisclosureGroupContext } from './DisclosureContext.ts'
 
 export type DisclosureVariant = 'bordered' | 'ghost'
@@ -44,13 +44,14 @@ export interface DisclosureHeaderProps {
 export function DisclosureHeader({ title, icons, className, children }: DisclosureHeaderProps) {
   return (
     <AriaHeading className="pd-disclosure-heading">
-      <AriaButton
+      <Button
         slot="trigger"
-        className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-disclosure-trigger', cn))}
+        variant="ghost"
+        className={composeRenderProps(className, (cn) => clsx('pd-disclosure-trigger', cn))}
       >
         <span>{title ?? children}</span>
         {renderIcon(icons?.chevron, 'chevronRight', 'pd-disclosure-chevron')}
-      </AriaButton>
+      </Button>
     </AriaHeading>
   )
 }

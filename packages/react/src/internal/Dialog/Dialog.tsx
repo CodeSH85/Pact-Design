@@ -1,8 +1,6 @@
 import { type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  Button as AriaButton,
-  type ButtonProps as AriaButtonProps,
   composeRenderProps,
   Dialog as AriaDialog,
   type DialogProps as AriaDialogProps,
@@ -11,8 +9,14 @@ import {
   Heading as AriaHeading,
   type HeadingProps as AriaHeadingProps
 } from 'react-aria-components'
+import {
+  Button,
+  type ButtonActionProps,
+  type ButtonRadius,
+  type ButtonSize,
+  type ButtonVariant
+} from '../../components/Button/index.ts'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
-import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
 
 export type DialogProps = AriaDialogProps
 
@@ -35,30 +39,38 @@ export interface DialogIcons {
 }
 
 export interface DialogCloseButtonProps
-  extends Omit<AriaButtonProps, 'children'>,
-  DisableableProps {
+  extends Omit<ButtonActionProps, 'variant' | 'size' | 'radius' | 'icon'> {
+  variant?: ButtonVariant
+  size?: ButtonSize
+  radius?: ButtonRadius
+  icon?: boolean
   icons?: DialogIcons
-  children?: ReactNode | AriaButtonProps['children']
 }
 
 export function DialogCloseButton({
   'aria-label': ariaLabel = 'Close',
+  variant = 'ghost',
+  size = 'xs',
+  radius = 'xs',
+  icon = true,
   icons,
   className,
   children,
   ...props
 }: DialogCloseButtonProps) {
-  const ariaProps = resolveDisableableProps(props)
-
   return (
-    <AriaButton
+    <Button
       slot="close"
+      variant={variant}
+      size={size}
+      radius={radius}
+      icon={icon}
       aria-label={ariaLabel}
-      className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-dialog-close', cn))}
-      {...ariaProps}
+      className={composeRenderProps(className, (cn) => clsx('pd-dialog-close', cn))}
+      {...props}
     >
       {children ?? renderIcon(icons?.close, 'close', 'pd-dialog-close-icon')}
-    </AriaButton>
+    </Button>
   )
 }
 

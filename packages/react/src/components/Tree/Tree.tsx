@@ -1,7 +1,6 @@
 import { type CSSProperties, type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  Button as AriaButton,
   composeRenderProps,
   Tree as AriaTree,
   TreeItem as AriaTreeItem,
@@ -12,6 +11,7 @@ import {
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
 import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
+import { Button } from '../Button/index.ts'
 import { Checkbox } from '../Checkbox/index.ts'
 
 export interface TreeIcons {
@@ -75,14 +75,18 @@ export function TreeItemContent({ icons, children, ...props }: TreeItemContentPr
           )}
 
           {renderProps.hasChildItems ? (
-            <AriaButton
+            <Button
               slot="chevron"
-              className="pd-reset pd-tree-chevron-btn"
+              variant="ghost"
+              size="xs"
+              radius="2xs"
+              icon
+              className="pd-tree-chevron-btn"
             >
               {renderIcon(icons?.chevron, 'chevronRight', 'pd-tree-chevron-icon', {
                 'data-expanded': renderProps.isExpanded ? '' : undefined
               })}
-            </AriaButton>
+            </Button>
           ) : (
             <span className="pd-tree-chevron-spacer" aria-hidden="true" />
           )}

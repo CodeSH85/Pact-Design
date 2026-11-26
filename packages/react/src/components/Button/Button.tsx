@@ -71,7 +71,7 @@ export function Button(props: ButtonProps) {
 
     return (
       <AriaLink
-        isDisabled={resolvedDisabled}
+        {...(resolvedDisabled !== undefined ? { isDisabled: resolvedDisabled } : {})}
         {...dataAttrs}
         className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-button', cn))}
         {...linkProps}
@@ -96,7 +96,7 @@ export function Button(props: ButtonProps) {
 
   return (
     <AriaButton
-      isDisabled={resolvedDisabled}
+      {...(resolvedDisabled !== undefined ? { isDisabled: resolvedDisabled } : {})}
       {...dataAttrs}
       className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-button', cn))}
       {...buttonProps}

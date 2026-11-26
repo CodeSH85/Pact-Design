@@ -13,8 +13,7 @@ import {
   type ListBoxSectionProps as AriaListBoxSectionProps,
   type PopoverProps as AriaPopoverProps,
   type SelectProps as AriaSelectProps,
-  type SelectValueProps as AriaSelectValueProps,
-  type SeparatorProps as AriaSeparatorProps
+  type SelectValueProps as AriaSelectValueProps
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
 import {
@@ -41,6 +40,7 @@ import {
   type ListBoxItemProps
 } from '../ListBox/index.ts'
 import { PopoverContent } from '../Popover/index.ts'
+import { type SeparatorProps } from '../Separator/index.ts'
 
 export type SelectSelectionMode = 'single' | 'multiple'
 
@@ -116,7 +116,7 @@ export function SelectHeader({ children, ...props }: AriaHeaderProps) {
   return <ListBoxHeader {...props}>{children}</ListBoxHeader>
 }
 
-export function SelectSeparator(props: AriaSeparatorProps) {
+export function SelectSeparator(props: SeparatorProps) {
   return <ListBoxSeparator {...props} />
 }
 

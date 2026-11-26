@@ -136,7 +136,10 @@ export function DateField<T extends DateValue>({
       {label && <Label>{label}</Label>}
 
       {children ?? (
-        <FieldGroup size={size}>
+        <FieldGroup
+          size={size}
+          className={clsx(resolvedClearable.enabled && 'pd-field-group-compact-end')}
+        >
           <DateInput {...dateInputProps} />
           <DateFieldClearButton
             isDisabled={ariaProps.isDisabled}

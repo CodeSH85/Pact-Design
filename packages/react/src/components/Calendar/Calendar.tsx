@@ -1,7 +1,6 @@
 import { type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  Button as AriaButton,
   Calendar as AriaCalendar,
   CalendarCell as AriaCalendarCell,
   type CalendarCellProps as AriaCalendarCellProps,
@@ -21,6 +20,7 @@ import {
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
 import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
+import { Button } from '../Button/index.ts'
 
 export interface CalendarIcons {
   previous?: IconSlot
@@ -112,13 +112,27 @@ export function Calendar<T extends DateValue>({
       {children ?? (
         <>
           <header className="pd-calendar-header">
-            <AriaButton slot="previous" className="pd-reset pd-calendar-nav-btn">
+            <Button
+              slot="previous"
+              variant="ghost"
+              size="xs"
+              radius="xs"
+              icon
+              className="pd-calendar-nav-btn"
+            >
               {renderIcon(icons?.previous, 'chevronLeft', 'pd-calendar-nav-icon')}
-            </AriaButton>
+            </Button>
             <CalendarHeading />
-            <AriaButton slot="next" className="pd-reset pd-calendar-nav-btn">
+            <Button
+              slot="next"
+              variant="ghost"
+              size="xs"
+              radius="xs"
+              icon
+              className="pd-calendar-nav-btn"
+            >
               {renderIcon(icons?.next, 'chevronRight', 'pd-calendar-nav-icon')}
-            </AriaButton>
+            </Button>
           </header>
           <CalendarGrid />
         </>
