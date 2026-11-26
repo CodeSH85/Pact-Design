@@ -73,21 +73,17 @@
 }
 
 .pd-tree-chevron-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--pd-system-size-control-xs);
-  height: var(--pd-system-size-control-xs);
+  --_fg: var(--pd-system-color-on-surface-muted);
   margin-inline-start: calc(var(--pd-system-spacing-2xs) * -1);
-  border-radius: var(--pd-system-radius-2xs);
-  color: var(--pd-system-color-on-surface-muted);
-  cursor: pointer;
-  outline: none;
-  flex-shrink: 0;
 
   &:where(:hover, [data-hovered]) {
     color: var(--pd-system-color-on-surface);
     background-color: var(--pd-system-color-surface-hover);
+  }
+
+  &:where(:disabled, [data-disabled]) {
+    background-color: transparent;
+    border-color: transparent;
   }
 }
 

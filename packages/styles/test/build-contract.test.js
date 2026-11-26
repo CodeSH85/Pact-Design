@@ -88,6 +88,8 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
     assert.match(componentsCss, /\.pd-button:where\(\[data-radius="?full"?\]\)/)
     assert.match(componentsCss, /\.pd-toggle-button\s*\{/)
     assert.match(componentsCss, /\.pd-toggle-button-group\s*\{/)
+    assert.match(componentsCss, /\.pd-selection-control-label\s*\{[^}]*--pd-system-font-label-sm/)
+    assert.match(componentsCss, /\.pd-field-button\s*\{[^}]*--_field-action-size/)
     assert.match(componentsCss, /@media\s*\(forced-colors:\s*active\)/)
     assert.match(componentsCss, /@media\s*\(prefers-reduced-motion:\s*reduce\)/)
     assert.match(componentsCss, /\[dir="?rtl"?\]/)

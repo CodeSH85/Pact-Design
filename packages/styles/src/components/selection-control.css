@@ -19,9 +19,8 @@
 }
 
 .pd-selection-control-label {
-  font: var(--pd-system-font-label-md);
-  letter-spacing: var(--pd-system-font-label-md-letter-spacing);
-  line-height: 1.25;
+  font: var(--pd-system-font-label-sm);
+  letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
   color: var(--pd-system-color-on-surface);
 }
 
