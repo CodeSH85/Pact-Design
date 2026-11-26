@@ -27,7 +27,6 @@
 
 .pd-disclosure-trigger {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   width: 100%;
   height: var(--pd-component-disclosure-trigger-height);
@@ -37,12 +36,7 @@
   letter-spacing: var(--pd-system-font-label-md-letter-spacing);
   color: var(--pd-component-disclosure-trigger-text);
   background-color: transparent;
-  user-select: none;
-  cursor: pointer;
-  outline: none;
-  transition-property: color, background-color;
-  transition-duration: var(--pd-system-motion-duration-fast);
-  transition-timing-function: var(--pd-system-motion-easing);
+  border-color: transparent;
 
   &:where(:hover, [data-hovered]) {
     background-color: var(--pd-component-disclosure-trigger-bg-hover);
@@ -58,8 +52,9 @@
   }
 
   &:where(:disabled, [data-disabled]) {
+    background-color: transparent;
+    border-color: transparent;
     color: var(--pd-component-disclosure-trigger-text-disabled);
-    cursor: not-allowed;
   }
 }
 

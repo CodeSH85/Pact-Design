@@ -21,15 +21,7 @@
 }
 
 .pd-calendar-nav-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--pd-system-size-control-xs);
-  height: var(--pd-system-size-control-xs);
-  border-radius: var(--pd-system-radius-xs);
-  color: var(--pd-system-color-on-surface-secondary);
-  cursor: pointer;
-  outline: none;
+  --_fg: var(--pd-system-color-on-surface-secondary);
 
   &:where(:hover, [data-hovered]) {
     color: var(--pd-system-color-on-surface);
@@ -37,13 +29,9 @@
   }
 
   &:where(:disabled, [data-disabled]) {
+    background-color: transparent;
+    border-color: transparent;
     color: var(--pd-system-color-on-surface-disabled);
-    cursor: not-allowed;
-  }
-
-  &:where(:focus-visible, [data-focus-visible]) {
-    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
-    outline-offset: var(--pd-system-border-focus-offset);
   }
 }
 

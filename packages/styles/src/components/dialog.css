@@ -49,29 +49,15 @@
 }
 
 .pd-dialog-close {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--pd-system-spacing-2xs);
-  border-radius: var(--pd-system-radius-xs);
-  color: var(--pd-system-color-on-surface-muted);
-  cursor: pointer;
-  outline: none;
-  transition-property: color, background-color;
-  transition-duration: var(--pd-system-motion-duration-fast);
+  --_fg: var(--pd-system-color-on-surface-muted);
 
   &:where(:hover, [data-hovered]) {
-    background-color: var(--pd-system-color-surface-hover);
     color: var(--pd-system-color-on-surface);
   }
 
-  &:where(:active, [data-pressed]) {
-    background-color: var(--pd-system-color-surface-active);
-  }
-
-  &:where(:focus-visible, [data-focus-visible]) {
-    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
-    outline-offset: var(--pd-system-border-focus-offset);
+  &:where(:disabled, [data-disabled]) {
+    background-color: transparent;
+    border-color: transparent;
   }
 }
 

@@ -268,21 +268,13 @@
 }
 
 .pd-toast-close {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--pd-system-spacing-3xs);
+  --_bg-hover: var(--_close-hover);
   margin-inline-start: auto;
   margin-inline-end: calc(var(--pd-system-spacing-xs) * -1);
   margin-top: calc(var(--pd-system-spacing-xs) * -1);
-  border-radius: var(--pd-system-radius-2xs);
-  color: var(--_fg);
+  color: inherit;
   opacity: 0.72;
-  cursor: pointer;
-  outline: none;
   transition-property: opacity, background-color;
-  transition-duration: var(--pd-system-motion-duration-fast);
-  transition-timing-function: var(--pd-system-motion-easing);
 
   &:where(:hover, [data-hovered]) {
     opacity: 1;
@@ -291,8 +283,6 @@
 
   &:where(:focus-visible, [data-focus-visible]) {
     opacity: 1;
-    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
-    outline-offset: var(--pd-system-border-focus-offset);
   }
 }
 

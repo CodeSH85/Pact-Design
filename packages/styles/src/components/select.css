@@ -5,25 +5,37 @@
   width: 100%;
 
   --_select-pad-x: var(--pd-component-field-padding-x-md);
+  --_field-action-size: calc(var(--pd-component-field-height-md) - var(--pd-system-spacing-sm));
+  --_field-icon-size: var(--pd-system-size-icon-sm);
 
   &:where([data-size="xs"]) {
     --_select-pad-x: var(--pd-component-field-padding-x-xs);
+    --_field-action-size: calc(var(--pd-component-field-height-xs) - var(--pd-system-spacing-sm));
+    --_field-icon-size: var(--pd-system-size-icon-xs);
   }
 
   &:where([data-size="sm"]) {
     --_select-pad-x: var(--pd-component-field-padding-x-sm);
+    --_field-action-size: calc(var(--pd-component-field-height-sm) - var(--pd-system-spacing-sm));
+    --_field-icon-size: var(--pd-system-size-icon-sm);
   }
 
   &:where([data-size="md"]) {
     --_select-pad-x: var(--pd-component-field-padding-x-md);
+    --_field-action-size: calc(var(--pd-component-field-height-md) - var(--pd-system-spacing-sm));
+    --_field-icon-size: var(--pd-system-size-icon-sm);
   }
 
   &:where([data-size="lg"]) {
     --_select-pad-x: var(--pd-component-field-padding-x-lg);
+    --_field-action-size: calc(var(--pd-component-field-height-lg) - var(--pd-system-spacing-sm));
+    --_field-icon-size: var(--pd-system-size-icon-md);
   }
 
   &:where([data-size="xl"]) {
     --_select-pad-x: var(--pd-component-field-padding-x-xl);
+    --_field-action-size: calc(var(--pd-component-field-height-xl) - var(--pd-system-spacing-sm));
+    --_field-icon-size: var(--pd-system-size-icon-md);
   }
 }
 
@@ -43,13 +55,13 @@
   }
 
   &:where([data-has-clear]) {
-    gap: calc(var(--pd-system-size-icon-xs) + var(--pd-system-spacing-md));
+    gap: calc(var(--_field-action-size) + var(--pd-system-spacing-sm) + var(--pd-system-spacing-2xs));
   }
 }
 
 .pd-select-clear {
   position: absolute;
-  inset-inline-end: calc(var(--_select-pad-x) + var(--pd-system-size-icon-xs) + var(--pd-system-spacing-2xs));
+  inset-inline-end: calc(var(--_select-pad-x) + var(--_field-icon-size) + var(--pd-system-spacing-xs));
   top: 50%;
   transform: translateY(-50%);
   z-index: 1;
@@ -67,8 +79,8 @@
 }
 
 .pd-select-chevron {
-  width: var(--pd-system-size-icon-xs);
-  height: var(--pd-system-size-icon-xs);
+  width: var(--_field-icon-size, var(--pd-system-size-icon-sm));
+  height: var(--_field-icon-size, var(--pd-system-size-icon-sm));
   color: var(--pd-component-field-text-muted);
   flex-shrink: 0;
   transition-property: transform;
@@ -78,6 +90,10 @@
 
 :where(.pd-select-trigger[data-open]) .pd-select-chevron {
   transform: rotate(180deg);
+}
+
+.pd-field-group-compact-start {
+  padding-inline-start: var(--pd-system-spacing-2xs);
 }
 
 .pd-field-group-compact-end {
