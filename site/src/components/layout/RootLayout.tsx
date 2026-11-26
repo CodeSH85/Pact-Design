@@ -123,14 +123,20 @@ export function RootLayout() {
   }, [resolvedTheme])
 
   const ActiveThemeIcon = THEME_OPTIONS.find((opt) => opt.id === themePreference)?.icon ?? RiComputerLine
+  const logoSrc = `${import.meta.env.BASE_URL}${resolvedTheme === 'dark' ? 'PD_Logo_text_dark.png' : 'PD_Logo_text_light.png'}`
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-base text-on-surface">
       <header className="flex items-center shrink-0 bg-layer-1 w-full justify-between py-sm px-xl border-b border-border-default">
         <div className="flex w-full">
-          <Link to="/" className="flex gap-md items-center">
-            <img src={`${import.meta.env.BASE_URL}PD_logo.png`} className="size-md" alt="Pact Design" />
-            <span className="text-label-lg">Pact Design</span>
+          <Link to="/" className="flex items-center">
+            <img
+              src={logoSrc}
+              width={268}
+              height={47}
+              className="h-md w-auto block"
+              alt="Pact Design"
+            />
           </Link>
         </div>
 
