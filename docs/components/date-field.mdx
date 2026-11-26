@@ -79,7 +79,10 @@ import { DateField } from '@pact-design/react'
 | `onChange` | `(value: DateValue \| null) => void` | `—` | 日期值改變時觸發的回呼函式。 |
 | `minValue` / `maxValue` | `DateValue` | `—` | 允許輸入的最早與最晚日期邊界。 |
 | `granularity` | `'day' \| 'hour' \| 'minute' \| 'second'` | `'day'` | 可編輯的最小時間單位精度。 |
-| `isDisabled` | `boolean` | `false` | 是否停用欄位編輯。 |
+| `clearable` | `boolean \| { icon?: IconSlot; label?: string; onClear?: () => void }` | `false` | 是否在已輸入日期時顯示快速清除按鈕，可傳入物件自訂圖示。 |
+| `onClear` | `() => void` | `—` | 點擊清除按鈕清空日期時觸發。 |
+| `icons` | `{ clear?: IconSlot }` | `—` | 自訂清除圖示。 |
+| `disabled` / `isDisabled` | `boolean` | `false` | 是否停用欄位編輯。 |
 | `isReadOnly` | `boolean` | `false` | 是否設為唯讀，保留聚焦能力但禁止修改。 |
 | `dateInputProps` | `DateInputProps` | `—` | 傳遞至內層 `DateInput` 的額外屬性。 |
 
