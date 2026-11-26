@@ -42,7 +42,6 @@ import {
   ComboBox,
   DateField,
   DatePicker,
-  Dialog,
   Disclosure,
   DisclosureGroup,
   FileTrigger,
@@ -81,7 +80,7 @@ import { Modal } from '@pact-design/react/Modal'
 ### Actions & Selection
 - **`Button`**: Push button supporting `variant` (`primary`, `secondary`, `subtle`, `ghost`, `danger`) and control heights (`xs`–`xl`).
 - **`ToggleButton` & `ToggleButtonGroup`**: Two-state button with active surface indicators and segmented groups.
-- **`Checkbox` & `CheckboxGroup`**: Compact checkbox with `@remixicon/react` check and indeterminate icons, label/description support.
+- **`Checkbox` & `CheckboxGroup`**: Compact checkbox with customizable check and indeterminate icon slots, label/description support.
 - **`Radio` & `RadioGroup`**: Mutually exclusive radio selection group with vertical and horizontal orientations, labels, and descriptions.
 - **`Switch`**: Smooth pill toggle switch with compact `sm` and `md` tracks.
 
@@ -93,10 +92,9 @@ import { Modal } from '@pact-design/react/Modal'
 - **`Tree`**: Hierarchical tree grid with expandable branch chevrons, nested indentation, and keyboard/selection support.
 
 ### Overlays & Menus
-- **`Dialog`**: Standalone dialog primitive (`Dialog`, `DialogTrigger`, `DialogHeader`, `DialogBody`, `DialogFooter`, `DialogCloseButton`) shared across overlay containers.
 - **`Menu`**: Accessible dropdown menu with declarative `items` prop or composable compound subcomponents (`MenuItem`, `MenuSection`, `MenuSeparator`).
 - **`Popover`**: Floating content container with elevation shadow, optional arrow, and smooth placement animations.
-- **`Modal`**: Dialog overlay with scrim backdrop, header close button, and responsive sizes (`sm`–`full`).
+- **`Modal`**: Dialog overlay (`Modal`, `ModalTrigger`, `ModalContent`, `ModalDialog`, `ModalHeader`, `ModalBody`, `ModalFooter`, `ModalCloseButton`) with scrim backdrop and responsive sizes (`sm`–`full`).
 - **`Sheet`**: Swipeable edge drawer/sheet overlay (`left`, `right`, `top`, `bottom`, `center`) with backdrop, header, scrollable body, and footer.
 - **`Toast` & `ToastRegion`**: Floating notifications powered by `UNSTABLE_Toast` and `UNSTABLE_ToastQueue` with `info`, `success`, `warning`, and `danger` tones.
 

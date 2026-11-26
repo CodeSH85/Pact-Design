@@ -11,7 +11,8 @@ import {
   Heading as AriaHeading,
   type HeadingProps as AriaHeadingProps
 } from 'react-aria-components'
-import { RiCloseLine } from '@remixicon/react'
+import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
 
 export type DialogProps = AriaDialogProps
 
@@ -29,24 +30,34 @@ export function Dialog({ className, children, ...props }: DialogProps) {
 export const DialogTrigger = AriaDialogTrigger
 export type DialogTriggerProps = AriaDialogTriggerProps
 
-export interface DialogCloseButtonProps extends Omit<AriaButtonProps, 'children'> {
+export interface DialogIcons {
+  close?: IconSlot
+}
+
+export interface DialogCloseButtonProps
+  extends Omit<AriaButtonProps, 'children'>,
+  DisableableProps {
+  icons?: DialogIcons
   children?: ReactNode | AriaButtonProps['children']
 }
 
 export function DialogCloseButton({
   'aria-label': ariaLabel = 'Close',
+  icons,
   className,
   children,
   ...props
 }: DialogCloseButtonProps) {
+  const ariaProps = resolveDisableableProps(props)
+
   return (
     <AriaButton
       slot="close"
       aria-label={ariaLabel}
       className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-dialog-close', cn))}
-      {...props}
+      {...ariaProps}
     >
-      {children ?? <RiCloseLine className="pd-dialog-close-icon" aria-hidden="true" />}
+      {children ?? renderIcon(icons?.close, 'close', 'pd-dialog-close-icon')}
     </AriaButton>
   )
 }
@@ -55,6 +66,7 @@ export interface DialogHeaderProps extends Omit<AriaHeadingProps, 'title'> {
   title?: ReactNode
   description?: ReactNode
   showCloseButton?: boolean
+  icons?: DialogIcons
   className?: string
   children?: ReactNode
 }
@@ -63,6 +75,7 @@ export function DialogHeader({
   title,
   description,
   showCloseButton = true,
+  icons,
   className,
   children,
   ...props
@@ -81,7 +94,7 @@ export function DialogHeader({
         {children}
       </div>
 
-      {showCloseButton && <DialogCloseButton />}
+      {showCloseButton && <DialogCloseButton icons={icons} />}
     </div>
   )
 }
@@ -111,5 +124,3 @@ export function DialogFooter({ className, children }: DialogFooterProps) {
     </div>
   )
 }
-
-export default Dialog

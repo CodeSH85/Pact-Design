@@ -1,5 +1,6 @@
 export {
   TextField,
+  type TextFieldIcons,
   type TextFieldProps
 } from './TextField.tsx'
 

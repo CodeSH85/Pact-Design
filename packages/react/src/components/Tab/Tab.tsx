@@ -14,6 +14,11 @@ import {
   type TabProps as AriaTabProps,
   type TabsProps as AriaTabsProps
 } from 'react-aria-components'
+import {
+  resolveDisableableProps,
+  resolveDisabled,
+  type DisableableProps
+} from '../../utils/index.ts'
 
 export type TabVariant = 'underline' | 'segmented' | 'pill'
 export type TabSize = 'sm' | 'md' | 'lg'
@@ -57,7 +62,9 @@ export function TabList<T extends object = object>({
   )
 }
 
-export interface TabProps extends Omit<AriaTabProps, 'children'> {
+export interface TabProps
+  extends Omit<AriaTabProps, 'children'>,
+  DisableableProps {
   variant?: TabVariant
   size?: TabSize
   children?: ReactNode | AriaTabProps['children']
@@ -73,13 +80,14 @@ export function Tab({
   const context = useContext(TabContext)
   const resolvedVariant = variant ?? context.variant
   const resolvedSize = size ?? context.size
+  const ariaProps = resolveDisableableProps(props)
 
   return (
     <AriaTab
       data-variant={resolvedVariant}
       data-size={resolvedSize}
       className={composeRenderProps(className, (cn) => clsx('pd-tab', cn))}
-      {...props}
+      {...ariaProps}
     >
       {children}
     </AriaTab>
@@ -121,14 +129,15 @@ export function TabPanel({ className, children, ...props }: TabPanelProps) {
   )
 }
 
-export interface TabItemData {
+export interface TabItemData extends DisableableProps {
   id: Key
   label: ReactNode
   content: ReactNode
-  isDisabled?: boolean
 }
 
-export interface TabsProps extends Omit<AriaTabsProps, 'children'> {
+export interface TabsProps
+  extends Omit<AriaTabsProps, 'children'>,
+  DisableableProps {
   variant?: TabVariant
   size?: TabSize
   items?: TabItemData[]
@@ -143,17 +152,19 @@ export function Tabs({
   children,
   ...props
 }: TabsProps) {
+  const ariaProps = resolveDisableableProps(props)
+
   return (
     <TabContext.Provider value={{ variant, size }}>
       <AriaTabs
         className={composeRenderProps(className, (cn) => clsx('pd-tabs', cn))}
-        {...props}
+        {...ariaProps}
       >
         {items ? (
           <>
             <TabList>
               {items.map((item) => (
-                <Tab key={item.id} id={item.id} isDisabled={item.isDisabled}>
+                <Tab key={item.id} id={item.id} isDisabled={resolveDisabled(item)}>
                   {item.label}
                 </Tab>
               ))}

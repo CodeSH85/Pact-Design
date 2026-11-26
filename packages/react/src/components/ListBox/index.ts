@@ -4,6 +4,7 @@ export {
   ListBoxItem,
   ListBoxSection,
   ListBoxSeparator,
+  type ListBoxItemIcons,
   type ListBoxItemProps,
   type ListBoxProps,
   type ListBoxSurface

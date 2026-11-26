@@ -10,15 +10,21 @@ import {
 import { type OverlaySharedProps } from '../../utils/index.ts'
 import {
   Dialog,
+  DialogBody,
+  type DialogBodyProps,
+  DialogCloseButton,
+  type DialogCloseButtonProps,
   DialogFooter,
   type DialogFooterProps,
   DialogHeader,
   type DialogHeaderProps,
+  type DialogIcons,
   type DialogProps,
   DialogTrigger
-} from '../Dialog/index.ts'
+} from '../../internal/Dialog/index.ts'
 
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full'
+export type ModalIcons = DialogIcons
 
 export interface ModalContentProps extends Omit<AriaModalOverlayProps, 'children'> {
   size?: ModalSize
@@ -65,12 +71,22 @@ export function ModalDialog({ className, children, ...props }: ModalDialogProps)
   )
 }
 
-export interface ModalHeaderProps extends DialogHeaderProps {
-  onClose?: () => void
+export type ModalCloseButtonProps = DialogCloseButtonProps
+
+export function ModalCloseButton(props: ModalCloseButtonProps) {
+  return <DialogCloseButton {...props} />
 }
 
-export function ModalHeader({ onClose: _onClose, ...props }: ModalHeaderProps) {
+export type ModalHeaderProps = DialogHeaderProps
+
+export function ModalHeader(props: ModalHeaderProps) {
   return <DialogHeader {...props} />
+}
+
+export type ModalBodyProps = DialogBodyProps
+
+export function ModalBody(props: ModalBodyProps) {
+  return <DialogBody {...props} />
 }
 
 export type ModalFooterProps = DialogFooterProps
@@ -85,6 +101,7 @@ export interface ModalProps
   extends Omit<AriaDialogTriggerProps, 'children'>,
   OverlaySharedProps {
   size?: ModalSize
+  icons?: ModalIcons
   children?: ReactNode
 }
 
@@ -95,6 +112,7 @@ export function Modal({
   footer,
   size = 'md',
   isDismissable = true,
+  icons,
   children,
   ...props
 }: ModalProps) {
@@ -105,7 +123,7 @@ export function Modal({
         <ModalContent size={size} isDismissable={isDismissable}>
           <ModalDialog>
             {(title || description) && (
-              <ModalHeader title={title} description={description} />
+              <ModalHeader title={title} description={description} icons={icons} />
             )}
             {children}
             {footer && <ModalFooter>{footer}</ModalFooter>}

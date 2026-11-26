@@ -8,7 +8,7 @@ import {
   type ToggleButtonGroupProps as AriaToggleButtonGroupProps
 } from 'react-aria-components'
 import {
-  resolveDisabled,
+  resolveDisableableProps,
   type DisableableProps
 } from '../../utils/index.ts'
 import type { ButtonRadius, ButtonSize } from '../Button/index.ts'
@@ -32,36 +32,39 @@ export function ToggleButton({
   size = 'md',
   radius,
   icon = false,
-  disabled,
-  isDisabled,
   className,
   children,
   ...props
 }: ToggleButtonProps) {
+  const ariaProps = resolveDisableableProps(props)
+
   return (
     <AriaToggleButton
-      isDisabled={resolveDisabled({ disabled, isDisabled })}
       data-variant={variant}
       data-size={size}
       data-radius={radius}
       data-icon={icon ? '' : undefined}
       className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-toggle-button', cn))}
-      {...props}
+      {...ariaProps}
     >
       {children}
     </AriaToggleButton>
   )
 }
 
-export interface ToggleButtonGroupProps extends Omit<AriaToggleButtonGroupProps, 'children'> {
+export interface ToggleButtonGroupProps
+  extends Omit<AriaToggleButtonGroupProps, 'children'>,
+  DisableableProps {
   children?: ReactNode | AriaToggleButtonGroupProps['children']
 }
 
 export function ToggleButtonGroup({ className, children, ...props }: ToggleButtonGroupProps) {
+  const ariaProps = resolveDisableableProps(props)
+
   return (
     <AriaToggleButtonGroup
       className={composeRenderProps(className, (cn) => clsx('pd-toggle-button-group', cn))}
-      {...props}
+      {...ariaProps}
     >
       {children}
     </AriaToggleButtonGroup>

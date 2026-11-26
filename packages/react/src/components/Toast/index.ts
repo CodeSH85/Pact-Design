@@ -7,6 +7,7 @@ export {
   toastQueue,
   type ToastContentProps,
   type ToastData,
+  type ToastIcons,
   type ToastPlacement,
   type ToastProps,
   type ToastRegionProps,

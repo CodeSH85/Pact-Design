@@ -1,14 +1,24 @@
-import { type ReactNode } from 'react'
+import { useContext, type MouseEvent, type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
+  ButtonContext,
   composeRenderProps,
   DatePicker as AriaDatePicker,
+  DatePickerStateContext,
   type DatePickerProps as AriaDatePickerProps,
   type DateValue,
   type PopoverProps as AriaPopoverProps
 } from 'react-aria-components'
-import { RiCalendarLine } from '@remixicon/react'
-import { type FieldSharedProps } from '../../utils/index.ts'
+import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { Dialog } from '../../internal/Dialog/index.ts'
+import {
+  resolveClearable,
+  resolveDisableableProps,
+  type ClearableProp,
+  type DisableableProps,
+  type FieldSharedProps,
+  type ResolvedClearable
+} from '../../utils/index.ts'
 import {
   Calendar,
   CalendarCell,
@@ -18,10 +28,10 @@ import {
   CalendarHeaderCell,
   CalendarHeading,
   type CalendarCellProps,
+  type CalendarIcons,
   type CalendarProps
 } from '../Calendar/index.ts'
 import { DateInput, type DateInputProps } from '../DateField/index.ts'
-import { Dialog } from '../Dialog/index.ts'
 import {
   FieldButton,
   FieldDescription,
@@ -41,15 +51,93 @@ export {
   CalendarHeaderCell,
   CalendarHeading,
   type CalendarCellProps,
+  type CalendarIcons,
   type CalendarProps
+}
+
+export interface DatePickerIcons {
+  calendar?: IconSlot
+  clear?: IconSlot
 }
 
 export type DatePickerPopoverProps = AriaPopoverProps
 
+interface DatePickerControlProps {
+  size: FieldSize
+  isDisabled?: boolean
+  isReadOnly?: boolean
+  clearable: ResolvedClearable
+  onClear?: () => void
+  icons?: DatePickerIcons
+  dateInputProps?: DateInputProps
+}
+
+function DatePickerControl({
+  size,
+  isDisabled,
+  isReadOnly,
+  clearable,
+  onClear,
+  icons,
+  dateInputProps
+}: DatePickerControlProps) {
+  const state = useContext(DatePickerStateContext)
+  const showClear = clearable.enabled && !isDisabled && !isReadOnly && state?.value != null
+
+  const handleGroupClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (isDisabled || isReadOnly || !state) return
+    const target = event.target as HTMLElement | null
+    if (target?.closest('.pd-date-segment') || target?.closest('button')) return
+
+    if (!state.isOpen) {
+      state.open()
+    }
+  }
+
+  const handleClear = () => {
+    if (!state) return
+    state.setValue(null)
+    onClear?.()
+    clearable.onClear?.()
+  }
+
+  return (
+    <FieldGroup
+      size={size}
+      isDisabled={isDisabled}
+      className="pd-field-group-compact-end pd-field-group-between"
+      onClick={handleGroupClick}
+    >
+      <DateInput {...dateInputProps} />
+      <span className="pd-field-actions">
+        {showClear && (
+          <ButtonContext.Provider value={null}>
+            <FieldButton
+              slot={null}
+              className="pd-field-clear"
+              aria-label={clearable.label}
+              onPress={handleClear}
+            >
+              {renderIcon(clearable.icon ?? icons?.clear, 'clear', 'pd-field-icon')}
+            </FieldButton>
+          </ButtonContext.Provider>
+        )}
+        <FieldButton aria-label="Open calendar">
+          {renderIcon(icons?.calendar, 'calendar', 'pd-field-icon')}
+        </FieldButton>
+      </span>
+    </FieldGroup>
+  )
+}
+
 export interface DatePickerProps<T extends DateValue>
   extends Omit<AriaDatePickerProps<T>, 'children'>,
-  FieldSharedProps {
+  FieldSharedProps,
+  DisableableProps {
   size?: FieldSize
+  clearable?: ClearableProp
+  onClear?: () => void
+  icons?: DatePickerIcons
   dateInputProps?: DateInputProps
   popoverProps?: DatePickerPopoverProps
   calendarProps?: Partial<CalendarProps<T>>
@@ -61,6 +149,9 @@ export function DatePicker<T extends DateValue>({
   description,
   errorMessage,
   size = 'md',
+  clearable,
+  onClear,
+  icons,
   dateInputProps,
   popoverProps,
   calendarProps,
@@ -68,21 +159,27 @@ export function DatePicker<T extends DateValue>({
   children,
   ...props
 }: DatePickerProps<T>) {
+  const ariaProps = resolveDisableableProps(props)
+  const resolvedClearable = resolveClearable(clearable, false)
+
   return (
     <AriaDatePicker
       className={composeRenderProps(className, (cn) => clsx('pd-field', cn))}
-      {...props}
+      {...ariaProps}
     >
       {label && <Label>{label}</Label>}
 
       {children ?? (
         <>
-          <FieldGroup size={size} className="pd-field-group-compact-end pd-field-group-between">
-            <DateInput {...dateInputProps} />
-            <FieldButton aria-label="Open calendar">
-              <RiCalendarLine className="pd-field-icon" aria-hidden="true" />
-            </FieldButton>
-          </FieldGroup>
+          <DatePickerControl
+            size={size}
+            isDisabled={ariaProps.isDisabled}
+            isReadOnly={ariaProps.isReadOnly}
+            clearable={resolvedClearable}
+            onClear={onClear}
+            icons={icons}
+            dateInputProps={dateInputProps}
+          />
 
           <PopoverContent placement="bottom start" {...popoverProps}>
             <Dialog className="pd-date-picker-dialog">

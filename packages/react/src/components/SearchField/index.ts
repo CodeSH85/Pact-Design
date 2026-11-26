@@ -1,5 +1,6 @@
 export {
   SearchField,
+  type SearchFieldIcons,
   type SearchFieldProps
 } from './SearchField.tsx'
 

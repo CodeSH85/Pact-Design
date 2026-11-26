@@ -6,10 +6,19 @@ import {
   type AutocompleteProps as AriaAutocompleteProps,
   type ListBoxProps as AriaListBoxProps
 } from 'react-aria-components'
-import { type FieldSharedProps } from '../../utils/index.ts'
+import {
+  resolveDisabled,
+  type ClearableProp,
+  type DisableableProps,
+  type FieldSharedProps
+} from '../../utils/index.ts'
 import { type FieldSize } from '../Field/index.ts'
 import { ListBox, ListBoxItem, type ListBoxItemProps } from '../ListBox/index.ts'
-import { SearchField, type SearchFieldProps } from '../SearchField/index.ts'
+import {
+  SearchField,
+  type SearchFieldIcons,
+  type SearchFieldProps
+} from '../SearchField/index.ts'
 
 export type AutocompleteItemProps = ListBoxItemProps
 
@@ -38,11 +47,26 @@ export function AutocompleteListBox<T extends object = object>({
   )
 }
 
+export type AutocompleteIcons = SearchFieldIcons
+
 export interface AutocompleteProps<T extends object = object>
   extends Omit<AriaAutocompleteProps<T>, 'children'>,
-  FieldSharedProps {
+  Pick<
+    AutocompleteListBoxProps<T>,
+    | 'selectionMode'
+    | 'selectedKeys'
+    | 'defaultSelectedKeys'
+    | 'onSelectionChange'
+    | 'disallowEmptySelection'
+    | 'onAction'
+  >,
+  FieldSharedProps,
+  DisableableProps {
   placeholder?: string
   size?: FieldSize
+  clearable?: ClearableProp
+  onClear?: () => void
+  icons?: AutocompleteIcons
   searchFieldProps?: Partial<AutocompleteSearchFieldProps>
   listBoxProps?: Partial<AutocompleteListBoxProps<T>>
   className?: string
@@ -56,6 +80,17 @@ export function Autocomplete<T extends object = object>({
   errorMessage,
   placeholder,
   size = 'md',
+  clearable,
+  onClear,
+  icons,
+  disabled,
+  isDisabled,
+  selectionMode,
+  selectedKeys,
+  defaultSelectedKeys,
+  onSelectionChange,
+  disallowEmptySelection,
+  onAction,
   searchFieldProps,
   listBoxProps,
   className,
@@ -64,9 +99,23 @@ export function Autocomplete<T extends object = object>({
 }: AutocompleteProps<T>) {
   const { contains } = useFilter({ sensitivity: 'base' })
   const resolvedFilter = filter ?? contains
+  const resolvedDisabled = resolveDisabled({ disabled, isDisabled })
+
+  const mergedListBoxProps: Partial<AutocompleteListBoxProps<T>> = {
+    selectionMode,
+    selectedKeys,
+    defaultSelectedKeys,
+    onSelectionChange,
+    disallowEmptySelection,
+    onAction,
+    ...listBoxProps
+  }
 
   return (
-    <div className={clsx('pd-field', className)}>
+    <div
+      className={clsx('pd-field', className)}
+      data-disabled={resolvedDisabled ? '' : undefined}
+    >
       <AriaAutocomplete filter={resolvedFilter} {...props}>
         {label || placeholder || searchFieldProps ? (
           <>
@@ -76,9 +125,13 @@ export function Autocomplete<T extends object = object>({
               errorMessage={errorMessage}
               placeholder={placeholder}
               size={size}
+              clearable={clearable}
+              onClear={onClear}
+              icons={icons}
+              isDisabled={resolvedDisabled}
               {...searchFieldProps}
             />
-            <AutocompleteListBox {...listBoxProps}>
+            <AutocompleteListBox {...mergedListBoxProps}>
               {children}
             </AutocompleteListBox>
           </>

@@ -17,14 +17,18 @@ import { type OverlaySharedProps } from '../../utils/index.ts'
 import {
   DialogBody,
   type DialogBodyProps,
+  DialogCloseButton,
+  type DialogCloseButtonProps,
   DialogFooter,
   type DialogFooterProps,
   DialogHeader,
-  type DialogHeaderProps
-} from '../Dialog/index.ts'
+  type DialogHeaderProps,
+  type DialogIcons
+} from '../../internal/Dialog/index.ts'
 
 export type SheetPosition = 'right' | 'left' | 'end' | 'start' | 'bottom' | 'top' | 'center'
 export type SheetSize = 'sm' | 'md' | 'lg' | 'xl' | 'full'
+export type SheetIcons = DialogIcons
 
 export const SheetTrigger = AriaSheetTrigger
 
@@ -108,6 +112,12 @@ export function SheetContent({ className, children, ...props }: SheetContentProp
   )
 }
 
+export type SheetCloseButtonProps = DialogCloseButtonProps
+
+export function SheetCloseButton(props: SheetCloseButtonProps) {
+  return <DialogCloseButton {...props} />
+}
+
 export type SheetHeaderProps = DialogHeaderProps
 
 export function SheetHeader(props: SheetHeaderProps) {
@@ -131,6 +141,7 @@ export interface SheetProps
   Pick<AriaSheetOverlayProps, 'position' | 'swipeDirection' | 'snapPoints' | 'preventDismissal'>,
   OverlaySharedProps {
   size?: SheetSize
+  icons?: SheetIcons
   overlayClassName?: string
   panelClassName?: string
   contentClassName?: string
@@ -148,6 +159,7 @@ export function Sheet({
   preventDismissal,
   isDismissable = true,
   size = 'md',
+  icons,
   overlayClassName,
   panelClassName,
   contentClassName,
@@ -173,7 +185,7 @@ export function Sheet({
       <SheetPanel position={resolvedPosition} size={size} className={panelClassName}>
         <SheetContent className={contentClassName}>
           {(title || description) && (
-            <SheetHeader title={title} description={description} />
+            <SheetHeader title={title} description={description} icons={icons} />
           )}
           <SheetBody>{children}</SheetBody>
           {footer && <SheetFooter>{footer}</SheetFooter>}

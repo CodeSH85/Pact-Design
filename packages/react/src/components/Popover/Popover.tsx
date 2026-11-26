@@ -7,7 +7,7 @@ import {
   Popover as AriaPopover,
   type PopoverProps as AriaPopoverProps
 } from 'react-aria-components'
-import { Dialog, type DialogProps, DialogTrigger } from '../Dialog/index.ts'
+import { Dialog, type DialogProps, DialogTrigger } from '../../internal/Dialog/index.ts'
 
 export interface PopoverContentProps extends Omit<AriaPopoverProps, 'children'> {
   showArrow?: boolean

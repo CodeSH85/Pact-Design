@@ -2,6 +2,7 @@ export {
   Checkbox,
   CheckboxGroup,
   type CheckboxGroupProps,
+  type CheckboxIcons,
   type CheckboxProps
 } from './Checkbox.tsx'
 

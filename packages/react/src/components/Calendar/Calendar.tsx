@@ -19,7 +19,13 @@ import {
   composeRenderProps,
   type DateValue
 } from 'react-aria-components'
-import { RiArrowLeftSLine, RiArrowRightSLine } from '@remixicon/react'
+import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
+
+export interface CalendarIcons {
+  previous?: IconSlot
+  next?: IconSlot
+}
 
 export type CalendarCellProps = AriaCalendarCellProps
 
@@ -83,29 +89,35 @@ export function CalendarGrid({ className, children, ...props }: AriaCalendarGrid
   )
 }
 
-export interface CalendarProps<T extends DateValue> extends Omit<AriaCalendarProps<T>, 'children'> {
+export interface CalendarProps<T extends DateValue>
+  extends Omit<AriaCalendarProps<T>, 'children'>,
+  DisableableProps {
+  icons?: CalendarIcons
   children?: ReactNode
 }
 
 export function Calendar<T extends DateValue>({
+  icons,
   className,
   children,
   ...props
 }: CalendarProps<T>) {
+  const ariaProps = resolveDisableableProps(props)
+
   return (
     <AriaCalendar
       className={composeRenderProps(className, (cn) => clsx('pd-calendar', cn))}
-      {...props}
+      {...ariaProps}
     >
       {children ?? (
         <>
           <header className="pd-calendar-header">
             <AriaButton slot="previous" className="pd-reset pd-calendar-nav-btn">
-              <RiArrowLeftSLine className="pd-calendar-nav-icon" aria-hidden="true" />
+              {renderIcon(icons?.previous, 'chevronLeft', 'pd-calendar-nav-icon')}
             </AriaButton>
             <CalendarHeading />
             <AriaButton slot="next" className="pd-reset pd-calendar-nav-btn">
-              <RiArrowRightSLine className="pd-calendar-nav-icon" aria-hidden="true" />
+              {renderIcon(icons?.next, 'chevronRight', 'pd-calendar-nav-icon')}
             </AriaButton>
           </header>
           <CalendarGrid />

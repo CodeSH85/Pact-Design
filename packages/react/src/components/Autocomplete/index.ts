@@ -4,6 +4,7 @@ export {
   AutocompleteListBox,
   AutocompleteSearchField,
   useFilter,
+  type AutocompleteIcons,
   type AutocompleteItemProps,
   type AutocompleteListBoxProps,
   type AutocompleteProps,

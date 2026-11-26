@@ -4,8 +4,14 @@ import {
   SearchField as AriaSearchField,
   type SearchFieldProps as AriaSearchFieldProps
 } from 'react-aria-components'
-import { RiCloseLine, RiSearchLine } from '@remixicon/react'
-import { type FieldSharedProps } from '../../utils/index.ts'
+import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import {
+  resolveClearable,
+  resolveDisableableProps,
+  type ClearableProp,
+  type DisableableProps,
+  type FieldSharedProps
+} from '../../utils/index.ts'
 import {
   FieldButton,
   FieldDescription,
@@ -16,11 +22,19 @@ import {
   Label
 } from '../Field/index.ts'
 
+export interface SearchFieldIcons {
+  search?: IconSlot
+  clear?: IconSlot
+}
+
 export interface SearchFieldProps
   extends Omit<AriaSearchFieldProps, 'children'>,
-  FieldSharedProps {
+  FieldSharedProps,
+  DisableableProps {
   size?: FieldSize
   placeholder?: string
+  clearable?: ClearableProp
+  icons?: SearchFieldIcons
 }
 
 export function SearchField({
@@ -29,21 +43,38 @@ export function SearchField({
   errorMessage,
   placeholder = 'Search...',
   size = 'md',
+  clearable,
+  icons,
+  onClear,
   className,
   ...props
 }: SearchFieldProps) {
+  const ariaProps = resolveDisableableProps(props)
+  const resolvedClearable = resolveClearable(clearable, true)
+
+  const handleClear = () => {
+    onClear?.()
+    resolvedClearable.onClear?.()
+  }
+
   return (
     <AriaSearchField
       className={composeRenderProps(className, (cn) => clsx('pd-field', 'pd-search-field', cn))}
-      {...props}
+      onClear={handleClear}
+      {...ariaProps}
     >
       {label && <Label>{label}</Label>}
       <FieldGroup size={size}>
-        <RiSearchLine className="pd-search-field-icon" aria-hidden="true" />
+        {renderIcon(icons?.search, 'search', 'pd-search-field-icon')}
         <Input placeholder={placeholder} />
-        <FieldButton className="pd-search-field-clear">
-          <RiCloseLine className="pd-field-icon" aria-hidden="true" />
-        </FieldButton>
+        {resolvedClearable.enabled && (
+          <FieldButton
+            className="pd-search-field-clear pd-field-clear"
+            aria-label={resolvedClearable.label}
+          >
+            {renderIcon(resolvedClearable.icon ?? icons?.clear, 'clear', 'pd-field-icon')}
+          </FieldButton>
+        )}
       </FieldGroup>
       {description && <FieldDescription>{description}</FieldDescription>}
       <FieldError>{errorMessage}</FieldError>
