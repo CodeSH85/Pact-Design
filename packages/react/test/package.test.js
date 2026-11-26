@@ -317,4 +317,32 @@ describe('@pact-design/react package integrity', () => {
       `Semantic pd-* classes referenced in @pact-design/react but missing in @pact-design/styles/css:\n${missing.join('\n')}`
     )
   })
+
+  it('composes Pact Design atomic Button and Separator instead of raw React Aria primitives', () => {
+    const allowedRawAriaButton = new Set([
+      'src/components/Button/Button.tsx',
+      'src/components/Select/Select.tsx'
+    ])
+    const allowedRawAriaSeparator = new Set([
+      'src/components/Separator/Separator.tsx'
+    ])
+    const violations = []
+    const filesToCheck = [
+      ...COMPONENTS.map((name) => path.join(PACKAGE_ROOT, 'src/components', name, `${name}.tsx`)),
+      path.join(PACKAGE_ROOT, 'src/internal/Dialog/Dialog.tsx')
+    ]
+
+    for (const compPath of filesToCheck) {
+      const rel = path.relative(PACKAGE_ROOT, compPath)
+      const source = fs.readFileSync(compPath, 'utf-8')
+      if (!allowedRawAriaButton.has(rel) && /\bButton\s+as\s+AriaButton\b/.test(source)) {
+        violations.push(`${rel} imports raw AriaButton instead of Pact Button`)
+      }
+      if (!allowedRawAriaSeparator.has(rel) && /\bSeparator\s+as\s+AriaSeparator\b/.test(source)) {
+        violations.push(`${rel} imports raw AriaSeparator instead of Pact Separator`)
+      }
+    }
+
+    assert.deepEqual(violations, [], `Atomic composition violations:\n${violations.join('\n')}`)
+  })
 })

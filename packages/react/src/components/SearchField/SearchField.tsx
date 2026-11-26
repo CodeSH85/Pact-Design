@@ -64,7 +64,10 @@ export function SearchField({
       {...ariaProps}
     >
       {label && <Label>{label}</Label>}
-      <FieldGroup size={size}>
+      <FieldGroup
+        size={size}
+        className={clsx(resolvedClearable.enabled && 'pd-field-group-compact-end')}
+      >
         {renderIcon(icons?.search, 'search', 'pd-search-field-icon')}
         <Input placeholder={placeholder} />
         {resolvedClearable.enabled && (

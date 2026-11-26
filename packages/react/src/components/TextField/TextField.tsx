@@ -103,7 +103,10 @@ export function TextField({
       {label && <Label>{label}</Label>}
 
       {children ?? (
-        <FieldGroup size={size}>
+        <FieldGroup
+          size={size}
+          className={clsx(showClear && !suffix && 'pd-field-group-compact-end')}
+        >
           {prefix && <span className="pd-field-affix">{prefix}</span>}
           <Input ref={inputRef} placeholder={placeholder} {...inputProps} />
           {showClear && (

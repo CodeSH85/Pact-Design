@@ -9,12 +9,11 @@ import {
   type ListBoxItemProps as AriaListBoxItemProps,
   type ListBoxProps as AriaListBoxProps,
   ListBoxSection as AriaListBoxSection,
-  type ListBoxSectionProps as AriaListBoxSectionProps,
-  Separator as AriaSeparator,
-  type SeparatorProps as AriaSeparatorProps
+  type ListBoxSectionProps as AriaListBoxSectionProps
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
 import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
+import { Separator, type SeparatorProps } from '../Separator/index.ts'
 
 export type ListBoxSurface = 'plain' | 'bordered'
 
@@ -103,9 +102,9 @@ export function ListBoxHeader({ className, children, ...props }: AriaHeaderProps
   )
 }
 
-export function ListBoxSeparator({ className, ...props }: AriaSeparatorProps) {
+export function ListBoxSeparator({ className, ...props }: SeparatorProps) {
   return (
-    <AriaSeparator className={clsx('pd-collection-separator', className)} {...props} />
+    <Separator className={clsx('pd-collection-separator', className)} {...props} />
   )
 }
 

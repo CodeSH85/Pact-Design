@@ -214,5 +214,34 @@ describe('@pact-design/react component contracts (SSR)', () => {
     )
     assert.match(closeBtnHtml, /data-custom-icon="component"/)
     assert.match(closeBtnHtml, /pd-dialog-close-icon/)
+    assert.match(closeBtnHtml, /pd-button/)
+    assert.match(closeBtnHtml, /data-icon=""/)
+  })
+
+  it('renders Pact Design atomic Button inside composite components and preserves disabled context', () => {
+    const comboHtml = renderToStaticMarkup(
+      h(
+        ComboBox,
+        { label: 'Region', clearable: true, defaultSelectedKey: 'taipei' },
+        h(ComboBoxItem, { id: 'taipei' }, 'Taipei')
+      )
+    )
+    assert.match(comboHtml, /pd-button pd-field-button pd-field-clear/)
+    assert.match(comboHtml, /data-variant="ghost"[^>]*data-icon=""/)
+
+    const comboDisabledHtml = renderToStaticMarkup(
+      h(
+        ComboBox,
+        { label: 'Region', disabled: true, defaultSelectedKey: 'taipei' },
+        h(ComboBoxItem, { id: 'taipei' }, 'Taipei')
+      )
+    )
+    assert.match(comboDisabledHtml, /<button[^>]*pd-button pd-field-button[^>]*disabled=""/)
+
+    const calendarHtml = renderToStaticMarkup(h(Calendar, { 'aria-label': 'Calendar' }))
+    assert.match(calendarHtml, /pd-button pd-calendar-nav-btn/)
+
+    const disclosureHtml = renderToStaticMarkup(h(Disclosure, { title: 'Details' }, 'Body'))
+    assert.match(disclosureHtml, /pd-button pd-disclosure-trigger/)
   })
 })

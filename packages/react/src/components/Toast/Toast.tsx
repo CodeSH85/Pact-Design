@@ -1,7 +1,6 @@
 import { type HTMLAttributes, type ReactElement, type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  Button as AriaButton,
   composeRenderProps,
   UNSTABLE_Toast as AriaToast,
   UNSTABLE_ToastContent as AriaToastContent,
@@ -14,6 +13,7 @@ import {
   type ToastRegionProps as AriaToastRegionProps
 } from 'react-aria-components'
 import { renderIcon, type IconSlot, type PactIconName } from '../../icons/index.ts'
+import { Button } from '../Button/index.ts'
 
 export type ToastTone = 'default' | 'info' | 'success' | 'warning' | 'danger'
 export type ToastPlacement =
@@ -77,13 +77,17 @@ export function Toast<T extends object = ToastData>({
         {children}
       </div>
 
-      <AriaButton
+      <Button
         slot="close"
+        variant="ghost"
+        size="xs"
+        radius="2xs"
+        icon
         aria-label="Close"
-        className="pd-reset pd-toast-close"
+        className="pd-toast-close"
       >
         {renderIcon(icons?.close, 'close', 'pd-toast-close-icon')}
-      </AriaButton>
+      </Button>
     </AriaToast>
   )
 }

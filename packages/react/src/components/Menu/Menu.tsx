@@ -13,9 +13,7 @@ import {
   type MenuSectionProps as AriaMenuSectionProps,
   MenuTrigger as AriaMenuTrigger,
   type MenuTriggerProps as AriaMenuTriggerProps,
-  type PopoverProps as AriaPopoverProps,
-  Separator as AriaSeparator,
-  type SeparatorProps as AriaSeparatorProps
+  type PopoverProps as AriaPopoverProps
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
 import {
@@ -25,6 +23,7 @@ import {
 } from '../../utils/index.ts'
 import { Button } from '../Button/index.ts'
 import { PopoverContent } from '../Popover/index.ts'
+import { Separator, type SeparatorProps } from '../Separator/index.ts'
 
 export type MenuItemTone = 'default' | 'danger'
 
@@ -92,9 +91,9 @@ export function MenuItem({
   )
 }
 
-export function MenuSeparator({ className, ...props }: AriaSeparatorProps) {
+export function MenuSeparator({ className, ...props }: SeparatorProps) {
   return (
-    <AriaSeparator
+    <Separator
       className={clsx('pd-collection-separator', className)}
       {...props}
     />

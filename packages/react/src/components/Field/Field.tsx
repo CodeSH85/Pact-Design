@@ -1,8 +1,6 @@
 import { forwardRef, type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  Button as AriaButton,
-  type ButtonProps as AriaButtonProps,
   composeRenderProps,
   FieldError as AriaFieldError,
   type FieldErrorProps as AriaFieldErrorProps,
@@ -20,6 +18,13 @@ import {
   resolveDisabled,
   type DisableableProps
 } from '../../utils/index.ts'
+import {
+  Button,
+  type ButtonActionProps,
+  type ButtonRadius,
+  type ButtonSize,
+  type ButtonVariant
+} from '../Button/index.ts'
 
 export type FieldSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
@@ -106,24 +111,32 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 })
 
 export interface FieldButtonProps
-  extends Omit<AriaButtonProps, 'children'>,
-  DisableableProps {
-  children?: ReactNode | AriaButtonProps['children']
+  extends Omit<ButtonActionProps, 'variant' | 'size' | 'radius' | 'icon'> {
+  variant?: ButtonVariant
+  size?: ButtonSize
+  radius?: ButtonRadius
+  icon?: boolean
 }
 
 export function FieldButton({
+  variant = 'ghost',
+  size = 'xs',
+  radius = '2xs',
+  icon = true,
   className,
   children,
   ...props
 }: FieldButtonProps) {
-  const ariaProps = resolveDisableableProps(props)
-
   return (
-    <AriaButton
-      className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-field-button', cn))}
-      {...ariaProps}
+    <Button
+      variant={variant}
+      size={size}
+      radius={radius}
+      icon={icon}
+      className={composeRenderProps(className, (cn) => clsx('pd-field-button', cn))}
+      {...props}
     >
       {children}
-    </AriaButton>
+    </Button>
   )
 }
