@@ -1,3 +1,32 @@
+.pd-select-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  --_select-pad-x: var(--pd-component-field-padding-x-md);
+
+  &:where([data-size="xs"]) {
+    --_select-pad-x: var(--pd-component-field-padding-x-xs);
+  }
+
+  &:where([data-size="sm"]) {
+    --_select-pad-x: var(--pd-component-field-padding-x-sm);
+  }
+
+  &:where([data-size="md"]) {
+    --_select-pad-x: var(--pd-component-field-padding-x-md);
+  }
+
+  &:where([data-size="lg"]) {
+    --_select-pad-x: var(--pd-component-field-padding-x-lg);
+  }
+
+  &:where([data-size="xl"]) {
+    --_select-pad-x: var(--pd-component-field-padding-x-xl);
+  }
+}
+
 .pd-select-trigger {
   justify-content: space-between;
   cursor: pointer;
@@ -12,6 +41,18 @@
     border-color: var(--pd-component-field-border-invalid-focus);
     box-shadow: var(--pd-component-field-shadow-invalid-focus);
   }
+
+  &:where([data-has-clear]) {
+    gap: calc(var(--pd-system-size-icon-xs) + var(--pd-system-spacing-md));
+  }
+}
+
+.pd-select-clear {
+  position: absolute;
+  inset-inline-end: calc(var(--_select-pad-x) + var(--pd-system-size-icon-xs) + var(--pd-system-spacing-2xs));
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
 }
 
 .pd-select-value {

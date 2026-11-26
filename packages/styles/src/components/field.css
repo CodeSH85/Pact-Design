@@ -131,6 +131,15 @@
   &::placeholder {
     color: var(--pd-component-field-text-placeholder);
   }
+
+  &[type="search"]::-webkit-search-decoration,
+  &[type="search"]::-webkit-search-cancel-button,
+  &[type="search"]::-webkit-search-results-button,
+  &[type="search"]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+  }
 }
 
 .pd-field-button {
@@ -142,15 +151,138 @@
   color: var(--pd-component-field-text-muted);
   cursor: pointer;
   outline: none;
+  flex-shrink: 0;
 
   &:where(:hover, [data-hovered]) {
     color: var(--pd-component-field-text);
+  }
+
+  &:where(:focus-visible, [data-focus-visible]) {
+    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+    outline-offset: var(--pd-system-border-focus-offset);
   }
 
   &:where(:disabled, [data-disabled]) {
     color: var(--pd-component-field-text-disabled);
     cursor: not-allowed;
   }
+}
+
+.pd-field-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pd-system-spacing-3xs);
+  flex-shrink: 0;
+}
+
+.pd-field-clear {
+  flex-shrink: 0;
+}
+
+.pd-field-group-multiline {
+  height: auto;
+  padding-block: var(--pd-system-spacing-2xs);
+
+  &:where([data-size="xs"]) {
+    height: auto;
+    min-height: var(--pd-component-field-height-xs);
+  }
+
+  &:where([data-size="sm"]) {
+    height: auto;
+    min-height: var(--pd-component-field-height-sm);
+  }
+
+  &:where([data-size="md"], :not([data-size])) {
+    height: auto;
+    min-height: var(--pd-component-field-height-md);
+  }
+
+  &:where([data-size="lg"]) {
+    height: auto;
+    min-height: var(--pd-component-field-height-lg);
+  }
+
+  &:where([data-size="xl"]) {
+    height: auto;
+    min-height: var(--pd-component-field-height-xl);
+  }
+}
+
+.pd-combobox-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: var(--pd-system-spacing-2xs);
+
+  & .pd-field-input {
+    flex: 1 1 4rem;
+    min-width: 4rem;
+    width: auto;
+  }
+}
+
+.pd-combobox-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pd-system-spacing-3xs);
+  max-width: 100%;
+  padding-inline: var(--pd-system-spacing-xs) var(--pd-system-spacing-2xs);
+  padding-block: 1px;
+  border-radius: var(--pd-system-radius-2xs);
+  background-color: var(--pd-system-color-surface-layer-1);
+  border: var(--pd-system-border-width-sm) solid var(--pd-system-color-border);
+  color: var(--pd-system-color-on-surface);
+  font: var(--pd-system-font-caption-md);
+  letter-spacing: var(--pd-system-font-caption-md-letter-spacing);
+}
+
+.pd-combobox-tag-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pd-combobox-tag-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px;
+  border-radius: var(--pd-system-radius-2xs);
+  color: var(--pd-component-field-text-muted);
+  cursor: pointer;
+  outline: none;
+  flex-shrink: 0;
+
+  &:where(:hover, [data-hovered]) {
+    color: var(--pd-component-field-text);
+    background-color: var(--pd-system-color-surface-layer-2-hover);
+  }
+
+  &:where(:focus-visible, [data-focus-visible]) {
+    outline: var(--pd-system-border-focus-width) var(--pd-system-border-focus-style) var(--pd-system-color-border-focus);
+    outline-offset: var(--pd-system-border-focus-offset);
+  }
+
+  &:where(:disabled, [data-disabled]) {
+    color: var(--pd-component-field-text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+.pd-combobox-tag-remove-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+  flex-shrink: 0;
+}
+
+:where(.pd-field[data-disabled]) .pd-field-group {
+  background-color: var(--pd-component-field-bg-disabled);
+  border-color: var(--pd-component-field-border-disabled);
+  color: var(--pd-component-field-text-disabled);
+  cursor: not-allowed;
 }
 
 .pd-field-affix {
@@ -175,4 +307,19 @@
 
 :where(.pd-search-field[data-empty]) .pd-search-field-clear {
   display: none;
+}
+
+@media (forced-colors: active) {
+  .pd-combobox-tag {
+    border-color: CanvasText;
+  }
+
+  .pd-field-button,
+  .pd-combobox-tag-remove {
+    color: ButtonText;
+
+    &:where(:disabled, [data-disabled]) {
+      color: GrayText;
+    }
+  }
 }

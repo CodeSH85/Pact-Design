@@ -15,6 +15,12 @@
   }
 }
 
+:where(.pd-field[data-disabled]) .pd-listbox {
+  opacity: 0.6;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 .pd-collection-section {
   display: flex;
   flex-direction: column;
