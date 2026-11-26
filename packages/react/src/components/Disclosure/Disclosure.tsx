@@ -9,10 +9,15 @@ import {
   type DisclosureProps as AriaDisclosureProps,
   Heading as AriaHeading
 } from 'react-aria-components'
-import { RiArrowRightSLine } from '@remixicon/react'
+import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
 import { DisclosureGroupContext } from './DisclosureContext.ts'
 
 export type DisclosureVariant = 'bordered' | 'ghost'
+
+export interface DisclosureIcons {
+  chevron?: IconSlot
+}
 
 export interface DisclosurePanelProps extends Omit<AriaDisclosurePanelProps, 'children'> {
   children?: ReactNode
@@ -31,11 +36,12 @@ export function DisclosurePanel({ className, children, ...props }: DisclosurePan
 
 export interface DisclosureHeaderProps {
   title?: ReactNode
+  icons?: DisclosureIcons
   className?: string
   children?: ReactNode
 }
 
-export function DisclosureHeader({ title, className, children }: DisclosureHeaderProps) {
+export function DisclosureHeader({ title, icons, className, children }: DisclosureHeaderProps) {
   return (
     <AriaHeading className="pd-disclosure-heading">
       <AriaButton
@@ -43,15 +49,18 @@ export function DisclosureHeader({ title, className, children }: DisclosureHeade
         className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-disclosure-trigger', cn))}
       >
         <span>{title ?? children}</span>
-        <RiArrowRightSLine className="pd-disclosure-chevron" aria-hidden="true" />
+        {renderIcon(icons?.chevron, 'chevronRight', 'pd-disclosure-chevron')}
       </AriaButton>
     </AriaHeading>
   )
 }
 
-export interface DisclosureProps extends Omit<AriaDisclosureProps, 'children'> {
+export interface DisclosureProps
+  extends Omit<AriaDisclosureProps, 'children'>,
+  DisableableProps {
   variant?: DisclosureVariant
   title?: ReactNode
+  icons?: DisclosureIcons
   panelProps?: DisclosurePanelProps
   children?: ReactNode
 }
@@ -59,6 +68,7 @@ export interface DisclosureProps extends Omit<AriaDisclosureProps, 'children'> {
 export function Disclosure({
   title,
   variant,
+  icons,
   panelProps,
   className,
   children,
@@ -66,17 +76,18 @@ export function Disclosure({
 }: DisclosureProps) {
   const groupContext = useContext(DisclosureGroupContext)
   const resolvedVariant = variant ?? groupContext.variant ?? 'bordered'
+  const ariaProps = resolveDisableableProps(props)
 
   return (
     <AriaDisclosure
       data-variant={resolvedVariant}
       data-grouped={groupContext.isGrouped ? '' : undefined}
       className={composeRenderProps(className, (cn) => clsx('pd-disclosure', cn))}
-      {...props}
+      {...ariaProps}
     >
       {title ? (
         <>
-          <DisclosureHeader title={title} />
+          <DisclosureHeader title={title} icons={icons} />
           <DisclosurePanel {...panelProps}>
             {children}
           </DisclosurePanel>

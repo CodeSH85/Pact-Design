@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react'
 import { type ValidationResult } from 'react-aria-components'
+import { type IconSlot } from '../icons/types.ts'
 
 export type ControlSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
@@ -22,6 +23,62 @@ export interface DisableableProps {
 
 export function resolveDisabled(props: DisableableProps): boolean | undefined {
   return props.isDisabled ?? props.disabled
+}
+
+/**
+ * Normalizes `disabled` / `isDisabled` into `isDisabled` while stripping `disabled`
+ * so it never leaks onto wrapper DOM nodes.
+ */
+export function resolveDisableableProps<T extends DisableableProps>(props: T) {
+  const { disabled, isDisabled, ...rest } = props
+  return {
+    ...rest,
+    isDisabled: resolveDisabled({ disabled, isDisabled })
+  }
+}
+
+/**
+ * Clear button customization options for input and selection fields.
+ */
+export interface ClearableOptions {
+  icon?: IconSlot
+  label?: string
+  onClear?: () => void
+}
+
+export type ClearableProp = boolean | ClearableOptions
+
+export interface ResolvedClearable {
+  enabled: boolean
+  icon?: IconSlot
+  label: string
+  onClear?: () => void
+}
+
+export function resolveClearable(
+  clearable: ClearableProp | undefined,
+  defaultEnabled = false
+): ResolvedClearable {
+  if (clearable === undefined) {
+    return {
+      enabled: defaultEnabled,
+      label: 'Clear'
+    }
+  }
+
+  if (typeof clearable === 'boolean') {
+    return {
+      enabled: clearable,
+      label: 'Clear'
+    }
+  }
+
+  return {
+    enabled: true,
+    icon: clearable.icon,
+    label: clearable.label ?? 'Clear',
+    onClear: clearable.onClear
+  }
 }
 
 /**

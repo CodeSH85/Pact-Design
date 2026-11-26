@@ -17,15 +17,28 @@ import {
   Separator as AriaSeparator,
   type SeparatorProps as AriaSeparatorProps
 } from 'react-aria-components'
-import { RiArrowDownSLine, RiCheckLine } from '@remixicon/react'
+import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import {
+  resolveDisableableProps,
+  resolveDisabled,
+  type DisableableProps
+} from '../../utils/index.ts'
 import { Button } from '../Button/index.ts'
 import { PopoverContent } from '../Popover/index.ts'
 
 export type MenuItemTone = 'default' | 'danger'
 
-export interface MenuItemProps extends Omit<AriaMenuItemProps, 'children'> {
+export interface MenuIcons {
+  chevron?: IconSlot
+  check?: IconSlot
+}
+
+export interface MenuItemProps
+  extends Omit<AriaMenuItemProps, 'children'>,
+  DisableableProps {
   tone?: MenuItemTone
   icon?: ReactNode
+  icons?: Pick<MenuIcons, 'check'>
   shortcut?: string
   children?: ReactNode | AriaMenuItemProps['children']
 }
@@ -33,16 +46,26 @@ export interface MenuItemProps extends Omit<AriaMenuItemProps, 'children'> {
 export function MenuItem({
   tone = 'default',
   icon,
+  icons,
   shortcut,
+  textValue,
   className,
   children,
   ...props
 }: MenuItemProps) {
+  const ariaProps = resolveDisableableProps(props)
+  const resolvedTextValue = textValue ?? (
+    typeof children === 'string' || typeof children === 'number'
+      ? String(children)
+      : undefined
+  )
+
   return (
     <AriaMenuItem
       data-tone={tone}
+      textValue={resolvedTextValue}
       className={composeRenderProps(className, (cn) => clsx('pd-collection-item', cn))}
-      {...props}
+      {...ariaProps}
     >
       {(renderProps) => (
         <>
@@ -61,9 +84,8 @@ export function MenuItem({
               {shortcut}
             </AriaKeyboard>
           )}
-          {renderProps.isSelected && (
-            <RiCheckLine className="pd-collection-item-check" aria-hidden="true" />
-          )}
+          {renderProps.isSelected &&
+            renderIcon(icons?.check, 'check', 'pd-collection-item-check')}
         </>
       )}
     </AriaMenuItem>
@@ -122,23 +144,29 @@ export function MenuPopover({ children, ...props }: AriaPopoverProps) {
 
 export const MenuTrigger = AriaMenuTrigger
 
-export interface MenuItemData {
+export interface MenuItemData extends DisableableProps {
   type?: 'item' | 'separator' | 'group'
   id?: string
   label?: string
   icon?: ReactNode
   tone?: MenuItemTone
   shortcut?: string
-  disabled?: boolean
   onClick?: () => void
   items?: MenuItemData[]
 }
 
-export interface MenuProps extends Omit<AriaMenuTriggerProps, 'children' | 'trigger'> {
+export interface MenuProps
+  extends Omit<AriaMenuTriggerProps, 'children' | 'trigger'>,
+  Pick<
+    AriaMenuProps<object>,
+    'selectionMode' | 'selectedKeys' | 'defaultSelectedKeys' | 'onSelectionChange' | 'disallowEmptySelection' | 'onAction'
+  >,
+  DisableableProps {
   trigger?: ReactNode
   triggerType?: AriaMenuTriggerProps['trigger']
   triggerLabel?: string
   items?: MenuItemData[]
+  icons?: MenuIcons
   placement?: AriaPopoverProps['placement']
   offset?: number
   className?: string
@@ -150,23 +178,42 @@ export function Menu({
   triggerType,
   triggerLabel = 'Actions',
   items,
+  icons,
   placement = 'bottom start',
   offset = 6,
+  selectionMode,
+  selectedKeys,
+  defaultSelectedKeys,
+  onSelectionChange,
+  disallowEmptySelection,
+  onAction,
+  disabled,
+  isDisabled,
   children,
   ...props
 }: MenuProps) {
+  const resolvedDisabled = resolveDisabled({ disabled, isDisabled })
+
   if (items) {
     return (
       <AriaMenuTrigger trigger={triggerType} {...props}>
         {trigger ?? (
-          <Button variant="secondary" size="md">
+          <Button variant="secondary" size="md" isDisabled={resolvedDisabled}>
             <span>{triggerLabel}</span>
-            <RiArrowDownSLine className="pd-menu-trigger-icon" aria-hidden="true" />
+            {renderIcon(icons?.chevron, 'chevronDown', 'pd-menu-trigger-icon')}
           </Button>
         )}
 
         <PopoverContent placement={placement} offset={offset}>
-          <AriaMenu className="pd-menu">
+          <AriaMenu
+            className="pd-menu"
+            selectionMode={selectionMode}
+            selectedKeys={selectedKeys}
+            defaultSelectedKeys={defaultSelectedKeys}
+            onSelectionChange={onSelectionChange}
+            disallowEmptySelection={disallowEmptySelection}
+            onAction={onAction}
+          >
             {items.map((item, idx) => {
               if (item.type === 'separator') {
                 return <MenuSeparator key={`sep-${idx}`} />
@@ -183,7 +230,8 @@ export function Menu({
                           key={subKey}
                           id={subKey}
                           icon={subItem.icon}
-                          isDisabled={subItem.disabled}
+                          icons={icons}
+                          isDisabled={resolveDisabled(subItem)}
                           tone={subItem.tone}
                           shortcut={subItem.shortcut}
                           onAction={subItem.onClick}
@@ -202,7 +250,8 @@ export function Menu({
                   key={itemKey}
                   id={itemKey}
                   icon={item.icon}
-                  isDisabled={item.disabled}
+                  icons={icons}
+                  isDisabled={resolveDisabled(item)}
                   tone={item.tone}
                   shortcut={item.shortcut}
                   onAction={item.onClick}

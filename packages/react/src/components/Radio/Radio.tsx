@@ -8,7 +8,8 @@ import {
   type RadioGroupProps as AriaRadioGroupProps
 } from 'react-aria-components'
 import {
-  resolveDisabled,
+  resolveDisableableProps,
+  type DisableableProps,
   type FieldSharedProps,
   type SelectionControlProps
 } from '../../utils/index.ts'
@@ -23,17 +24,16 @@ export interface RadioProps
 export function Radio({
   label,
   description,
-  disabled,
-  isDisabled,
   className,
   children,
   ...props
 }: RadioProps) {
+  const ariaProps = resolveDisableableProps(props)
+
   return (
     <AriaRadio
-      isDisabled={resolveDisabled({ disabled, isDisabled })}
       className={composeRenderProps(className, (cn) => clsx('pd-selection-control', 'pd-radio', cn))}
-      {...props}
+      {...ariaProps}
     >
       {(renderProps) => {
         if (typeof children === 'function') {
@@ -75,7 +75,8 @@ export function Radio({
 
 export interface RadioGroupProps
   extends Omit<AriaRadioGroupProps, 'children'>,
-  FieldSharedProps {
+  FieldSharedProps,
+  DisableableProps {
   orientation?: 'vertical' | 'horizontal'
   children?: ReactNode
 }
@@ -89,11 +90,13 @@ export function RadioGroup({
   children,
   ...props
 }: RadioGroupProps) {
+  const ariaProps = resolveDisableableProps(props)
+
   return (
     <AriaRadioGroup
       orientation={orientation}
       className={composeRenderProps(className, (cn) => clsx('pd-radio-group', cn))}
-      {...props}
+      {...ariaProps}
     >
       {label && <Label>{label}</Label>}
       {description && <FieldDescription>{description}</FieldDescription>}

@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react'
+import { forwardRef, type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
   Button as AriaButton,
@@ -16,6 +16,7 @@ import {
   type TextProps as AriaTextProps
 } from 'react-aria-components'
 import {
+  resolveDisableableProps,
   resolveDisabled,
   type DisableableProps
 } from '../../utils/index.ts'
@@ -70,32 +71,39 @@ export function FieldError({ className, children, ...props }: FieldErrorProps) {
   )
 }
 
-export interface FieldGroupProps extends AriaGroupProps {
+export interface FieldGroupProps extends AriaGroupProps, DisableableProps {
   size?: FieldSize
 }
 
 export function FieldGroup({ size = 'md', className, children, ...props }: FieldGroupProps) {
+  const ariaProps = resolveDisableableProps(props)
+
   return (
     <AriaGroup
       data-size={size}
       className={composeRenderProps(className, (cn) => clsx('pd-field-group', cn))}
-      {...props}
+      {...ariaProps}
     >
       {children}
     </AriaGroup>
   )
 }
 
-export type InputProps = AriaInputProps
+export interface InputProps extends AriaInputProps, DisableableProps {}
 
-export function Input({ className, ...props }: InputProps) {
+export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+  { disabled, isDisabled, className, ...props },
+  ref
+) {
   return (
     <AriaInput
+      ref={ref}
+      disabled={resolveDisabled({ disabled, isDisabled })}
       className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-field-input', cn))}
       {...props}
     />
   )
-}
+})
 
 export interface FieldButtonProps
   extends Omit<AriaButtonProps, 'children'>,
@@ -104,17 +112,16 @@ export interface FieldButtonProps
 }
 
 export function FieldButton({
-  disabled,
-  isDisabled,
   className,
   children,
   ...props
 }: FieldButtonProps) {
+  const ariaProps = resolveDisableableProps(props)
+
   return (
     <AriaButton
-      isDisabled={resolveDisabled({ disabled, isDisabled })}
       className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-field-button', cn))}
-      {...props}
+      {...ariaProps}
     >
       {children}
     </AriaButton>

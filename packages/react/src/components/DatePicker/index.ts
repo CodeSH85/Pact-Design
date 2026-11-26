@@ -8,7 +8,9 @@ export {
   CalendarHeading,
   DatePicker,
   type CalendarCellProps,
+  type CalendarIcons,
   type CalendarProps,
+  type DatePickerIcons,
   type DatePickerPopoverProps,
   type DatePickerProps,
   type DateValue

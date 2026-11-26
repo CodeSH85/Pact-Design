@@ -8,9 +8,11 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
+  type SelectIcons,
   type SelectItemProps,
   type SelectPopoverProps,
   type SelectProps,
+  type SelectSelectionMode,
   type SelectTriggerProps,
   type SelectValueProps
 } from './Select.tsx'

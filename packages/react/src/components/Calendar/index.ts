@@ -7,6 +7,7 @@ export {
   CalendarHeaderCell,
   CalendarHeading,
   type CalendarCellProps,
+  type CalendarIcons,
   type CalendarProps,
   type DateValue
 } from './Calendar.tsx'

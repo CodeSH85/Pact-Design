@@ -13,9 +13,14 @@ import {
   Separator as AriaSeparator,
   type SeparatorProps as AriaSeparatorProps
 } from 'react-aria-components'
-import { RiCheckLine } from '@remixicon/react'
+import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
 
 export type ListBoxSurface = 'plain' | 'bordered'
+
+export interface ListBoxItemIcons {
+  check?: IconSlot
+}
 
 export interface ListBoxProps<T extends object = object> extends AriaListBoxProps<T> {
   surface?: ListBoxSurface
@@ -38,28 +43,40 @@ export function ListBox<T extends object = object>({
   )
 }
 
-export interface ListBoxItemProps<T extends object = object> extends Omit<AriaListBoxItemProps<T>, 'children'> {
+export interface ListBoxItemProps<T extends object = object>
+  extends Omit<AriaListBoxItemProps<T>, 'children'>,
+  DisableableProps {
+  icons?: ListBoxItemIcons
   children?: ReactNode | AriaListBoxItemProps<T>['children']
 }
 
 export function ListBoxItem<T extends object = object>({
+  icons,
+  textValue,
   className,
   children,
   ...props
 }: ListBoxItemProps<T>) {
+  const ariaProps = resolveDisableableProps(props)
+  const resolvedTextValue = textValue ?? (
+    typeof children === 'string' || typeof children === 'number'
+      ? String(children)
+      : undefined
+  )
+
   return (
     <AriaListBoxItem
+      textValue={resolvedTextValue}
       className={composeRenderProps(className, (cn) => clsx('pd-collection-item', cn))}
-      {...props}
+      {...ariaProps}
     >
       {(renderProps) => (
         <>
           <span className="pd-collection-item-label">
             {typeof children === 'function' ? children(renderProps) : children}
           </span>
-          {renderProps.isSelected && (
-            <RiCheckLine className="pd-collection-item-check" aria-hidden="true" />
-          )}
+          {renderProps.isSelected &&
+            renderIcon(icons?.check, 'check', 'pd-collection-item-check')}
         </>
       )}
     </AriaListBoxItem>

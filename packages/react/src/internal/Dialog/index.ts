@@ -9,8 +9,7 @@ export {
   type DialogCloseButtonProps,
   type DialogFooterProps,
   type DialogHeaderProps,
+  type DialogIcons,
   type DialogProps,
   type DialogTriggerProps
 } from './Dialog.tsx'
-
-export { default } from './Dialog.tsx'

@@ -7,6 +7,7 @@ export {
   type DisclosureGroupProps,
   type DisclosureGroupVariant,
   type DisclosureHeaderProps,
+  type DisclosureIcons,
   type DisclosurePanelProps,
   type DisclosureProps,
   type DisclosureVariant

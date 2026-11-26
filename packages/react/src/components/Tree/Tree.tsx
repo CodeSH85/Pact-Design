@@ -10,8 +10,13 @@ import {
   type TreeItemProps as AriaTreeItemProps,
   type TreeProps as AriaTreeProps
 } from 'react-aria-components'
-import { RiArrowRightSLine } from '@remixicon/react'
+import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
 import { Checkbox } from '../Checkbox/index.ts'
+
+export interface TreeIcons {
+  chevron?: IconSlot
+}
 
 export type TreeProps<T extends object = object> = AriaTreeProps<T>
 
@@ -26,7 +31,9 @@ export function Tree<T extends object = object>({ className, children, ...props 
   )
 }
 
-export interface TreeItemProps<T extends object = object> extends Omit<AriaTreeItemProps<T>, 'children'> {
+export interface TreeItemProps<T extends object = object>
+  extends Omit<AriaTreeItemProps<T>, 'children'>,
+  DisableableProps {
   children: ReactNode
 }
 
@@ -36,6 +43,8 @@ export function TreeItem<T extends object = object>({
   children,
   ...props
 }: TreeItemProps<T>) {
+  const ariaProps = resolveDisableableProps(props)
+
   return (
     <AriaTreeItem
       className={composeRenderProps(className, (cn) => clsx('pd-tree-item', cn))}
@@ -44,7 +53,7 @@ export function TreeItem<T extends object = object>({
         paddingInlineStart: `calc(${(renderProps.level - 1) * 1}rem + 0.5rem)`,
         ...(typeof style === 'function' ? style(renderProps) : style)
       })}
-      {...props}
+      {...ariaProps}
     >
       {children}
     </AriaTreeItem>
@@ -52,10 +61,11 @@ export function TreeItem<T extends object = object>({
 }
 
 export interface TreeItemContentProps extends Omit<AriaTreeItemContentProps, 'children'> {
+  icons?: TreeIcons
   children: ReactNode | AriaTreeItemContentProps['children']
 }
 
-export function TreeItemContent({ children, ...props }: TreeItemContentProps) {
+export function TreeItemContent({ icons, children, ...props }: TreeItemContentProps) {
   return (
     <AriaTreeItemContent {...props}>
       {(renderProps) => (
@@ -69,11 +79,9 @@ export function TreeItemContent({ children, ...props }: TreeItemContentProps) {
               slot="chevron"
               className="pd-reset pd-tree-chevron-btn"
             >
-              <RiArrowRightSLine
-                className="pd-tree-chevron-icon"
-                data-expanded={renderProps.isExpanded ? '' : undefined}
-                aria-hidden="true"
-              />
+              {renderIcon(icons?.chevron, 'chevronRight', 'pd-tree-chevron-icon', {
+                'data-expanded': renderProps.isExpanded ? '' : undefined
+              })}
             </AriaButton>
           ) : (
             <span className="pd-tree-chevron-spacer" aria-hidden="true" />

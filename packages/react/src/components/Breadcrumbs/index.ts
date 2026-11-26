@@ -7,6 +7,7 @@ export {
   type BreadcrumbLinkProps,
   type BreadcrumbProps,
   type BreadcrumbSeparatorProps,
+  type BreadcrumbsIcons,
   type BreadcrumbsProps,
   type BreadcrumbsSize
 } from './Breadcrumbs.tsx'

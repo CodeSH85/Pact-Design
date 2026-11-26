@@ -5,6 +5,7 @@ export {
   TreeItem,
   TreeItemContent,
   TreeSection,
+  type TreeIcons,
   type TreeItemContentProps,
   type TreeItemProps,
   type TreeProps

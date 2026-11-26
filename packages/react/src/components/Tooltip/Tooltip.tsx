@@ -8,15 +8,19 @@ import {
   TooltipTrigger as AriaTooltipTrigger,
   type TooltipTriggerComponentProps as AriaTooltipTriggerProps
 } from 'react-aria-components'
+import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
 
-export type TooltipTriggerProps = AriaTooltipTriggerProps
+export interface TooltipTriggerProps
+  extends AriaTooltipTriggerProps,
+  DisableableProps {}
 
 export function TooltipTrigger({
   delay = 300,
   closeDelay = 0,
   ...props
 }: TooltipTriggerProps) {
-  return <AriaTooltipTrigger delay={delay} closeDelay={closeDelay} {...props} />
+  const ariaProps = resolveDisableableProps(props)
+  return <AriaTooltipTrigger delay={delay} closeDelay={closeDelay} {...ariaProps} />
 }
 
 export interface TooltipProps extends Omit<AriaTooltipProps, 'children'> {

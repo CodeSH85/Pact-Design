@@ -7,6 +7,7 @@ export {
   MenuSection,
   MenuSeparator,
   MenuTrigger,
+  type MenuIcons,
   type MenuItemData,
   type MenuItemProps,
   type MenuItemTone,

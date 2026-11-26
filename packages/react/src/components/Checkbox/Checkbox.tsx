@@ -7,23 +7,32 @@ import {
   type CheckboxGroupProps as AriaCheckboxGroupProps,
   composeRenderProps
 } from 'react-aria-components'
-import { RiCheckLine, RiSubtractLine } from '@remixicon/react'
+import { renderIcon, type IconSlot } from '../../icons/index.ts'
 import {
+  resolveDisableableProps,
   resolveToggleProps,
+  type DisableableProps,
   type FieldSharedProps,
   type ToggleControlProps
 } from '../../utils/index.ts'
 import { FieldDescription, FieldError, Label } from '../Field/index.ts'
 
+export interface CheckboxIcons {
+  check?: IconSlot
+  indeterminate?: IconSlot
+}
+
 export interface CheckboxProps
   extends Omit<AriaCheckboxProps, 'children'>,
   ToggleControlProps {
+  icons?: CheckboxIcons
   children?: ReactNode | AriaCheckboxProps['children']
 }
 
 export function Checkbox({
   label,
   description,
+  icons,
   className,
   children,
   ...props
@@ -49,11 +58,11 @@ export function Checkbox({
         return (
           <>
             <span className="pd-checkbox-box">
-              {isIndeterminate ? (
-                <RiSubtractLine className="pd-checkbox-icon" aria-hidden="true" />
-              ) : selected ? (
-                <RiCheckLine className="pd-checkbox-icon" aria-hidden="true" />
-              ) : null}
+              {isIndeterminate
+                ? renderIcon(icons?.indeterminate, 'indeterminate', 'pd-checkbox-icon')
+                : selected
+                  ? renderIcon(icons?.check, 'check', 'pd-checkbox-icon')
+                  : null}
             </span>
 
             {(label || description) && (
@@ -79,7 +88,8 @@ export function Checkbox({
 
 export interface CheckboxGroupProps
   extends Omit<AriaCheckboxGroupProps, 'children'>,
-  FieldSharedProps {
+  FieldSharedProps,
+  DisableableProps {
   children?: ReactNode
 }
 
@@ -91,10 +101,12 @@ export function CheckboxGroup({
   children,
   ...props
 }: CheckboxGroupProps) {
+  const ariaProps = resolveDisableableProps(props)
+
   return (
     <AriaCheckboxGroup
       className={composeRenderProps(className, (cn) => clsx('pd-checkbox-group', cn))}
-      {...props}
+      {...ariaProps}
     >
       {label && <Label>{label}</Label>}
       {description && <FieldDescription>{description}</FieldDescription>}

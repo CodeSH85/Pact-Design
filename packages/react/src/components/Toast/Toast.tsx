@@ -13,13 +13,7 @@ import {
   type ToastProps as AriaToastProps,
   type ToastRegionProps as AriaToastRegionProps
 } from 'react-aria-components'
-import {
-  RiAlertLine,
-  RiCheckboxCircleLine,
-  RiCloseLine,
-  RiErrorWarningLine,
-  RiInformationLine
-} from '@remixicon/react'
+import { renderIcon, type IconSlot, type PactIconName } from '../../icons/index.ts'
 
 export type ToastTone = 'default' | 'info' | 'success' | 'warning' | 'danger'
 export type ToastPlacement =
@@ -30,32 +24,46 @@ export type ToastPlacement =
   | 'bottom-start'
   | 'bottom-end'
 
+export interface ToastIcons {
+  default?: IconSlot
+  info?: IconSlot
+  success?: IconSlot
+  warning?: IconSlot
+  danger?: IconSlot
+  close?: IconSlot
+}
+
 export interface ToastData {
   title?: ReactNode
   description?: ReactNode
   tone?: ToastTone
+  icon?: IconSlot
 }
 
-const toastToneIcons: Record<ToastTone, typeof RiInformationLine> = {
-  default: RiInformationLine,
-  info: RiInformationLine,
-  success: RiCheckboxCircleLine,
-  warning: RiAlertLine,
-  danger: RiErrorWarningLine
+const toastToneIconNames: Record<ToastTone, PactIconName> = {
+  default: 'info',
+  info: 'info',
+  success: 'success',
+  warning: 'warning',
+  danger: 'danger'
 }
 
 export interface ToastProps<T extends object = ToastData> extends Omit<AriaToastProps<T>, 'children'> {
   tone?: ToastTone
+  icon?: IconSlot
+  icons?: ToastIcons
   children?: ReactNode
 }
 
 export function Toast<T extends object = ToastData>({
   tone = 'default',
+  icon,
+  icons,
   className,
   children,
   ...props
 }: ToastProps<T>) {
-  const Icon = toastToneIcons[tone]
+  const toneIconSlot = icon ?? icons?.[tone]
 
   return (
     <AriaToast
@@ -63,7 +71,7 @@ export function Toast<T extends object = ToastData>({
       className={composeRenderProps(className, (cn) => clsx('pd-toast', cn))}
       {...props}
     >
-      <Icon className="pd-toast-icon" aria-hidden="true" />
+      {renderIcon(toneIconSlot, toastToneIconNames[tone], 'pd-toast-icon')}
 
       <div className="pd-toast-content">
         {children}
@@ -71,9 +79,10 @@ export function Toast<T extends object = ToastData>({
 
       <AriaButton
         slot="close"
+        aria-label="Close"
         className="pd-reset pd-toast-close"
       >
-        <RiCloseLine className="pd-toast-close-icon" aria-hidden="true" />
+        {renderIcon(icons?.close, 'close', 'pd-toast-close-icon')}
       </AriaButton>
     </AriaToast>
   )
@@ -117,12 +126,14 @@ export interface ToastRegionProps<T extends object = ToastData>
   extends Partial<Omit<AriaToastRegionProps<T>, 'children' | 'queue'>> {
   queue?: UNSTABLE_ToastQueue<T>
   placement?: ToastPlacement
+  icons?: ToastIcons
   children?: (renderProps: { toast: QueuedToast<T> }) => ReactElement
 }
 
 export function ToastRegion<T extends object = ToastData>({
   queue = toastQueue as unknown as UNSTABLE_ToastQueue<T>,
   placement = 'bottom-end',
+  icons,
   className,
   children,
   ...props
@@ -138,7 +149,12 @@ export function ToastRegion<T extends object = ToastData>({
         ((renderProps: { toast: QueuedToast<T> }) => {
           const toastData = renderProps.toast.content as unknown as ToastData
           return (
-            <Toast toast={renderProps.toast} tone={toastData?.tone}>
+            <Toast
+              toast={renderProps.toast}
+              tone={toastData?.tone}
+              icon={toastData?.icon}
+              icons={icons}
+            >
               {toastData?.title && (
                 <h4 className="pd-toast-title">{toastData.title}</h4>
               )}

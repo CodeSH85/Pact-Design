@@ -11,35 +11,49 @@ import {
   type Key,
   type LinkProps as AriaLinkProps
 } from 'react-aria-components'
-import { RiArrowRightSLine } from '@remixicon/react'
+import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import {
+  resolveDisableableProps,
+  resolveDisabled,
+  type DisableableProps
+} from '../../utils/index.ts'
 
 export type BreadcrumbsSize = 'sm' | 'md' | 'lg'
 
+export interface BreadcrumbsIcons {
+  separator?: IconSlot
+}
+
 export interface BreadcrumbSeparatorProps {
+  icons?: BreadcrumbsIcons
   className?: string
   children?: ReactNode
 }
 
-export function BreadcrumbSeparator({ className, children }: BreadcrumbSeparatorProps) {
+export function BreadcrumbSeparator({ icons, className, children }: BreadcrumbSeparatorProps) {
   return (
     <span
       className={clsx('pd-breadcrumb-separator', className)}
       aria-hidden="true"
     >
-      {children ?? <RiArrowRightSLine className="pd-breadcrumb-separator-icon" />}
+      {children ?? renderIcon(icons?.separator, 'chevronRight', 'pd-breadcrumb-separator-icon')}
     </span>
   )
 }
 
-export interface BreadcrumbLinkProps extends Omit<AriaLinkProps, 'children'> {
+export interface BreadcrumbLinkProps
+  extends Omit<AriaLinkProps, 'children'>,
+  DisableableProps {
   children?: ReactNode
 }
 
 export function BreadcrumbLink({ className, children, ...props }: BreadcrumbLinkProps) {
+  const ariaProps = resolveDisableableProps(props)
+
   return (
     <AriaLink
       className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-breadcrumb-link', cn))}
-      {...props}
+      {...ariaProps}
     >
       {children}
     </AriaLink>
@@ -47,12 +61,14 @@ export function BreadcrumbLink({ className, children, ...props }: BreadcrumbLink
 }
 
 export interface BreadcrumbProps extends Omit<AriaBreadcrumbProps, 'children'> {
-  separator?: ReactNode | boolean
+  separator?: IconSlot | boolean
+  icons?: BreadcrumbsIcons
   children?: ReactNode | ((renderProps: AriaBreadcrumbRenderProps) => ReactNode)
 }
 
 export function Breadcrumb({
   separator = true,
+  icons,
   className,
   children,
   ...props
@@ -66,7 +82,9 @@ export function Breadcrumb({
         <>
           {typeof children === 'function' ? children(renderProps) : children}
           {separator && !renderProps.isCurrent && (
-            typeof separator === 'boolean' ? <BreadcrumbSeparator /> : separator
+            typeof separator === 'boolean'
+              ? <BreadcrumbSeparator icons={icons} />
+              : <BreadcrumbSeparator icons={{ separator }} />
           )}
         </>
       )}
@@ -74,17 +92,19 @@ export function Breadcrumb({
   )
 }
 
-export interface BreadcrumbItemData {
+export interface BreadcrumbItemData extends DisableableProps {
   id?: Key
   label: ReactNode
   href?: string
-  isDisabled?: boolean
 }
 
 export interface BreadcrumbsProps<T extends object = object>
-  extends Omit<AriaBreadcrumbsProps<T>, 'children' | 'items'> {
+  extends Omit<AriaBreadcrumbsProps<T>, 'children' | 'items'>,
+  DisableableProps {
   size?: BreadcrumbsSize
   items?: BreadcrumbItemData[]
+  separator?: IconSlot | boolean
+  icons?: BreadcrumbsIcons
   className?: string
   children?: ReactNode | ((item: T) => ReactNode)
 }
@@ -92,20 +112,29 @@ export interface BreadcrumbsProps<T extends object = object>
 export function Breadcrumbs<T extends object = object>({
   size = 'md',
   items,
+  separator = true,
+  icons,
   className,
   children,
   ...props
 }: BreadcrumbsProps<T>) {
+  const ariaProps = resolveDisableableProps(props)
+
   return (
     <AriaBreadcrumbs
       data-size={size}
       className={clsx('pd-breadcrumbs', className)}
-      {...props}
+      {...ariaProps}
     >
       {items
         ? items.map((item, idx) => (
-          <Breadcrumb key={item.id ?? idx} id={item.id}>
-            <BreadcrumbLink href={item.href} isDisabled={item.isDisabled}>
+          <Breadcrumb
+            key={item.id ?? idx}
+            id={item.id}
+            separator={separator}
+            icons={icons}
+          >
+            <BreadcrumbLink href={item.href} isDisabled={resolveDisabled(item)}>
               {item.label}
             </BreadcrumbLink>
           </Breadcrumb>
