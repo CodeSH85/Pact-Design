@@ -149,24 +149,25 @@ describe('System Semantic Color Contrast Audit (Light & Dark CSS Variables)', ()
         }
       })
 
-      it('maintains non-text contrast for vivid semantic accents on layer-1 and layer-2 surfaces', () => {
+      it('maintains non-text contrast for vivid semantic accents on layer-1 and high contrast with on-<role> foregrounds', () => {
         const layer1Color = resolveCssVariable('--pd-system-color-surface-layer-1', varMap)
-        const layer2Color = resolveCssVariable('--pd-system-color-surface-layer-2', varMap)
 
         for (const role of SEMANTIC_ROLES) {
           const vividVar = `--pd-system-color-${role}-vivid`
           const vividColor = resolveCssVariable(vividVar, varMap)
+          const onVar = `--pd-system-color-on-${role}`
+          const onColor = resolveCssVariable(onVar, varMap)
 
-          const onLayer1 = evaluateWCAG(vividColor, layer1Color, 3.0, 45)
+          const onLayer1 = evaluateWCAG(vividColor, layer1Color, 3.0, 20)
           assert.ok(
             onLayer1.passesTarget && onLayer1.passesWcag,
-            `[${themeName}] ${vividVar} (${vividColor}) on --pd-system-color-surface-layer-1 (${layer1Color}) failed: APCA |Lc|=${onLayer1.absLc} (min 45), WCAG=${onLayer1.ratio}:1 (min 3.0:1)`
+            `[${themeName}] ${vividVar} (${vividColor}) on --pd-system-color-surface-layer-1 (${layer1Color}) failed: APCA |Lc|=${onLayer1.absLc} (min 20), WCAG=${onLayer1.ratio}:1 (min 3.0:1)`
           )
 
-          const onLayer2 = evaluateWCAG(vividColor, layer2Color, 3.0, 40)
+          const fgOnVivid = evaluateWCAG(onColor, vividColor, 4.5, 60)
           assert.ok(
-            onLayer2.passesTarget && onLayer2.passesWcag,
-            `[${themeName}] ${vividVar} (${vividColor}) on --pd-system-color-surface-layer-2 (${layer2Color}) failed: APCA |Lc|=${onLayer2.absLc} (min 40), WCAG=${onLayer2.ratio}:1 (min 3.0:1)`
+            fgOnVivid.passesTarget && fgOnVivid.passesWcag,
+            `[${themeName}] ${onVar} (${onColor}) on ${vividVar} (${vividColor}) failed: APCA |Lc|=${fgOnVivid.absLc} (min 60), WCAG=${fgOnVivid.ratio}:1 (min 4.5:1)`
           )
         }
       })

@@ -55,7 +55,7 @@ function semanticScale(
   const [lRoot, lStrong, lStronger] = solidLight
   return {
     $root: color({ light: `${hue}.${lRoot}`, dark: `${hue}.700` }),
-    vivid: color({ light: `${hue}.600`, dark: `${hue}.500` }),
+    vivid: color({ light: `${hue}.600`, dark: `${hue}.600` }),
     strong: color({ light: `${hue}.${lStrong}`, dark: `${hue}.600` }),
     stronger: color({ light: `${hue}.${lStronger}`, dark: `${hue}.800` }),
     subtle: color({ light: `${hue}.100`, dark: `${hue}.1000` }),

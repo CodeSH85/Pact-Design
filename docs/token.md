@@ -117,7 +117,7 @@ Each semantic role (`primary`, `secondary`, `success`, `danger`, `warning`, `inf
 1. **Solid Fill Tones (`<role>.$root`, `strong`, `stronger`, `on-<role>.$root`)**:
    - Maintains a consistent **light-text on deep-background** hierarchy in both Light and Dark themes, passing both **APCA (`|Lc| >= 60`)** and **WCAG 2.1 AA (`>= 4.5:1`)** across all solid stops.
 2. **Vivid Non-Text Accent (`<role>.vivid`)**:
-   - `600` (Light) / `500` (Dark) for non-text filled controls (Switch checked track, Slider active fill, Progress indicators) — passing WCAG `>= 3.0:1` (`5.64–6.50:1` on dark `layer-1`) and APCA `|Lc| >= 45` on `surface.layer-1` (`>= 40` on `surface.layer-2`).
+   - `600` (Light) / `600` (Dark) for non-text filled controls (Switch checked track, Slider active fill, Progress indicators) — passing WCAG `>= 3.0:1` on `surface.layer-1` (`3.02–3.59:1` in dark mode) and WCAG `>= 4.5:1` / APCA `|Lc| >= 60` with `on-<role>` white foregrounds/thumbs.
 3. **Tinted Container Tones (`<role>.subtle`, `muted`, `soft`, `on-<role>.subtle`, `<role>.border.$root`)**:
    - Uses same-hue soft backgrounds (`100 / 200 / 300` Light, `1000 / 900 / 800` Dark) paired with `on-<role>.subtle` (`800` Light, `300` Dark) — passing WCAG `>= 4.5:1` and APCA `|Lc| >= 60` across all container emphasis levels.
 4. **Foreground Text & Icons on Neutral Surfaces (`<role>.text.{ $root, strong, stronger }`)**:
@@ -128,13 +128,13 @@ Each semantic role (`primary`, `secondary`, `success`, `danger`, `warning`, `inf
 
 | Role | Hue Family | Light Solid (`$root / strong / stronger / on`) | Dark Solid (`$root / strong / stronger / on`) | Vivid (`Light` / `Dark`) | Light Tinted (`subtle / muted / soft / on / border`) | Dark Tinted (`subtle / muted / soft / on / border`) | Text (`Light` / `Dark`) | Border Strong (`Light` / `Dark`) |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Primary** | `indigo` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `600` / `500` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
-| **Secondary** | `blue` | `700 / 800 / 900 / white` | `700 / 600 / 800 / white` | `600` / `500` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
-| **Success** | `green` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `600` / `500` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
-| **Danger** | `red` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `600` / `500` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
-| **Warning** | `orange` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `600` / `500` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
-| **Info** | `blue` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `600` / `500` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
-| **Neutral** | `coolGray` | `700 / 800 / 900 / white` | `700 / 600 / 800 / white` | `600` / `500` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Primary** | `indigo` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `600` / `600` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Secondary** | `blue` | `700 / 800 / 900 / white` | `700 / 600 / 800 / white` | `600` / `600` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Success** | `green` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `600` / `600` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Danger** | `red` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `600` / `600` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Warning** | `orange` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `600` / `600` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Info** | `blue` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `600` / `600` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Neutral** | `coolGray` | `700 / 800 / 900 / white` | `700 / 600 / 800 / white` | `600` / `600` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
 
 #### Opacity (`pd.global.opacity.*`, `pd.system.opacity.*`)
 
