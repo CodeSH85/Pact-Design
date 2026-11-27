@@ -142,7 +142,7 @@ export const mdxComponents: ReturnType<typeof useMDXComponents> = {
     <strong className="text-on-surface font-bold" {...props} />
   ),
   a: (props: ComponentPropsWithoutRef<'a'>) => (
-    <a className="text-primary hover:text-primary-hover hover:underline" {...props} />
+    <a className="text-primary-text hover:text-primary-text-strong hover:underline" {...props} />
   ),
   ul: (props: ComponentPropsWithoutRef<'ul'>) => (
     <ul className="list-disc pl-xl flex flex-col gap-xs text-body-md text-on-surface-secondary" {...props} />
