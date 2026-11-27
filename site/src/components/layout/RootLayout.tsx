@@ -20,6 +20,7 @@ import {
 } from '@remixicon/react'
 import { navSections, type NavItem } from '../../config/navigation'
 import type { ThemeMode } from '../../types/tokens'
+import { ThemeCustomizer } from './ThemeCustomizer'
 
 type ThemePreference = ThemeMode | 'system'
 
@@ -149,6 +150,8 @@ export function RootLayout() {
             >
               Playground
             </Button>
+
+            <ThemeCustomizer />
 
             <Menu
               trigger={(
