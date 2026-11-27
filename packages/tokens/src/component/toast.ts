@@ -4,11 +4,11 @@ type ToastSemanticTone = 'info' | 'success' | 'warning' | 'danger'
 
 function semanticTone(tone: ToastSemanticTone) {
   return colorMap({
-    bg: `pd.system.color.${tone}.subtle.$root`,
+    bg: `pd.system.color.${tone}.subtle`,
     border: `pd.system.color.${tone}.border.$root`,
     text: `pd.system.color.on-${tone}.subtle`,
     icon: `pd.system.color.${tone}.text.$root`,
-    'close-hover': `pd.system.color.${tone}.subtle.hover`
+    'close-hover': `pd.system.color.${tone}.muted`
   })
 }
 

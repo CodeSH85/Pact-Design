@@ -31,7 +31,7 @@ export const popoverTokens = {
       hover: 'pd.system.color.surface.layer-2.hover',
       focus: 'pd.system.color.surface.layer-2.hover',
       selected: 'pd.system.color.surface.layer-2.hover',
-      'danger-hover': 'pd.system.color.danger.subtle.$root'
+      'danger-hover': 'pd.system.color.danger.subtle'
     }),
     icon: colorMap({
       selected: 'pd.system.color.primary.text.$root'

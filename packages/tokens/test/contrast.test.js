@@ -128,14 +128,14 @@ describe('System Semantic Color Contrast Audit (Light & Dark CSS Variables)', ()
         }
       })
 
-      it('maintains high contrast on solid semantic action states (default, hover, active)', () => {
+      it('maintains high contrast on solid semantic tonal variants (default, strong, stronger)', () => {
         for (const role of SEMANTIC_ROLES) {
           const onVar = `--pd-system-color-on-${role}`
           const onColor = resolveCssVariable(onVar, varMap)
           const bgVars = [
             `--pd-system-color-${role}`,
-            `--pd-system-color-${role}-hover`,
-            `--pd-system-color-${role}-active`
+            `--pd-system-color-${role}-strong`,
+            `--pd-system-color-${role}-stronger`
           ]
 
           for (const bgVar of bgVars) {
@@ -149,7 +149,29 @@ describe('System Semantic Color Contrast Audit (Light & Dark CSS Variables)', ()
         }
       })
 
-      it('maintains high contrast on subtle status containers (on-<role>-subtle on <role>-subtle states & layer-2)', () => {
+      it('maintains non-text contrast for vivid semantic accents on layer-1 and layer-2 surfaces', () => {
+        const layer1Color = resolveCssVariable('--pd-system-color-surface-layer-1', varMap)
+        const layer2Color = resolveCssVariable('--pd-system-color-surface-layer-2', varMap)
+
+        for (const role of SEMANTIC_ROLES) {
+          const vividVar = `--pd-system-color-${role}-vivid`
+          const vividColor = resolveCssVariable(vividVar, varMap)
+
+          const onLayer1 = evaluateWCAG(vividColor, layer1Color, 3.0, 45)
+          assert.ok(
+            onLayer1.passesTarget && onLayer1.passesWcag,
+            `[${themeName}] ${vividVar} (${vividColor}) on --pd-system-color-surface-layer-1 (${layer1Color}) failed: APCA |Lc|=${onLayer1.absLc} (min 45), WCAG=${onLayer1.ratio}:1 (min 3.0:1)`
+          )
+
+          const onLayer2 = evaluateWCAG(vividColor, layer2Color, 3.0, 40)
+          assert.ok(
+            onLayer2.passesTarget && onLayer2.passesWcag,
+            `[${themeName}] ${vividVar} (${vividColor}) on --pd-system-color-surface-layer-2 (${layer2Color}) failed: APCA |Lc|=${onLayer2.absLc} (min 40), WCAG=${onLayer2.ratio}:1 (min 3.0:1)`
+          )
+        }
+      })
+
+      it('maintains high contrast on tinted semantic containers (on-<role>-subtle on subtle/muted/soft & layer-2)', () => {
         const layer2Color = resolveCssVariable('--pd-system-color-surface-layer-2', varMap)
 
         for (const role of SEMANTIC_ROLES) {
@@ -157,8 +179,8 @@ describe('System Semantic Color Contrast Audit (Light & Dark CSS Variables)', ()
           const onSubtleColor = resolveCssVariable(onSubtleVar, varMap)
           const subtleBgVars = [
             `--pd-system-color-${role}-subtle`,
-            `--pd-system-color-${role}-subtle-hover`,
-            `--pd-system-color-${role}-subtle-active`
+            `--pd-system-color-${role}-muted`,
+            `--pd-system-color-${role}-soft`
           ]
 
           for (const subtleBgVar of subtleBgVars) {
@@ -185,8 +207,8 @@ describe('System Semantic Color Contrast Audit (Light & Dark CSS Variables)', ()
         for (const role of SEMANTIC_ROLES) {
           const textVars = [
             `--pd-system-color-${role}-text`,
-            `--pd-system-color-${role}-text-hover`,
-            `--pd-system-color-${role}-text-active`
+            `--pd-system-color-${role}-text-strong`,
+            `--pd-system-color-${role}-text-stronger`
           ]
 
           for (const textVar of textVars) {

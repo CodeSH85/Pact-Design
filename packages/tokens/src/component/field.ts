@@ -12,7 +12,7 @@ export const fieldTokens = {
     focus: colorRef('pd.system.color.border.focus.$root'),
     invalid: colorMap({
       $root: 'pd.system.color.danger.border.strong',
-      hover: 'pd.system.color.danger.text.hover',
+      hover: 'pd.system.color.danger.text.strong',
       focus: 'pd.system.color.border.focus.danger'
     }),
     disabled: colorRef('pd.system.color.border.subtle')
