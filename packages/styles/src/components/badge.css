@@ -39,6 +39,15 @@
     --_tone-outline-fg: var(--pd-system-color-primary-text);
   }
 
+  &:where([data-tone="secondary"]) {
+    --_tone-subtle-bg: var(--pd-system-color-secondary-subtle);
+    --_tone-subtle-fg: var(--pd-system-color-on-secondary-subtle);
+    --_tone-subtle-border: var(--pd-system-color-secondary-border);
+    --_tone-solid-bg: var(--pd-system-color-secondary);
+    --_tone-solid-fg: var(--pd-system-color-on-secondary);
+    --_tone-outline-fg: var(--pd-system-color-secondary-text);
+  }
+
   &:where([data-tone="info"]) {
     --_tone-subtle-bg: var(--pd-system-color-info-subtle);
     --_tone-subtle-fg: var(--pd-system-color-on-info-subtle);
