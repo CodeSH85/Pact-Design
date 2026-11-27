@@ -1,7 +1,7 @@
 import { type HTMLAttributes, type ReactNode } from 'react'
 import { clsx } from 'clsx'
 
-export type BadgeTone = 'default' | 'primary' | 'info' | 'success' | 'warning' | 'danger'
+export type BadgeTone = 'default' | 'primary' | 'secondary' | 'info' | 'success' | 'warning' | 'danger'
 export type BadgeVariant = 'subtle' | 'solid' | 'outline'
 export type BadgeSize = 'xs' | 'sm' | 'md'
 
