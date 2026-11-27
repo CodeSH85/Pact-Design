@@ -1,19 +1,19 @@
 import { useContext, type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  Button as AriaButton,
   ButtonContext,
   composeRenderProps,
   Select as AriaSelect,
   SelectStateContext,
-  SelectValue as AriaSelectValue,
-  type ButtonProps as AriaButtonProps,
-  type HeaderProps as AriaHeaderProps,
-  type ListBoxProps as AriaListBoxProps,
-  type ListBoxSectionProps as AriaListBoxSectionProps,
-  type PopoverProps as AriaPopoverProps,
-  type SelectProps as AriaSelectProps,
-  type SelectValueProps as AriaSelectValueProps
+  SelectValue as AriaSelectValue
+} from 'react-aria-components'
+import type {
+  HeaderProps as AriaHeaderProps,
+  ListBoxProps as AriaListBoxProps,
+  ListBoxSectionProps as AriaListBoxSectionProps,
+  PopoverProps as AriaPopoverProps,
+  SelectProps as AriaSelectProps,
+  SelectValueProps as AriaSelectValueProps
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
 import {
@@ -24,6 +24,7 @@ import {
   type FieldSharedProps,
   type ResolvedClearable
 } from '../../utils/index.ts'
+import { Button, type ButtonActionProps } from '../Button/index.ts'
 import {
   FieldButton,
   FieldDescription,
@@ -50,10 +51,10 @@ export interface SelectIcons {
 }
 
 export interface SelectTriggerProps
-  extends Omit<AriaButtonProps, 'children'>,
+  extends Omit<ButtonActionProps, 'variant' | 'size' | 'radius' | 'icon' | 'children'>,
   DisableableProps {
   size?: FieldSize
-  children?: ReactNode | AriaButtonProps['children']
+  children?: ButtonActionProps['children']
 }
 
 export function SelectTrigger({
@@ -62,16 +63,15 @@ export function SelectTrigger({
   children,
   ...props
 }: SelectTriggerProps) {
-  const ariaProps = resolveDisableableProps(props)
-
   return (
-    <AriaButton
-      data-size={size}
-      className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-field-group', 'pd-select-trigger', cn))}
-      {...ariaProps}
+    <Button
+      variant="ghost"
+      size={size}
+      className={composeRenderProps(className, (cn) => clsx('pd-field-group', 'pd-field-group-compact-end', 'pd-select-trigger', cn))}
+      {...props}
     >
       {children}
-    </AriaButton>
+    </Button>
   )
 }
 
@@ -171,7 +171,9 @@ function SelectControl<T extends object>({
         {...triggerProps}
       >
         <SelectValue<T>>{renderValue}</SelectValue>
-        {renderIcon(icons?.chevron, 'chevronDown', 'pd-select-chevron')}
+        <span className="pd-select-chevron-slot" aria-hidden="true">
+          {renderIcon(icons?.chevron, 'chevronDown', 'pd-select-chevron')}
+        </span>
       </SelectTrigger>
 
       {showClear && (
@@ -253,10 +255,14 @@ export function Select<
       />
 
       {description && <FieldDescription>{description}</FieldDescription>}
+
       <FieldError>{errorMessage}</FieldError>
 
       <SelectPopover {...popoverProps}>
-        <SelectListBox items={items} {...listBoxProps}>
+        <SelectListBox
+          items={items}
+          {...listBoxProps}
+        >
           {typeof children === 'function'
             ? children
             : (children as ReactNode)}

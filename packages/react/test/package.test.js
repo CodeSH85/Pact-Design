@@ -321,8 +321,7 @@ describe('@pact-design/react package integrity', () => {
 
   it('composes Pact Design atomic Button and Separator instead of raw React Aria primitives', () => {
     const allowedRawAriaButton = new Set([
-      'src/components/Button/Button.tsx',
-      'src/components/Select/Select.tsx'
+      'src/components/Button/Button.tsx'
     ])
     const allowedRawAriaSeparator = new Set([
       'src/components/Separator/Separator.tsx'
