@@ -47,7 +47,7 @@
   border-radius: var(--pd-component-switch-thumb-radius);
   background-color: var(--pd-component-switch-thumb-bg);
   box-shadow: var(--pd-component-switch-thumb-shadow);
-  transition-property: transform, background-color;
+  transition-property: transform;
   transition-duration: var(--pd-system-motion-duration-normal);
   transition-timing-function: var(--pd-system-motion-easing);
 
@@ -68,10 +68,6 @@
 
 :where([dir="ltr"]) .pd-switch-thumb {
   --_switch-dir: 1;
-}
-
-:where(.pd-switch[data-selected]) .pd-switch-thumb {
-  background-color: var(--pd-component-switch-thumb-bg-checked);
 }
 
 :where(.pd-switch[data-selected]) .pd-switch-thumb:where([data-size="sm"]) {

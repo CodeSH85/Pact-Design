@@ -97,7 +97,7 @@
     color: var(--pd-system-color-on-primary);
 
     &:where(:hover, [data-hovered]) {
-      background-color: var(--pd-system-color-primary-hover);
+      background-color: var(--pd-system-color-primary-strong);
     }
 
     &:where([data-invalid]) {
