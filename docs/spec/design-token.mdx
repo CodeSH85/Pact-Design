@@ -26,7 +26,7 @@ Pact Design 參考 Material 3 的 **Category–Type–Item** 命名語法，將�
 
 - **單一資料來源**：`tokens = { pd: { global, system, component } }` 的結構與編譯產出的 CSS 變數名稱維持 1:1 對應，建置腳本不包含任何隱性前綴或跨檔合併邏輯。
 - **編譯期路徑檢查**：System 層與 Component 層的參照路徑在 TypeScript 型別階段即受檢驗，避免拼寫錯誤或無效參照流入建置產物。
-- **DTCG `$root` 群組基準**：互動狀態群組使用 `$root` 定義預設值（例如 `primary.$root` 與 `primary.hover`），編譯時自動省略 `$root` 區段，輸出 `--pd-system-color-primary` 與 `--pd-system-color-primary-hover`。
+- **DTCG `$root` 群組基準**：語意色彩與群組使用 `$root` 定義預設值（例如 `primary.$root` 與 `primary.strong`），編譯時自動省略 `$root` 區段，輸出 `--pd-system-color-primary` 與 `--pd-system-color-primary-strong`。
 - **保留變數參照鏈**：編譯為 CSS Custom Properties 時保留層級間的 `var(--pd-*)` 參照關係，讓主題切換與覆寫能在瀏覽器原生完成。
 
 ```ts
@@ -35,30 +35,30 @@ import { oklchPalette } from '../factory.ts'
 
 export const globalColor = {
   indigo: oklchPalette({
-    600: [0.6, 0.192, 274.9733],
-    700: [0.504, 0.195, 274.9]
+    500: [0.698, 0.1404, 274.9561],
+    600: [0.55, 0.192, 274.9733],
+    700: [0.468, 0.195, 274.9]
   })
 } as const
 
 // packages/tokens/src/system/color.ts
 export const systemColor = {
   primary: {
-    $root: color({ light: 'indigo.600', dark: 'indigo.700' }),       // 實心填色背景
-    hover: color({ light: 'indigo.700', dark: 'indigo.600' }),
-    active: color({ light: 'indigo.800', dark: 'indigo.800' }),
-    subtle: {
-      $root: color({ light: 'indigo.100', dark: 'indigo.1000' }),    // 柔和容器背景
-      hover: color({ light: 'indigo.200', dark: 'indigo.900' }),
-      active: color({ light: 'indigo.300', dark: 'indigo.800' })
-    },
+    $root: color({ light: 'indigo.600', dark: 'indigo.700' }),        // 實心填色背景（含白色前景文字）
+    vivid: color({ light: 'indigo.600', dark: 'indigo.500' }),        // 非文字強調填色（Switch、Slider）
+    strong: color({ light: 'indigo.700', dark: 'indigo.600' }),       // 強化實心色階（供元件 hover 參照）
+    stronger: color({ light: 'indigo.800', dark: 'indigo.800' }),     // 最深實心色階（供元件 active 參照）
+    subtle: color({ light: 'indigo.100', dark: 'indigo.1000' }),      // 柔和容器背景
+    muted: color({ light: 'indigo.200', dark: 'indigo.900' }),        // 中低強調柔和容器
+    soft: color({ light: 'indigo.300', dark: 'indigo.800' }),         // 較高強調柔和容器
     text: {
-      $root: color({ light: 'indigo.700', dark: 'indigo.400' }),     // 中性表面上的語意文字與圖示
-      hover: color({ light: 'indigo.800', dark: 'indigo.300' }),
-      active: color({ light: 'indigo.900', dark: 'indigo.200' })
+      $root: color({ light: 'indigo.700', dark: 'indigo.400' }),      // 中性表面上的語意文字與圖示
+      strong: color({ light: 'indigo.800', dark: 'indigo.300' }),
+      stronger: color({ light: 'indigo.900', dark: 'indigo.200' })
     },
     border: {
-      $root: color({ light: 'indigo.300', dark: 'indigo.800' }),     // 柔和容器邊框
-      strong: color({ light: 'indigo.600', dark: 'indigo.400' })     // 強調指示線與圖形描邊
+      $root: color({ light: 'indigo.300', dark: 'indigo.800' }),      // 柔和容器邊框
+      strong: color({ light: 'indigo.600', dark: 'indigo.400' })      // 強調指示線與焦點描邊
     }
   }
 } as const
@@ -66,7 +66,7 @@ export const systemColor = {
 
 ### 語意色彩角色、透明度與混合式焦點狀態
 
-- **實心填色與前景分離**：所有 7 組語意角色（`primary`、`secondary`、`success`、`danger`、`warning`、`info`、`neutral`）皆區分實心背景（`<role>.$root`）、柔和容器（`<role>.subtle.*`）、中性表面前景文字與圖示（`<role>.text.*`），以及強調邊框（`<role>.border.strong`），確保在深淺主題下皆通過 APCA 與 WCAG 對比標準。
+- **色階與互動狀態解耦**：所有 7 組語意角色（`primary`、`secondary`、`success`、`danger`、`warning`、`info`、`neutral`）在 System 層提供主題自適應的純色階變體——實心填色（`$root` / `strong` / `stronger`）、非文字高對比強調色（`vivid`）、柔和容器（`subtle` / `muted` / `soft`）、中性表面前景（`text.$root` / `strong` / `stronger`）以及邊框（`border.$root` / `strong`），再由 Component 層將 `hover` / `active` 狀態對應至合適色階；同時提供 `surface.control` 供 Switch 與 Slider 靜止軌道使用，避免誤借狀態色。
 - **透明度領域與型別安全的 `alpha()`**：透過 `pd.global.opacity.*` 與 `pd.system.opacity.*` 提供標準化透明度階梯；在 `system/color.ts` 中使用 `alpha('indigo.600', '20')` 於建置期解析為標準 DTCG OKLCH 透明度色彩（`oklch(L C H / alpha)`），相容舊版瀏覽器目標與對比測試工具（注意：建置期固化的透明度色值不會隨執行期覆寫 `--pd-global-color-*` 連動，需直接覆寫語意光暈變數）。
 - **混合式焦點規範**：鍵盤 `:focus-visible` 在按鈕、分頁、清單與核取元件上維持高對比 `outline`（並提供 `border.focus.danger` 危險焦點色）；表單輸入框與 `SelectTrigger` 則採用 `--pd-system-elevation-focus` / `focus-danger` 柔和焦點光暈，並搭配 `@media (forced-colors: active)` 高對比模式備援外框。
 
