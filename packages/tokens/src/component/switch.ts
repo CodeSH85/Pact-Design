@@ -1,4 +1,4 @@
-import { colorMap, dim, dimMap, shadowRef } from './helpers.ts'
+import { colorMap, colorRef, dim, dimMap, shadowRef } from './helpers.ts'
 
 export const switchTokens = {
   track: {
@@ -13,13 +13,13 @@ export const switchTokens = {
     padding: dim('pd.system.spacing.2xs'),
     radius: dim('pd.system.radius.full'),
     bg: colorMap({
-      unchecked: 'pd.system.color.surface.layer-1.active',
-      checked: 'pd.system.color.primary.border.strong',
+      unchecked: 'pd.system.color.surface.control.$root',
+      checked: 'pd.system.color.primary.vivid',
       disabled: 'pd.system.color.surface.disabled'
     }),
     border: colorMap({
       unchecked: 'pd.system.color.border.$root',
-      checked: 'pd.system.color.primary.border.strong',
+      checked: 'pd.system.color.primary.vivid',
       focus: 'pd.system.color.border.focus.$root',
       disabled: 'pd.system.color.border.subtle'
     })
@@ -34,10 +34,7 @@ export const switchTokens = {
       md: 'pd.global.size.04'
     }),
     radius: dim('pd.system.radius.full'),
-    bg: colorMap({
-      $root: 'pd.system.color.on-primary.$root',
-      checked: 'pd.system.color.surface.layer-1.$root'
-    }),
+    bg: colorRef('pd.system.color.on-primary.$root'),
     shadow: shadowRef('pd.system.elevation.xs')
   }
 } as const

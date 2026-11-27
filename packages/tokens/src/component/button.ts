@@ -5,8 +5,8 @@ export const buttonTokens = {
   primary: {
     bg: colorMap({
       $root: 'pd.system.color.primary.$root',
-      hover: 'pd.system.color.primary.hover',
-      active: 'pd.system.color.primary.active'
+      hover: 'pd.system.color.primary.strong',
+      active: 'pd.system.color.primary.stronger'
     }),
     text: colorRef('pd.system.color.on-primary.$root'),
     border: colorRef('transparent')
@@ -43,8 +43,8 @@ export const buttonTokens = {
   danger: {
     bg: colorMap({
       $root: 'pd.system.color.danger.$root',
-      hover: 'pd.system.color.danger.hover',
-      active: 'pd.system.color.danger.active'
+      hover: 'pd.system.color.danger.strong',
+      active: 'pd.system.color.danger.stronger'
     }),
     text: colorRef('pd.system.color.on-danger.$root'),
     border: colorRef('transparent'),
@@ -52,9 +52,9 @@ export const buttonTokens = {
   },
   subtle: {
     bg: colorMap({
-      $root: 'pd.system.color.info.subtle.$root',
-      hover: 'pd.system.color.info.subtle.hover',
-      active: 'pd.system.color.info.subtle.active'
+      $root: 'pd.system.color.info.subtle',
+      hover: 'pd.system.color.info.muted',
+      active: 'pd.system.color.info.soft'
     }),
     text: colorRef('pd.system.color.on-info.subtle'),
     border: colorRef('pd.system.color.info.border.$root')
@@ -62,8 +62,8 @@ export const buttonTokens = {
   link: {
     text: colorMap({
       $root: 'pd.system.color.primary.text.$root',
-      hover: 'pd.system.color.primary.text.hover',
-      active: 'pd.system.color.primary.text.active'
+      hover: 'pd.system.color.primary.text.strong',
+      active: 'pd.system.color.primary.text.stronger'
     })
   },
   disabled: {

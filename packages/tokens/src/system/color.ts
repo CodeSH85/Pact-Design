@@ -52,20 +52,19 @@ function semanticScale(
   hue: HuePalette,
   solidLight: readonly [Stop, Stop, Stop] = ['600', '700', '800']
 ) {
-  const [lRoot, lHover, lActive] = solidLight
+  const [lRoot, lStrong, lStronger] = solidLight
   return {
     $root: color({ light: `${hue}.${lRoot}`, dark: `${hue}.700` }),
-    hover: color({ light: `${hue}.${lHover}`, dark: `${hue}.600` }),
-    active: color({ light: `${hue}.${lActive}`, dark: `${hue}.800` }),
-    subtle: {
-      $root: color({ light: `${hue}.100`, dark: `${hue}.1000` }),
-      hover: color({ light: `${hue}.200`, dark: `${hue}.900` }),
-      active: color({ light: `${hue}.300`, dark: `${hue}.800` })
-    },
+    vivid: color({ light: `${hue}.600`, dark: `${hue}.500` }),
+    strong: color({ light: `${hue}.${lStrong}`, dark: `${hue}.600` }),
+    stronger: color({ light: `${hue}.${lStronger}`, dark: `${hue}.800` }),
+    subtle: color({ light: `${hue}.100`, dark: `${hue}.1000` }),
+    muted: color({ light: `${hue}.200`, dark: `${hue}.900` }),
+    soft: color({ light: `${hue}.300`, dark: `${hue}.800` }),
     text: {
       $root: color({ light: `${hue}.700`, dark: `${hue}.400` }),
-      hover: color({ light: `${hue}.800`, dark: `${hue}.300` }),
-      active: color({ light: `${hue}.900`, dark: `${hue}.200` })
+      strong: color({ light: `${hue}.800`, dark: `${hue}.300` }),
+      stronger: color({ light: `${hue}.900`, dark: `${hue}.200` })
     },
     border: {
       $root: color({ light: `${hue}.300`, dark: `${hue}.800` }),
@@ -112,6 +111,10 @@ export const systemColor = {
     selected: {
       $root: color({ light: 'gray.200', dark: 'gray.900' }),
       hover: color({ light: 'gray.300', dark: 'gray.800' })
+    },
+    control: {
+      $root: color({ light: 'gray.300', dark: 'gray.800' }),
+      hover: color({ light: 'gray.400', dark: 'gray.700' })
     },
     disabled: color({ light: 'gray.200', dark: 'gray.1000' })
   },
