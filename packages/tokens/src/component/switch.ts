@@ -1,4 +1,4 @@
-import { colorMap, colorRef, dim, dimMap, shadowRef } from './helpers.ts'
+import { colorMap, dim, dimMap, shadowRef } from './helpers.ts'
 
 export const switchTokens = {
   track: {
