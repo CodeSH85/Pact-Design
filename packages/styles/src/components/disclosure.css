@@ -32,8 +32,8 @@
   height: var(--pd-component-disclosure-trigger-height);
   padding-inline: var(--pd-component-disclosure-trigger-padding-x);
   border-radius: var(--pd-component-disclosure-trigger-radius);
-  font: var(--pd-system-font-label-md);
-  letter-spacing: var(--pd-system-font-label-md-letter-spacing);
+  font: var(--pd-system-font-label-sm);
+  letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
   color: var(--pd-component-disclosure-trigger-text);
   background-color: transparent;
   border-color: transparent;

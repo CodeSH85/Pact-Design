@@ -3,14 +3,8 @@
 }
 
 .pd-sheet-backdrop {
-  background-color: var(--pd-component-modal-overlay-bg);
-
-  &:where([data-entering]) {
-    animation: pd-fade-in var(--pd-system-motion-duration-fast) var(--pd-system-motion-easing-enter);
-  }
-
-  &:where([data-exiting]) {
-    animation: pd-fade-out var(--pd-system-motion-duration-fast) var(--pd-system-motion-easing-exit);
+  &:where([data-stack-index="0"], :not([data-stack-index])) {
+    background-color: var(--pd-component-modal-overlay-bg);
   }
 }
 
@@ -22,7 +16,10 @@
   outline: none;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: clip;
+  z-index: 1;
+  transform: perspective(1000px);
+  will-change: transform;
 
   /* Positions */
   &:where([data-position="right"], :not([data-position])) {
@@ -138,4 +135,10 @@
   flex: 1;
   min-height: 0;
   overflow: hidden;
+}
+
+@keyframes pd-sheet-scale-back {
+  to {
+    transform: translateZ(-120px);
+  }
 }
