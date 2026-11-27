@@ -40,18 +40,46 @@
 }
 
 .pd-select-trigger {
+  --_bg: var(--pd-component-field-bg);
+  --_bg-hover: var(--pd-component-field-bg);
+  --_bg-active: var(--pd-component-field-bg);
+  --_fg: var(--pd-component-field-text);
+  --_border: var(--pd-component-field-border);
+
   justify-content: space-between;
   cursor: pointer;
   outline: none;
+
+  &:where(:hover, [data-hovered]) {
+    background-color: var(--pd-component-field-bg);
+    border-color: var(--pd-component-field-border-hover);
+  }
+
+  &:where(:active, [data-pressed]) {
+    background-color: var(--pd-component-field-bg);
+  }
+
+  &:where(:focus-visible, [data-focus-visible]) {
+    outline: none;
+    border-color: var(--pd-component-field-border-focus);
+    box-shadow: var(--pd-component-field-shadow-focus);
+  }
 
   &:where([data-open]) {
     border-color: var(--pd-component-field-border-focus);
     box-shadow: var(--pd-component-field-shadow-focus);
   }
 
-  &:where([data-invalid][data-open]) {
+  &:where([data-invalid][data-open]),
+  &:where([data-invalid]:focus-visible, [data-invalid][data-focus-visible]) {
     border-color: var(--pd-component-field-border-invalid-focus);
     box-shadow: var(--pd-component-field-shadow-invalid-focus);
+  }
+
+  &:where(:disabled, [data-disabled]) {
+    background-color: var(--pd-component-field-bg-disabled);
+    border-color: var(--pd-component-field-border-disabled);
+    color: var(--pd-component-field-text-disabled);
   }
 
   &:where([data-has-clear]) {
@@ -61,10 +89,19 @@
 
 .pd-select-clear {
   position: absolute;
-  inset-inline-end: calc(var(--_select-pad-x) + var(--_field-icon-size) + var(--pd-system-spacing-xs));
+  inset-inline-end: calc(var(--pd-system-spacing-2xs) + var(--_field-action-size) + var(--pd-system-spacing-2xs));
   top: 50%;
   transform: translateY(-50%);
   z-index: 1;
+}
+
+.pd-select-chevron-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_field-action-size);
+  height: var(--_field-action-size);
+  flex-shrink: 0;
 }
 
 .pd-select-value {
