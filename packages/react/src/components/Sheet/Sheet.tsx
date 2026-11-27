@@ -34,9 +34,14 @@ export const SheetTrigger = AriaSheetTrigger
 
 export type SheetBackdropProps = AriaSheetBackdropProps
 
-export function SheetBackdrop({ className, ...props }: SheetBackdropProps) {
+export function SheetBackdrop({
+  swipeAnimation = 'pd-fade-in',
+  className,
+  ...props
+}: SheetBackdropProps) {
   return (
     <AriaSheetBackdrop
+      swipeAnimation={swipeAnimation}
       className={composeRenderProps(className, (cn) => clsx('pd-sheet-backdrop', cn))}
       {...props}
     />
@@ -45,25 +50,37 @@ export function SheetBackdrop({ className, ...props }: SheetBackdropProps) {
 
 export interface SheetOverlayProps extends Omit<AriaSheetOverlayProps, 'children'> {
   backdropClassName?: AriaSheetBackdropProps['className']
+  backdropProps?: SheetBackdropProps
   children?: ReactNode | AriaSheetOverlayProps['children']
 }
 
 export function SheetOverlay({
   position = 'right',
+  snapPoints,
   className,
   backdropClassName,
+  backdropProps,
   children,
   ...props
 }: SheetOverlayProps) {
+  const defaultBackdropRange = snapPoints?.length
+    ? { start: snapPoints.length - 1 }
+    : undefined
+
   return (
     <AriaSheetOverlay
       position={position}
+      snapPoints={snapPoints}
       className={composeRenderProps(className, (cn) => clsx('pd-sheet-overlay', cn))}
       {...props}
     >
       {(renderProps) => (
         <>
-          <SheetBackdrop className={backdropClassName} />
+          <SheetBackdrop
+            swipeAnimationRange={defaultBackdropRange}
+            {...backdropProps}
+            className={backdropClassName ?? backdropProps?.className}
+          />
           {typeof children === 'function' ? children(renderProps) : children}
         </>
       )}
@@ -139,6 +156,7 @@ export function SheetFooter(props: SheetFooterProps) {
 export interface SheetProps
   extends Omit<AriaSheetTriggerProps, 'children'>,
   Pick<AriaSheetOverlayProps, 'position' | 'swipeDirection' | 'snapPoints' | 'preventDismissal'>,
+  Pick<AriaSheetProps, 'swipeAnimation' | 'swipeAnimationRange' | 'stackAnimation' | 'overscrollPadding'>,
   OverlaySharedProps {
   size?: SheetSize
   icons?: SheetIcons
@@ -157,6 +175,10 @@ export function Sheet({
   swipeDirection,
   snapPoints,
   preventDismissal,
+  swipeAnimation,
+  swipeAnimationRange,
+  stackAnimation,
+  overscrollPadding,
   isDismissable = true,
   size = 'md',
   icons,
@@ -182,7 +204,15 @@ export function Sheet({
       onOpenChange={trigger ? undefined : onOpenChange}
       className={overlayClassName}
     >
-      <SheetPanel position={resolvedPosition} size={size} className={panelClassName}>
+      <SheetPanel
+        position={resolvedPosition}
+        size={size}
+        swipeAnimation={swipeAnimation}
+        swipeAnimationRange={swipeAnimationRange}
+        stackAnimation={stackAnimation}
+        overscrollPadding={overscrollPadding}
+        className={panelClassName}
+      >
         <SheetContent className={contentClassName}>
           {(title || description) && (
             <SheetHeader title={title} description={description} icons={icons} />

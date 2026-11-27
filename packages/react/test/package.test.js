@@ -282,9 +282,10 @@ describe('@pact-design/react package integrity', () => {
   it('verifies all components use semantic pd-* CSS classes defined in @pact-design/styles/css', () => {
     const stylesCssPath = require.resolve('@pact-design/styles/css')
     const stylesCss = fs.readFileSync(stylesCssPath, 'utf-8')
-    const definedClasses = new Set(
-      Array.from(stylesCss.matchAll(/\.(pd-[a-z0-9-]+)/g), (m) => m[1])
-    )
+    const definedClasses = new Set([
+      ...Array.from(stylesCss.matchAll(/\.(pd-[a-z0-9-]+)/g), (m) => m[1]),
+      ...Array.from(stylesCss.matchAll(/@keyframes\s+(pd-[a-z0-9-]+)/g), (m) => m[1])
+    ])
     const missing = []
     const filesToCheck = [
       ...COMPONENTS.map((name) => path.join(PACKAGE_ROOT, 'src/components', name, `${name}.tsx`)),
