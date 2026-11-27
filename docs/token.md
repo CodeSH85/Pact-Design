@@ -86,6 +86,8 @@ Workspace surfaces are divided into four luminance layers, a translucent modal/d
 | `system.background.layer-2-selected` | `{global.gray.200}` (`#e8e8e8`) | `{global.gray.800}` (`#4c4c4c`) | Neutral selected state on `layer-2` surfaces (`|Lc| > 84` with `text.primary`). |
 | `system.background.layer-2-selected-hover` | `{global.gray.300}` (`#d4d4d4`) | `{global.gray.700}` (`#646464`) | Hover state on a selected `layer-2` item (`|Lc| > 78` with `text.primary`). |
 | `system.background.elevated` | `{system.background.layer-2}` (`#f4f4f4`) | `{system.background.layer-2}` (`#2b2b2b`) | Floating elements over the workspace (contextual popovers, modals, dropdowns), paired with `system.elevation.*`. |
+| `system.color.surface.control` | `{global.gray.300}` | `{global.gray.800}` | Resting neutral control tracks (Switch unchecked track, Slider rail, Progress track). |
+| `system.color.surface.control.hover` | `{global.gray.400}` | `{global.gray.700}` | Hovered neutral control tracks. |
 | `system.background.backdrop` | `{global.scrim.01}` (`#000000 · α 0.48`) | `{global.scrim.02}` (`#000000 · α 0.68`) | Translucent scrim / backdrop behind modals (`z-index.modal`) and drawers (`z-index.drawer`). |
 
 #### System Text Hierarchy (`system.text.*`)
@@ -108,29 +110,31 @@ Engineered to pass **APCA** (`Lc`) and WCAG 2.1 contrast across **all background
 | `system.border.strong` | `{global.gray.600}` (`#717171`) | `{global.gray.400}` (`#bababa`) | High-contrast form input borders (`WCAG >= 3.0:1` & `|Lc| >= 61` on `layer-2`). |
 | `system.border.focus` | `{system.semantic.primary}` | `{global.indigo.400}` | Keyboard focus ring indicator (`|Lc| > 55` across all surfaces). |
 
-#### System Semantic Status & Action Colors (`pd.system.color.<role>.*`)
+#### System Semantic Role Tonal Scales (`pd.system.color.<role>.*`)
 
-Each semantic role (`primary`, `secondary`, `success`, `danger`, `warning`, `info`, `neutral`) defines a symmetric 4-pattern structure:
+Each semantic role (`primary`, `secondary`, `success`, `danger`, `warning`, `info`, `neutral`) decouples **theme-adaptive tonal emphasis** from **component interaction states** (`hover` / `active` live at the `component.*` layer and reference these tonal stops):
 
-1. **Solid Action Pattern (`<role>.$root`, `hover`, `active`, `on-<role>.$root`)**:
-   - Maintains a consistent **light-text on deep-background** hierarchy in both Light and Dark themes, passing both **APCA (`|Lc| >= 76`)** and **WCAG 2.1 AA (`>= 4.5:1`)** across all rest, hover, and active states.
-2. **Subtle Status Container Pattern (`<role>.subtle.{ $root, hover, active }`, `on-<role>.subtle`, `<role>.border.$root`)**:
-   - Uses same-hue soft backgrounds (`100 / 200 / 300` Light, `1000 / 900 / 800` Dark) paired with `on-<role>.subtle` (`800` Light, `300` Dark) — passing WCAG `>= 5.76:1` and APCA `|Lc| >= 63` across all interactive states.
-3. **Foreground Text & Icons on Neutral Surfaces (`<role>.text.{ $root, hover, active }`)**:
+1. **Solid Fill Tones (`<role>.$root`, `strong`, `stronger`, `on-<role>.$root`)**:
+   - Maintains a consistent **light-text on deep-background** hierarchy in both Light and Dark themes, passing both **APCA (`|Lc| >= 60`)** and **WCAG 2.1 AA (`>= 4.5:1`)** across all solid stops.
+2. **Vivid Non-Text Accent (`<role>.vivid`)**:
+   - `600` (Light) / `500` (Dark) for non-text filled controls (Switch checked track, Slider active fill, Progress indicators) — passing WCAG `>= 3.0:1` (`5.64–6.50:1` on dark `layer-1`) and APCA `|Lc| >= 45` on `surface.layer-1` (`>= 40` on `surface.layer-2`).
+3. **Tinted Container Tones (`<role>.subtle`, `muted`, `soft`, `on-<role>.subtle`, `<role>.border.$root`)**:
+   - Uses same-hue soft backgrounds (`100 / 200 / 300` Light, `1000 / 900 / 800` Dark) paired with `on-<role>.subtle` (`800` Light, `300` Dark) — passing WCAG `>= 4.5:1` and APCA `|Lc| >= 60` across all container emphasis levels.
+4. **Foreground Text & Icons on Neutral Surfaces (`<role>.text.{ $root, strong, stronger }`)**:
    - Monotonically darker in Light (`700 → 800 → 900`) and monotonically lighter in Dark (`400 → 300 → 200`), ensuring links, checkmarks, toast icons, and error messages pass WCAG `>= 4.5:1` and APCA `|Lc| >= 60` on `surface.layer-1` (and `>= 4.5:1` / `|Lc| >= 45` on `surface.layer-2.hover`).
-4. **Strong Graphic Borders & Focus Rings (`<role>.border.strong`, `border.focus.{ $root, danger, halo, danger-halo }`)**:
-   - `600` (Light) / `400` (Dark) for active underlines, slider tracks/thumbs, and invalid/focus borders (WCAG `>= 3.0:1`, APCA `|Lc| >= 45` on `surface.layer-2`).
+5. **Strong Graphic Borders & Focus Rings (`<role>.border.strong`, `border.focus.{ $root, danger, halo, danger-halo }`)**:
+   - `600` (Light) / `400` (Dark) for active underlines, invalid borders, and focus rings (WCAG `>= 3.0:1`, APCA `|Lc| >= 45` on `surface.layer-2`).
    - Translucent focus halos (`border.focus.halo`, `border.focus.danger-halo`) are derived at build time via `alpha(colorKey, opacityKey)` backed by `globalOpacity` and paired with `pd.system.elevation.focus.{ $root, danger }` (and `@media (forced-colors: active)` outline fallback on form fields). Because build-time `alpha()` emits concrete `oklch(L C H / alpha)` literals for Lightning CSS browser-target compatibility, runtime overrides of `--pd-global-color-*` will not dynamically re-tint baked halo tokens — override the semantic halo token directly instead.
 
-| Role | Hue Family | Light Solid (`$root / hover / active / on`) | Dark Solid (`$root / hover / active / on`) | Light Subtle (`$root / hover / active / on / border`) | Dark Subtle (`$root / hover / active / on / border`) | Text (`Light` / `Dark`) | Border Strong (`Light` / `Dark`) |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Primary** | `indigo` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
-| **Secondary** | `blue` | `700 / 800 / 900 / white` | `700 / 600 / 800 / white` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
-| **Success** | `green` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
-| **Danger** | `red` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
-| **Warning** | `orange` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
-| **Info** | `blue` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
-| **Neutral** | `coolGray` | `700 / 800 / 900 / white` | `700 / 600 / 800 / white` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| Role | Hue Family | Light Solid (`$root / strong / stronger / on`) | Dark Solid (`$root / strong / stronger / on`) | Vivid (`Light` / `Dark`) | Light Tinted (`subtle / muted / soft / on / border`) | Dark Tinted (`subtle / muted / soft / on / border`) | Text (`Light` / `Dark`) | Border Strong (`Light` / `Dark`) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Primary** | `indigo` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `600` / `500` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Secondary** | `blue` | `700 / 800 / 900 / white` | `700 / 600 / 800 / white` | `600` / `500` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Success** | `green` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `600` / `500` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Danger** | `red` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `600` / `500` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Warning** | `orange` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `600` / `500` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Info** | `blue` | `600 / 700 / 800 / white` | `700 / 600 / 800 / white` | `600` / `500` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
+| **Neutral** | `coolGray` | `700 / 800 / 900 / white` | `700 / 600 / 800 / white` | `600` / `500` | `100 / 200 / 300 / 800 / 300` | `1000 / 900 / 800 / 300 / 800` | `700–900` / `400–200` | `600` / `400` |
 
 #### Opacity (`pd.global.opacity.*`, `pd.system.opacity.*`)
 
