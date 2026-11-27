@@ -77,7 +77,7 @@
 
 .pd-slider-fill {
   border-radius: var(--pd-system-radius-full);
-  background-color: var(--pd-system-color-primary-vivid);
+  background-color: var(--pd-system-color-primary-border-strong);
   pointer-events: none;
 
   &:where([data-disabled]) {
@@ -90,7 +90,7 @@
   height: var(--_thumb-size);
   border-radius: var(--pd-system-radius-full);
   background-color: var(--pd-system-color-surface-layer-1);
-  border: var(--pd-system-border-width-md) solid var(--pd-system-color-primary-vivid);
+  border: var(--pd-system-border-width-md) solid var(--pd-system-color-primary-border-strong);
   box-shadow: var(--pd-system-elevation-xs);
   outline: none;
   cursor: grab;

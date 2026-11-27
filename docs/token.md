@@ -116,8 +116,8 @@ Each semantic role (`primary`, `secondary`, `success`, `danger`, `warning`, `inf
 
 1. **Solid Fill Tones (`<role>.$root`, `strong`, `stronger`, `on-<role>.$root`)**:
    - Maintains a consistent **light-text on deep-background** hierarchy in both Light and Dark themes, passing both **APCA (`|Lc| >= 60`)** and **WCAG 2.1 AA (`>= 4.5:1`)** across all solid stops.
-2. **Vivid Non-Text Accent (`<role>.vivid`)**:
-   - `600` (Light) / `600` (Dark) for non-text filled controls (Switch checked track, Slider active fill, Progress indicators) — passing WCAG `>= 3.0:1` on `surface.layer-1` (`3.02–3.59:1` in dark mode) and WCAG `>= 4.5:1` / APCA `|Lc| >= 60` with `on-<role>` white foregrounds/thumbs.
+2. **Vivid Filled Accent (`<role>.vivid`)**:
+   - `600` (Light) / `600` (Dark) for saturated filled controls with white knobs/icons (e.g. Switch checked track) — passing WCAG `>= 4.5:1` and APCA `|Lc| >= 60` with `on-<role>` (`white`) as well as WCAG `>= 3.0:1` against `surface.layer-1`.
 3. **Tinted Container Tones (`<role>.subtle`, `muted`, `soft`, `on-<role>.subtle`, `<role>.border.$root`)**:
    - Uses same-hue soft backgrounds (`100 / 200 / 300` Light, `1000 / 900 / 800` Dark) paired with `on-<role>.subtle` (`800` Light, `300` Dark) — passing WCAG `>= 4.5:1` and APCA `|Lc| >= 60` across all container emphasis levels.
 4. **Foreground Text & Icons on Neutral Surfaces (`<role>.text.{ $root, strong, stronger }`)**:

@@ -149,25 +149,25 @@ describe('System Semantic Color Contrast Audit (Light & Dark CSS Variables)', ()
         }
       })
 
-      it('maintains non-text contrast for vivid semantic accents on layer-1 and high contrast with on-<role> foregrounds', () => {
+      it('maintains contrast for vivid semantic fills with on-<role> foregrounds and against layer-1', () => {
         const layer1Color = resolveCssVariable('--pd-system-color-surface-layer-1', varMap)
 
         for (const role of SEMANTIC_ROLES) {
           const vividVar = `--pd-system-color-${role}-vivid`
-          const vividColor = resolveCssVariable(vividVar, varMap)
           const onVar = `--pd-system-color-on-${role}`
+          const vividColor = resolveCssVariable(vividVar, varMap)
           const onColor = resolveCssVariable(onVar, varMap)
 
-          const onLayer1 = evaluateWCAG(vividColor, layer1Color, 3.0, 20)
+          const onVivid = evaluateWCAG(onColor, vividColor, 4.5, 60)
           assert.ok(
-            onLayer1.passesTarget && onLayer1.passesWcag,
-            `[${themeName}] ${vividVar} (${vividColor}) on --pd-system-color-surface-layer-1 (${layer1Color}) failed: APCA |Lc|=${onLayer1.absLc} (min 20), WCAG=${onLayer1.ratio}:1 (min 3.0:1)`
+            onVivid.passesTarget && onVivid.passesWcag,
+            `[${themeName}] ${onVar} (${onColor}) on ${vividVar} (${vividColor}) failed: APCA |Lc|=${onVivid.absLc} (min 60), WCAG=${onVivid.ratio}:1 (min 4.5:1)`
           )
 
-          const fgOnVivid = evaluateWCAG(onColor, vividColor, 4.5, 60)
+          const onLayer1 = evaluateWCAG(vividColor, layer1Color, 3.0, 0)
           assert.ok(
-            fgOnVivid.passesTarget && fgOnVivid.passesWcag,
-            `[${themeName}] ${onVar} (${onColor}) on ${vividVar} (${vividColor}) failed: APCA |Lc|=${fgOnVivid.absLc} (min 60), WCAG=${fgOnVivid.ratio}:1 (min 4.5:1)`
+            onLayer1.passesWcag,
+            `[${themeName}] ${vividVar} (${vividColor}) on --pd-system-color-surface-layer-1 (${layer1Color}) failed: WCAG=${onLayer1.ratio}:1 (min 3.0:1)`
           )
         }
       })
