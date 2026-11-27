@@ -1,8 +1,5 @@
 import { useContext, type MouseEvent, type ReactNode } from 'react'
-import { clsx } from 'clsx'
 import {
-  ButtonContext,
-  composeRenderProps,
   DatePicker as AriaDatePicker,
   DatePickerStateContext,
   type DatePickerProps as AriaDatePickerProps,
@@ -11,6 +8,7 @@ import {
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
 import { Dialog } from '../../internal/Dialog/index.ts'
+import { FieldChrome, FieldClearButton, pdClass } from '../../internal/index.ts'
 import {
   resolveClearable,
   resolveDisableableProps,
@@ -34,11 +32,8 @@ import {
 import { DateInput, type DateInputProps } from '../DateField/index.ts'
 import {
   FieldButton,
-  FieldDescription,
-  FieldError,
   FieldGroup,
-  type FieldSize,
-  Label
+  type FieldSize
 } from '../Field/index.ts'
 import { PopoverContent } from '../Popover/index.ts'
 
@@ -111,16 +106,11 @@ function DatePickerControl({
       <DateInput {...dateInputProps} />
       <span className="pd-field-actions">
         {showClear && (
-          <ButtonContext.Provider value={null}>
-            <FieldButton
-              slot={null}
-              className="pd-field-clear"
-              aria-label={clearable.label}
-              onPress={handleClear}
-            >
-              {renderIcon(clearable.icon ?? icons?.clear, 'clear', 'pd-field-icon')}
-            </FieldButton>
-          </ButtonContext.Provider>
+          <FieldClearButton
+            clearable={clearable}
+            fallbackIcon={icons?.clear}
+            onPress={handleClear}
+          />
         )}
         <FieldButton aria-label="Open calendar">
           {renderIcon(icons?.calendar, 'calendar', 'pd-field-icon')}
@@ -164,33 +154,30 @@ export function DatePicker<T extends DateValue>({
 
   return (
     <AriaDatePicker
-      className={composeRenderProps(className, (cn) => clsx('pd-field', cn))}
+      className={pdClass(className, 'pd-field')}
       {...ariaProps}
     >
-      {label && <Label>{label}</Label>}
+      <FieldChrome label={label} description={description} errorMessage={errorMessage}>
+        {children ?? (
+          <>
+            <DatePickerControl
+              size={size}
+              isDisabled={ariaProps.isDisabled}
+              isReadOnly={ariaProps.isReadOnly}
+              clearable={resolvedClearable}
+              onClear={onClear}
+              icons={icons}
+              dateInputProps={dateInputProps}
+            />
 
-      {children ?? (
-        <>
-          <DatePickerControl
-            size={size}
-            isDisabled={ariaProps.isDisabled}
-            isReadOnly={ariaProps.isReadOnly}
-            clearable={resolvedClearable}
-            onClear={onClear}
-            icons={icons}
-            dateInputProps={dateInputProps}
-          />
-
-          <PopoverContent placement="bottom start" {...popoverProps}>
-            <Dialog className="pd-date-picker-dialog">
-              <Calendar {...calendarProps} />
-            </Dialog>
-          </PopoverContent>
-        </>
-      )}
-
-      {description && <FieldDescription>{description}</FieldDescription>}
-      <FieldError>{errorMessage}</FieldError>
+            <PopoverContent placement="bottom start" {...popoverProps}>
+              <Dialog className="pd-date-picker-dialog">
+                <Calendar {...calendarProps} />
+              </Dialog>
+            </PopoverContent>
+          </>
+        )}
+      </FieldChrome>
     </AriaDatePicker>
   )
 }

@@ -15,10 +15,10 @@ import {
   CalendarHeading as AriaCalendarHeading,
   type CalendarHeadingProps as AriaCalendarHeadingProps,
   type CalendarProps as AriaCalendarProps,
-  composeRenderProps,
   type DateValue
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { pdClass } from '../../internal/index.ts'
 import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
 import { Button } from '../Button/index.ts'
 
@@ -32,7 +32,7 @@ export type CalendarCellProps = AriaCalendarCellProps
 export function CalendarCell({ className, ...props }: CalendarCellProps) {
   return (
     <AriaCalendarCell
-      className={composeRenderProps(className, (cn) => clsx('pd-calendar-cell', cn))}
+      className={pdClass(className, 'pd-calendar-cell')}
       {...props}
     />
   )
@@ -106,7 +106,7 @@ export function Calendar<T extends DateValue>({
 
   return (
     <AriaCalendar
-      className={composeRenderProps(className, (cn) => clsx('pd-calendar', cn))}
+      className={pdClass(className, 'pd-calendar')}
       {...ariaProps}
     >
       {children ?? (

@@ -1,12 +1,11 @@
 import { type ReactNode } from 'react'
-import { clsx } from 'clsx'
 import {
   Button as AriaButton,
-  composeRenderProps,
   Link as AriaLink,
   type ButtonProps as AriaButtonProps,
   type LinkProps as AriaLinkProps
 } from 'react-aria-components'
+import { dataAttrs, pdClass } from '../../internal/index.ts'
 import {
   resolveDisabled,
   type DisableableProps
@@ -49,12 +48,7 @@ export function Button(props: ButtonProps) {
     isDisabled
   } = props
   const resolvedDisabled = resolveDisabled({ disabled, isDisabled })
-  const dataAttrs = {
-    'data-variant': variant,
-    'data-size': size,
-    'data-radius': radius,
-    'data-icon': icon ? '' : undefined
-  }
+  const attrs = dataAttrs({ variant, size, radius, icon })
 
   if (props.href !== undefined) {
     const {
@@ -72,8 +66,8 @@ export function Button(props: ButtonProps) {
     return (
       <AriaLink
         {...(resolvedDisabled !== undefined ? { isDisabled: resolvedDisabled } : {})}
-        {...dataAttrs}
-        className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-button', cn))}
+        {...attrs}
+        className={pdClass(className, 'pd-reset', 'pd-button')}
         {...linkProps}
       >
         {children}
@@ -97,8 +91,8 @@ export function Button(props: ButtonProps) {
   return (
     <AriaButton
       {...(resolvedDisabled !== undefined ? { isDisabled: resolvedDisabled } : {})}
-      {...dataAttrs}
-      className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-button', cn))}
+      {...attrs}
+      className={pdClass(className, 'pd-reset', 'pd-button')}
       {...buttonProps}
     >
       {children}

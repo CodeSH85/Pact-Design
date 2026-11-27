@@ -1,13 +1,12 @@
 import { type ReactNode } from 'react'
-import { clsx } from 'clsx'
 import {
   Checkbox as AriaCheckbox,
   type CheckboxProps as AriaCheckboxProps,
   CheckboxGroup as AriaCheckboxGroup,
-  type CheckboxGroupProps as AriaCheckboxGroupProps,
-  composeRenderProps
+  type CheckboxGroupProps as AriaCheckboxGroupProps
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { pdClass } from '../../internal/index.ts'
 import {
   resolveDisableableProps,
   resolveToggleProps,
@@ -42,7 +41,7 @@ export function Checkbox({
   return (
     <AriaCheckbox
       {...ariaProps}
-      className={composeRenderProps(className, (cn) => clsx('pd-selection-control', 'pd-checkbox', cn))}
+      className={pdClass(className, 'pd-selection-control', 'pd-checkbox')}
     >
       {(renderProps) => {
         if (typeof children === 'function') {
@@ -105,7 +104,7 @@ export function CheckboxGroup({
 
   return (
     <AriaCheckboxGroup
-      className={composeRenderProps(className, (cn) => clsx('pd-checkbox-group', cn))}
+      className={pdClass(className, 'pd-checkbox-group')}
       {...ariaProps}
     >
       {label && <Label>{label}</Label>}

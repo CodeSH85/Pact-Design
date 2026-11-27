@@ -1,7 +1,6 @@
 import { type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   Sheet as AriaSheet,
   SheetBackdrop as AriaSheetBackdrop,
   type SheetBackdropProps as AriaSheetBackdropProps,
@@ -13,6 +12,7 @@ import {
   SheetTrigger as AriaSheetTrigger,
   type SheetTriggerProps as AriaSheetTriggerProps
 } from 'react-aria-components'
+import { dataAttrs, pdClass } from '../../internal/index.ts'
 import { type OverlaySharedProps } from '../../utils/index.ts'
 import {
   DialogBody,
@@ -42,7 +42,7 @@ export function SheetBackdrop({
   return (
     <AriaSheetBackdrop
       swipeAnimation={swipeAnimation}
-      className={composeRenderProps(className, (cn) => clsx('pd-sheet-backdrop', cn))}
+      className={pdClass(className, 'pd-sheet-backdrop')}
       {...props}
     />
   )
@@ -71,7 +71,7 @@ export function SheetOverlay({
     <AriaSheetOverlay
       position={position}
       snapPoints={snapPoints}
-      className={composeRenderProps(className, (cn) => clsx('pd-sheet-overlay', cn))}
+      className={pdClass(className, 'pd-sheet-overlay')}
       {...props}
     >
       {(renderProps) => (
@@ -103,9 +103,8 @@ export function SheetPanel({
 }: SheetPanelProps) {
   return (
     <AriaSheet
-      data-position={position}
-      data-size={size}
-      className={composeRenderProps(className, (cn) => clsx('pd-sheet-panel', cn))}
+      {...dataAttrs({ position, size })}
+      className={pdClass(className, 'pd-sheet-panel')}
       {...props}
     >
       {children}

@@ -1,10 +1,9 @@
 import { type ReactNode } from 'react'
-import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   Switch as AriaSwitch,
   type SwitchProps as AriaSwitchProps
 } from 'react-aria-components'
+import { pdClass } from '../../internal/index.ts'
 import {
   resolveToggleProps,
   type ToggleControlProps
@@ -32,7 +31,7 @@ export function Switch({
   return (
     <AriaSwitch
       {...ariaProps}
-      className={composeRenderProps(className, (cn) => clsx('pd-selection-control', 'pd-switch', cn))}
+      className={pdClass(className, 'pd-selection-control', 'pd-switch')}
     >
       {(renderProps) => {
         if (typeof children === 'function') {

@@ -1,12 +1,11 @@
 import { type ReactNode } from 'react'
-import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   Radio as AriaRadio,
   type RadioProps as AriaRadioProps,
   RadioGroup as AriaRadioGroup,
   type RadioGroupProps as AriaRadioGroupProps
 } from 'react-aria-components'
+import { dataAttrs, pdClass } from '../../internal/index.ts'
 import {
   resolveDisableableProps,
   type DisableableProps,
@@ -32,7 +31,7 @@ export function Radio({
 
   return (
     <AriaRadio
-      className={composeRenderProps(className, (cn) => clsx('pd-selection-control', 'pd-radio', cn))}
+      className={pdClass(className, 'pd-selection-control', 'pd-radio')}
       {...ariaProps}
     >
       {(renderProps) => {
@@ -95,12 +94,12 @@ export function RadioGroup({
   return (
     <AriaRadioGroup
       orientation={orientation}
-      className={composeRenderProps(className, (cn) => clsx('pd-radio-group', cn))}
+      className={pdClass(className, 'pd-radio-group')}
       {...ariaProps}
     >
       {label && <Label>{label}</Label>}
       {description && <FieldDescription>{description}</FieldDescription>}
-      <div className="pd-radio-group-items" data-orientation={orientation}>
+      <div className="pd-radio-group-items" {...dataAttrs({ orientation })}>
         {children}
       </div>
       <FieldError>{errorMessage}</FieldError>

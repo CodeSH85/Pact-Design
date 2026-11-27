@@ -1,13 +1,12 @@
 import { type ReactNode } from 'react'
-import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   OverlayArrow as AriaOverlayArrow,
   Tooltip as AriaTooltip,
   type TooltipProps as AriaTooltipProps,
   TooltipTrigger as AriaTooltipTrigger,
   type TooltipTriggerComponentProps as AriaTooltipTriggerProps
 } from 'react-aria-components'
+import { pdClass } from '../../internal/index.ts'
 import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
 
 export interface TooltipTriggerProps
@@ -38,7 +37,7 @@ export function Tooltip({
   return (
     <AriaTooltip
       offset={offset}
-      className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-tooltip', cn))}
+      className={pdClass(className, 'pd-reset', 'pd-tooltip')}
       {...props}
     >
       {(renderProps) => (

@@ -1,7 +1,6 @@
 import { type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   Header as AriaHeader,
   type HeaderProps as AriaHeaderProps,
   ListBox as AriaListBox,
@@ -12,6 +11,7 @@ import {
   type ListBoxSectionProps as AriaListBoxSectionProps
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { dataAttrs, pdClass } from '../../internal/index.ts'
 import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
 import { Separator, type SeparatorProps } from '../Separator/index.ts'
 
@@ -33,8 +33,8 @@ export function ListBox<T extends object = object>({
 }: ListBoxProps<T>) {
   return (
     <AriaListBox
-      data-surface={surface}
-      className={composeRenderProps(className, (cn) => clsx('pd-listbox', cn))}
+      {...dataAttrs({ surface })}
+      className={pdClass(className, 'pd-listbox')}
       {...props}
     >
       {children}
@@ -66,7 +66,7 @@ export function ListBoxItem<T extends object = object>({
   return (
     <AriaListBoxItem
       textValue={resolvedTextValue}
-      className={composeRenderProps(className, (cn) => clsx('pd-collection-item', cn))}
+      className={pdClass(className, 'pd-collection-item')}
       {...ariaProps}
     >
       {(renderProps) => (

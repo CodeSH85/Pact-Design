@@ -3,7 +3,6 @@ import { clsx } from 'clsx'
 import {
   Breadcrumb as AriaBreadcrumb,
   Breadcrumbs as AriaBreadcrumbs,
-  composeRenderProps,
   Link as AriaLink,
   type BreadcrumbProps as AriaBreadcrumbProps,
   type BreadcrumbRenderProps as AriaBreadcrumbRenderProps,
@@ -12,6 +11,7 @@ import {
   type LinkProps as AriaLinkProps
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { dataAttrs, pdClass } from '../../internal/index.ts'
 import {
   resolveDisableableProps,
   resolveDisabled,
@@ -52,7 +52,7 @@ export function BreadcrumbLink({ className, children, ...props }: BreadcrumbLink
 
   return (
     <AriaLink
-      className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-breadcrumb-link', cn))}
+      className={pdClass(className, 'pd-reset', 'pd-breadcrumb-link')}
       {...ariaProps}
     >
       {children}
@@ -75,7 +75,7 @@ export function Breadcrumb({
 }: BreadcrumbProps) {
   return (
     <AriaBreadcrumb
-      className={composeRenderProps(className, (cn) => clsx('pd-breadcrumb', cn))}
+      className={pdClass(className, 'pd-breadcrumb')}
       {...props}
     >
       {(renderProps) => (
@@ -122,7 +122,7 @@ export function Breadcrumbs<T extends object = object>({
 
   return (
     <AriaBreadcrumbs
-      data-size={size}
+      {...dataAttrs({ size })}
       className={clsx('pd-breadcrumbs', className)}
       {...ariaProps}
     >

@@ -1,7 +1,5 @@
 import { type CSSProperties, type ReactNode } from 'react'
-import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   Tree as AriaTree,
   TreeItem as AriaTreeItem,
   TreeItemContent as AriaTreeItemContent,
@@ -10,6 +8,7 @@ import {
   type TreeProps as AriaTreeProps
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { pdClass } from '../../internal/index.ts'
 import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
 import { Button } from '../Button/index.ts'
 import { Checkbox } from '../Checkbox/index.ts'
@@ -23,7 +22,7 @@ export type TreeProps<T extends object = object> = AriaTreeProps<T>
 export function Tree<T extends object = object>({ className, children, ...props }: TreeProps<T>) {
   return (
     <AriaTree
-      className={composeRenderProps(className, (cn) => clsx('pd-tree', cn))}
+      className={pdClass(className, 'pd-tree')}
       {...props}
     >
       {children}
@@ -47,7 +46,7 @@ export function TreeItem<T extends object = object>({
 
   return (
     <AriaTreeItem
-      className={composeRenderProps(className, (cn) => clsx('pd-tree-item', cn))}
+      className={pdClass(className, 'pd-tree-item')}
       style={(renderProps): CSSProperties => ({
         ...renderProps.defaultStyle,
         paddingInlineStart: `calc(${(renderProps.level - 1) * 1}rem + 0.5rem)`,
