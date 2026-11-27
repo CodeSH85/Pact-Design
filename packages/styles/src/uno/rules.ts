@@ -61,6 +61,7 @@ const GLOBAL_FONT_RULES: Record<string, UnoRuleConfig | false> = {
 }
 
 const SYSTEM_COLOR_RULES: Record<string, UnoRuleConfig | false> = {
+  palette: false,
   surface: { slots: ['colors'], keyFrom: 'category-sub' },
   shadow: false,
   util: false
