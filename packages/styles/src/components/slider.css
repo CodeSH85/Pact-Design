@@ -38,7 +38,7 @@
 .pd-slider-track {
   position: relative;
   border-radius: var(--pd-system-radius-full);
-  background-color: var(--pd-system-color-surface-layer-2-hover);
+  background-color: var(--pd-system-color-surface-control);
   border: var(--pd-system-border-width-sm) solid var(--pd-system-color-border);
   cursor: pointer;
   flex-shrink: 0;
@@ -77,7 +77,7 @@
 
 .pd-slider-fill {
   border-radius: var(--pd-system-radius-full);
-  background-color: var(--pd-system-color-primary-border-strong);
+  background-color: var(--pd-system-color-primary-vivid);
   pointer-events: none;
 
   &:where([data-disabled]) {
@@ -90,7 +90,7 @@
   height: var(--_thumb-size);
   border-radius: var(--pd-system-radius-full);
   background-color: var(--pd-system-color-surface-layer-1);
-  border: var(--pd-system-border-width-md) solid var(--pd-system-color-primary-border-strong);
+  border: var(--pd-system-border-width-md) solid var(--pd-system-color-primary-vivid);
   box-shadow: var(--pd-system-elevation-xs);
   outline: none;
   cursor: grab;
@@ -108,13 +108,13 @@
 
   &:where(:hover, [data-hovered]) {
     scale: 1.08;
-    border-color: var(--pd-system-color-primary-text-hover);
+    border-color: var(--pd-system-color-primary-text-strong);
   }
 
   &:where([data-dragging]) {
     scale: 1.12;
     cursor: grabbing;
-    border-color: var(--pd-system-color-primary-text-active);
+    border-color: var(--pd-system-color-primary-text-stronger);
   }
 
   &:where(:focus-visible, [data-focus-visible]) {
