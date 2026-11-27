@@ -1,7 +1,6 @@
 import { createContext, useContext, type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   Tab as AriaTab,
   TabList as AriaTabList,
   TabPanel as AriaTabPanel,
@@ -14,6 +13,7 @@ import {
   type TabProps as AriaTabProps,
   type TabsProps as AriaTabsProps
 } from 'react-aria-components'
+import { dataAttrs, pdClass } from '../../internal/index.ts'
 import {
   resolveDisableableProps,
   resolveDisabled,
@@ -52,9 +52,8 @@ export function TabList<T extends object = object>({
 
   return (
     <AriaTabList
-      data-variant={resolvedVariant}
-      data-size={resolvedSize}
-      className={composeRenderProps(className, (cn) => clsx('pd-tab-list', cn))}
+      {...dataAttrs({ variant: resolvedVariant, size: resolvedSize })}
+      className={pdClass(className, 'pd-tab-list')}
       {...props}
     >
       {children}
@@ -84,9 +83,8 @@ export function Tab({
 
   return (
     <AriaTab
-      data-variant={resolvedVariant}
-      data-size={resolvedSize}
-      className={composeRenderProps(className, (cn) => clsx('pd-tab', cn))}
+      {...dataAttrs({ variant: resolvedVariant, size: resolvedSize })}
+      className={pdClass(className, 'pd-tab')}
       {...ariaProps}
     >
       {children}
@@ -121,7 +119,7 @@ export interface TabPanelProps extends Omit<AriaTabPanelProps, 'children'> {
 export function TabPanel({ className, children, ...props }: TabPanelProps) {
   return (
     <AriaTabPanel
-      className={composeRenderProps(className, (cn) => clsx('pd-tab-panel', cn))}
+      className={pdClass(className, 'pd-tab-panel')}
       {...props}
     >
       {children}
@@ -157,7 +155,7 @@ export function Tabs({
   return (
     <TabContext.Provider value={{ variant, size }}>
       <AriaTabs
-        className={composeRenderProps(className, (cn) => clsx('pd-tabs', cn))}
+        className={pdClass(className, 'pd-tabs')}
         {...ariaProps}
       >
         {items ? (

@@ -1,7 +1,6 @@
 import { type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   Header as AriaHeader,
   type HeaderProps as AriaHeaderProps,
   Keyboard as AriaKeyboard,
@@ -16,6 +15,7 @@ import {
   type PopoverProps as AriaPopoverProps
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { dataAttrs, pdClass } from '../../internal/index.ts'
 import {
   resolveDisableableProps,
   resolveDisabled,
@@ -61,9 +61,9 @@ export function MenuItem({
 
   return (
     <AriaMenuItem
-      data-tone={tone}
+      {...dataAttrs({ tone })}
       textValue={resolvedTextValue}
-      className={composeRenderProps(className, (cn) => clsx('pd-collection-item', cn))}
+      className={pdClass(className, 'pd-collection-item')}
       {...ariaProps}
     >
       {(renderProps) => (
@@ -125,7 +125,7 @@ export function MenuSection<T extends object>({ className, children, ...props }:
 export function MenuList<T extends object>({ className, children, ...props }: AriaMenuProps<T>) {
   return (
     <AriaMenu
-      className={composeRenderProps(className, (cn) => clsx('pd-menu', cn))}
+      className={pdClass(className, 'pd-menu')}
       {...props}
     >
       {children}

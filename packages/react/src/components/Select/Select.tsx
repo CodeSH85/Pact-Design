@@ -1,8 +1,5 @@
 import { useContext, type ReactNode } from 'react'
-import { clsx } from 'clsx'
 import {
-  ButtonContext,
-  composeRenderProps,
   Select as AriaSelect,
   SelectStateContext,
   SelectValue as AriaSelectValue
@@ -16,22 +13,19 @@ import type {
   SelectValueProps as AriaSelectValueProps
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { dataAttrs, FieldChrome, FieldClearButton, pdClass } from '../../internal/index.ts'
 import {
+  hasSelection,
   resolveClearable,
   resolveDisableableProps,
   type ClearableProp,
   type DisableableProps,
   type FieldSharedProps,
-  type ResolvedClearable
+  type ResolvedClearable,
+  type SelectionMode
 } from '../../utils/index.ts'
 import { Button, type ButtonActionProps } from '../Button/index.ts'
-import {
-  FieldButton,
-  FieldDescription,
-  FieldError,
-  type FieldSize,
-  Label
-} from '../Field/index.ts'
+import { type FieldSize } from '../Field/index.ts'
 import {
   ListBox,
   ListBoxHeader,
@@ -43,7 +37,7 @@ import {
 import { PopoverContent } from '../Popover/index.ts'
 import { type SeparatorProps } from '../Separator/index.ts'
 
-export type SelectSelectionMode = 'single' | 'multiple'
+export type SelectSelectionMode = SelectionMode
 
 export interface SelectIcons {
   chevron?: IconSlot
@@ -67,7 +61,7 @@ export function SelectTrigger({
     <Button
       variant="ghost"
       size={size}
-      className={composeRenderProps(className, (cn) => clsx('pd-field-group', 'pd-field-group-compact-end', 'pd-select-trigger', cn))}
+      className={pdClass(className, 'pd-field-group', 'pd-field-group-compact-end', 'pd-select-trigger')}
       {...props}
     >
       {children}
@@ -80,7 +74,7 @@ export type SelectValueProps<T extends object = object> = AriaSelectValueProps<T
 export function SelectValue<T extends object = object>({ className, ...props }: SelectValueProps<T>) {
   return (
     <AriaSelectValue
-      className={composeRenderProps(className, (cn) => clsx('pd-select-value', cn))}
+      className={pdClass(className, 'pd-select-value')}
       {...props}
     />
   )
@@ -97,7 +91,7 @@ export type SelectPopoverProps = AriaPopoverProps
 export function SelectPopover({ className, children, ...props }: SelectPopoverProps) {
   return (
     <PopoverContent
-      className={composeRenderProps(className, (cn) => clsx('pd-popover-trigger-width', cn))}
+      className={pdClass(className, 'pd-popover-trigger-width')}
       {...props}
     >
       {children}
@@ -149,12 +143,7 @@ function SelectControl<T extends object>({
   triggerProps
 }: SelectControlProps<T>) {
   const state = useContext(SelectStateContext)
-  const hasSelection = state
-    ? Array.isArray(state.value)
-      ? state.value.length > 0
-      : state.value != null || state.selectedKey != null
-    : false
-  const showClear = clearable.enabled && !isDisabled && hasSelection
+  const showClear = clearable.enabled && !isDisabled && hasSelection(state)
 
   const handleClear = () => {
     if (!state) return
@@ -164,10 +153,10 @@ function SelectControl<T extends object>({
   }
 
   return (
-    <div className="pd-select-control" data-size={size}>
+    <div className="pd-select-control" {...dataAttrs({ size })}>
       <SelectTrigger
         size={size}
-        data-has-clear={showClear ? '' : undefined}
+        {...dataAttrs({ 'has-clear': showClear })}
         {...triggerProps}
       >
         <SelectValue<T>>{renderValue}</SelectValue>
@@ -177,16 +166,12 @@ function SelectControl<T extends object>({
       </SelectTrigger>
 
       {showClear && (
-        <ButtonContext.Provider value={null}>
-          <FieldButton
-            slot={null}
-            className="pd-field-clear pd-select-clear"
-            aria-label={clearable.label}
-            onPress={handleClear}
-          >
-            {renderIcon(clearable.icon ?? icons?.clear, 'clear', 'pd-field-icon')}
-          </FieldButton>
-        </ButtonContext.Provider>
+        <FieldClearButton
+          clearable={clearable}
+          fallbackIcon={icons?.clear}
+          className="pd-select-clear"
+          onPress={handleClear}
+        />
       )}
     </div>
   )
@@ -237,37 +222,38 @@ export function Select<
 
   return (
     <AriaSelect<T, M>
-      className={composeRenderProps(className, (cn) => clsx('pd-field', cn))}
+      className={pdClass(className, 'pd-field')}
       placeholder={placeholder}
       {...ariaProps}
     >
-      {label && <Label>{label}</Label>}
-
-      <SelectControl<T>
-        size={size}
-        selectionMode={ariaProps.selectionMode}
-        isDisabled={ariaProps.isDisabled}
-        clearable={resolvedClearable}
-        onClear={onClear}
-        icons={icons}
-        renderValue={renderValue}
-        triggerProps={triggerProps}
-      />
-
-      {description && <FieldDescription>{description}</FieldDescription>}
-
-      <FieldError>{errorMessage}</FieldError>
-
-      <SelectPopover {...popoverProps}>
-        <SelectListBox
-          items={items}
-          {...listBoxProps}
-        >
-          {typeof children === 'function'
-            ? children
-            : (children as ReactNode)}
-        </SelectListBox>
-      </SelectPopover>
+      <FieldChrome
+        label={label}
+        description={description}
+        errorMessage={errorMessage}
+        afterError={(
+          <SelectPopover {...popoverProps}>
+            <SelectListBox
+              items={items}
+              {...listBoxProps}
+            >
+              {typeof children === 'function'
+                ? children
+                : (children as ReactNode)}
+            </SelectListBox>
+          </SelectPopover>
+        )}
+      >
+        <SelectControl<T>
+          size={size}
+          selectionMode={ariaProps.selectionMode}
+          isDisabled={ariaProps.isDisabled}
+          clearable={resolvedClearable}
+          onClear={onClear}
+          icons={icons}
+          renderValue={renderValue}
+          triggerProps={triggerProps}
+        />
+      </FieldChrome>
     </AriaSelect>
   )
 }

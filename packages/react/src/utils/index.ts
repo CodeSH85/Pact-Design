@@ -1,4 +1,5 @@
 export {
+  hasSelection,
   resolveClearable,
   resolveDisableableProps,
   resolveDisabled,
@@ -11,5 +12,6 @@ export {
   type OverlaySharedProps,
   type ResolvedClearable,
   type SelectionControlProps,
+  type SelectionMode,
   type ToggleControlProps
 } from './props.ts'

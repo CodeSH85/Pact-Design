@@ -1,8 +1,6 @@
 import { useContext, type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  ButtonContext,
-  composeRenderProps,
   DateField as AriaDateField,
   DateFieldStateContext,
   type DateFieldProps as AriaDateFieldProps,
@@ -12,7 +10,8 @@ import {
   type DateSegmentProps as AriaDateSegmentProps,
   type DateValue
 } from 'react-aria-components'
-import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { type IconSlot } from '../../icons/index.ts'
+import { FieldChrome, FieldClearButton, pdClass } from '../../internal/index.ts'
 import {
   resolveClearable,
   resolveDisableableProps,
@@ -22,12 +21,8 @@ import {
   type ResolvedClearable
 } from '../../utils/index.ts'
 import {
-  FieldButton,
-  FieldDescription,
-  FieldError,
   FieldGroup,
-  type FieldSize,
-  Label
+  type FieldSize
 } from '../Field/index.ts'
 
 export interface DateFieldIcons {
@@ -39,7 +34,7 @@ export type DateSegmentProps = AriaDateSegmentProps
 export function DateSegment({ className, ...props }: DateSegmentProps) {
   return (
     <AriaDateSegment
-      className={composeRenderProps(className, (cn) => clsx('pd-date-segment', cn))}
+      className={pdClass(className, 'pd-date-segment')}
       {...props}
     />
   )
@@ -52,7 +47,7 @@ export interface DateInputProps extends Omit<AriaDateInputProps, 'children'> {
 export function DateInput({ className, children, ...props }: DateInputProps) {
   return (
     <AriaDateInput
-      className={composeRenderProps(className, (cn) => clsx('pd-date-input', cn))}
+      className={pdClass(className, 'pd-date-input')}
       {...props}
     >
       {children ?? ((segment) => <DateSegment segment={segment} />)}
@@ -87,16 +82,11 @@ function DateFieldClearButton({
   }
 
   return (
-    <ButtonContext.Provider value={null}>
-      <FieldButton
-        slot={null}
-        className="pd-field-clear"
-        aria-label={clearable.label}
-        onPress={handleClear}
-      >
-        {renderIcon(clearable.icon ?? icons?.clear, 'clear', 'pd-field-icon')}
-      </FieldButton>
-    </ButtonContext.Provider>
+    <FieldClearButton
+      clearable={clearable}
+      fallbackIcon={icons?.clear}
+      onPress={handleClear}
+    />
   )
 }
 
@@ -130,29 +120,26 @@ export function DateField<T extends DateValue>({
 
   return (
     <AriaDateField
-      className={composeRenderProps(className, (cn) => clsx('pd-field', cn))}
+      className={pdClass(className, 'pd-field')}
       {...ariaProps}
     >
-      {label && <Label>{label}</Label>}
-
-      {children ?? (
-        <FieldGroup
-          size={size}
-          className={clsx(resolvedClearable.enabled && 'pd-field-group-compact-end')}
-        >
-          <DateInput {...dateInputProps} />
-          <DateFieldClearButton
-            isDisabled={ariaProps.isDisabled}
-            isReadOnly={ariaProps.isReadOnly}
-            clearable={resolvedClearable}
-            onClear={onClear}
-            icons={icons}
-          />
-        </FieldGroup>
-      )}
-
-      {description && <FieldDescription>{description}</FieldDescription>}
-      <FieldError>{errorMessage}</FieldError>
+      <FieldChrome label={label} description={description} errorMessage={errorMessage}>
+        {children ?? (
+          <FieldGroup
+            size={size}
+            className={clsx(resolvedClearable.enabled && 'pd-field-group-compact-end')}
+          >
+            <DateInput {...dateInputProps} />
+            <DateFieldClearButton
+              isDisabled={ariaProps.isDisabled}
+              isReadOnly={ariaProps.isReadOnly}
+              clearable={resolvedClearable}
+              onClear={onClear}
+              icons={icons}
+            />
+          </FieldGroup>
+        )}
+      </FieldChrome>
     </AriaDateField>
   )
 }

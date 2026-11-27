@@ -1,7 +1,5 @@
 import { useContext, type ReactNode } from 'react'
-import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   Disclosure as AriaDisclosure,
   DisclosurePanel as AriaDisclosurePanel,
   type DisclosurePanelProps as AriaDisclosurePanelProps,
@@ -9,6 +7,7 @@ import {
   Heading as AriaHeading
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { dataAttrs, pdClass } from '../../internal/index.ts'
 import { resolveDisableableProps, type DisableableProps } from '../../utils/index.ts'
 import { Button } from '../Button/index.ts'
 import { DisclosureGroupContext } from './DisclosureContext.ts'
@@ -26,7 +25,7 @@ export interface DisclosurePanelProps extends Omit<AriaDisclosurePanelProps, 'ch
 export function DisclosurePanel({ className, children, ...props }: DisclosurePanelProps) {
   return (
     <AriaDisclosurePanel
-      className={composeRenderProps(className, (cn) => clsx('pd-disclosure-panel', cn))}
+      className={pdClass(className, 'pd-disclosure-panel')}
       {...props}
     >
       {children}
@@ -47,7 +46,7 @@ export function DisclosureHeader({ title, icons, className, children }: Disclosu
       <Button
         slot="trigger"
         variant="ghost"
-        className={composeRenderProps(className, (cn) => clsx('pd-disclosure-trigger', cn))}
+        className={pdClass(className, 'pd-disclosure-trigger')}
       >
         <span>{title ?? children}</span>
         {renderIcon(icons?.chevron, 'chevronRight', 'pd-disclosure-chevron')}
@@ -81,9 +80,8 @@ export function Disclosure({
 
   return (
     <AriaDisclosure
-      data-variant={resolvedVariant}
-      data-grouped={groupContext.isGrouped ? '' : undefined}
-      className={composeRenderProps(className, (cn) => clsx('pd-disclosure', cn))}
+      {...dataAttrs({ variant: resolvedVariant, grouped: groupContext.isGrouped })}
+      className={pdClass(className, 'pd-disclosure')}
       {...ariaProps}
     >
       {title ? (

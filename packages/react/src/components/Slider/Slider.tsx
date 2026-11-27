@@ -1,7 +1,5 @@
 import { type CSSProperties, type ReactNode } from 'react'
-import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   Slider as AriaSlider,
   SliderFill as AriaSliderFill,
   SliderOutput as AriaSliderOutput,
@@ -13,8 +11,9 @@ import {
   type SliderThumbProps as AriaSliderThumbProps,
   type SliderTrackProps as AriaSliderTrackProps
 } from 'react-aria-components'
+import { dataAttrs, pdClass } from '../../internal/index.ts'
 import {
-  resolveDisabled,
+  resolveDisableableProps,
   type DisableableProps
 } from '../../utils/index.ts'
 import { FieldDescription, Label } from '../Field/index.ts'
@@ -26,7 +25,7 @@ export type SliderTrackProps = AriaSliderTrackProps
 export function SliderTrack({ className, ...props }: SliderTrackProps) {
   return (
     <AriaSliderTrack
-      className={composeRenderProps(className, (cn) => clsx('pd-slider-track', cn))}
+      className={pdClass(className, 'pd-slider-track')}
       {...props}
     />
   )
@@ -37,7 +36,7 @@ export type SliderFillProps = AriaSliderFillProps
 export function SliderFill({ className, ...props }: SliderFillProps) {
   return (
     <AriaSliderFill
-      className={composeRenderProps(className, (cn) => clsx('pd-slider-fill', cn))}
+      className={pdClass(className, 'pd-slider-fill')}
       {...props}
     />
   )
@@ -48,7 +47,7 @@ export type SliderThumbProps = AriaSliderThumbProps
 export function SliderThumb({ className, ...props }: SliderThumbProps) {
   return (
     <AriaSliderThumb
-      className={composeRenderProps(className, (cn) => clsx('pd-slider-thumb', cn))}
+      className={pdClass(className, 'pd-slider-thumb')}
       {...props}
     />
   )
@@ -59,7 +58,7 @@ export type SliderOutputProps = AriaSliderOutputProps
 export function SliderOutput({ className, ...props }: SliderOutputProps) {
   return (
     <AriaSliderOutput
-      className={composeRenderProps(className, (cn) => clsx('pd-slider-output', cn))}
+      className={pdClass(className, 'pd-slider-output')}
       {...props}
     />
   )
@@ -88,21 +87,19 @@ export function Slider<T extends number | number[] = number>({
   fillOffset,
   trackClassName,
   trackStyle,
-  disabled,
-  isDisabled,
   className,
   children,
   ...props
 }: SliderProps<T>) {
-  const thumbSeed = props.value ?? props.defaultValue
+  const ariaProps = resolveDisableableProps(props)
+  const thumbSeed = ariaProps.value ?? ariaProps.defaultValue
   const thumbCount = Array.isArray(thumbSeed) ? thumbSeed.length : 1
 
   return (
     <AriaSlider
-      isDisabled={resolveDisabled({ disabled, isDisabled })}
-      data-size={size}
-      className={composeRenderProps(className, (cn) => clsx('pd-slider', cn))}
-      {...props}
+      {...dataAttrs({ size })}
+      className={pdClass(className, 'pd-slider')}
+      {...ariaProps}
     >
       {children !== undefined ? (
         children

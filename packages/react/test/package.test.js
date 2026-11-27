@@ -242,6 +242,10 @@ describe('@pact-design/react package integrity', () => {
     assert.equal(disableable.isDisabled, true)
     assert.equal('disabled' in disableable, false)
 
+    const undefDisableable = resolveDisableableProps({ id: 'active' })
+    assert.equal(undefDisableable.id, 'active')
+    assert.equal('isDisabled' in undefDisableable, false)
+
     assert.deepEqual(resolveClearable(undefined, false), { enabled: false, label: 'Clear' })
     assert.deepEqual(resolveClearable(undefined, true), { enabled: true, label: 'Clear' })
     assert.deepEqual(resolveClearable(false, true), { enabled: false, label: 'Clear' })
@@ -289,7 +293,8 @@ describe('@pact-design/react package integrity', () => {
     const missing = []
     const filesToCheck = [
       ...COMPONENTS.map((name) => path.join(PACKAGE_ROOT, 'src/components', name, `${name}.tsx`)),
-      path.join(PACKAGE_ROOT, 'src/internal/Dialog/Dialog.tsx')
+      path.join(PACKAGE_ROOT, 'src/internal/Dialog/Dialog.tsx'),
+      path.join(PACKAGE_ROOT, 'src/internal/FieldChrome.tsx')
     ]
 
     for (const compPath of filesToCheck) {
@@ -329,7 +334,8 @@ describe('@pact-design/react package integrity', () => {
     const violations = []
     const filesToCheck = [
       ...COMPONENTS.map((name) => path.join(PACKAGE_ROOT, 'src/components', name, `${name}.tsx`)),
-      path.join(PACKAGE_ROOT, 'src/internal/Dialog/Dialog.tsx')
+      path.join(PACKAGE_ROOT, 'src/internal/Dialog/Dialog.tsx'),
+      path.join(PACKAGE_ROOT, 'src/internal/FieldChrome.tsx')
     ]
 
     for (const compPath of filesToCheck) {

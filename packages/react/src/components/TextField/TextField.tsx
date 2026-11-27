@@ -1,12 +1,11 @@
 import { useRef, useState, type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  ButtonContext,
-  composeRenderProps,
   TextField as AriaTextField,
   type TextFieldProps as AriaTextFieldProps
 } from 'react-aria-components'
-import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { type IconSlot } from '../../icons/index.ts'
+import { FieldChrome, FieldClearButton, pdClass } from '../../internal/index.ts'
 import {
   resolveClearable,
   resolveDisableableProps,
@@ -15,14 +14,10 @@ import {
   type FieldSharedProps
 } from '../../utils/index.ts'
 import {
-  FieldButton,
-  FieldDescription,
-  FieldError,
   FieldGroup,
   type FieldSize,
   Input,
-  type InputProps,
-  Label
+  type InputProps
 } from '../Field/index.ts'
 
 export interface TextFieldIcons {
@@ -96,37 +91,29 @@ export function TextField({
 
   return (
     <AriaTextField
-      className={composeRenderProps(className, (cn) => clsx('pd-field', cn))}
+      className={pdClass(className, 'pd-field')}
       {...valueBindingProps}
       {...ariaProps}
     >
-      {label && <Label>{label}</Label>}
-
-      {children ?? (
-        <FieldGroup
-          size={size}
-          className={clsx(showClear && !suffix && 'pd-field-group-compact-end')}
-        >
-          {prefix && <span className="pd-field-affix">{prefix}</span>}
-          <Input ref={inputRef} placeholder={placeholder} {...inputProps} />
-          {showClear && (
-            <ButtonContext.Provider value={null}>
-              <FieldButton
-                slot={null}
-                className="pd-field-clear"
-                aria-label={resolvedClearable.label}
+      <FieldChrome label={label} description={description} errorMessage={errorMessage}>
+        {children ?? (
+          <FieldGroup
+            size={size}
+            className={clsx(showClear && !suffix && 'pd-field-group-compact-end')}
+          >
+            {prefix && <span className="pd-field-affix">{prefix}</span>}
+            <Input ref={inputRef} placeholder={placeholder} {...inputProps} />
+            {showClear && (
+              <FieldClearButton
+                clearable={resolvedClearable}
+                fallbackIcon={icons?.clear}
                 onPress={handleClear}
-              >
-                {renderIcon(resolvedClearable.icon ?? icons?.clear, 'clear', 'pd-field-icon')}
-              </FieldButton>
-            </ButtonContext.Provider>
-          )}
-          {suffix && <span className="pd-field-affix">{suffix}</span>}
-        </FieldGroup>
-      )}
-
-      {description && <FieldDescription>{description}</FieldDescription>}
-      <FieldError>{errorMessage}</FieldError>
+              />
+            )}
+            {suffix && <span className="pd-field-affix">{suffix}</span>}
+          </FieldGroup>
+        )}
+      </FieldChrome>
     </AriaTextField>
   )
 }

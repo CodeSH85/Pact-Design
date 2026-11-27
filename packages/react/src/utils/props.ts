@@ -3,6 +3,15 @@ import { type ValidationResult } from 'react-aria-components'
 import { type IconSlot } from '../icons/types.ts'
 
 export type ControlSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+export type SelectionMode = 'single' | 'multiple'
+
+export function hasSelection(
+  state: { value?: unknown, selectedKey?: unknown } | null | undefined
+): boolean {
+  if (!state) return false
+  if (Array.isArray(state.value)) return state.value.length > 0
+  return state.value != null || state.selectedKey != null
+}
 
 /**
  * Standard form field metadata props shared across input/picker controls and field groups.
@@ -27,14 +36,17 @@ export function resolveDisabled(props: DisableableProps): boolean | undefined {
 
 /**
  * Normalizes `disabled` / `isDisabled` into `isDisabled` while stripping `disabled`
- * so it never leaks onto wrapper DOM nodes.
+ * so it never leaks onto wrapper DOM nodes. Omits `isDisabled` when undefined so
+ * React Aria context values (e.g. ButtonContext) are not overridden.
  */
-export function resolveDisableableProps<T extends DisableableProps>(props: T) {
+export function resolveDisableableProps<T extends DisableableProps>(
+  props: T
+): Omit<T, 'disabled' | 'isDisabled'> & { isDisabled?: boolean } {
   const { disabled, isDisabled, ...rest } = props
-  return {
-    ...rest,
-    isDisabled: resolveDisabled({ disabled, isDisabled })
-  }
+  const resolved = resolveDisabled({ disabled, isDisabled })
+  return resolved !== undefined
+    ? { ...rest, isDisabled: resolved }
+    : rest
 }
 
 /**
@@ -101,7 +113,17 @@ export interface ToggleControlProps extends SelectionControlProps {
   onChange?: (isSelected: boolean) => void
 }
 
-export function resolveToggleProps<T extends ToggleControlProps>(props: T) {
+export function resolveToggleProps<T extends ToggleControlProps>(
+  props: T
+): Omit<
+  T,
+  'disabled' | 'isDisabled' | 'checked' | 'isSelected' | 'defaultChecked' | 'defaultSelected' | 'onCheckedChange' | 'onChange'
+> & {
+  isDisabled?: boolean
+  isSelected?: boolean
+  defaultSelected?: boolean
+  onChange?: (isSelected: boolean) => void
+} {
   const {
     disabled,
     isDisabled,
@@ -114,12 +136,17 @@ export function resolveToggleProps<T extends ToggleControlProps>(props: T) {
     ...rest
   } = props
 
+  const resolvedDisabled = isDisabled ?? disabled
+  const resolvedSelected = isSelected ?? checked
+  const resolvedDefaultSelected = defaultSelected ?? defaultChecked
+  const resolvedOnChange = onChange ?? onCheckedChange
+
   return {
     ...rest,
-    isDisabled: isDisabled ?? disabled,
-    isSelected: isSelected ?? checked,
-    defaultSelected: defaultSelected ?? defaultChecked,
-    onChange: onChange ?? onCheckedChange
+    ...(resolvedDisabled !== undefined ? { isDisabled: resolvedDisabled } : {}),
+    ...(resolvedSelected !== undefined ? { isSelected: resolvedSelected } : {}),
+    ...(resolvedDefaultSelected !== undefined ? { defaultSelected: resolvedDefaultSelected } : {}),
+    ...(resolvedOnChange !== undefined ? { onChange: resolvedOnChange } : {})
   }
 }
 

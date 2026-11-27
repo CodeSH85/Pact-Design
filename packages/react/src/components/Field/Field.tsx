@@ -1,7 +1,6 @@
 import { forwardRef, type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   FieldError as AriaFieldError,
   type FieldErrorProps as AriaFieldErrorProps,
   Group as AriaGroup,
@@ -13,6 +12,7 @@ import {
   Text as AriaText,
   type TextProps as AriaTextProps
 } from 'react-aria-components'
+import { dataAttrs, pdClass } from '../../internal/index.ts'
 import {
   resolveDisableableProps,
   resolveDisabled,
@@ -68,7 +68,7 @@ export interface FieldErrorProps extends Omit<AriaFieldErrorProps, 'children'> {
 export function FieldError({ className, children, ...props }: FieldErrorProps) {
   return (
     <AriaFieldError
-      className={composeRenderProps(className, (cn) => clsx('pd-field-error', cn))}
+      className={pdClass(className, 'pd-field-error')}
       {...props}
     >
       {children}
@@ -85,8 +85,8 @@ export function FieldGroup({ size = 'md', className, children, ...props }: Field
 
   return (
     <AriaGroup
-      data-size={size}
-      className={composeRenderProps(className, (cn) => clsx('pd-field-group', cn))}
+      {...dataAttrs({ size })}
+      className={pdClass(className, 'pd-field-group')}
       {...ariaProps}
     >
       {children}
@@ -104,7 +104,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     <AriaInput
       ref={ref}
       disabled={resolveDisabled({ disabled, isDisabled })}
-      className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-field-input', cn))}
+      className={pdClass(className, 'pd-reset', 'pd-field-input')}
       {...props}
     />
   )
@@ -133,7 +133,7 @@ export function FieldButton({
       size={size}
       radius={radius}
       icon={icon}
-      className={composeRenderProps(className, (cn) => clsx('pd-field-button', cn))}
+      className={pdClass(className, 'pd-field-button')}
       {...props}
     >
       {children}

@@ -1,7 +1,6 @@
 import { type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   Dialog as AriaDialog,
   type DialogProps as AriaDialogProps,
   DialogTrigger as AriaDialogTrigger,
@@ -17,6 +16,7 @@ import {
   type ButtonVariant
 } from '../../components/Button/index.ts'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { pdClass } from '../style.ts'
 
 export type DialogProps = AriaDialogProps
 
@@ -66,7 +66,7 @@ export function DialogCloseButton({
       radius={radius}
       icon={icon}
       aria-label={ariaLabel}
-      className={composeRenderProps(className, (cn) => clsx('pd-dialog-close', cn))}
+      className={pdClass(className, 'pd-dialog-close')}
       {...props}
     >
       {children ?? renderIcon(icons?.close, 'close', 'pd-dialog-close-icon')}

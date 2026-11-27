@@ -1,13 +1,12 @@
 import { type ReactNode } from 'react'
-import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   type DialogTriggerProps as AriaDialogTriggerProps,
   OverlayArrow as AriaOverlayArrow,
   Popover as AriaPopover,
   type PopoverProps as AriaPopoverProps
 } from 'react-aria-components'
 import { Dialog, type DialogProps, DialogTrigger } from '../../internal/Dialog/index.ts'
+import { pdClass } from '../../internal/index.ts'
 
 export interface PopoverContentProps extends Omit<AriaPopoverProps, 'children'> {
   showArrow?: boolean
@@ -24,7 +23,7 @@ export function PopoverContent({
   return (
     <AriaPopover
       offset={offset}
-      className={composeRenderProps(className, (cn) => clsx('pd-popover', cn))}
+      className={pdClass(className, 'pd-popover')}
       {...props}
     >
       {(renderProps) => (

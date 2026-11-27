@@ -1,12 +1,12 @@
 import { type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   type DialogTriggerProps as AriaDialogTriggerProps,
   Modal as AriaModal,
   ModalOverlay as AriaModalOverlay,
   type ModalOverlayProps as AriaModalOverlayProps
 } from 'react-aria-components'
+import { dataAttrs, pdClass } from '../../internal/index.ts'
 import { type OverlaySharedProps } from '../../utils/index.ts'
 import {
   Dialog,
@@ -43,12 +43,12 @@ export function ModalContent({
   return (
     <AriaModalOverlay
       isDismissable={isDismissable}
-      className={composeRenderProps(overlayClassName, (cn) => clsx('pd-modal-overlay', cn))}
+      className={pdClass(overlayClassName, 'pd-modal-overlay')}
       {...props}
     >
       <AriaModal
-        data-size={size}
-        className={composeRenderProps(className, (cn) => clsx('pd-modal', cn))}
+        {...dataAttrs({ size })}
+        className={pdClass(className, 'pd-modal')}
       >
         {children}
       </AriaModal>

@@ -1,11 +1,10 @@
 import { type ReactNode } from 'react'
-import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   DisclosureGroup as AriaDisclosureGroup,
   type DisclosureGroupProps as AriaDisclosureGroupProps,
   type Key
 } from 'react-aria-components'
+import { dataAttrs, pdClass } from '../../internal/index.ts'
 import {
   resolveDisableableProps,
   resolveDisabled,
@@ -50,8 +49,8 @@ export function DisclosureGroup({
       }}
     >
       <AriaDisclosureGroup
-        data-variant={variant}
-        className={composeRenderProps(className, (cn) => clsx('pd-disclosure-group', cn))}
+        {...dataAttrs({ variant })}
+        className={pdClass(className, 'pd-disclosure-group')}
         {...ariaProps}
       >
         {items

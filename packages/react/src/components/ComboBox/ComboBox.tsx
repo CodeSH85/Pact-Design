@@ -5,7 +5,6 @@ import {
   ComboBox as AriaComboBox,
   ComboBoxStateContext,
   ComboBoxValue as AriaComboBoxValue,
-  composeRenderProps,
   type ComboBoxProps as AriaComboBoxProps,
   type ComboBoxValueProps as AriaComboBoxValueProps,
   type Key,
@@ -13,23 +12,23 @@ import {
   type PopoverProps as AriaPopoverProps
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { FieldChrome, FieldClearButton, pdClass } from '../../internal/index.ts'
 import {
+  hasSelection,
   resolveClearable,
   resolveDisableableProps,
   type ClearableProp,
   type DisableableProps,
   type FieldSharedProps,
-  type ResolvedClearable
+  type ResolvedClearable,
+  type SelectionMode
 } from '../../utils/index.ts'
 import {
   FieldButton,
-  FieldDescription,
-  FieldError,
   FieldGroup,
   type FieldSize,
   Input,
-  type InputProps,
-  Label
+  type InputProps
 } from '../Field/index.ts'
 import {
   ListBox,
@@ -39,7 +38,7 @@ import {
 } from '../ListBox/index.ts'
 import { PopoverContent } from '../Popover/index.ts'
 
-export type ComboBoxSelectionMode = 'single' | 'multiple'
+export type ComboBoxSelectionMode = SelectionMode
 
 export interface ComboBoxIcons {
   chevron?: IconSlot
@@ -62,7 +61,7 @@ export type ComboBoxPopoverProps = AriaPopoverProps
 export function ComboBoxPopover({ className, children, ...props }: ComboBoxPopoverProps) {
   return (
     <PopoverContent
-      className={composeRenderProps(className, (cn) => clsx('pd-popover-trigger-width', cn))}
+      className={pdClass(className, 'pd-popover-trigger-width')}
       {...props}
     >
       {children}
@@ -102,12 +101,7 @@ function ComboBoxControl({
   const isMultiple = selectionMode === 'multiple'
 
   const selectedItems = state?.selectedItems ?? []
-  const hasSelection = state
-    ? Array.isArray(state.value)
-      ? state.value.length > 0
-      : state.value != null || state.selectedKey != null
-    : false
-  const hasValue = hasSelection || Boolean(state?.inputValue)
+  const hasValue = hasSelection(state) || Boolean(state?.inputValue)
   const showClear = clearable.enabled && !isDisabled && !isReadOnly && hasValue
 
   const handleGroupClick = (event: MouseEvent<HTMLDivElement>) => {
@@ -177,16 +171,11 @@ function ComboBoxControl({
 
       <span className="pd-field-actions">
         {showClear && (
-          <ButtonContext.Provider value={null}>
-            <FieldButton
-              slot={null}
-              className="pd-field-clear"
-              aria-label={clearable.label}
-              onPress={handleClear}
-            >
-              {renderIcon(clearable.icon ?? icons?.clear, 'clear', 'pd-field-icon')}
-            </FieldButton>
-          </ButtonContext.Provider>
+          <FieldClearButton
+            clearable={clearable}
+            fallbackIcon={icons?.clear}
+            onPress={handleClear}
+          />
         )}
         <FieldButton>
           {renderIcon(icons?.chevron, 'chevronDown', 'pd-field-icon')}
@@ -239,35 +228,37 @@ export function ComboBox<
 
   return (
     <AriaComboBox<T, M>
-      className={composeRenderProps(className, (cn) => clsx('pd-field', cn))}
+      className={pdClass(className, 'pd-field')}
       menuTrigger={menuTrigger}
       items={items}
       {...ariaProps}
     >
-      {label && <Label>{label}</Label>}
-
-      <ComboBoxControl
-        size={size}
-        placeholder={placeholder}
-        selectionMode={ariaProps.selectionMode}
-        isDisabled={ariaProps.isDisabled}
-        isReadOnly={ariaProps.isReadOnly}
-        clearable={resolvedClearable}
-        onClear={onClear}
-        icons={icons}
-        inputProps={inputProps}
-      />
-
-      {description && <FieldDescription>{description}</FieldDescription>}
-      <FieldError>{errorMessage}</FieldError>
-
-      <ComboBoxPopover {...popoverProps}>
-        <ComboBoxListBox {...listBoxProps}>
-          {typeof children === 'function'
-            ? children
-            : (children as ReactNode)}
-        </ComboBoxListBox>
-      </ComboBoxPopover>
+      <FieldChrome
+        label={label}
+        description={description}
+        errorMessage={errorMessage}
+        afterError={(
+          <ComboBoxPopover {...popoverProps}>
+            <ComboBoxListBox {...listBoxProps}>
+              {typeof children === 'function'
+                ? children
+                : (children as ReactNode)}
+            </ComboBoxListBox>
+          </ComboBoxPopover>
+        )}
+      >
+        <ComboBoxControl
+          size={size}
+          placeholder={placeholder}
+          selectionMode={ariaProps.selectionMode}
+          isDisabled={ariaProps.isDisabled}
+          isReadOnly={ariaProps.isReadOnly}
+          clearable={resolvedClearable}
+          onClear={onClear}
+          icons={icons}
+          inputProps={inputProps}
+        />
+      </FieldChrome>
     </AriaComboBox>
   )
 }

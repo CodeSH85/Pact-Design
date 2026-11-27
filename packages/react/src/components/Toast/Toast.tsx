@@ -1,7 +1,6 @@
 import { type HTMLAttributes, type ReactElement, type ReactNode } from 'react'
 import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   UNSTABLE_Toast as AriaToast,
   UNSTABLE_ToastContent as AriaToastContent,
   UNSTABLE_ToastList as AriaToastList,
@@ -13,6 +12,7 @@ import {
   type ToastRegionProps as AriaToastRegionProps
 } from 'react-aria-components'
 import { renderIcon, type IconSlot, type PactIconName } from '../../icons/index.ts'
+import { dataAttrs, pdClass } from '../../internal/index.ts'
 import { Button } from '../Button/index.ts'
 
 export type ToastTone = 'default' | 'info' | 'success' | 'warning' | 'danger'
@@ -67,8 +67,8 @@ export function Toast<T extends object = ToastData>({
 
   return (
     <AriaToast
-      data-tone={tone}
-      className={composeRenderProps(className, (cn) => clsx('pd-toast', cn))}
+      {...dataAttrs({ tone })}
+      className={pdClass(className, 'pd-toast')}
       {...props}
     >
       {renderIcon(toneIconSlot, toastToneIconNames[tone], 'pd-toast-icon')}
@@ -145,8 +145,8 @@ export function ToastRegion<T extends object = ToastData>({
   return (
     <AriaToastRegion
       queue={queue}
-      data-placement={placement}
-      className={composeRenderProps(className, (cn) => clsx('pd-toast-region', cn))}
+      {...dataAttrs({ placement })}
+      className={pdClass(className, 'pd-toast-region')}
       {...props}
     >
       {children ??

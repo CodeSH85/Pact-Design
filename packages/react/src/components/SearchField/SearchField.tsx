@@ -1,10 +1,10 @@
 import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   SearchField as AriaSearchField,
   type SearchFieldProps as AriaSearchFieldProps
 } from 'react-aria-components'
 import { renderIcon, type IconSlot } from '../../icons/index.ts'
+import { FieldChrome, FieldClearButton, pdClass } from '../../internal/index.ts'
 import {
   resolveClearable,
   resolveDisableableProps,
@@ -13,13 +13,9 @@ import {
   type FieldSharedProps
 } from '../../utils/index.ts'
 import {
-  FieldButton,
-  FieldDescription,
-  FieldError,
   FieldGroup,
   type FieldSize,
-  Input,
-  Label
+  Input
 } from '../Field/index.ts'
 
 export interface SearchFieldIcons {
@@ -59,28 +55,27 @@ export function SearchField({
 
   return (
     <AriaSearchField
-      className={composeRenderProps(className, (cn) => clsx('pd-field', 'pd-search-field', cn))}
+      className={pdClass(className, 'pd-field', 'pd-search-field')}
       onClear={handleClear}
       {...ariaProps}
     >
-      {label && <Label>{label}</Label>}
-      <FieldGroup
-        size={size}
-        className={clsx(resolvedClearable.enabled && 'pd-field-group-compact-end')}
-      >
-        {renderIcon(icons?.search, 'search', 'pd-search-field-icon')}
-        <Input placeholder={placeholder} />
-        {resolvedClearable.enabled && (
-          <FieldButton
-            className="pd-search-field-clear pd-field-clear"
-            aria-label={resolvedClearable.label}
-          >
-            {renderIcon(resolvedClearable.icon ?? icons?.clear, 'clear', 'pd-field-icon')}
-          </FieldButton>
-        )}
-      </FieldGroup>
-      {description && <FieldDescription>{description}</FieldDescription>}
-      <FieldError>{errorMessage}</FieldError>
+      <FieldChrome label={label} description={description} errorMessage={errorMessage}>
+        <FieldGroup
+          size={size}
+          className={clsx(resolvedClearable.enabled && 'pd-field-group-compact-end')}
+        >
+          {renderIcon(icons?.search, 'search', 'pd-search-field-icon')}
+          <Input placeholder={placeholder} />
+          {resolvedClearable.enabled && (
+            <FieldClearButton
+              clearable={resolvedClearable}
+              fallbackIcon={icons?.clear}
+              className="pd-search-field-clear"
+              isolated={false}
+            />
+          )}
+        </FieldGroup>
+      </FieldChrome>
     </AriaSearchField>
   )
 }

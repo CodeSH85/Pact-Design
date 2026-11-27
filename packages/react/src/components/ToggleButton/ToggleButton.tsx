@@ -1,12 +1,11 @@
 import { type ReactNode } from 'react'
-import { clsx } from 'clsx'
 import {
-  composeRenderProps,
   ToggleButton as AriaToggleButton,
   type ToggleButtonProps as AriaToggleButtonProps,
   ToggleButtonGroup as AriaToggleButtonGroup,
   type ToggleButtonGroupProps as AriaToggleButtonGroupProps
 } from 'react-aria-components'
+import { dataAttrs, pdClass } from '../../internal/index.ts'
 import {
   resolveDisableableProps,
   type DisableableProps
@@ -40,11 +39,8 @@ export function ToggleButton({
 
   return (
     <AriaToggleButton
-      data-variant={variant}
-      data-size={size}
-      data-radius={radius}
-      data-icon={icon ? '' : undefined}
-      className={composeRenderProps(className, (cn) => clsx('pd-reset', 'pd-toggle-button', cn))}
+      {...dataAttrs({ variant, size, radius, icon })}
+      className={pdClass(className, 'pd-reset', 'pd-toggle-button')}
       {...ariaProps}
     >
       {children}
@@ -63,7 +59,7 @@ export function ToggleButtonGroup({ className, children, ...props }: ToggleButto
 
   return (
     <AriaToggleButtonGroup
-      className={composeRenderProps(className, (cn) => clsx('pd-toggle-button-group', cn))}
+      className={pdClass(className, 'pd-toggle-button-group')}
       {...ariaProps}
     >
       {children}
