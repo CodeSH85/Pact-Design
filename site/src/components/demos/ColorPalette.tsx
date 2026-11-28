@@ -89,7 +89,7 @@ export function ColorPalette() {
   }
 
   return (
-    <section className="flex flex-col gap-md pt-md border-t border-border-default">
+    <section className="flex flex-col gap-md pt-md border-t border-default">
       <div className="flex items-center justify-between gap-sm flex-wrap">
         <h2 className="m-0 text-heading-xs text-fg">
           Global 12 階 OKLCH 色票
@@ -108,7 +108,7 @@ export function ColorPalette() {
         {globalPalettes.map((palette) => (
           <div
             key={palette.scale}
-            className="bg-layer-2 border border-border-default rounded-xs p-sm flex flex-col gap-xs"
+            className="bg-layer-2 border border-default rounded-xs p-sm flex flex-col gap-xs"
           >
             <div className="flex items-center justify-between text-label-sm">
               <strong className="text-fg">{palette.scale}</strong>

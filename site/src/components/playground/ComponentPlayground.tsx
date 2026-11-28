@@ -124,13 +124,13 @@ export function ComponentPlayground() {
   return (
     <div className="flex flex-col gap-xl">
       {/* Live status bar */}
-      <div className="flex items-center justify-between px-md py-sm rounded-sm bg-layer-2 border border-border-subtle sticky top-0 z-docked shadow-elevation-xs">
+      <div className="flex items-center justify-between px-md py-sm rounded-sm bg-layer-2 border border-subtle sticky top-0 z-docked shadow-elevation-xs">
         <span className="text-caption-md font-medium text-fg-muted">Event Log</span>
         <code className="text-mono-xs text-primary">{lastAction}</code>
       </div>
 
       {/* 1. Button Showcase */}
-      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-default">
         <div className="flex flex-col gap-2xs">
           <h2 className="text-heading-sm text-fg">Button</h2>
           <p className="text-body-sm text-fg-subtle m-0">
@@ -165,7 +165,7 @@ export function ComponentPlayground() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-sm pt-xs border-t border-border-subtle">
+        <div className="flex flex-col gap-sm pt-xs border-t border-subtle">
           <span className="text-caption-sm text-fg-subtle font-medium">Icon & Link Buttons</span>
           <div className="flex flex-wrap items-center gap-sm">
             <Button variant="primary" onPress={() => setLastAction('Clicked Icon + Label Button')}>
@@ -201,7 +201,7 @@ export function ComponentPlayground() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-sm pt-xs border-t border-border-subtle">
+        <div className="flex flex-col gap-sm pt-xs border-t border-subtle">
           <span className="text-caption-sm text-fg-subtle font-medium">Control Height Scale (xs: 24px · sm: 28px · md: 32px · lg: 36px · xl: 40px)</span>
           <div className="flex flex-wrap items-end gap-sm">
             <Button variant="secondary" size="xs" onPress={() => setLastAction('Size: xs (24px)')}>
@@ -222,7 +222,7 @@ export function ComponentPlayground() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-sm pt-xs border-t border-border-subtle">
+        <div className="flex flex-col gap-sm pt-xs border-t border-subtle">
           <span className="text-caption-sm text-fg-subtle font-medium">Radius Overrides (data-radius)</span>
           <div className="flex flex-wrap items-center gap-sm">
             {(['none', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', 'full'] as const).map((radius) => (
@@ -241,7 +241,7 @@ export function ComponentPlayground() {
       </section>
 
       {/* 2. ToggleButton & ToggleButtonGroup */}
-      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-default">
         <div className="flex flex-col gap-2xs">
           <h2 className="text-heading-sm text-fg">ToggleButton & ToggleButtonGroup</h2>
           <p className="text-body-sm text-fg-subtle m-0">
@@ -289,7 +289,7 @@ export function ComponentPlayground() {
 
       {/* 2b. Badge & Slider Showcase */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-md">
-        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-default">
           <div className="flex flex-col gap-2xs">
             <h2 className="text-heading-sm text-fg">Badge</h2>
             <p className="text-body-sm text-fg-subtle m-0">
@@ -316,7 +316,7 @@ export function ComponentPlayground() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-default">
           <div className="flex flex-col gap-2xs">
             <h2 className="text-heading-sm text-fg">Slider</h2>
             <p className="text-body-sm text-fg-subtle m-0">
@@ -347,7 +347,7 @@ export function ComponentPlayground() {
 
       {/* 3. Checkbox & Switch Showcase */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-md">
-        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-default">
           <div className="flex flex-col gap-2xs">
             <h2 className="text-heading-sm text-fg">Checkbox</h2>
             <p className="text-body-sm text-fg-subtle m-0">
@@ -382,7 +382,7 @@ export function ComponentPlayground() {
           </CheckboxGroup>
         </div>
 
-        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-default">
           <div className="flex flex-col gap-2xs">
             <h2 className="text-heading-sm text-fg">Switch</h2>
             <p className="text-body-sm text-fg-subtle m-0">
@@ -420,7 +420,7 @@ export function ComponentPlayground() {
 
       {/* 3b. RadioGroup & Separator */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-md">
-        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-default">
           <div className="flex flex-col gap-2xs">
             <h2 className="text-heading-sm text-fg">Radio & RadioGroup</h2>
             <p className="text-body-sm text-fg-subtle m-0">
@@ -456,7 +456,7 @@ export function ComponentPlayground() {
           </RadioGroup>
         </div>
 
-        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+        <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-default">
           <div className="flex flex-col gap-2xs">
             <h2 className="text-heading-sm text-fg">Separator</h2>
             <p className="text-body-sm text-fg-subtle m-0">
@@ -471,7 +471,7 @@ export function ComponentPlayground() {
             <Separator tone="strong" />
           </div>
 
-          <div className="flex items-center gap-sm h-control-md px-sm rounded-xs bg-layer-1 border border-border-subtle">
+          <div className="flex items-center gap-sm h-control-md px-sm rounded-xs bg-layer-1 border border-subtle">
             <span className="text-label-sm text-fg">Tokens</span>
             <Separator orientation="vertical" tone="default" />
             <span className="text-label-sm text-fg">Components</span>
@@ -482,7 +482,7 @@ export function ComponentPlayground() {
       </section>
 
       {/* 4. Menu, Popover & Modal Overlays */}
-      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-default">
         <div className="flex flex-col gap-2xs">
           <h2 className="text-heading-sm text-fg">Menu, Popover & Modal Overlays</h2>
           <p className="text-body-sm text-fg-subtle m-0">
@@ -560,7 +560,7 @@ export function ComponentPlayground() {
       </section>
 
       {/* 5. Disclosure & DisclosureGroup */}
-      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-default">
         <div className="flex flex-col gap-2xs">
           <h2 className="text-heading-sm text-fg">Disclosure & DisclosureGroup</h2>
           <p className="text-body-sm text-fg-subtle m-0">
@@ -582,7 +582,7 @@ export function ComponentPlayground() {
       </section>
 
       {/* 5b. Tree */}
-      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-default">
         <div className="flex flex-col gap-2xs">
           <h2 className="text-heading-sm text-fg">Tree</h2>
           <p className="text-body-sm text-fg-subtle m-0">
@@ -621,7 +621,7 @@ export function ComponentPlayground() {
       </section>
 
       {/* 6. Form Fields: TextField, ComboBox, DateField, DatePicker */}
-      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-default">
         <div className="flex flex-col gap-2xs">
           <h2 className="text-heading-sm text-fg">Form Fields (TextField, ComboBox, DateField, DatePicker)</h2>
           <p className="text-body-sm text-fg-subtle m-0">
@@ -680,7 +680,7 @@ export function ComponentPlayground() {
       </section>
 
       {/* 7. Navigation: Breadcrumbs & Tabs */}
-      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-default">
         <div className="flex flex-col gap-2xs">
           <h2 className="text-heading-sm text-fg">Navigation (Breadcrumbs & Tabs)</h2>
           <p className="text-body-sm text-fg-subtle m-0">
@@ -738,7 +738,7 @@ export function ComponentPlayground() {
       </section>
 
       {/* 8. Selection & Search: Select & Autocomplete */}
-      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-default">
         <div className="flex flex-col gap-2xs">
           <h2 className="text-heading-sm text-fg">Selection & Filtering (Select & Autocomplete)</h2>
           <p className="text-body-sm text-fg-subtle m-0">
@@ -779,7 +779,7 @@ export function ComponentPlayground() {
       </section>
 
       {/* 9. Form, FileTrigger & Toast */}
-      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
+      <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-default">
         <div className="flex flex-col gap-2xs">
           <h2 className="text-heading-sm text-fg">Form, FileTrigger & Toast</h2>
           <p className="text-body-sm text-fg-subtle m-0">
@@ -832,7 +832,7 @@ export function ComponentPlayground() {
           </FormActions>
         </Form>
 
-        <div className="flex flex-col gap-xs pt-sm border-t border-border-subtle">
+        <div className="flex flex-col gap-xs pt-sm border-t border-subtle">
           <span className="text-caption-sm text-fg-subtle font-medium">Trigger Toast Notifications</span>
           <div className="flex flex-wrap gap-sm">
             <Button

@@ -100,9 +100,9 @@ function PreviewSection({ id, title, note, children }: PreviewSectionProps) {
   return (
     <section
       id={`pv-${id}`}
-      className="flex flex-col gap-md p-md rounded-sm bg-layer-1 border-sm border-border-default"
+      className="flex flex-col gap-md p-md rounded-sm bg-layer-1 border-sm border-default"
     >
-      <header className="flex flex-col gap-3xs pb-xs border-b border-border-subtle">
+      <header className="flex flex-col gap-3xs pb-xs border-b border-subtle">
         <h2 className="text-heading-xs text-fg m-0">{title}</h2>
         {note && <p className="text-caption-md text-fg-subtle m-0">{note}</p>}
       </header>
@@ -129,12 +129,12 @@ function MotionRow({ token, resolvedVal, isDuration, onJump }: MotionRowProps) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       title={token.id}
-      className="grid grid-cols-[12rem_1fr_12rem] items-center gap-sm px-sm py-xs rounded-xs bg-layer-2 border-sm border-border-subtle hover:border-border-strong cursor-pointer"
+      className="grid grid-cols-[12rem_1fr_12rem] items-center gap-sm px-sm py-xs rounded-xs bg-layer-2 border-sm border-subtle hover:border-strong cursor-pointer"
     >
       <code className="text-mono-xs text-fg truncate">
         {token.path.filter((seg) => seg !== '$root').slice(2).join('.')}
       </code>
-      <div className="relative h-5 rounded-full bg-layer-1 border-sm border-border-default overflow-hidden p-3xs flex items-center">
+      <div className="relative h-5 rounded-full bg-layer-1 border-sm border-default overflow-hidden p-3xs flex items-center">
         <div
           className="w-3.5 h-3.5 rounded-full bg-primary"
           style={{
@@ -400,7 +400,7 @@ export function TokenPreview({
   return (
     <div className="flex-1 min-w-0 flex flex-col min-h-0 overflow-hidden bg-base">
       {/* Preview Toolbar */}
-      <div className="flex flex-wrap items-center gap-sm px-md py-xs bg-layer-1 border-b border-border-default shrink-0">
+      <div className="flex flex-wrap items-center gap-sm px-md py-xs bg-layer-1 border-b border-default shrink-0">
         <TooltipTrigger>
           <Button
             variant="secondary"
@@ -453,7 +453,7 @@ export function TokenPreview({
           note="以 System token 與 React Aria 元件組合而成的互動範例（點擊區塊可定位左側 token）"
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-sm">
-            <div className="flex flex-col gap-sm p-md rounded-sm bg-layer-2 border-sm border-border-default shadow-elevation-xs">
+            <div className="flex flex-col gap-sm p-md rounded-sm bg-layer-2 border-sm border-default shadow-elevation-xs">
               <div className="flex flex-col gap-3xs">
                 <span
                   onClick={() => onJump(labelXsId)}
@@ -495,7 +495,7 @@ export function TokenPreview({
                 onChange={setSampleEmail}
               />
 
-              <div className="flex flex-col gap-xs pt-2xs border-t border-border-subtle">
+              <div className="flex flex-col gap-xs pt-2xs border-t border-subtle">
                 <Checkbox
                   checked={sampleCompact}
                   onCheckedChange={setSampleCompact}
@@ -528,7 +528,7 @@ export function TokenPreview({
             </div>
 
             <div className="flex flex-col gap-xs">
-              <div className="flex flex-col gap-xs p-md rounded-sm bg-layer-2 border-sm border-border-default shadow-elevation-xs">
+              <div className="flex flex-col gap-xs p-md rounded-sm bg-layer-2 border-sm border-default shadow-elevation-xs">
                 <h4
                   onClick={() => onJump(labelId)}
                   className="text-label-sm text-fg m-0 cursor-pointer"
@@ -541,7 +541,7 @@ export function TokenPreview({
                 {renderAlert(pairFor('info'), '快捷鍵', '按下 ⌘B 可快速收合左側編輯面板。')}
               </div>
 
-              <div className="flex flex-col gap-xs p-md rounded-sm bg-layer-2 border-sm border-border-default shadow-elevation-xs">
+              <div className="flex flex-col gap-xs p-md rounded-sm bg-layer-2 border-sm border-default shadow-elevation-xs">
                 <h4
                   onClick={() => onJump(labelId)}
                   className="text-label-sm text-fg m-0 cursor-pointer"
@@ -585,12 +585,12 @@ export function TokenPreview({
               <h3 className="text-label-md text-fg m-0">
                 System · 背景與容器階層（Compact Multi-Pane Workspace 多欄高密度工作區）
               </h3>
-              <div className="rounded-sm border-sm border-border-default shadow-elevation-xs overflow-hidden flex flex-col">
+              <div className="rounded-sm border-sm border-default shadow-elevation-xs overflow-hidden flex flex-col">
                 {/* TopNav */}
                 <header
                   onClick={() => onJump(bgL1Id)}
                   title={bgL1Id}
-                  className="flex items-center justify-between gap-sm px-sm py-xs bg-layer-1 border-b border-border-default cursor-pointer"
+                  className="flex items-center justify-between gap-sm px-sm py-xs bg-layer-1 border-b border-default cursor-pointer"
                 >
                   <div className="flex items-center gap-xs">
                     <span className="inline-flex items-center justify-center w-5 h-5 rounded-2xs bg-primary text-on-primary text-label-xs font-bold">
@@ -604,7 +604,7 @@ export function TokenPreview({
                       <span>視窗 Window</span>
                     </nav>
                   </div>
-                  <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-2 text-fg-subtle border-sm border-border-subtle">
+                  <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-2 text-fg-subtle border-sm border-subtle">
                     background.layer-1 ({formatValue('color', val(bgL1Id))})
                   </code>
                 </header>
@@ -614,7 +614,7 @@ export function TokenPreview({
                   <aside
                     onClick={() => onJump(bgL1Id)}
                     title={bgL1Id}
-                    className="w-44 shrink-0 bg-layer-1 p-xs border-r border-border-default flex flex-col gap-2xs cursor-pointer"
+                    className="w-44 shrink-0 bg-layer-1 p-xs border-r border-default flex flex-col gap-2xs cursor-pointer"
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-label-xs text-fg-subtle">Side-Nav</span>
@@ -647,7 +647,7 @@ export function TokenPreview({
                       <strong className="text-label-xs text-fg-subtle">
                         底層畫布 Workspace Base（結構分隔底層，不直接放置操作元素）
                       </strong>
-                      <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-fg-subtle border-sm border-border-subtle">
+                      <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-fg-subtle border-sm border-subtle">
                         background.base ({formatValue('color', val(bgBaseId))})
                       </code>
                     </div>
@@ -659,9 +659,9 @@ export function TokenPreview({
                         onJump(bgL2Id)
                       }}
                       title={bgL2Id}
-                      className="bg-layer-2 rounded-xs border-sm border-border-default p-md flex flex-col gap-sm cursor-pointer"
+                      className="bg-layer-2 rounded-xs border-sm border-default p-md flex flex-col gap-sm cursor-pointer"
                     >
-                      <div className="flex items-center justify-between pb-2xs border-b border-border-default">
+                      <div className="flex items-center justify-between pb-2xs border-b border-default">
                         <div>
                           <strong className="text-label-sm text-fg">
                             主要內容面板 Primary Content Panel
@@ -670,7 +670,7 @@ export function TokenPreview({
                             放置於 background.base 之上，採用最清晰的 background.layer-2 承載密集資訊。
                           </div>
                         </div>
-                        <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-fg-subtle border-sm border-border-subtle">
+                        <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-fg-subtle border-sm border-subtle">
                           background.layer-2 ({formatValue('color', val(bgL2Id))})
                         </code>
                       </div>
@@ -682,13 +682,13 @@ export function TokenPreview({
                           onJump(bgElevId)
                         }}
                         title={bgElevId}
-                        className="bg-elevated shadow-elevation-md border-sm border-border-default rounded-xs p-sm flex flex-col gap-2xs cursor-pointer"
+                        className="bg-elevated shadow-elevation-md border-sm border-default rounded-xs p-sm flex flex-col gap-2xs cursor-pointer"
                       >
                         <div className="flex items-center justify-between gap-xs">
                           <strong className="text-label-sm text-fg">
                             浮動操作面板 Contextual Popover
                           </strong>
-                          <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-fg-subtle border-sm border-border-subtle">
+                          <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-fg-subtle border-sm border-subtle">
                             background.elevated + elevation.md
                           </code>
                         </div>
@@ -717,19 +717,19 @@ export function TokenPreview({
                         background: v(t.id),
                         color: fg
                       }}
-                      className={`flex flex-col gap-3xs p-sm rounded-xs border-sm border-border-default cursor-pointer ${isElevated ? 'shadow-elevation-md' : ''}`}
+                      className={`flex flex-col gap-3xs p-sm rounded-xs border-sm border-default cursor-pointer ${isElevated ? 'shadow-elevation-md' : ''}`}
                     >
                       <strong className="text-label-sm">{displayPath(t)}</strong>
                       <span className="text-mono-xs opacity-85">
                         {formatValue('color', val(t.id))} → {refOf(t.node.$value) ?? '自訂值'}
                       </span>
                       {isElevated && (
-                        <span className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-fg border-sm border-border-subtle w-fit">
+                        <span className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-fg border-sm border-subtle w-fit">
                           + pd.system.elevation.md
                         </span>
                       )}
                       {isBackdrop && (
-                        <span className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-fg border-sm border-border-subtle w-fit">
+                        <span className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-fg border-sm border-subtle w-fit">
                           Modal / Drawer Scrim
                         </span>
                       )}
@@ -751,7 +751,7 @@ export function TokenPreview({
                         onClick={() => onJump(t.id)}
                         title={t.id}
                         style={{ background: v(t.id) }}
-                        className="flex flex-col gap-3xs p-sm rounded-xs border-sm border-border-default text-fg cursor-pointer"
+                        className="flex flex-col gap-3xs p-sm rounded-xs border-sm border-default text-fg cursor-pointer"
                       >
                         <strong className="text-label-sm">{displayPath(t)}</strong>
                         <span className="text-mono-xs text-fg-subtle">
@@ -765,8 +765,8 @@ export function TokenPreview({
                   </div>
 
                   {/* Interactive Table Demo */}
-                  <div className="rounded-xs border-sm border-border-default bg-layer-2 overflow-hidden">
-                    <div className="grid grid-cols-[8rem_1fr_8rem_6rem_8rem] items-center gap-sm px-sm py-2xs bg-layer-1 border-b border-border-default text-label-xs text-fg-subtle">
+                  <div className="rounded-xs border-sm border-default bg-layer-2 overflow-hidden">
+                    <div className="grid grid-cols-[8rem_1fr_8rem_6rem_8rem] items-center gap-sm px-sm py-2xs bg-layer-1 border-b border-default text-label-xs text-fg-subtle">
                       <span>識別碼 (mono.xs)</span>
                       <span>項目名稱 Item Name（Hover / 點按檢視狀態）</span>
                       <span className="text-right">數值 (.tabular-nums)</span>
@@ -775,7 +775,7 @@ export function TokenPreview({
                     </div>
                     <div
                       onClick={() => onJump(bgHoverId)}
-                      className="grid grid-cols-[8rem_1fr_8rem_6rem_8rem] items-center gap-sm px-sm py-2xs border-b border-border-subtle bg-layer-2 hover:bg-layer-2-hover active:bg-layer-2-active text-body-sm text-fg cursor-pointer"
+                      className="grid grid-cols-[8rem_1fr_8rem_6rem_8rem] items-center gap-sm px-sm py-2xs border-b border-subtle bg-layer-2 hover:bg-layer-2-hover active:bg-layer-2-active text-body-sm text-fg cursor-pointer"
                     >
                       <span
                         onClick={(e) => {
@@ -793,7 +793,7 @@ export function TokenPreview({
                     </div>
                     <div
                       onClick={() => onJump(bgSelectedId)}
-                      className="grid grid-cols-[8rem_1fr_8rem_6rem_8rem] items-center gap-sm px-sm py-2xs border-b border-border-subtle bg-layer-2-selected hover:bg-layer-2-selected-hover text-body-sm text-fg cursor-pointer"
+                      className="grid grid-cols-[8rem_1fr_8rem_6rem_8rem] items-center gap-sm px-sm py-2xs border-b border-subtle bg-layer-2-selected hover:bg-layer-2-selected-hover text-body-sm text-fg cursor-pointer"
                     >
                       <span
                         onClick={(e) => {
@@ -846,7 +846,7 @@ export function TokenPreview({
                     onClick={() => onJump(t.id)}
                     title={t.id}
                     style={{ color: v(t.id) }}
-                    className="flex flex-col gap-3xs p-sm rounded-xs bg-layer-2 border-sm border-border-default cursor-pointer"
+                    className="flex flex-col gap-3xs p-sm rounded-xs bg-layer-2 border-sm border-default cursor-pointer"
                   >
                     <strong className="text-label-sm">{displayPath(t)}</strong>
                     <span className="text-mono-xs opacity-85">
@@ -890,7 +890,7 @@ export function TokenPreview({
                       background: v(bg.id),
                       color: v(on.id)
                     }}
-                    className="flex flex-col gap-2xs p-sm rounded-xs border-sm border-border-default cursor-pointer"
+                    className="flex flex-col gap-2xs p-sm rounded-xs border-sm border-default cursor-pointer"
                   >
                     <strong className="text-label-md">{leafName(bg)}</strong>
                     <span className="text-mono-xs opacity-90">
@@ -1096,7 +1096,7 @@ export function TokenPreview({
                             background: v(t.id),
                             color: readableOn(value)
                           }}
-                          className="flex flex-col p-2xs rounded-2xs border-sm border-border-subtle cursor-pointer hover:scale-105 transition-transform text-mono-xs leading-tight"
+                          className="flex flex-col p-2xs rounded-2xs border-sm border-subtle cursor-pointer hover:scale-105 transition-transform text-mono-xs leading-tight"
                         >
                           <b>{t.path.at(-1)}</b>
                           <span className="opacity-85 truncate">{colorValueToHex(value)}</span>
@@ -1120,7 +1120,7 @@ export function TokenPreview({
                           background: v(t.id),
                           color: readableOn(val(t.id))
                         }}
-                        className="flex flex-col px-xs py-2xs rounded-2xs border-sm border-border-default cursor-pointer text-mono-xs"
+                        className="flex flex-col px-xs py-2xs rounded-2xs border-sm border-default cursor-pointer text-mono-xs"
                       >
                         <b>{displayPath(t)}</b>
                         <span>{formatValue('color', val(t.id))}</span>
@@ -1147,7 +1147,7 @@ export function TokenPreview({
                   key={t.id}
                   onClick={() => onJump(t.id)}
                   title={t.id}
-                  className="flex flex-col gap-3xs p-sm rounded-xs bg-layer-2 border-sm border-border-subtle hover:border-border-strong cursor-pointer"
+                  className="flex flex-col gap-3xs p-sm rounded-xs bg-layer-2 border-sm border-subtle hover:border-strong cursor-pointer"
                 >
                   <div className="flex items-center justify-between gap-sm">
                     <code className="text-mono-xs text-primary">{displayPath(t)}</code>
@@ -1169,7 +1169,7 @@ export function TokenPreview({
           <div className="grid grid-cols-1 md:grid-cols-3 gap-xs">
             <div
               onClick={() => onJump(monoSmId)}
-              className="flex flex-col gap-xs p-sm rounded-xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
+              className="flex flex-col gap-xs p-sm rounded-xs bg-layer-2 border-sm border-subtle cursor-pointer"
             >
               <h4 className="text-label-xs text-fg m-0">
                 1. 等寬字體 <code>pd.system.font.mono.sm</code>
@@ -1182,7 +1182,7 @@ export function TokenPreview({
             </div>
             <div
               onClick={() => onJump(bodySmId)}
-              className="flex flex-col gap-xs p-sm rounded-xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
+              className="flex flex-col gap-xs p-sm rounded-xs bg-layer-2 border-sm border-subtle cursor-pointer"
             >
               <h4 className="text-label-xs text-fg m-0">
                 2. 無襯線 + <code>.tabular-nums</code>（垂直對齊）
@@ -1195,7 +1195,7 @@ export function TokenPreview({
             </div>
             <div
               onClick={() => onJump(bodySmId)}
-              className="flex flex-col gap-xs p-sm rounded-xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
+              className="flex flex-col gap-xs p-sm rounded-xs bg-layer-2 border-sm border-subtle cursor-pointer"
             >
               <h4 className="text-label-xs text-fg m-0">
                 3. 一般比例數字（未加 <code>.tabular-nums</code>）
@@ -1211,7 +1211,7 @@ export function TokenPreview({
           {fontSizes.length > 0 && (
             <div className="flex flex-col gap-xs pt-xs">
               <h3 className="text-label-md text-fg m-0">Global · 字級尺度</h3>
-              <div className="flex flex-wrap items-baseline gap-md p-sm rounded-xs bg-layer-2 border-sm border-border-subtle">
+              <div className="flex flex-wrap items-baseline gap-md p-sm rounded-xs bg-layer-2 border-sm border-subtle">
                 {fontSizes.map((t) => (
                   <div
                     key={t.id}
@@ -1234,7 +1234,7 @@ export function TokenPreview({
           {systemWeights.length > 0 && (
             <div className="flex flex-col gap-xs pt-xs">
               <h3 className="text-label-md text-fg m-0">System · 語意字重</h3>
-              <div className="flex flex-wrap gap-lg p-sm rounded-xs bg-layer-2 border-sm border-border-subtle">
+              <div className="flex flex-wrap gap-lg p-sm rounded-xs bg-layer-2 border-sm border-subtle">
                 {systemWeights.map((t) => (
                   <div
                     key={t.id}
@@ -1257,7 +1257,7 @@ export function TokenPreview({
           {weights.length > 0 && (
             <div className="flex flex-col gap-xs pt-xs">
               <h3 className="text-label-md text-fg m-0">Global · 字重</h3>
-              <div className="flex flex-wrap gap-lg p-sm rounded-xs bg-layer-2 border-sm border-border-subtle">
+              <div className="flex flex-wrap gap-lg p-sm rounded-xs bg-layer-2 border-sm border-subtle">
                 {weights.map((t) => (
                   <div
                     key={t.id}
@@ -1311,7 +1311,7 @@ export function TokenPreview({
                 key={t.id}
                 onClick={() => onJump(t.id)}
                 title={t.id}
-                className="grid grid-cols-[10rem_1fr_6rem] items-center gap-sm px-sm py-2xs rounded-2xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
+                className="grid grid-cols-[10rem_1fr_6rem] items-center gap-sm px-sm py-2xs rounded-2xs bg-layer-2 border-sm border-subtle cursor-pointer"
               >
                 <code className="text-mono-xs text-fg">{displayPath(t)}</code>
                 <div className="h-3 rounded-2xs bg-primary" style={{ width: v(t.id) }} />
@@ -1329,7 +1329,7 @@ export function TokenPreview({
                 key={t.id}
                 onClick={() => onJump(t.id)}
                 title={t.id}
-                className="grid grid-cols-[10rem_1fr_6rem] items-center gap-sm px-sm py-2xs rounded-2xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
+                className="grid grid-cols-[10rem_1fr_6rem] items-center gap-sm px-sm py-2xs rounded-2xs bg-layer-2 border-sm border-subtle cursor-pointer"
               >
                 <code className="text-mono-xs text-fg">{displayPath(t)}</code>
                 <div className="h-3 rounded-2xs bg-primary" style={{ width: v(t.id) }} />
@@ -1360,7 +1360,7 @@ export function TokenPreview({
                     >
                       <div
                         style={{ height: v(t.id) }}
-                        className="px-sm rounded-xs border-sm border-border-default bg-layer-2 inline-flex items-center gap-xs text-body-sm text-fg"
+                        className="px-sm rounded-xs border-sm border-default bg-layer-2 inline-flex items-center gap-xs text-body-sm text-fg"
                       >
                         <span className="text-mono-xs text-primary">{key}</span>
                         <span>{DENSITY_LABELS[key] ?? key}</span>
@@ -1390,7 +1390,7 @@ export function TokenPreview({
                       title={t.id}
                       className="flex flex-wrap items-center gap-sm cursor-pointer"
                     >
-                      <div className="px-xs py-2xs rounded-xs border-sm border-border-default bg-layer-2 inline-flex items-center justify-center text-fg">
+                      <div className="px-xs py-2xs rounded-xs border-sm border-default bg-layer-2 inline-flex items-center justify-center text-fg">
                         <svg
                           viewBox="0 0 24 24"
                           fill="none"
@@ -1481,7 +1481,7 @@ export function TokenPreview({
                       outline: `${focusWidthCss} ${focusStyleCss} ${focusColorCss}`,
                       outlineOffset: v(id, fb)
                     }}
-                    className="px-md py-xs rounded-sm bg-layer-2 border-sm border-border-default text-body-sm text-fg cursor-pointer"
+                    className="px-md py-xs rounded-sm bg-layer-2 border-sm border-default text-body-sm text-fg cursor-pointer"
                   >
                     <strong>{label}</strong> · {desc}
                   </div>
@@ -1548,7 +1548,7 @@ export function TokenPreview({
                         outline: `2px solid ${focusColorCss}`,
                         outlineOffset: v(t.id)
                       }}
-                      className="w-16 h-16 rounded-xs bg-layer-2 border-sm border-border-default"
+                      className="w-16 h-16 rounded-xs bg-layer-2 border-sm border-default"
                     />
                     <code className="text-mono-xs text-fg">{displayPath(t)}</code>
                     <span className="text-mono-xs text-fg-subtle">
@@ -1593,7 +1593,7 @@ export function TokenPreview({
                     onClick={() => onJump(t.id)}
                     title={t.id}
                     style={{ boxShadow: v(t.id) }}
-                    className="flex flex-col gap-2xs p-md rounded-md bg-layer-2 border-sm border-border-subtle cursor-pointer"
+                    className="flex flex-col gap-2xs p-md rounded-md bg-layer-2 border-sm border-subtle cursor-pointer"
                   >
                     <strong className="text-label-md text-fg">{cleanPath(t).slice(3).join('.')}</strong>
                     <code className="text-mono-xs text-fg-subtle whitespace-pre-wrap">
@@ -1618,7 +1618,7 @@ export function TokenPreview({
                       key={t.id}
                       onClick={() => onJump(t.id)}
                       title={t.id}
-                      className="flex flex-col gap-3xs p-sm rounded-xs bg-layer-2 border-sm border-border-default cursor-pointer"
+                      className="flex flex-col gap-3xs p-sm rounded-xs bg-layer-2 border-sm border-default cursor-pointer"
                     >
                       <strong className="text-label-sm text-fg">
                         z-index.{key} · {String(val(t.id) ?? '')}
@@ -1645,7 +1645,7 @@ export function TokenPreview({
                     key={t.id}
                     onClick={() => onJump(t.id)}
                     title={t.id}
-                    className="flex flex-col gap-3xs p-xs rounded-xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
+                    className="flex flex-col gap-3xs p-xs rounded-xs bg-layer-2 border-sm border-subtle cursor-pointer"
                   >
                     <strong className="text-label-xs text-fg">
                       {displayPath(t)}
@@ -1667,7 +1667,7 @@ export function TokenPreview({
                   key={t.id}
                   onClick={() => onJump(t.id)}
                   title={t.id}
-                  className="grid grid-cols-[10rem_1fr_6rem] items-center gap-sm px-sm py-2xs rounded-2xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
+                  className="grid grid-cols-[10rem_1fr_6rem] items-center gap-sm px-sm py-2xs rounded-2xs bg-layer-2 border-sm border-subtle cursor-pointer"
                 >
                   <code className="text-mono-xs text-fg">{displayPath(t)}</code>
                   <div className="h-3 rounded-2xs bg-primary" style={{ width: v(t.id) }} />
@@ -1756,9 +1756,9 @@ export function TokenPreview({
                       key={t.id}
                       onClick={() => onJump(t.id)}
                       title={t.id}
-                      className="flex flex-col gap-2xs p-sm rounded-xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
+                      className="flex flex-col gap-2xs p-sm rounded-xs bg-layer-2 border-sm border-subtle cursor-pointer"
                     >
-                      <div className="h-8 rounded-2xs bg-layer-1 border-sm border-border-default p-3xs flex items-center">
+                      <div className="h-8 rounded-2xs bg-layer-1 border-sm border-default p-3xs flex items-center">
                         <div
                           className="w-full h-full rounded-2xs bg-primary"
                           style={{ opacity: v(t.id) }}
@@ -1784,9 +1784,9 @@ export function TokenPreview({
                       key={t.id}
                       onClick={() => onJump(t.id)}
                       title={t.id}
-                      className="flex flex-col gap-3xs p-xs rounded-xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
+                      className="flex flex-col gap-3xs p-xs rounded-xs bg-layer-2 border-sm border-subtle cursor-pointer"
                     >
-                      <div className="h-6 rounded-2xs bg-layer-1 border-sm border-border-default p-3xs">
+                      <div className="h-6 rounded-2xs bg-layer-1 border-sm border-default p-3xs">
                         <div
                           className="w-full h-full rounded-2xs bg-primary"
                           style={{ opacity: v(t.id) }}

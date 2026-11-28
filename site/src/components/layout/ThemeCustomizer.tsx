@@ -67,8 +67,8 @@ function SwatchGroup({
                   'w-7 h-7 rounded-full cursor-pointer transition-transform border-sm',
                   'flex items-center justify-center p-0 mx-auto',
                   isSelected
-                    ? 'ring-2 ring-border-focus ring-offset-2 ring-offset-layer-2 border-transparent scale-105'
-                    : 'border-border-default hover:scale-110'
+                    ? 'ring-2 ring-focus ring-offset-2 ring-offset-layer-2 border-transparent scale-105'
+                    : 'border-default hover:scale-110'
                 ].join(' ')}
                 style={{ backgroundColor: opt.swatchColor }}
               >
@@ -203,11 +203,11 @@ export function ThemeCustomizer() {
           {EXPOSED_THEME_VARS.map(({ cssVar }) => (
             <div
               key={cssVar}
-              className="flex items-center justify-between gap-xs px-xs py-3xs rounded-2xs bg-layer-1 border-sm border-border-subtle"
+              className="flex items-center justify-between gap-xs px-xs py-3xs rounded-2xs bg-layer-1 border-sm border-subtle"
             >
               <code className="text-mono-xs text-fg-muted truncate">{cssVar}</code>
               <span
-                className="w-3.5 h-3.5 rounded-2xs shrink-0 border-sm border-border-default"
+                className="w-3.5 h-3.5 rounded-2xs shrink-0 border-sm border-default"
                 style={{ backgroundColor: `var(${cssVar})` }}
                 aria-hidden="true"
               />

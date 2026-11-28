@@ -121,7 +121,7 @@ export function TableOfContents({ pageTitle = '總覽' }: TableOfContentsProps) 
       aria-label="本頁目錄"
       className="hidden lg:block w-48 xl:w-56 shrink-0 sticky top-md self-start"
     >
-      <nav className="flex flex-col border-l border-border-default">
+      <nav className="flex flex-col border-l border-default">
         {headings.map((item) => {
           const isActive = activeId === item.id
           return (

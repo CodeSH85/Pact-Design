@@ -36,9 +36,9 @@ const THEME_OPTIONS: ReadonlyArray<{
 
 const SHARED_NAV_LINK_PROPS = {
   activeOptions: { exact: true },
-  className: 'hover-bg-layer-1-hover py-2xs px-md text-body-sm',
+  className: 'hover-bg-layer-1-hover py-2xs px-md text-body-sm rounded-xs focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-focus focus-visible:-outline-offset-2',
   activeProps: {
-    className: 'bg-layer-1-selected hover-bg-layer-1-selected-hover ring-sm ring-inset ring-border-default text-fg font-medium',
+    className: 'bg-layer-1-selected hover-bg-layer-1-selected-hover ring-sm ring-inset ring-default text-fg font-medium',
     'aria-current': 'page' as const
   },
   inactiveProps: {
@@ -128,7 +128,7 @@ export function RootLayout() {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-base text-fg">
-      <header className="flex items-center shrink-0 bg-layer-1 w-full justify-between py-sm px-xl border-b border-border-default">
+      <header className="flex items-center shrink-0 bg-layer-1 w-full justify-between py-sm px-xl border-b border-default">
         <div className="flex w-full">
           <Link to="/" className="flex items-center">
             <img
@@ -202,7 +202,7 @@ export function RootLayout() {
       <div className="flex flex-1 min-h-0 overflow-hidden">
         {!isTokenPlayground && (
           <aside
-            className="flex flex-col min-w-15rem shrink-0 pl-md bg-layer-1 border-r border-border-default overflow-y-auto"
+            className="flex flex-col w-16rem shrink-0 px-sm py-xs bg-layer-1 border-r border-default overflow-y-auto [scrollbar-gutter:stable]"
             aria-label="文件導覽"
           >
             <DisclosureGroup
@@ -235,7 +235,7 @@ export function RootLayout() {
           </main>
         ) : (
           <main className="relative flex-1 min-w-0 overflow-y-auto p-lg">
-            <div className="bg-layer-1 border-sm border-border-default py-md px-xl rounded-xs">
+            <div className="bg-layer-1 border-sm border-default py-md px-xl rounded-xs">
               <Outlet />
             </div>
           </main>
