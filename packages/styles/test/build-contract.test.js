@@ -24,6 +24,9 @@ const UNO_TYPES_PATH = path.join(ROOT_DIR, 'build/uno/preset.d.ts')
 
 const EXPECTED_THEME_SLOTS = [
   'colors',
+  'borderColor',
+  'ringColor',
+  'outlineColor',
   'spacing',
   'width',
   'height',
@@ -232,6 +235,18 @@ describe('@pact-design/styles Build Contract (CSS Layers + Component CSS + UnoCS
     assert.equal(mod.pactTheme.boxShadow['focus-danger'], 'var(--pd-system-elevation-focus-danger)')
     assert.equal(mod.pactTheme.opacity.halo, 'var(--pd-system-opacity-halo)')
     assert.equal(mod.pactTheme.opacity.disabled, 'var(--pd-system-opacity-disabled)')
+
+    // System border colors map to dedicated borderColor, ringColor, and outlineColor slots
+    for (const slot of ['borderColor', 'ringColor', 'outlineColor']) {
+      assert.equal(mod.pactTheme[slot].default, 'var(--pd-system-color-border)')
+      assert.equal(mod.pactTheme[slot].subtle, 'var(--pd-system-color-border-subtle)')
+      assert.equal(mod.pactTheme[slot].strong, 'var(--pd-system-color-border-strong)')
+      assert.equal(mod.pactTheme[slot].focus, 'var(--pd-system-color-border-focus)')
+      assert.equal(mod.pactTheme[slot]['focus-danger'], 'var(--pd-system-color-border-focus-danger)')
+    }
+    assert.equal(mod.pactTheme.colors.border, undefined)
+    assert.equal(mod.pactTheme.colors['border-default'], undefined)
+    assert.equal(mod.pactTheme.colors['border-subtle'], undefined)
   })
 
   it('ensures every var(--pd-*) referenced in pactTheme exists in @pact-design/tokens/css', async() => {

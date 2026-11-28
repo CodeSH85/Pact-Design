@@ -11,6 +11,9 @@ export type FontSizeValue = string | [string, Record<string, string>]
 
 export interface UnoTheme {
   colors: Record<string, string>
+  borderColor: Record<string, string>
+  ringColor: Record<string, string>
+  outlineColor: Record<string, string>
   spacing: Record<string, string>
   width: Record<string, string>
   height: Record<string, string>
@@ -42,6 +45,9 @@ const FILE_HEADER = `/**
 function createEmptyTheme(): UnoTheme {
   return {
     colors: {},
+    borderColor: {},
+    ringColor: {},
+    outlineColor: {},
     spacing: {},
     width: {},
     height: {},
@@ -200,6 +206,9 @@ export function formatUnoTypes(): string {
 
 export interface PactTheme {
   colors: Record<string, string>
+  borderColor: Record<string, string>
+  ringColor: Record<string, string>
+  outlineColor: Record<string, string>
   spacing: Record<string, string>
   width: Record<string, string>
   height: Record<string, string>
