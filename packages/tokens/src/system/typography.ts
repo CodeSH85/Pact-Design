@@ -34,7 +34,8 @@ function headingStyle(
 ) {
   return {
     $root: typeStyle(size, 'bold', lineHeight, letterSpacing),
-    normal: typeStyle(size, 'normal', lineHeight, letterSpacing)
+    normal: typeStyle(size, 'normal', lineHeight, letterSpacing),
+    medium: typeStyle(size, 'medium', lineHeight, letterSpacing)
   } as const
 }
 
@@ -60,9 +61,9 @@ export const systemFont = {
     xl: headingStyle('10', '03', '03')
   },
   body: {
-    sm: typeStyle('04', 'normal', '07', '05'),
-    md: typeStyle('05', 'normal', '07', '05'),
-    lg: typeStyle('06', 'normal', '08', '05')
+    sm: typeStyle('04', 'normal', '08', '05'),
+    md: typeStyle('05', 'normal', '08', '05'),
+    lg: typeStyle('06', 'normal', '09', '05')
   },
   label: {
     xs: typeStyle('03', 'normal', '05', '07'),
