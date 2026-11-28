@@ -7,8 +7,8 @@ description: "依附於觸發按鈕周圍展開的輕量浮動容器，適合承
 <ComponentPreview>
   <Popover trigger={<Button variant="secondary">Open Popover</Button>}>
     <div className="flex flex-col gap-xs p-xs max-w-64">
-      <span className="text-label-sm font-bold text-on-surface">Popover Title</span>
-      <p className="text-caption-md text-on-surface-muted m-0">
+      <span className="text-label-sm font-bold text-fg">Popover Title</span>
+      <p className="text-caption-md text-fg-subtle m-0">
         Contextual content anchored relative to its trigger element.
       </p>
     </div>
@@ -20,7 +20,7 @@ import { Button, Popover } from '@pact-design/react'
 
 <Popover trigger={<Button variant="secondary">Open Popover</Button>}>
   <div className="flex flex-col gap-xs p-xs">
-    <span className="text-label-sm font-bold text-on-surface">Popover Title</span>
+    <span className="text-label-sm font-bold text-fg">Popover Title</span>
     <p>Contextual content anchored relative to its trigger element.</p>
   </div>
 </Popover>
@@ -41,13 +41,13 @@ import { Button, Popover } from '@pact-design/react'
     trigger={<Button variant="secondary" size="sm">Top + Arrow</Button>}
     contentProps={{ placement: 'top', showArrow: true, offset: 10 }}
   >
-    <div className="p-xs text-caption-md text-on-surface">placement="top" showArrow</div>
+    <div className="p-xs text-caption-md text-fg">placement="top" showArrow</div>
   </Popover>
   <Popover
     trigger={<Button variant="secondary" size="sm">Right</Button>}
     contentProps={{ placement: 'right', offset: 8 }}
   >
-    <div className="p-xs text-caption-md text-on-surface">placement="right"</div>
+    <div className="p-xs text-caption-md text-fg">placement="right"</div>
   </Popover>
 </ComponentPreview>
 

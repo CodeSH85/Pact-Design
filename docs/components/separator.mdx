@@ -6,9 +6,9 @@ description: "以細緻線條劃分相鄰內容區塊或工具列項目，在緊
 
 <ComponentPreview align="stretch">
   <div className="flex flex-col gap-sm">
-    <span className="text-label-sm text-on-surface">Section Title</span>
+    <span className="text-label-sm text-fg">Section Title</span>
     <Separator tone="default" />
-    <span className="text-body-sm text-on-surface-muted">
+    <span className="text-body-sm text-fg-subtle">
       Supporting description separated by a horizontal divider.
     </span>
   </div>
@@ -38,15 +38,15 @@ import { Separator } from '@pact-design/react'
 <ComponentPreview align="stretch">
   <div className="flex flex-col gap-md">
     <div className="flex flex-col gap-2xs">
-      <span className="text-caption-sm text-on-surface-muted">subtle</span>
+      <span className="text-caption-sm text-fg-subtle">subtle</span>
       <Separator tone="subtle" />
     </div>
     <div className="flex flex-col gap-2xs">
-      <span className="text-caption-sm text-on-surface-muted">default</span>
+      <span className="text-caption-sm text-fg-subtle">default</span>
       <Separator tone="default" />
     </div>
     <div className="flex flex-col gap-2xs">
-      <span className="text-caption-sm text-on-surface-muted">strong</span>
+      <span className="text-caption-sm text-fg-subtle">strong</span>
       <Separator tone="strong" />
     </div>
   </div>
@@ -64,11 +64,11 @@ import { Separator } from '@pact-design/react'
 
 <ComponentPreview>
   <div className="inline-flex items-center gap-sm h-control-md px-sm rounded-xs bg-layer-1 border border-border-subtle">
-    <span className="text-label-sm text-on-surface">Foundations</span>
+    <span className="text-label-sm text-fg">Foundations</span>
     <Separator orientation="vertical" tone="default" />
-    <span className="text-label-sm text-on-surface">Components</span>
+    <span className="text-label-sm text-fg">Components</span>
     <Separator orientation="vertical" tone="default" />
-    <span className="text-label-sm text-on-surface-muted">API</span>
+    <span className="text-label-sm text-fg-subtle">API</span>
   </div>
 </ComponentPreview>
 
