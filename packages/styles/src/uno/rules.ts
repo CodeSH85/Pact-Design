@@ -6,6 +6,9 @@ export interface TokenMetaEntry {
 
 export type UnoSlot =
   | 'colors'
+  | 'borderColor'
+  | 'ringColor'
+  | 'outlineColor'
   | 'spacing'
   | 'width'
   | 'height'
@@ -194,8 +197,8 @@ export function resolveUnoRule(token: TokenMetaEntry): UnoRuleResolution {
       }
       if (sub === 'border') {
         return tail.length === 0
-          ? { slots: ['colors'], keyFrom: 'category', extraKeys: ['border-default'] }
-          : { slots: ['colors'], keyFrom: 'category' }
+          ? { slots: ['borderColor', 'ringColor', 'outlineColor'], keyFrom: 'category-sub', extraKeys: ['default'] }
+          : { slots: ['borderColor', 'ringColor', 'outlineColor'], keyFrom: 'category-sub' }
       }
       return { slots: ['colors'], keyFrom: 'category' }
     }
