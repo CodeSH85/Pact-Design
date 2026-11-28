@@ -187,9 +187,9 @@ export function resolveUnoRule(token: TokenMetaEntry): UnoRuleResolution {
   if (tier === 'system') {
     if (category === 'color') {
       if (sub in SYSTEM_COLOR_RULES) return SYSTEM_COLOR_RULES[sub]
-      if (sub === 'on-surface') {
+      if (sub === 'fg') {
         return tail.length === 0
-          ? { slots: ['colors'], keyFrom: 'category', extraKeys: ['on-surface-default'] }
+          ? { slots: ['colors'], keyFrom: 'category', extraKeys: ['fg-default'] }
           : { slots: ['colors'], keyFrom: 'category' }
       }
       if (sub === 'border') {

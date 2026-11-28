@@ -238,7 +238,7 @@
   border-radius: var(--pd-system-radius-2xs);
   background-color: var(--pd-system-color-surface-layer-1);
   border: var(--pd-system-border-width-sm) solid var(--pd-system-color-border);
-  color: var(--pd-system-color-on-surface);
+  color: var(--pd-system-color-fg);
   font: var(--pd-system-font-caption-md);
   letter-spacing: var(--pd-system-font-caption-md-letter-spacing);
 }

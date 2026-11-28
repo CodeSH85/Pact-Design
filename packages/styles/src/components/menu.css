@@ -8,7 +8,7 @@
 .pd-menu-shortcut {
   font: var(--pd-system-font-mono-xs);
   letter-spacing: var(--pd-system-font-mono-xs-letter-spacing);
-  color: var(--pd-system-color-on-surface-muted);
+  color: var(--pd-system-color-fg-subtle);
   margin-inline-start: auto;
   padding-inline-start: var(--pd-system-spacing-sm);
 }
@@ -16,7 +16,7 @@
 .pd-menu-trigger-icon {
   width: var(--pd-system-size-icon-xs);
   height: var(--pd-system-size-icon-xs);
-  color: var(--pd-system-color-on-surface-muted);
+  color: var(--pd-system-color-fg-subtle);
 }
 
 .pd-menu-item-content {
@@ -32,7 +32,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: var(--pd-system-color-on-surface-muted);
+  color: var(--pd-system-color-fg-subtle);
 
   & :where(svg) {
     width: var(--pd-system-size-icon-sm);

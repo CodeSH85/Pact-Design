@@ -32,7 +32,7 @@
   font: var(--pd-system-font-mono-xs);
   letter-spacing: var(--pd-system-font-mono-xs-letter-spacing);
   font-variant-numeric: tabular-nums;
-  color: var(--pd-system-color-on-surface-secondary);
+  color: var(--pd-system-color-fg-muted);
 }
 
 .pd-slider-track {
@@ -81,7 +81,7 @@
   pointer-events: none;
 
   &:where([data-disabled]) {
-    background-color: var(--pd-system-color-on-surface-disabled);
+    background-color: var(--pd-system-color-fg-disabled);
   }
 }
 
@@ -124,7 +124,7 @@
 
   &:where([data-disabled]) {
     background-color: var(--pd-system-color-surface-disabled);
-    border-color: var(--pd-system-color-on-surface-disabled);
+    border-color: var(--pd-system-color-fg-disabled);
     cursor: not-allowed;
     scale: 1;
   }

@@ -36,19 +36,19 @@
   align-items: center;
   border-radius: var(--pd-system-radius-xs);
   outline: none;
-  color: var(--pd-system-color-on-surface-muted);
+  color: var(--pd-system-color-fg-subtle);
   text-decoration: none;
   cursor: pointer;
   transition-property: color;
   transition-duration: var(--pd-system-motion-duration-fast);
 
   &:where(:hover, [data-hovered]) {
-    color: var(--pd-system-color-on-surface);
+    color: var(--pd-system-color-fg);
     text-decoration: underline;
   }
 
   &:where([data-current]) {
-    color: var(--pd-system-color-on-surface);
+    color: var(--pd-system-color-fg);
     font-weight: var(--pd-system-font-weight-medium);
     text-decoration: none;
     cursor: default;
@@ -56,7 +56,7 @@
   }
 
   &:where([data-disabled]) {
-    color: var(--pd-system-color-on-surface-disabled);
+    color: var(--pd-system-color-fg-disabled);
     cursor: not-allowed;
   }
 
@@ -69,7 +69,7 @@
 .pd-breadcrumb-separator {
   display: inline-flex;
   align-items: center;
-  color: var(--pd-system-color-on-surface-disabled);
+  color: var(--pd-system-color-fg-disabled);
   flex-shrink: 0;
   user-select: none;
 }

@@ -27,7 +27,7 @@
   padding-block: var(--pd-system-spacing-2xs);
   border-radius: var(--pd-system-radius-xs);
   background-color: var(--pd-system-color-surface-elevated);
-  color: var(--pd-system-color-on-surface);
+  color: var(--pd-system-color-fg);
   border: var(--pd-system-border-width-sm) solid var(--pd-system-color-border);
   box-shadow: var(--pd-system-elevation-md);
   font: var(--pd-system-font-label-xs);
