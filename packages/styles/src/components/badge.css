@@ -23,11 +23,11 @@
   /* Tones */
   &:where([data-tone="default"], :not([data-tone])) {
     --_tone-subtle-bg: var(--pd-system-color-surface-layer-1);
-    --_tone-subtle-fg: var(--pd-system-color-on-surface-secondary);
+    --_tone-subtle-fg: var(--pd-system-color-fg-muted);
     --_tone-subtle-border: var(--pd-system-color-border);
     --_tone-solid-bg: var(--pd-system-color-neutral);
     --_tone-solid-fg: var(--pd-system-color-on-neutral);
-    --_tone-outline-fg: var(--pd-system-color-on-surface);
+    --_tone-outline-fg: var(--pd-system-color-fg);
   }
 
   &:where([data-tone="primary"]) {

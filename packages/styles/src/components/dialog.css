@@ -21,14 +21,14 @@
 .pd-dialog-title {
   font: var(--pd-system-font-heading-sm);
   letter-spacing: var(--pd-system-font-heading-sm-letter-spacing);
-  color: var(--pd-system-color-on-surface);
+  color: var(--pd-system-color-fg);
   margin: 0;
 }
 
 .pd-dialog-description {
   font: var(--pd-system-font-body-sm);
   letter-spacing: var(--pd-system-font-body-sm-letter-spacing);
-  color: var(--pd-system-color-on-surface-muted);
+  color: var(--pd-system-color-fg-subtle);
   margin: 0;
 }
 
@@ -49,10 +49,10 @@
 }
 
 .pd-dialog-close {
-  --_fg: var(--pd-system-color-on-surface-muted);
+  --_fg: var(--pd-system-color-fg-subtle);
 
   &:where(:hover, [data-hovered]) {
-    color: var(--pd-system-color-on-surface);
+    color: var(--pd-system-color-fg);
   }
 
   &:where(:disabled, [data-disabled]) {

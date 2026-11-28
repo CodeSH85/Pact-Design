@@ -20,7 +20,7 @@
     padding: var(--pd-system-spacing-md);
     font: var(--pd-system-font-body-sm);
     letter-spacing: var(--pd-system-font-body-sm-letter-spacing);
-    color: var(--pd-system-color-on-surface-muted);
+    color: var(--pd-system-color-fg-subtle);
     text-align: center;
   }
 }
@@ -35,7 +35,7 @@
   border-radius: var(--pd-system-radius-xs);
   font: var(--pd-system-font-label-sm);
   letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
-  color: var(--pd-system-color-on-surface);
+  color: var(--pd-system-color-fg);
   user-select: none;
   cursor: pointer;
   outline: none;
@@ -59,7 +59,7 @@
   }
 
   &:where([data-disabled]) {
-    color: var(--pd-system-color-on-surface-disabled);
+    color: var(--pd-system-color-fg-disabled);
     cursor: not-allowed;
   }
 }
@@ -73,11 +73,11 @@
 }
 
 .pd-tree-chevron-btn {
-  --_fg: var(--pd-system-color-on-surface-muted);
+  --_fg: var(--pd-system-color-fg-subtle);
   margin-inline-start: calc(var(--pd-system-spacing-2xs) * -1);
 
   &:where(:hover, [data-hovered]) {
-    color: var(--pd-system-color-on-surface);
+    color: var(--pd-system-color-fg);
     background-color: var(--pd-system-color-surface-hover);
   }
 

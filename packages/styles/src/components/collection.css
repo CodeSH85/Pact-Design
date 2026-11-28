@@ -33,7 +33,7 @@
   font: var(--pd-system-font-caption-sm);
   letter-spacing: var(--pd-system-font-caption-sm-letter-spacing);
   font-weight: var(--pd-system-font-weight-medium);
-  color: var(--pd-system-color-on-surface-muted);
+  color: var(--pd-system-color-fg-subtle);
   user-select: none;
 }
 

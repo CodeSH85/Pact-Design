@@ -21,19 +21,19 @@
 .pd-selection-control-label {
   font: var(--pd-system-font-label-sm);
   letter-spacing: var(--pd-system-font-label-sm-letter-spacing);
-  color: var(--pd-system-color-on-surface);
+  color: var(--pd-system-color-fg);
 }
 
 :where(.pd-selection-control[data-disabled]) .pd-selection-control-label {
-  color: var(--pd-system-color-on-surface-disabled);
+  color: var(--pd-system-color-fg-disabled);
 }
 
 .pd-selection-control-description {
   font: var(--pd-system-font-caption-md);
   letter-spacing: var(--pd-system-font-caption-md-letter-spacing);
-  color: var(--pd-system-color-on-surface-muted);
+  color: var(--pd-system-color-fg-subtle);
 }
 
 :where(.pd-selection-control[data-disabled]) .pd-selection-control-description {
-  color: var(--pd-system-color-on-surface-disabled);
+  color: var(--pd-system-color-fg-disabled);
 }

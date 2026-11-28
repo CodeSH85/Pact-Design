@@ -16,22 +16,22 @@
 .pd-calendar-heading {
   font: var(--pd-system-font-heading-xs);
   letter-spacing: var(--pd-system-font-heading-xs-letter-spacing);
-  color: var(--pd-system-color-on-surface);
+  color: var(--pd-system-color-fg);
   margin: 0;
 }
 
 .pd-calendar-nav-btn {
-  --_fg: var(--pd-system-color-on-surface-secondary);
+  --_fg: var(--pd-system-color-fg-muted);
 
   &:where(:hover, [data-hovered]) {
-    color: var(--pd-system-color-on-surface);
+    color: var(--pd-system-color-fg);
     background-color: var(--pd-system-color-surface-layer-2-hover);
   }
 
   &:where(:disabled, [data-disabled]) {
     background-color: transparent;
     border-color: transparent;
-    color: var(--pd-system-color-on-surface-disabled);
+    color: var(--pd-system-color-fg-disabled);
   }
 }
 
@@ -56,7 +56,7 @@
   font: var(--pd-system-font-caption-sm);
   letter-spacing: var(--pd-system-font-caption-sm-letter-spacing);
   font-weight: var(--pd-system-font-weight-medium);
-  color: var(--pd-system-color-on-surface-muted);
+  color: var(--pd-system-color-fg-subtle);
   padding-bottom: var(--pd-system-spacing-xs);
   width: var(--pd-system-size-control-sm);
   text-align: center;
@@ -107,18 +107,18 @@
   }
 
   &:where([data-outside-month]) {
-    color: var(--pd-system-color-on-surface-disabled);
+    color: var(--pd-system-color-fg-disabled);
     pointer-events: none;
   }
 
   &:where([data-disabled]) {
-    color: var(--pd-system-color-on-surface-disabled);
+    color: var(--pd-system-color-fg-disabled);
     cursor: not-allowed;
     pointer-events: none;
   }
 
   &:where([data-unavailable]) {
-    color: var(--pd-system-color-on-surface-disabled);
+    color: var(--pd-system-color-fg-disabled);
     text-decoration: line-through;
     cursor: not-allowed;
   }
