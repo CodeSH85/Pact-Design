@@ -74,11 +74,11 @@ export function CodeDemo({ code = '', language, children }: CodeDemoProps) {
           onToggleExpand={() => setExpanded((prev) => !prev)}
         />
       </div>
-      <div className="border border-border-default">
+      <div className="border border-default">
         {preview}
 
         {expanded && codeBlock && (
-          <div className="border-t border-border-default rounded-b-sm overflow-hidden">
+          <div className="border-t border-default rounded-b-sm overflow-hidden">
             {codeBlock}
           </div>
         )}

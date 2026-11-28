@@ -8,8 +8,8 @@ export interface DocFooterProps {
 function FooterNavLink({ item, direction }: { item: NavItem; direction: 'prev' | 'next' }) {
   const isPrev = direction === 'prev'
   const linkClassName = isPrev
-    ? 'flex flex-col gap-2xs p-md border border-border-default hover:border-border-strong hover:bg-layer-1-hover transition-colors group cursor-pointer text-left'
-    : 'flex flex-col gap-2xs p-md border border-border-default hover:border-border-strong hover:bg-layer-1-hover transition-colors group cursor-pointer text-right sm:col-start-2'
+    ? 'flex flex-col gap-2xs p-md border border-default hover:border-strong hover:bg-layer-1-hover transition-colors group cursor-pointer text-left'
+    : 'flex flex-col gap-2xs p-md border border-default hover:border-strong hover:bg-layer-1-hover transition-colors group cursor-pointer text-right sm:col-start-2'
 
   const content = (
     <>
@@ -62,7 +62,7 @@ export function DocFooter({ currentId }: DocFooterProps) {
   }
 
   return (
-    <footer aria-label="上下頁導覽" className="pt-xl mt-xl border-t border-border-default">
+    <footer aria-label="上下頁導覽" className="pt-xl mt-xl border-t border-default">
       <nav className="grid grid-cols-1 sm:grid-cols-2 gap-md">
         {prev ? (
           <FooterNavLink item={prev} direction="prev" />

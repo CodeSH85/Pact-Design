@@ -270,12 +270,12 @@ export function TokenPlayground() {
   const isDirty = derived.dirtyFilesList.length > 0
 
   return (
-    <div className="flex flex-col h-full min-h-0 overflow-hidden bg-layer-1 rounded-xs border-sm border-border-default">
+    <div className="flex flex-col h-full min-h-0 overflow-hidden bg-layer-1 rounded-xs border-sm border-default">
       {/* Live Runtime CSS Custom Properties Override */}
       <style id="pact-playground-token-css">{derived.css}</style>
 
       {/* Playground Action Header */}
-      <header className="flex flex-wrap items-center justify-between gap-sm px-md py-xs bg-layer-2 border-b border-border-default shrink-0">
+      <header className="flex flex-wrap items-center justify-between gap-sm px-md py-xs bg-layer-2 border-b border-default shrink-0">
         <div className="flex items-center gap-sm">
           <span className="inline-flex items-center justify-center w-6 h-6 rounded-xs bg-primary text-on-primary text-label-sm font-bold">
             P
@@ -391,7 +391,7 @@ export function TokenPlayground() {
       >
         <ModalDialog className="flex-1 min-h-0 overflow-hidden">
           <ModalHeader title="產生的 CSS Custom Properties" />
-          <pre className="flex-1 min-h-0 overflow-auto p-md m-0 rounded-xs bg-layer-2 border-sm border-border-default text-mono-xs text-fg">
+          <pre className="flex-1 min-h-0 overflow-auto p-md m-0 rounded-xs bg-layer-2 border-sm border-default text-mono-xs text-fg">
             {derived.css}
           </pre>
           <ModalFooter>

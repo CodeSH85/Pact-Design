@@ -73,7 +73,7 @@ const componentPlaygroundRoute = createRoute({
 
     return (
       <div className="flex flex-col gap-xl">
-        <header className="flex flex-col gap-xs pb-md border-b border-border-default">
+        <header className="flex flex-col gap-xs pb-md border-b border-default">
           <span className="text-mono-xs text-primary">元件</span>
           <h1 className="text-heading-xl text-fg">Playground</h1>
           <p className="text-body-md text-fg-subtle m-none">

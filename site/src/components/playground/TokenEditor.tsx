@@ -349,7 +349,7 @@ function ColorRawControl({ value, onChange, label }: ColorRawControlProps) {
       {label && <span className="text-caption-sm text-fg-subtle min-w-16 shrink-0">{label}</span>}
       <input
         type="color"
-        className="w-control-xs h-control-xs p-0 border-sm border-border-default rounded-2xs cursor-pointer bg-transparent shrink-0"
+        className="w-control-xs h-control-xs p-0 border-sm border-default rounded-2xs cursor-pointer bg-transparent shrink-0"
         value={hex}
         onChange={(e) => {
           setTextHex(e.target.value)
@@ -689,7 +689,7 @@ function ResolvedFooter({ token, resolvedEntry, errorMsg }: ResolvedFooterProps)
     <div className="flex items-center gap-2xs text-mono-xs text-fg-subtle truncate">
       {token.type === 'color' && (
         <span
-          className="inline-block w-3 h-3 rounded-2xs border-sm border-border-default shrink-0"
+          className="inline-block w-3 h-3 rounded-2xs border-sm border-default shrink-0"
           style={{ background: C.colorValueToCss(resolvedEntry?.value) }}
         />
       )}
@@ -757,7 +757,7 @@ function TokenRow({
             ? 'bg-info-subtle border-primary ring-md ring-primary'
             : isDirty
               ? 'bg-layer-2 border-warning-border'
-              : 'bg-layer-2 border-border-subtle'
+              : 'bg-layer-2 border-subtle'
       ].join(' ')}
     >
       <RowHeader
@@ -904,7 +904,7 @@ function ShadeEditor({
           ? 'bg-info-subtle border-primary ring-md ring-primary'
           : isDirty
             ? 'bg-layer-1 border-warning-border'
-            : 'bg-layer-1 border-border-subtle'
+            : 'bg-layer-1 border-subtle'
       ].join(' ')}
     >
       <RowHeader
@@ -986,10 +986,10 @@ function ShadeEditor({
             <span
               key={letter}
               title={`與 ${bg} 的對比 — APCA: Lc ${lc.toFixed(1)} (${apca.usage}) · WCAG 2.1: ${ratio.toFixed(2)}:1 (${wcag})`}
-              className="inline-flex items-center gap-2xs px-2xs py-3xs rounded-2xs bg-layer-2 border-sm border-border-subtle text-mono-xs"
+              className="inline-flex items-center gap-2xs px-2xs py-3xs rounded-2xs bg-layer-2 border-sm border-subtle text-mono-xs"
             >
               <span
-                className="inline-flex items-center justify-center w-4 h-4 rounded-2xs font-bold text-caption-sm border-sm border-border-default"
+                className="inline-flex items-center justify-center w-4 h-4 rounded-2xs font-bold text-caption-sm border-sm border-default"
                 style={{ background: bg, color: hex }}
               >
                 {letter}
@@ -1041,7 +1041,7 @@ function PaletteBatchTools({ list, onMutate }: PaletteBatchToolsProps) {
   }
 
   return (
-    <div className="flex flex-col gap-2xs p-xs rounded-xs bg-layer-1 border-sm border-border-subtle">
+    <div className="flex flex-col gap-2xs p-xs rounded-xs bg-layer-1 border-sm border-subtle">
       <div className="flex items-center gap-2xs">
         <span className="text-caption-sm text-fg-subtle w-24 shrink-0">Hue 位移</span>
         <Slider
@@ -1158,7 +1158,7 @@ function PaletteWidget({
   return (
     <div
       data-palette={parentId}
-      className="flex flex-col gap-xs p-xs rounded-xs bg-layer-2 border-sm border-border-default"
+      className="flex flex-col gap-xs p-xs rounded-xs bg-layer-2 border-sm border-default"
     >
       <div className="flex items-center justify-between gap-xs">
         <strong className="text-label-sm text-fg">
@@ -1200,8 +1200,8 @@ function PaletteWidget({
               className={[
                 'relative h-7 rounded-2xs text-mono-xs flex items-center justify-center cursor-pointer border-sm transition-transform',
                 isSelected
-                  ? 'border-border-focus ring-sm ring-border-focus z-docked scale-105 font-bold'
-                  : 'border-border-subtle hover:scale-105'
+                  ? 'border-focus ring-sm ring-focus z-docked scale-105 font-bold'
+                  : 'border-subtle hover:scale-105'
               ].join(' ')}
             >
               <span>{t.path.at(-1)}</span>
@@ -1413,7 +1413,7 @@ export function TokenEditor({
         fileLevel === 'component' ? `component · ${T.fileStemOf(file)}` : fileLevel
       fileSections.push(
         <section key={file} className="flex flex-col gap-xs">
-          <div className="flex items-center justify-between px-xs py-2xs rounded-2xs bg-layer-2 border-sm border-border-default">
+          <div className="flex items-center justify-between px-xs py-2xs rounded-2xs bg-layer-2 border-sm border-default">
             <h3 className="text-label-sm text-fg m-0">
               {sectionLabel}{themeTag}
             </h3>
@@ -1428,7 +1428,7 @@ export function TokenEditor({
   }
 
   return (
-    <aside className="flex flex-col w-96 shrink-0 bg-layer-1 border-r border-border-default min-h-0 overflow-hidden">
+    <aside className="flex flex-col w-96 shrink-0 bg-layer-1 border-r border-default min-h-0 overflow-hidden">
       {/* Category Tabs */}
       <Tabs
         variant="pill"
@@ -1439,7 +1439,7 @@ export function TokenEditor({
       >
         <TabList
           aria-label="Token Categories"
-          className="flex flex-wrap gap-3xs p-xs bg-layer-2 border-b border-border-default w-full"
+          className="flex flex-wrap gap-3xs p-xs bg-layer-2 border-b border-default w-full"
         >
           {categories.map((cat) => {
             const count = [...tokens.values()].filter((t) => T.categoryOf(t.file) === cat).length
@@ -1448,7 +1448,7 @@ export function TokenEditor({
               <Tab
                 key={cat}
                 id={cat}
-                className="px-xs gap-2xs rounded-2xs border-sm border-border-subtle bg-layer-1 data-[selected]:border-primary"
+                className="px-xs gap-2xs rounded-2xs border-sm border-subtle bg-layer-1 data-[selected]:border-primary"
               >
                 {({ isSelected }) => (
                   <>
@@ -1468,7 +1468,7 @@ export function TokenEditor({
       </Tabs>
 
       {/* Search & Level Filter */}
-      <div className="flex items-center gap-2xs p-xs border-b border-border-default bg-layer-1 shrink-0">
+      <div className="flex items-center gap-2xs p-xs border-b border-default bg-layer-1 shrink-0">
         <SearchField
           size="sm"
           aria-label="搜尋 token"

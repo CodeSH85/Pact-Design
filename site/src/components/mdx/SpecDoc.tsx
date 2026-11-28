@@ -71,22 +71,17 @@ export function SpecDoc({ id, category = 'spec', showHeader = true }: SpecDocPro
   }
 
   const { Content, frontmatter } = entry
-  const { eyebrow, description } = frontmatter
+  const { eyebrow } = frontmatter
 
   return (
     <div className="flex gap-2xl items-start">
       <div className="flex-1 min-w-0 flex flex-col gap-xl">
         {showHeader && (
-          <header className="flex flex-col gap-xs pb-md border-b border-border-default">
+          <header className="flex flex-col gap-xs pb-md border-b border-default">
             {eyebrow && (
-              <span className="text-mono-xs text-primary-text uppercase">{eyebrow}</span>
+              <span className="text-caption-md text-primary-text uppercase">{eyebrow}</span>
             )}
-            <h1 className="text-heading-lg text-fg">{title}</h1>
-            {description && (
-              <p className="text-body-md text-fg-subtle my-sm">
-                {description}
-              </p>
-            )}
+            <h1 className="text-heading-xl-medium text-fg my-sm">{title}</h1>
           </header>
         )}
 

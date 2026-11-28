@@ -164,7 +164,7 @@ export const mdxComponents: ReturnType<typeof useMDXComponents> = {
   ),
   code: (props: ComponentPropsWithoutRef<'code'>) => (
     <code
-      className="text-mono-sm px-xs py-1px rounded-2xs bg-layer-2 border border-border-subtle text-fg"
+      className="text-mono-sm px-xs py-1px rounded-2xs bg-layer-2 border border-subtle text-fg"
       {...props}
     />
   ),
@@ -187,19 +187,19 @@ export const mdxComponents: ReturnType<typeof useMDXComponents> = {
     return <CodeBlock className={className} style={style} {...props} />
   },
   table: (props: ComponentPropsWithoutRef<'table'>) => (
-    <div className="overflow-x-auto border border-border-default rounded-xs bg-layer-2">
+    <div className="overflow-x-auto border border-default rounded-xs bg-layer-2">
       <table className="w-full border-collapse text-left text-body-sm" {...props} />
     </div>
   ),
   th: (props: ComponentPropsWithoutRef<'th'>) => (
     <th
-      className="h-control-sm py-2xs px-sm bg-layer-2 text-fg-muted text-label-sm border-b border-border-default whitespace-nowrap"
+      className="h-control-sm py-2xs px-sm bg-layer-2 text-fg-muted text-label-sm border-b border-default whitespace-nowrap"
       {...props}
     />
   ),
   td: (props: ComponentPropsWithoutRef<'td'>) => (
     <td
-      className="h-control-md py-xs px-sm bg-layer-1 border-b border-border-subtle text-fg align-middle"
+      className="h-control-md py-xs px-sm bg-layer-1 border-b border-subtle text-fg align-middle"
       {...props}
     />
   ),
