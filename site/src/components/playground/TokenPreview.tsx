@@ -103,8 +103,8 @@ function PreviewSection({ id, title, note, children }: PreviewSectionProps) {
       className="flex flex-col gap-md p-md rounded-sm bg-layer-1 border-sm border-border-default"
     >
       <header className="flex flex-col gap-3xs pb-xs border-b border-border-subtle">
-        <h2 className="text-heading-xs text-on-surface m-0">{title}</h2>
-        {note && <p className="text-caption-md text-on-surface-muted m-0">{note}</p>}
+        <h2 className="text-heading-xs text-fg m-0">{title}</h2>
+        {note && <p className="text-caption-md text-fg-subtle m-0">{note}</p>}
       </header>
       {children}
     </section>
@@ -131,7 +131,7 @@ function MotionRow({ token, resolvedVal, isDuration, onJump }: MotionRowProps) {
       title={token.id}
       className="grid grid-cols-[12rem_1fr_12rem] items-center gap-sm px-sm py-xs rounded-xs bg-layer-2 border-sm border-border-subtle hover:border-border-strong cursor-pointer"
     >
-      <code className="text-mono-xs text-on-surface truncate">
+      <code className="text-mono-xs text-fg truncate">
         {token.path.filter((seg) => seg !== '$root').slice(2).join('.')}
       </code>
       <div className="relative h-5 rounded-full bg-layer-1 border-sm border-border-default overflow-hidden p-3xs flex items-center">
@@ -145,7 +145,7 @@ function MotionRow({ token, resolvedVal, isDuration, onJump }: MotionRowProps) {
           }}
         />
       </div>
-      <span className="text-mono-xs text-on-surface-muted truncate text-right">
+      <span className="text-mono-xs text-fg-subtle truncate text-right">
         {formatValue(token.type, resolvedVal)}
         {ref ? ` ← ${ref}` : ''}
       </span>
@@ -218,9 +218,9 @@ export function TokenPreview({
       return {
         bg: t,
         on,
-        hover: tokens.get(`pd.system.color.${name}.hover`),
-        active: tokens.get(`pd.system.color.${name}.active`),
-        subtle: tokens.get(`pd.system.color.${name}.subtle.$root`),
+        hover: tokens.get(`pd.system.color.${name}.strong`),
+        active: tokens.get(`pd.system.color.${name}.stronger`),
+        subtle: tokens.get(`pd.system.color.${name}.subtle`),
         onSubtle: tokens.get(`pd.system.color.on-${name}.subtle`),
         text: tokens.get(`pd.system.color.${name}.text.$root`),
         border: tokens.get(`pd.system.color.${name}.border.$root`),
@@ -247,7 +247,7 @@ export function TokenPreview({
   const bgElevId = pick('pd.system.color.surface.elevated')
   const bgHoverId = pick('pd.system.color.surface.layer-2.hover', 'pd.system.color.surface.hover')
   const bgSelectedId = pick('pd.system.color.surface.layer-2.selected.$root', 'pd.system.color.surface.selected.$root')
-  const txtPrimaryId = pick('pd.system.color.on-surface.$root')
+  const txtPrimaryId = pick('pd.system.color.fg.$root')
 
   const bgTokens = byType('color').filter((t) => t.path[1] === 'system' && t.path[2] === 'color' && t.path[3] === 'surface')
   const isInteractiveBg = (t: Token): boolean => {
@@ -257,7 +257,7 @@ export function TokenPreview({
   const bgLayerTokens = bgTokens.filter((t) => !isInteractiveBg(t))
   const bgInteractiveTokens = bgTokens.filter((t) => isInteractiveBg(t))
 
-  const textTokens = byType('color').filter((t) => t.path[1] === 'system' && t.path[2] === 'color' && t.path[3] === 'on-surface')
+  const textTokens = byType('color').filter((t) => t.path[1] === 'system' && t.path[2] === 'color' && t.path[3] === 'fg')
   const borderColorTokens = byType('color').filter((t) => t.path[1] === 'system' && t.path[2] === 'color' && t.path[3] === 'border')
 
   // Global raw palettes
@@ -373,7 +373,7 @@ export function TokenPreview({
         </span>
         <div className="flex flex-col gap-3xs">
           <strong style={{ ...fontStyle(labelId), color: titleCss }}>{title}</strong>
-          <span className="text-body-sm text-on-surface">{text}</span>
+          <span className="text-body-sm text-fg">{text}</span>
         </div>
       </div>
     )
@@ -436,7 +436,7 @@ export function TokenPreview({
           </ToggleButton>
         </ToggleButtonGroup>
 
-        <span className="text-caption-md text-on-surface-muted">
+        <span className="text-caption-md text-fg-subtle">
           切換主題將同步預覽與左側 system.light / system.dark 編輯器（點擊預覽元素可跳轉至對應 token）
         </span>
       </div>
@@ -458,14 +458,14 @@ export function TokenPreview({
                 <span
                   onClick={() => onJump(labelXsId)}
                   title={labelXsId}
-                  className="text-label-xs text-on-surface-muted uppercase cursor-pointer w-fit"
+                  className="text-label-xs text-fg-subtle uppercase cursor-pointer w-fit"
                 >
                   Workspace · Compact UI
                 </span>
                 <h3
                   onClick={() => onJump(headingId)}
                   title={headingId}
-                  className="text-heading-md text-on-surface m-0 cursor-pointer w-fit"
+                  className="text-heading-md text-fg m-0 cursor-pointer w-fit"
                 >
                   專案設定 Project Settings
                 </h3>
@@ -473,7 +473,7 @@ export function TokenPreview({
                   <div
                     onClick={() => onJump(headingXsId)}
                     title={headingXsId}
-                    className="text-heading-xs font-medium text-on-surface cursor-pointer w-fit"
+                    className="text-heading-xs font-medium text-fg cursor-pointer w-fit"
                   >
                     高密度、緊湊且直截了當的介面配置
                   </div>
@@ -481,7 +481,7 @@ export function TokenPreview({
                 <p
                   onClick={() => onJump(bodySmId)}
                   title={bodySmId}
-                  className="text-body-sm text-on-surface-muted m-0 cursor-pointer"
+                  className="text-body-sm text-fg-subtle m-0 cursor-pointer"
                 >
                   減少非必要的留白與視覺裝飾，專注於清晰的資訊階層與快速操作。
                 </p>
@@ -531,7 +531,7 @@ export function TokenPreview({
               <div className="flex flex-col gap-xs p-md rounded-sm bg-layer-2 border-sm border-border-default shadow-elevation-xs">
                 <h4
                   onClick={() => onJump(labelId)}
-                  className="text-label-sm text-on-surface m-0 cursor-pointer"
+                  className="text-label-sm text-fg m-0 cursor-pointer"
                 >
                   狀態提示 Alerts
                 </h4>
@@ -544,7 +544,7 @@ export function TokenPreview({
               <div className="flex flex-col gap-xs p-md rounded-sm bg-layer-2 border-sm border-border-default shadow-elevation-xs">
                 <h4
                   onClick={() => onJump(labelId)}
-                  className="text-label-sm text-on-surface m-0 cursor-pointer"
+                  className="text-label-sm text-fg m-0 cursor-pointer"
                 >
                   語意色按鈕與標籤 Semantic Roles & Badges
                 </h4>
@@ -582,7 +582,7 @@ export function TokenPreview({
         <PreviewSection id="color" title="色彩 Color">
           {bgTokens.length > 0 && (
             <div className="flex flex-col gap-sm">
-              <h3 className="text-label-md text-on-surface m-0">
+              <h3 className="text-label-md text-fg m-0">
                 System · 背景與容器階層（Compact Multi-Pane Workspace 多欄高密度工作區）
               </h3>
               <div className="rounded-sm border-sm border-border-default shadow-elevation-xs overflow-hidden flex flex-col">
@@ -596,15 +596,15 @@ export function TokenPreview({
                     <span className="inline-flex items-center justify-center w-5 h-5 rounded-2xs bg-primary text-on-primary text-label-xs font-bold">
                       P
                     </span>
-                    <strong className="text-label-sm text-on-surface">TopNav</strong>
-                    <nav className="flex items-center gap-sm text-body-sm text-on-surface-muted">
+                    <strong className="text-label-sm text-fg">TopNav</strong>
+                    <nav className="flex items-center gap-sm text-body-sm text-fg-subtle">
                       <span>檔案 File</span>
                       <span>編輯 Edit</span>
                       <span>檢視 View</span>
                       <span>視窗 Window</span>
                     </nav>
                   </div>
-                  <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-2 text-on-surface-muted border-sm border-border-subtle">
+                  <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-2 text-fg-subtle border-sm border-border-subtle">
                     background.layer-1 ({formatValue('color', val(bgL1Id))})
                   </code>
                 </header>
@@ -617,8 +617,8 @@ export function TokenPreview({
                     className="w-44 shrink-0 bg-layer-1 p-xs border-r border-border-default flex flex-col gap-2xs cursor-pointer"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-label-xs text-on-surface-muted">Side-Nav</span>
-                      <code className="text-mono-xs text-on-surface-muted">layer-1</code>
+                      <span className="text-label-xs text-fg-subtle">Side-Nav</span>
+                      <code className="text-mono-xs text-fg-subtle">layer-1</code>
                     </div>
                     <div className="flex flex-col gap-3xs mt-3xs">
                       {['▤ 總覽 Overview', '☰ 資料表 Records', '⛁ 儲存體 Storage', '⚙ 系統設定 Settings'].map((tool, i) => (
@@ -626,10 +626,10 @@ export function TokenPreview({
                           key={tool}
                           style={
                             i === 0
-                              ? { background: v(bgL1SelectedId), color: v('pd.system.color.on-surface.$root') }
+                              ? { background: v(bgL1SelectedId), color: v('pd.system.color.fg.$root') }
                               : undefined
                           }
-                          className={`px-xs py-3xs rounded-2xs text-body-sm ${i === 0 ? 'font-medium' : 'text-on-surface-muted'}`}
+                          className={`px-xs py-3xs rounded-2xs text-body-sm ${i === 0 ? 'font-medium' : 'text-fg-subtle'}`}
                         >
                           {tool}
                         </div>
@@ -644,10 +644,10 @@ export function TokenPreview({
                     className="flex-1 bg-base p-md flex flex-col gap-sm cursor-pointer"
                   >
                     <div className="flex items-center justify-between gap-xs">
-                      <strong className="text-label-xs text-on-surface-muted">
+                      <strong className="text-label-xs text-fg-subtle">
                         底層畫布 Workspace Base（結構分隔底層，不直接放置操作元素）
                       </strong>
-                      <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-on-surface-muted border-sm border-border-subtle">
+                      <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-fg-subtle border-sm border-border-subtle">
                         background.base ({formatValue('color', val(bgBaseId))})
                       </code>
                     </div>
@@ -663,14 +663,14 @@ export function TokenPreview({
                     >
                       <div className="flex items-center justify-between pb-2xs border-b border-border-default">
                         <div>
-                          <strong className="text-label-sm text-on-surface">
+                          <strong className="text-label-sm text-fg">
                             主要內容面板 Primary Content Panel
                           </strong>
-                          <div className="text-caption-md text-on-surface-muted">
+                          <div className="text-caption-md text-fg-subtle">
                             放置於 background.base 之上，採用最清晰的 background.layer-2 承載密集資訊。
                           </div>
                         </div>
-                        <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-on-surface-muted border-sm border-border-subtle">
+                        <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-fg-subtle border-sm border-border-subtle">
                           background.layer-2 ({formatValue('color', val(bgL2Id))})
                         </code>
                       </div>
@@ -685,14 +685,14 @@ export function TokenPreview({
                         className="bg-elevated shadow-elevation-md border-sm border-border-default rounded-xs p-sm flex flex-col gap-2xs cursor-pointer"
                       >
                         <div className="flex items-center justify-between gap-xs">
-                          <strong className="text-label-sm text-on-surface">
+                          <strong className="text-label-sm text-fg">
                             浮動操作面板 Contextual Popover
                           </strong>
-                          <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-on-surface-muted border-sm border-border-subtle">
+                          <code className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-fg-subtle border-sm border-border-subtle">
                             background.elevated + elevation.md
                           </code>
                         </div>
-                        <div className="text-caption-md text-on-surface-muted">
+                        <div className="text-caption-md text-fg-subtle">
                           與 <code>layer-2</code> 亮度相同（{formatValue('color', val(bgElevId))}），透過陰影與邊框拉開層次。
                         </div>
                       </div>
@@ -724,12 +724,12 @@ export function TokenPreview({
                         {formatValue('color', val(t.id))} → {refOf(t.node.$value) ?? '自訂值'}
                       </span>
                       {isElevated && (
-                        <span className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-on-surface border-sm border-border-subtle w-fit">
+                        <span className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-fg border-sm border-border-subtle w-fit">
                           + pd.system.elevation.md
                         </span>
                       )}
                       {isBackdrop && (
-                        <span className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-on-surface border-sm border-border-subtle w-fit">
+                        <span className="text-mono-xs px-2xs py-3xs rounded-2xs bg-layer-1 text-fg border-sm border-border-subtle w-fit">
                           Modal / Drawer Scrim
                         </span>
                       )}
@@ -741,7 +741,7 @@ export function TokenPreview({
               {/* Interactive Surface States */}
               {bgInteractiveTokens.length > 0 && (
                 <div className="flex flex-col gap-xs pt-xs">
-                  <h3 className="text-label-md text-on-surface m-0">
+                  <h3 className="text-label-md text-fg m-0">
                     System · 互動表面狀態（Interactive Surface States · 高密度資料表格與清單列）
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-xs">
@@ -751,10 +751,10 @@ export function TokenPreview({
                         onClick={() => onJump(t.id)}
                         title={t.id}
                         style={{ background: v(t.id) }}
-                        className="flex flex-col gap-3xs p-sm rounded-xs border-sm border-border-default text-on-surface cursor-pointer"
+                        className="flex flex-col gap-3xs p-sm rounded-xs border-sm border-border-default text-fg cursor-pointer"
                       >
                         <strong className="text-label-sm">{displayPath(t)}</strong>
-                        <span className="text-mono-xs text-on-surface-muted">
+                        <span className="text-mono-xs text-fg-subtle">
                           {formatValue('color', val(t.id))} → {refOf(t.node.$value) ?? '自訂值'}
                         </span>
                         {txtPrimaryId && (
@@ -766,7 +766,7 @@ export function TokenPreview({
 
                   {/* Interactive Table Demo */}
                   <div className="rounded-xs border-sm border-border-default bg-layer-2 overflow-hidden">
-                    <div className="grid grid-cols-[8rem_1fr_8rem_6rem_8rem] items-center gap-sm px-sm py-2xs bg-layer-1 border-b border-border-default text-label-xs text-on-surface-muted">
+                    <div className="grid grid-cols-[8rem_1fr_8rem_6rem_8rem] items-center gap-sm px-sm py-2xs bg-layer-1 border-b border-border-default text-label-xs text-fg-subtle">
                       <span>識別碼 (mono.xs)</span>
                       <span>項目名稱 Item Name（Hover / 點按檢視狀態）</span>
                       <span className="text-right">數值 (.tabular-nums)</span>
@@ -775,7 +775,7 @@ export function TokenPreview({
                     </div>
                     <div
                       onClick={() => onJump(bgHoverId)}
-                      className="grid grid-cols-[8rem_1fr_8rem_6rem_8rem] items-center gap-sm px-sm py-2xs border-b border-border-subtle bg-layer-2 hover:bg-layer-2-hover active:bg-layer-2-active text-body-sm text-on-surface cursor-pointer"
+                      className="grid grid-cols-[8rem_1fr_8rem_6rem_8rem] items-center gap-sm px-sm py-2xs border-b border-border-subtle bg-layer-2 hover:bg-layer-2-hover active:bg-layer-2-active text-body-sm text-fg cursor-pointer"
                     >
                       <span
                         onClick={(e) => {
@@ -789,11 +789,11 @@ export function TokenPreview({
                       <span>Core API Gateway</span>
                       <span className="tabular-nums text-right">12.05 ms</span>
                       <span>{renderBadge(pairFor('success'))}</span>
-                      <code className="text-mono-xs text-on-surface-muted">layer-2 → hover</code>
+                      <code className="text-mono-xs text-fg-subtle">layer-2 → hover</code>
                     </div>
                     <div
                       onClick={() => onJump(bgSelectedId)}
-                      className="grid grid-cols-[8rem_1fr_8rem_6rem_8rem] items-center gap-sm px-sm py-2xs border-b border-border-subtle bg-layer-2-selected hover:bg-layer-2-selected-hover text-body-sm text-on-surface cursor-pointer"
+                      className="grid grid-cols-[8rem_1fr_8rem_6rem_8rem] items-center gap-sm px-sm py-2xs border-b border-border-subtle bg-layer-2-selected hover:bg-layer-2-selected-hover text-body-sm text-fg cursor-pointer"
                     >
                       <span
                         onClick={(e) => {
@@ -807,11 +807,11 @@ export function TokenPreview({
                       <strong>✦ 已選取項目：Auth Token Service</strong>
                       <span className="tabular-nums text-right">108.40 ms</span>
                       <span>{renderBadge(pairFor('primary'))}</span>
-                      <code className="text-mono-xs text-on-surface-muted">selected → hover</code>
+                      <code className="text-mono-xs text-fg-subtle">selected → hover</code>
                     </div>
                     <div
                       onClick={() => onJump(bgHoverId)}
-                      className="grid grid-cols-[8rem_1fr_8rem_6rem_8rem] items-center gap-sm px-sm py-2xs bg-layer-2 hover:bg-layer-2-hover active:bg-layer-2-active text-body-sm text-on-surface cursor-pointer"
+                      className="grid grid-cols-[8rem_1fr_8rem_6rem_8rem] items-center gap-sm px-sm py-2xs bg-layer-2 hover:bg-layer-2-hover active:bg-layer-2-active text-body-sm text-fg cursor-pointer"
                     >
                       <span
                         onClick={(e) => {
@@ -825,7 +825,7 @@ export function TokenPreview({
                       <span>Batch Sync Worker</span>
                       <span className="tabular-nums text-right">9.10 ms</span>
                       <span>{renderBadge(pairFor('warning'))}</span>
-                      <code className="text-mono-xs text-on-surface-muted">layer-2 → hover</code>
+                      <code className="text-mono-xs text-fg-subtle">layer-2 → hover</code>
                     </div>
                   </div>
                 </div>
@@ -836,7 +836,7 @@ export function TokenPreview({
           {/* Text & Border Semantic Colors */}
           {(textTokens.length > 0 || borderColorTokens.length > 0) && (
             <div className="flex flex-col gap-xs pt-xs">
-              <h3 className="text-label-md text-on-surface m-0">
+              <h3 className="text-label-md text-fg m-0">
                 System · 文字與邊框語意色（Text & Border on Layer-2 · APCA Lc 對比）
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-xs">
@@ -861,10 +861,10 @@ export function TokenPreview({
                     onClick={() => onJump(t.id)}
                     title={t.id}
                     style={{ borderColor: v(t.id), borderWidth: '2px' }}
-                    className="flex flex-col gap-3xs p-sm rounded-xs bg-layer-2 border-solid text-on-surface cursor-pointer"
+                    className="flex flex-col gap-3xs p-sm rounded-xs bg-layer-2 border-solid text-fg cursor-pointer"
                   >
                     <strong className="text-label-sm">{displayPath(t)}</strong>
-                    <span className="text-mono-xs text-on-surface-muted">
+                    <span className="text-mono-xs text-fg-subtle">
                       {formatValue('color', val(t.id))} → {refOf(t.node.$value) ?? '自訂值'}
                     </span>
                     {bgL2Id && <ContrastBadge txtVal={val(t.id)} bgVal={val(bgL2Id)} />}
@@ -877,7 +877,7 @@ export function TokenPreview({
           {/* Solid Semantic Roles */}
           {pairs.length > 0 && (
             <div className="flex flex-col gap-xs pt-xs">
-              <h3 className="text-label-md text-on-surface m-0">
+              <h3 className="text-label-md text-fg m-0">
                 System · 實心語意與互動狀態（Solid Semantic Roles · Hover / Active）
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-xs">
@@ -937,7 +937,7 @@ export function TokenPreview({
           {/* Subtle Status Containers */}
           {pairs.some((p) => p.subtle && p.onSubtle) && (
             <div className="flex flex-col gap-xs pt-xs">
-              <h3 className="text-label-md text-on-surface m-0">
+              <h3 className="text-label-md text-fg m-0">
                 System · 柔和狀態容器與同色系標籤（Subtle Status Containers · X-subtle / on-X-subtle / X-border）
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-xs">
@@ -993,7 +993,7 @@ export function TokenPreview({
           {/* Semantic Foreground Text & Strong Borders */}
           {pairs.some((p) => p.text) && (
             <div className="flex flex-col gap-xs pt-xs">
-              <h3 className="text-label-md text-on-surface m-0">
+              <h3 className="text-label-md text-fg m-0">
                 System · 語意前景文字與強調邊框（Semantic Text / Icons & Border Strong on Layer-1）
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-xs">
@@ -1015,7 +1015,7 @@ export function TokenPreview({
                         <strong style={{ color: v(text.id) }} className="text-label-md">
                           {name}.text · Link &amp; Checkmark
                         </strong>
-                        <span className="text-mono-xs text-on-surface-muted">
+                        <span className="text-mono-xs text-fg-subtle">
                           text → {refOf(text.node.$value) ?? formatValue('color', val(text.id))}
                         </span>
                         {borderStrong && (
@@ -1024,7 +1024,7 @@ export function TokenPreview({
                               e.stopPropagation()
                               onJump(borderStrong.id)
                             }}
-                            className="text-mono-xs text-on-surface-muted underline decoration-dotted"
+                            className="text-mono-xs text-fg-subtle underline decoration-dotted"
                           >
                             border.strong → {refOf(borderStrong.node.$value) ?? formatValue('color', val(borderStrong.id))}
                           </span>
@@ -1040,11 +1040,11 @@ export function TokenPreview({
           {/* Global Palettes */}
           <div className="flex flex-col gap-xs pt-xs">
             <div className="flex flex-wrap items-center justify-between gap-sm">
-              <h3 className="text-label-md text-on-surface m-0">
+              <h3 className="text-label-md text-fg m-0">
                 Global · 色票（點擊跳轉左側 OKLCH 調色盤）
               </h3>
               <div className="flex items-center gap-xs">
-                <span className="text-caption-md text-on-surface-muted">色票對比文字：</span>
+                <span className="text-caption-md text-fg-subtle">色票對比文字：</span>
                 <ToggleButtonGroup
                   aria-label="色票對比文字顯示"
                   selectionMode="single"
@@ -1069,7 +1069,7 @@ export function TokenPreview({
             <div className="flex flex-col gap-2xs">
               {palettes.map(([key, list]) => (
                 <div key={key} className="grid grid-cols-[6rem_1fr] items-center gap-xs">
-                  <code className="text-mono-xs text-on-surface-secondary truncate">
+                  <code className="text-mono-xs text-fg-muted truncate">
                     {key.split('.').at(-1)}
                   </code>
                   <div className="grid grid-cols-12 gap-3xs">
@@ -1109,7 +1109,7 @@ export function TokenPreview({
               ))}
               {singles.length > 0 && (
                 <div className="grid grid-cols-[6rem_1fr] items-center gap-xs">
-                  <code className="text-mono-xs text-on-surface-secondary">other</code>
+                  <code className="text-mono-xs text-fg-muted">other</code>
                   <div className="flex flex-wrap gap-2xs">
                     {singles.map((t) => (
                       <div
@@ -1135,7 +1135,7 @@ export function TokenPreview({
 
         {/* 3. Typography */}
         <PreviewSection id="typography" title="字體 Typography">
-          <h3 className="text-label-md text-on-surface m-0">System · 複合字體樣式</h3>
+          <h3 className="text-label-md text-fg m-0">System · 複合字體樣式</h3>
           <div className="flex flex-col gap-xs">
             {typos.map((t) => {
               const isMono = t.path.includes('mono')
@@ -1151,11 +1151,11 @@ export function TokenPreview({
                 >
                   <div className="flex items-center justify-between gap-sm">
                     <code className="text-mono-xs text-primary">{displayPath(t)}</code>
-                    <span className="text-mono-xs text-on-surface-muted">
+                    <span className="text-mono-xs text-fg-subtle">
                       {formatValue('typography', val(t.id) ?? {})}
                     </span>
                   </div>
-                  <div style={fontStyle(t.id)} className="text-on-surface truncate">
+                  <div style={fontStyle(t.id)} className="text-fg truncate">
                     {sample}
                   </div>
                 </div>
@@ -1163,7 +1163,7 @@ export function TokenPreview({
             })}
           </div>
 
-          <h3 className="text-label-md text-on-surface m-0 pt-xs">
+          <h3 className="text-label-md text-fg m-0 pt-xs">
             等寬字體與對齊數字排版對照（pd.system.font.mono vs .tabular-nums）
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-xs">
@@ -1171,10 +1171,10 @@ export function TokenPreview({
               onClick={() => onJump(monoSmId)}
               className="flex flex-col gap-xs p-sm rounded-xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
             >
-              <h4 className="text-label-xs text-on-surface m-0">
+              <h4 className="text-label-xs text-fg m-0">
                 1. 等寬字體 <code>pd.system.font.mono.sm</code>
               </h4>
-              <div style={fontStyle(monoSmId)} className="flex flex-col text-on-surface">
+              <div style={fontStyle(monoSmId)} className="flex flex-col text-fg">
                 <span>ID-2026-0011 · v1.0.4</span>
                 <span>ID-2026-8840 · v12.8.0</span>
                 <span>SHA-256: 0O1lI-9f4e2c8a</span>
@@ -1184,10 +1184,10 @@ export function TokenPreview({
               onClick={() => onJump(bodySmId)}
               className="flex flex-col gap-xs p-sm rounded-xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
             >
-              <h4 className="text-label-xs text-on-surface m-0">
+              <h4 className="text-label-xs text-fg m-0">
                 2. 無襯線 + <code>.tabular-nums</code>（垂直對齊）
               </h4>
-              <div style={fontStyle(bodySmId)} className="flex flex-col tabular-nums text-on-surface">
+              <div style={fontStyle(bodySmId)} className="flex flex-col tabular-nums text-fg">
                 <span>11,111.10 · 12.05 ms (99.1%)</span>
                 <span>88,888.85 · 98.40 ms (84.5%)</span>
                 <span>20,409.00 · 10.00 ms (100.0%)</span>
@@ -1197,10 +1197,10 @@ export function TokenPreview({
               onClick={() => onJump(bodySmId)}
               className="flex flex-col gap-xs p-sm rounded-xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
             >
-              <h4 className="text-label-xs text-on-surface m-0">
+              <h4 className="text-label-xs text-fg m-0">
                 3. 一般比例數字（未加 <code>.tabular-nums</code>）
               </h4>
-              <div style={fontStyle(bodySmId)} className="flex flex-col text-on-surface-muted">
+              <div style={fontStyle(bodySmId)} className="flex flex-col text-fg-subtle">
                 <span>11,111.10 · 12.05 ms (99.1%)</span>
                 <span>88,888.85 · 98.40 ms (84.5%)</span>
                 <span>20,409.00 · 10.00 ms (100.0%)</span>
@@ -1210,7 +1210,7 @@ export function TokenPreview({
 
           {fontSizes.length > 0 && (
             <div className="flex flex-col gap-xs pt-xs">
-              <h3 className="text-label-md text-on-surface m-0">Global · 字級尺度</h3>
+              <h3 className="text-label-md text-fg m-0">Global · 字級尺度</h3>
               <div className="flex flex-wrap items-baseline gap-md p-sm rounded-xs bg-layer-2 border-sm border-border-subtle">
                 {fontSizes.map((t) => (
                   <div
@@ -1219,10 +1219,10 @@ export function TokenPreview({
                     title={t.id}
                     className="flex flex-col items-start gap-3xs cursor-pointer"
                   >
-                    <span style={{ fontSize: v(t.id), lineHeight: 1.1 }} className="text-on-surface">
+                    <span style={{ fontSize: v(t.id), lineHeight: 1.1 }} className="text-fg">
                       Aa 字
                     </span>
-                    <code className="text-mono-xs text-on-surface-muted">
+                    <code className="text-mono-xs text-fg-subtle">
                       {t.path.at(-1)} · {formatValue('dimension', val(t.id))}
                     </code>
                   </div>
@@ -1233,7 +1233,7 @@ export function TokenPreview({
 
           {systemWeights.length > 0 && (
             <div className="flex flex-col gap-xs pt-xs">
-              <h3 className="text-label-md text-on-surface m-0">System · 語意字重</h3>
+              <h3 className="text-label-md text-fg m-0">System · 語意字重</h3>
               <div className="flex flex-wrap gap-lg p-sm rounded-xs bg-layer-2 border-sm border-border-subtle">
                 {systemWeights.map((t) => (
                   <div
@@ -1242,10 +1242,10 @@ export function TokenPreview({
                     title={t.id}
                     className="flex flex-col items-start gap-3xs cursor-pointer"
                   >
-                    <span style={{ fontWeight: v(t.id), fontSize: '28px' }} className="text-on-surface">
+                    <span style={{ fontWeight: v(t.id), fontSize: '28px' }} className="text-fg">
                       Ag 永
                     </span>
-                    <code className="text-mono-xs text-on-surface-muted">
+                    <code className="text-mono-xs text-fg-subtle">
                       {t.path.at(-1)} · {String(val(t.id) ?? '')}
                     </code>
                   </div>
@@ -1256,7 +1256,7 @@ export function TokenPreview({
 
           {weights.length > 0 && (
             <div className="flex flex-col gap-xs pt-xs">
-              <h3 className="text-label-md text-on-surface m-0">Global · 字重</h3>
+              <h3 className="text-label-md text-fg m-0">Global · 字重</h3>
               <div className="flex flex-wrap gap-lg p-sm rounded-xs bg-layer-2 border-sm border-border-subtle">
                 {weights.map((t) => (
                   <div
@@ -1265,10 +1265,10 @@ export function TokenPreview({
                     title={t.id}
                     className="flex flex-col items-start gap-3xs cursor-pointer"
                   >
-                    <span style={{ fontWeight: v(t.id), fontSize: '28px' }} className="text-on-surface">
+                    <span style={{ fontWeight: v(t.id), fontSize: '28px' }} className="text-fg">
                       Ag 永
                     </span>
-                    <code className="text-mono-xs text-on-surface-muted">
+                    <code className="text-mono-xs text-fg-subtle">
                       {t.path.at(-1)} · {String(val(t.id) ?? '')}
                     </code>
                   </div>
@@ -1297,14 +1297,14 @@ export function TokenPreview({
                     >
                       <div className="w-10 h-10 bg-primary rounded-2xs" />
                     </div>
-                    <code className="text-mono-xs text-on-surface-muted">padding: {s}</code>
+                    <code className="text-mono-xs text-fg-subtle">padding: {s}</code>
                   </div>
                 )
               })}
             </div>
           )}
 
-          <h3 className="text-label-md text-on-surface m-0 pt-xs">System</h3>
+          <h3 className="text-label-md text-fg m-0 pt-xs">System</h3>
           <div className="flex flex-col gap-2xs">
             {spacing.filter(isSystem).map((t) => (
               <div
@@ -1313,16 +1313,16 @@ export function TokenPreview({
                 title={t.id}
                 className="grid grid-cols-[10rem_1fr_6rem] items-center gap-sm px-sm py-2xs rounded-2xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
               >
-                <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
+                <code className="text-mono-xs text-fg">{displayPath(t)}</code>
                 <div className="h-3 rounded-2xs bg-primary" style={{ width: v(t.id) }} />
-                <span className="text-mono-xs text-on-surface-muted text-right">
+                <span className="text-mono-xs text-fg-subtle text-right">
                   {formatValue(t.type, val(t.id))}
                 </span>
               </div>
             ))}
           </div>
 
-          <h3 className="text-label-md text-on-surface m-0 pt-xs">Global</h3>
+          <h3 className="text-label-md text-fg m-0 pt-xs">Global</h3>
           <div className="flex flex-col gap-2xs">
             {spacing.filter((t) => !isSystem(t)).map((t) => (
               <div
@@ -1331,9 +1331,9 @@ export function TokenPreview({
                 title={t.id}
                 className="grid grid-cols-[10rem_1fr_6rem] items-center gap-sm px-sm py-2xs rounded-2xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
               >
-                <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
+                <code className="text-mono-xs text-fg">{displayPath(t)}</code>
                 <div className="h-3 rounded-2xs bg-primary" style={{ width: v(t.id) }} />
-                <span className="text-mono-xs text-on-surface-muted text-right">
+                <span className="text-mono-xs text-fg-subtle text-right">
                   {formatValue(t.type, val(t.id))}
                 </span>
               </div>
@@ -1345,7 +1345,7 @@ export function TokenPreview({
         <PreviewSection id="sizing" title="尺寸 Sizing">
           {controlHeights.length > 0 && (
             <div className="flex flex-col gap-xs">
-              <h3 className="text-label-md text-on-surface m-0">
+              <h3 className="text-label-md text-fg m-0">
                 System · 控制項與列高密度階層（pd.system.size.control.*）
               </h3>
               <div className="flex flex-col gap-xs">
@@ -1360,12 +1360,12 @@ export function TokenPreview({
                     >
                       <div
                         style={{ height: v(t.id) }}
-                        className="px-sm rounded-xs border-sm border-border-default bg-layer-2 inline-flex items-center gap-xs text-body-sm text-on-surface"
+                        className="px-sm rounded-xs border-sm border-border-default bg-layer-2 inline-flex items-center gap-xs text-body-sm text-fg"
                       >
                         <span className="text-mono-xs text-primary">{key}</span>
                         <span>{DENSITY_LABELS[key] ?? key}</span>
                       </div>
-                      <code className="text-mono-xs text-on-surface-muted">
+                      <code className="text-mono-xs text-fg-subtle">
                         {displayPath(t)} · {formatValue('dimension', val(t.id))}
                       </code>
                     </div>
@@ -1377,7 +1377,7 @@ export function TokenPreview({
 
           {iconSizes.length > 0 && (
             <div className="flex flex-col gap-xs pt-xs">
-              <h3 className="text-label-md text-on-surface m-0">
+              <h3 className="text-label-md text-fg m-0">
                 System · 圖示尺寸語意階層（pd.system.size.icon.*）
               </h3>
               <div className="flex flex-col gap-xs">
@@ -1390,7 +1390,7 @@ export function TokenPreview({
                       title={t.id}
                       className="flex flex-wrap items-center gap-sm cursor-pointer"
                     >
-                      <div className="px-xs py-2xs rounded-xs border-sm border-border-default bg-layer-2 inline-flex items-center justify-center text-on-surface">
+                      <div className="px-xs py-2xs rounded-xs border-sm border-border-default bg-layer-2 inline-flex items-center justify-center text-fg">
                         <svg
                           viewBox="0 0 24 24"
                           fill="none"
@@ -1404,10 +1404,10 @@ export function TokenPreview({
                           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
                         </svg>
                       </div>
-                      <code className="text-mono-xs text-on-surface">
+                      <code className="text-mono-xs text-fg">
                         {displayPath(t)} · {formatValue('dimension', val(t.id))}
                       </code>
-                      <span className="text-body-sm text-on-surface-muted">
+                      <span className="text-body-sm text-fg-subtle">
                         {ICON_ROLE_LABELS[key] ?? ''}
                       </span>
                     </div>
@@ -1417,7 +1417,7 @@ export function TokenPreview({
             </div>
           )}
 
-          <h3 className="text-label-md text-on-surface m-0 pt-xs">System · 基礎尺寸（pd.system.size.*）</h3>
+          <h3 className="text-label-md text-fg m-0 pt-xs">System · 基礎尺寸（pd.system.size.*）</h3>
           <div className="flex flex-wrap items-end gap-md">
             {systemSizes.map((t) => (
               <div
@@ -1430,15 +1430,15 @@ export function TokenPreview({
                   style={{ width: v(t.id), height: v(t.id) }}
                   className="bg-primary/20 border-sm border-primary rounded-2xs"
                 />
-                <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
-                <span className="text-mono-xs text-on-surface-muted">
+                <code className="text-mono-xs text-fg">{displayPath(t)}</code>
+                <span className="text-mono-xs text-fg-subtle">
                   {formatValue('dimension', val(t.id))}
                 </span>
               </div>
             ))}
           </div>
 
-          <h3 className="text-label-md text-on-surface m-0 pt-xs">Global</h3>
+          <h3 className="text-label-md text-fg m-0 pt-xs">Global</h3>
           <div className="flex flex-wrap items-end gap-md">
             {globalSizes.map((t) => (
               <div
@@ -1451,8 +1451,8 @@ export function TokenPreview({
                   style={{ width: v(t.id), height: v(t.id) }}
                   className="bg-primary/20 border-sm border-primary rounded-2xs"
                 />
-                <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
-                <span className="text-mono-xs text-on-surface-muted">
+                <code className="text-mono-xs text-fg">{displayPath(t)}</code>
+                <span className="text-mono-xs text-fg-subtle">
                   {formatValue('dimension', val(t.id))}
                 </span>
               </div>
@@ -1464,7 +1464,7 @@ export function TokenPreview({
         <PreviewSection id="border" title="邊框 Border">
           {focusTokens.length > 0 && (
             <div className="flex flex-col gap-xs">
-              <h3 className="text-label-md text-on-surface m-0">
+              <h3 className="text-label-md text-fg m-0">
                 System · 無障礙焦點環幾何規範（pd.system.border.focus.* + pd.system.color.border.focus）
               </h3>
               <div className="flex flex-wrap gap-md">
@@ -1481,7 +1481,7 @@ export function TokenPreview({
                       outline: `${focusWidthCss} ${focusStyleCss} ${focusColorCss}`,
                       outlineOffset: v(id, fb)
                     }}
-                    className="px-md py-xs rounded-sm bg-layer-2 border-sm border-border-default text-body-sm text-on-surface cursor-pointer"
+                    className="px-md py-xs rounded-sm bg-layer-2 border-sm border-border-default text-body-sm text-fg cursor-pointer"
                   >
                     <strong>{label}</strong> · {desc}
                   </div>
@@ -1490,7 +1490,7 @@ export function TokenPreview({
             </div>
           )}
 
-          <h3 className="text-label-md text-on-surface m-0 pt-xs">Border Radius</h3>
+          <h3 className="text-label-md text-fg m-0 pt-xs">Border Radius</h3>
           <div className="flex flex-wrap gap-md">
             {radii.map((t) => (
               <div
@@ -1503,15 +1503,15 @@ export function TokenPreview({
                   style={{ borderRadius: v(t.id) }}
                   className="w-16 h-16 bg-layer-2 border-md border-primary"
                 />
-                <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
-                <span className="text-mono-xs text-on-surface-muted">
+                <code className="text-mono-xs text-fg">{displayPath(t)}</code>
+                <span className="text-mono-xs text-fg-subtle">
                   {formatValue('dimension', val(t.id))}
                 </span>
               </div>
             ))}
           </div>
 
-          <h3 className="text-label-md text-on-surface m-0 pt-xs">Border Width</h3>
+          <h3 className="text-label-md text-fg m-0 pt-xs">Border Width</h3>
           <div className="flex flex-wrap gap-md">
             {widths.map((t) => (
               <div
@@ -1524,8 +1524,8 @@ export function TokenPreview({
                   style={{ borderWidth: v(t.id) }}
                   className="w-16 h-16 rounded-xs bg-layer-2 border-solid border-primary"
                 />
-                <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
-                <span className="text-mono-xs text-on-surface-muted">
+                <code className="text-mono-xs text-fg">{displayPath(t)}</code>
+                <span className="text-mono-xs text-fg-subtle">
                   {formatValue('dimension', val(t.id))}
                 </span>
               </div>
@@ -1534,7 +1534,7 @@ export function TokenPreview({
 
           {offsets.length > 0 && (
             <>
-              <h3 className="text-label-md text-on-surface m-0 pt-xs">Global · Outline Offset</h3>
+              <h3 className="text-label-md text-fg m-0 pt-xs">Global · Outline Offset</h3>
               <div className="flex flex-wrap gap-md">
                 {offsets.map((t) => (
                   <div
@@ -1550,8 +1550,8 @@ export function TokenPreview({
                       }}
                       className="w-16 h-16 rounded-xs bg-layer-2 border-sm border-border-default"
                     />
-                    <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
-                    <span className="text-mono-xs text-on-surface-muted">
+                    <code className="text-mono-xs text-fg">{displayPath(t)}</code>
+                    <span className="text-mono-xs text-fg-subtle">
                       {formatValue('dimension', val(t.id))}
                     </span>
                   </div>
@@ -1560,7 +1560,7 @@ export function TokenPreview({
             </>
           )}
 
-          <h3 className="text-label-md text-on-surface m-0 pt-xs">Border Style</h3>
+          <h3 className="text-label-md text-fg m-0 pt-xs">Border Style</h3>
           <div className="flex flex-wrap gap-md">
             {styles.map((t) => (
               <div
@@ -1573,7 +1573,7 @@ export function TokenPreview({
                   style={{ borderStyle: v(t.id), borderWidth: '3px' }}
                   className="w-16 h-16 rounded-xs bg-layer-2 border-primary"
                 />
-                <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
+                <code className="text-mono-xs text-fg">{displayPath(t)}</code>
               </div>
             ))}
           </div>
@@ -1583,7 +1583,7 @@ export function TokenPreview({
         <PreviewSection id="elevation" title="陰影與圖層 Elevation & Z-Index">
           {shadows.length > 0 && (
             <div className="flex flex-col gap-xs">
-              <h3 className="text-label-md text-on-surface m-0">
+              <h3 className="text-label-md text-fg m-0">
                 System · 複合陰影樣式（亮暗模式自適應陰影深度）
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-md p-xs">
@@ -1595,8 +1595,8 @@ export function TokenPreview({
                     style={{ boxShadow: v(t.id) }}
                     className="flex flex-col gap-2xs p-md rounded-md bg-layer-2 border-sm border-border-subtle cursor-pointer"
                   >
-                    <strong className="text-label-md text-on-surface">{cleanPath(t).slice(3).join('.')}</strong>
-                    <code className="text-mono-xs text-on-surface-muted whitespace-pre-wrap">
+                    <strong className="text-label-md text-fg">{cleanPath(t).slice(3).join('.')}</strong>
+                    <code className="text-mono-xs text-fg-subtle whitespace-pre-wrap">
                       {formatValue('shadow', val(t.id) ?? {}).replaceAll(' · ', '\n')}
                     </code>
                   </div>
@@ -1607,7 +1607,7 @@ export function TokenPreview({
 
           {sysZIndex.length > 0 && (
             <div className="flex flex-col gap-xs pt-xs">
-              <h3 className="text-label-md text-on-surface m-0">
+              <h3 className="text-label-md text-fg m-0">
                 System · 圖層堆疊階層（pd.system.elevation.z.*）
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-xs">
@@ -1620,13 +1620,13 @@ export function TokenPreview({
                       title={t.id}
                       className="flex flex-col gap-3xs p-sm rounded-xs bg-layer-2 border-sm border-border-default cursor-pointer"
                     >
-                      <strong className="text-label-sm text-on-surface">
+                      <strong className="text-label-sm text-fg">
                         z-index.{key} · {String(val(t.id) ?? '')}
                       </strong>
-                      <span className="text-caption-md text-on-surface-secondary">
+                      <span className="text-caption-md text-fg-muted">
                         {Z_ROLES[key] ?? ''}
                       </span>
-                      <code className="text-mono-xs text-on-surface-muted">
+                      <code className="text-mono-xs text-fg-subtle">
                         ← {refOf(t.node.$value) ?? '自訂值'}
                       </code>
                     </div>
@@ -1638,7 +1638,7 @@ export function TokenPreview({
 
           {globalZIndex.length > 0 && (
             <div className="flex flex-col gap-xs pt-xs">
-              <h3 className="text-label-md text-on-surface m-0">Global · Z-Index 原始尺度</h3>
+              <h3 className="text-label-md text-fg m-0">Global · Z-Index 原始尺度</h3>
               <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-xs">
                 {globalZIndex.map((t) => (
                   <div
@@ -1647,10 +1647,10 @@ export function TokenPreview({
                     title={t.id}
                     className="flex flex-col gap-3xs p-xs rounded-xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
                   >
-                    <strong className="text-label-xs text-on-surface">
+                    <strong className="text-label-xs text-fg">
                       {displayPath(t)}
                     </strong>
-                    <span className="text-mono-xs text-on-surface-muted">
+                    <span className="text-mono-xs text-fg-subtle">
                       z-index: {String(val(t.id) ?? '')}
                     </span>
                   </div>
@@ -1661,7 +1661,7 @@ export function TokenPreview({
 
           {elevationDims.length > 0 && (
             <div className="flex flex-col gap-2xs pt-xs">
-              <h3 className="text-label-md text-on-surface m-0">Global · Offset / Blur / Spread</h3>
+              <h3 className="text-label-md text-fg m-0">Global · Offset / Blur / Spread</h3>
               {elevationDims.map((t) => (
                 <div
                   key={t.id}
@@ -1669,9 +1669,9 @@ export function TokenPreview({
                   title={t.id}
                   className="grid grid-cols-[10rem_1fr_6rem] items-center gap-sm px-sm py-2xs rounded-2xs bg-layer-2 border-sm border-border-subtle cursor-pointer"
                 >
-                  <code className="text-mono-xs text-on-surface">{displayPath(t)}</code>
+                  <code className="text-mono-xs text-fg">{displayPath(t)}</code>
                   <div className="h-3 rounded-2xs bg-primary" style={{ width: v(t.id) }} />
-                  <span className="text-mono-xs text-on-surface-muted text-right">
+                  <span className="text-mono-xs text-fg-subtle text-right">
                     {formatValue(t.type, val(t.id))}
                   </span>
                 </div>
@@ -1687,7 +1687,7 @@ export function TokenPreview({
             title="動態 Motion"
             note="將滑鼠移至軌道上方即可即時預覽各個 Duration 與 Cubic-Bezier 曲線的動態表現"
           >
-            <h3 className="text-label-md text-on-surface m-0">
+            <h3 className="text-label-md text-fg m-0">
               System · 轉場時間（Hover 檢視真實動畫速度）
             </h3>
             <div className="flex flex-col gap-2xs" style={{ containerType: 'inline-size' }}>
@@ -1702,7 +1702,7 @@ export function TokenPreview({
               ))}
             </div>
 
-            <h3 className="text-label-md text-on-surface m-0 pt-xs">
+            <h3 className="text-label-md text-fg m-0 pt-xs">
               System · 緩動曲線（Hover 比較加速與減速曲線）
             </h3>
             <div className="flex flex-col gap-2xs" style={{ containerType: 'inline-size' }}>
@@ -1717,7 +1717,7 @@ export function TokenPreview({
               ))}
             </div>
 
-            <h3 className="text-label-md text-on-surface m-0 pt-xs">
+            <h3 className="text-label-md text-fg m-0 pt-xs">
               Global · Duration & Easing 原始尺度
             </h3>
             <div className="flex flex-col gap-2xs" style={{ containerType: 'inline-size' }}>
@@ -1747,7 +1747,7 @@ export function TokenPreview({
           <PreviewSection id="opacity" title="透明度 Opacity">
             {sysOpacity.length > 0 && (
               <div className="flex flex-col gap-xs">
-                <h3 className="text-label-md text-on-surface m-0">
+                <h3 className="text-label-md text-fg m-0">
                   System · 語意透明度（pd.system.opacity.*）
                 </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-xs">
@@ -1764,8 +1764,8 @@ export function TokenPreview({
                           style={{ opacity: v(t.id) }}
                         />
                       </div>
-                      <strong className="text-label-xs text-on-surface">{leafName(t)}</strong>
-                      <code className="text-mono-xs text-on-surface-muted">
+                      <strong className="text-label-xs text-fg">{leafName(t)}</strong>
+                      <code className="text-mono-xs text-fg-subtle">
                         {String(val(t.id) ?? '')}
                       </code>
                     </div>
@@ -1775,7 +1775,7 @@ export function TokenPreview({
             )}
             {globalOpacity.length > 0 && (
               <div className="flex flex-col gap-xs pt-xs">
-                <h3 className="text-label-md text-on-surface m-0">
+                <h3 className="text-label-md text-fg m-0">
                   Global · 透明度尺度（pd.global.opacity.*）
                 </h3>
                 <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-xs">
@@ -1792,7 +1792,7 @@ export function TokenPreview({
                           style={{ opacity: v(t.id) }}
                         />
                       </div>
-                      <code className="text-mono-xs text-on-surface">
+                      <code className="text-mono-xs text-fg">
                         {leafName(t)} · {String(val(t.id) ?? '')}
                       </code>
                     </div>

@@ -75,8 +75,8 @@ const componentPlaygroundRoute = createRoute({
       <div className="flex flex-col gap-xl">
         <header className="flex flex-col gap-xs pb-md border-b border-border-default">
           <span className="text-mono-xs text-primary">元件</span>
-          <h1 className="text-heading-xl text-on-surface">Playground</h1>
-          <p className="text-body-md text-on-surface-muted m-none">
+          <h1 className="text-heading-xl text-fg">Playground</h1>
+          <p className="text-body-md text-fg-subtle m-none">
             在單一畫面中集中檢視並實際操作 Pact Design 的所有互動元件與狀態表現。
           </p>
         </header>

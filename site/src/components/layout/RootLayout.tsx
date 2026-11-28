@@ -38,11 +38,11 @@ const SHARED_NAV_LINK_PROPS = {
   activeOptions: { exact: true },
   className: 'hover-bg-layer-1-hover py-2xs px-md text-body-sm',
   activeProps: {
-    className: 'bg-layer-1-selected hover-bg-layer-1-selected-hover ring-sm ring-inset ring-border-default text-on-surface font-medium',
+    className: 'bg-layer-1-selected hover-bg-layer-1-selected-hover ring-sm ring-inset ring-border-default text-fg font-medium',
     'aria-current': 'page' as const
   },
   inactiveProps: {
-    className: 'text-on-surface-default'
+    className: 'text-fg-default'
   }
 }
 
@@ -127,7 +127,7 @@ export function RootLayout() {
   const logoSrc = `${import.meta.env.BASE_URL}${resolvedTheme === 'dark' ? 'PD_Logo_text_dark.png' : 'PD_Logo_text_light.png'}`
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-base text-on-surface">
+    <div className="flex flex-col h-screen overflow-hidden bg-base text-fg">
       <header className="flex items-center shrink-0 bg-layer-1 w-full justify-between py-sm px-xl border-b border-border-default">
         <div className="flex w-full">
           <Link to="/" className="flex items-center">

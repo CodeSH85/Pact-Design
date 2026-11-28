@@ -281,10 +281,10 @@ export function TokenPlayground() {
             P
           </span>
           <div className="flex flex-col">
-            <strong className="text-label-md text-on-surface">
+            <strong className="text-label-md text-fg">
               Pact Design Token Playground
             </strong>
-            <small className="text-caption-sm text-on-surface-muted">
+            <small className="text-caption-sm text-fg-subtle">
               {derived.tokens.size} tokens · {Object.keys(files).length} 個檔案
             </small>
           </div>
@@ -391,7 +391,7 @@ export function TokenPlayground() {
       >
         <ModalDialog className="flex-1 min-h-0 overflow-hidden">
           <ModalHeader title="產生的 CSS Custom Properties" />
-          <pre className="flex-1 min-h-0 overflow-auto p-md m-0 rounded-xs bg-layer-2 border-sm border-border-default text-mono-xs text-on-surface">
+          <pre className="flex-1 min-h-0 overflow-auto p-md m-0 rounded-xs bg-layer-2 border-sm border-border-default text-mono-xs text-fg">
             {derived.css}
           </pre>
           <ModalFooter>
@@ -443,10 +443,10 @@ export function TokenPlayground() {
                   >
                     {issue.id}
                   </Button>
-                  <span className="text-caption-md text-on-surface">{issue.message}</span>
+                  <span className="text-caption-md text-fg">{issue.message}</span>
                 </div>
                 {issue.file && (
-                  <small className="text-mono-xs text-on-surface-muted">{issue.file}</small>
+                  <small className="text-mono-xs text-fg-subtle">{issue.file}</small>
                 )}
               </li>
             ))}

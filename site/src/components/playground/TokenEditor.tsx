@@ -264,7 +264,7 @@ function DimensionControl({ value, onChange, label }: DimensionControlProps) {
 
   return (
     <div className="flex items-center gap-2xs">
-      {label && <span className="text-caption-sm text-on-surface-muted min-w-16 shrink-0">{label}</span>}
+      {label && <span className="text-caption-sm text-fg-subtle min-w-16 shrink-0">{label}</span>}
       <Slider
         size="sm"
         aria-label={label ?? '數值'}
@@ -346,7 +346,7 @@ function ColorRawControl({ value, onChange, label }: ColorRawControlProps) {
 
   return (
     <div className="flex flex-wrap items-center gap-2xs">
-      {label && <span className="text-caption-sm text-on-surface-muted min-w-16 shrink-0">{label}</span>}
+      {label && <span className="text-caption-sm text-fg-subtle min-w-16 shrink-0">{label}</span>}
       <input
         type="color"
         className="w-control-xs h-control-xs p-0 border-sm border-border-default rounded-2xs cursor-pointer bg-transparent shrink-0"
@@ -380,7 +380,7 @@ function ColorRawControl({ value, onChange, label }: ColorRawControlProps) {
       </FieldGroup>
       {hasAlpha && (
         <>
-          <span className="text-caption-sm text-on-surface-muted ml-2xs">α</span>
+          <span className="text-caption-sm text-fg-subtle ml-2xs">α</span>
           <Slider
             size="sm"
             aria-label="透明度 Alpha"
@@ -431,7 +431,7 @@ function RawControl({ type, value, onChange, label }: RawControlProps) {
     const max = Math.max(3, Math.ceil(n * 2))
     return (
       <div className="flex items-center gap-2xs">
-        {label && <span className="text-caption-sm text-on-surface-muted min-w-16 shrink-0">{label}</span>}
+        {label && <span className="text-caption-sm text-fg-subtle min-w-16 shrink-0">{label}</span>}
         <Slider
           size="sm"
           aria-label={label ?? '數值'}
@@ -462,7 +462,7 @@ function RawControl({ type, value, onChange, label }: RawControlProps) {
     const n = Number(value)
     return (
       <div className="flex items-center gap-2xs">
-        {label && <span className="text-caption-sm text-on-surface-muted min-w-16 shrink-0">{label}</span>}
+        {label && <span className="text-caption-sm text-fg-subtle min-w-16 shrink-0">{label}</span>}
         <Slider
           size="sm"
           aria-label={label ?? '字重'}
@@ -495,7 +495,7 @@ function RawControl({ type, value, onChange, label }: RawControlProps) {
     const strVal = Array.isArray(value) ? value.join(', ') : String(value ?? '')
     return (
       <div className="flex items-center gap-2xs">
-        {label && <span className="text-caption-sm text-on-surface-muted min-w-16 shrink-0">{label}</span>}
+        {label && <span className="text-caption-sm text-fg-subtle min-w-16 shrink-0">{label}</span>}
         <FieldGroup size="xs" className="flex-1 min-w-0">
           <Input
             type="text"
@@ -513,7 +513,7 @@ function RawControl({ type, value, onChange, label }: RawControlProps) {
   if (type === 'strokeStyle' && typeof value === 'string') {
     return (
       <div className="flex items-center gap-2xs">
-        {label && <span className="text-caption-sm text-on-surface-muted min-w-16 shrink-0">{label}</span>}
+        {label && <span className="text-caption-sm text-fg-subtle min-w-16 shrink-0">{label}</span>}
         <Select
           size="xs"
           aria-label={label ?? '線條樣式'}
@@ -552,7 +552,7 @@ function JsonRawControl({ value, onChange, label }: JsonRawControlProps) {
 
   return (
     <div className="flex items-center gap-2xs">
-      {label && <span className="text-caption-sm text-on-surface-muted min-w-16 shrink-0">{label}</span>}
+      {label && <span className="text-caption-sm text-fg-subtle min-w-16 shrink-0">{label}</span>}
       <FieldGroup
         size="xs"
         data-invalid={invalid ? '' : undefined}
@@ -624,7 +624,7 @@ function RowHeader({
         <TooltipTrigger>
           <span
             tabIndex={0}
-            className="text-caption-sm text-on-surface-muted ml-auto cursor-default"
+            className="text-caption-sm text-fg-subtle ml-auto cursor-default"
           >
             被引用 {users.length}
           </span>
@@ -686,7 +686,7 @@ function ResolvedFooter({ token, resolvedEntry, errorMsg }: ResolvedFooterProps)
   const text = T.formatValue(token.type, resolvedEntry?.value)
 
   return (
-    <div className="flex items-center gap-2xs text-mono-xs text-on-surface-muted truncate">
+    <div className="flex items-center gap-2xs text-mono-xs text-fg-subtle truncate">
       {token.type === 'color' && (
         <span
           className="inline-block w-3 h-3 rounded-2xs border-sm border-border-default shrink-0"
@@ -781,7 +781,7 @@ function TokenRow({
             }
             return T.refOf(current) ? (
               <div key={prop} className="flex items-center gap-2xs">
-                <span className="text-caption-sm text-on-surface-muted min-w-16 shrink-0">{prop}</span>
+                <span className="text-caption-sm text-fg-subtle min-w-16 shrink-0">{prop}</span>
                 <AliasSelect
                   currentValue={current}
                   type={meta.type}
@@ -919,7 +919,7 @@ function ShadeEditor({
 
       {specs.map((spec, idx) => (
         <div key={spec.key} className="flex items-center gap-2xs">
-          <span className="text-mono-xs font-bold text-on-surface-secondary w-4 shrink-0">
+          <span className="text-mono-xs font-bold text-fg-muted w-4 shrink-0">
             {spec.key}
           </span>
           <Slider
@@ -953,7 +953,7 @@ function ShadeEditor({
       ))}
 
       <div className="flex flex-wrap items-center gap-2xs pt-3xs">
-        <span className="text-caption-sm text-on-surface-muted">hex</span>
+        <span className="text-caption-sm text-fg-subtle">hex</span>
         <FieldGroup size="xs" className="w-24 shrink-0">
           <Input
             type="text"
@@ -998,7 +998,7 @@ function ShadeEditor({
               <Badge tone={apcaTone(apca.css)} size="xs">
                 {apca.tier}
               </Badge>
-              <small className="text-on-surface-muted">({ratio.toFixed(2)})</small>
+              <small className="text-fg-subtle">({ratio.toFixed(2)})</small>
             </span>
           )
         })}
@@ -1043,7 +1043,7 @@ function PaletteBatchTools({ list, onMutate }: PaletteBatchToolsProps) {
   return (
     <div className="flex flex-col gap-2xs p-xs rounded-xs bg-layer-1 border-sm border-border-subtle">
       <div className="flex items-center gap-2xs">
-        <span className="text-caption-sm text-on-surface-muted w-24 shrink-0">Hue 位移</span>
+        <span className="text-caption-sm text-fg-subtle w-24 shrink-0">Hue 位移</span>
         <Slider
           size="sm"
           aria-label="Hue 位移"
@@ -1059,13 +1059,13 @@ function PaletteBatchTools({ list, onMutate }: PaletteBatchToolsProps) {
           onChangeEnd={() => releaseBatch(() => setHueDelta(0))}
           className="flex-1 min-w-0"
         />
-        <code className="text-mono-xs text-on-surface w-12 text-right">
+        <code className="text-mono-xs text-fg w-12 text-right">
           {hueDelta === 0 ? '' : hueDelta > 0 ? `+${hueDelta}` : hueDelta}
         </code>
       </div>
 
       <div className="flex items-center gap-2xs">
-        <span className="text-caption-sm text-on-surface-muted w-24 shrink-0">Chroma 倍率</span>
+        <span className="text-caption-sm text-fg-subtle w-24 shrink-0">Chroma 倍率</span>
         <Slider
           size="sm"
           aria-label="Chroma 倍率"
@@ -1081,13 +1081,13 @@ function PaletteBatchTools({ list, onMutate }: PaletteBatchToolsProps) {
           onChangeEnd={() => releaseBatch(() => setChromaMult(1))}
           className="flex-1 min-w-0"
         />
-        <code className="text-mono-xs text-on-surface w-12 text-right">
+        <code className="text-mono-xs text-fg w-12 text-right">
           {chromaMult === 1 ? '' : `${chromaMult}x`}
         </code>
       </div>
 
       <div className="flex items-center gap-2xs">
-        <span className="text-caption-sm text-on-surface-muted w-24 shrink-0">Lightness 位移</span>
+        <span className="text-caption-sm text-fg-subtle w-24 shrink-0">Lightness 位移</span>
         <Slider
           size="sm"
           aria-label="Lightness 位移"
@@ -1103,12 +1103,12 @@ function PaletteBatchTools({ list, onMutate }: PaletteBatchToolsProps) {
           onChangeEnd={() => releaseBatch(() => setLightDelta(0))}
           className="flex-1 min-w-0"
         />
-        <code className="text-mono-xs text-on-surface w-12 text-right">
+        <code className="text-mono-xs text-fg w-12 text-right">
           {lightDelta === 0 ? '' : lightDelta > 0 ? `+${lightDelta}` : lightDelta}
         </code>
       </div>
 
-      <small className="text-caption-sm text-on-surface-muted">
+      <small className="text-caption-sm text-fg-subtle">
         放開滑桿後會套用並歸零，可重複微調整組色階
       </small>
     </div>
@@ -1161,11 +1161,11 @@ function PaletteWidget({
       className="flex flex-col gap-xs p-xs rounded-xs bg-layer-2 border-sm border-border-default"
     >
       <div className="flex items-center justify-between gap-xs">
-        <strong className="text-label-sm text-on-surface">
+        <strong className="text-label-sm text-fg">
           {parentId.split('.').slice(1).join('.')}
         </strong>
         {usageCount > 0 && (
-          <span className="text-caption-sm text-on-surface-muted">
+          <span className="text-caption-sm text-fg-subtle">
             被引用 {usageCount} 次
           </span>
         )}
@@ -1382,7 +1382,7 @@ export function TokenEditor({
       } else {
         groupBlocks.push(
           <div key={parent} className="flex flex-col gap-2xs">
-            <div className="text-label-xs text-on-surface-secondary uppercase tracking-wider pt-2xs">
+            <div className="text-label-xs text-fg-muted uppercase tracking-wider pt-2xs">
               {parent.split('.').slice(1).join('.') || parent}
             </div>
             {visible.map((t) => (
@@ -1414,10 +1414,10 @@ export function TokenEditor({
       fileSections.push(
         <section key={file} className="flex flex-col gap-xs">
           <div className="flex items-center justify-between px-xs py-2xs rounded-2xs bg-layer-2 border-sm border-border-default">
-            <h3 className="text-label-sm text-on-surface m-0">
+            <h3 className="text-label-sm text-fg m-0">
               {sectionLabel}{themeTag}
             </h3>
-            <code className="text-mono-xs text-on-surface-muted">{file}</code>
+            <code className="text-mono-xs text-fg-subtle">{file}</code>
           </div>
           <div className="flex flex-col gap-xs">
             {groupBlocks}
@@ -1453,7 +1453,7 @@ export function TokenEditor({
                 {({ isSelected }) => (
                   <>
                     <span>{CATEGORY_LABELS[cat] ?? cat}</span>
-                    <span className={`text-mono-xs ${isSelected ? 'text-on-primary opacity-80' : 'text-on-surface-muted'}`}>
+                    <span className={`text-mono-xs ${isSelected ? 'text-on-primary opacity-80' : 'text-fg-subtle'}`}>
                       {count}
                     </span>
                     {hasDirty && (
@@ -1500,7 +1500,7 @@ export function TokenEditor({
         {fileSections.length > 0 ? (
           fileSections
         ) : (
-          <div className="p-lg text-center text-body-sm text-on-surface-muted">
+          <div className="p-lg text-center text-body-sm text-fg-subtle">
             {query ? `找不到符合「${query}」的 token` : '這個分類沒有 token'}
           </div>
         )}
