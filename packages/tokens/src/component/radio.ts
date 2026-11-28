@@ -19,7 +19,7 @@ export const radioTokens = {
     size: dim('pd.global.size.02'),
     bg: colorMap({
       $root: 'pd.system.color.on-primary.$root',
-      disabled: 'pd.system.color.on-surface.disabled'
+      disabled: 'pd.system.color.fg.disabled'
     })
   }
 } as const

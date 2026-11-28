@@ -13,8 +13,8 @@ export const disclosureTokens = {
     'padding-x': dim('pd.system.spacing.md'),
     radius: dim('pd.system.radius.xs'),
     text: colorMap({
-      $root: 'pd.system.color.on-surface.$root',
-      disabled: 'pd.system.color.on-surface.disabled'
+      $root: 'pd.system.color.fg.$root',
+      disabled: 'pd.system.color.fg.disabled'
     }),
     bg: colorMap({
       hover: 'pd.system.color.surface.hover',
@@ -24,6 +24,6 @@ export const disclosureTokens = {
   panel: {
     'padding-x': dim('pd.system.spacing.md'),
     'padding-y': dim('pd.system.spacing.sm'),
-    text: colorRef('pd.system.color.on-surface.secondary')
+    text: colorRef('pd.system.color.fg.muted')
   }
 } as const

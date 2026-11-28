@@ -7,7 +7,7 @@ export const popoverTokens = {
     radius: dim('pd.system.radius.md'),
     offset: dim('pd.system.spacing.sm'),
     bg: colorRef('pd.system.color.surface.elevated'),
-    text: colorRef('pd.system.color.on-surface.$root'),
+    text: colorRef('pd.system.color.fg.$root'),
     border: colorRef('pd.system.color.border.$root'),
     shadow: shadowRef('pd.system.elevation.lg'),
     'z-index': zIndexRef('pd.system.elevation.z.popover')
@@ -23,8 +23,8 @@ export const popoverTokens = {
     gap: dim('pd.system.spacing.md'),
     radius: dim('pd.system.radius.xs'),
     text: colorMap({
-      $root: 'pd.system.color.on-surface.$root',
-      disabled: 'pd.system.color.on-surface.disabled',
+      $root: 'pd.system.color.fg.$root',
+      disabled: 'pd.system.color.fg.disabled',
       danger: 'pd.system.color.on-danger.subtle'
     }),
     bg: colorMap({

@@ -17,7 +17,7 @@ export const modalTokens = {
     gap: dim('pd.system.spacing.md'),
     radius: dim('pd.system.radius.md'),
     bg: colorRef('pd.system.color.surface.elevated'),
-    text: colorRef('pd.system.color.on-surface.$root'),
+    text: colorRef('pd.system.color.fg.$root'),
     border: colorRef('pd.system.color.border.$root'),
     shadow: shadowRef('pd.system.elevation.xl')
   },

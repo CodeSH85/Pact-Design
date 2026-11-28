@@ -27,6 +27,17 @@ function typeStyle(
   })
 }
 
+function headingStyle(
+  size: FontSizeStep,
+  lineHeight: LineHeightStep,
+  letterSpacing: LetterSpacingStep
+) {
+  return {
+    $root: typeStyle(size, 'bold', lineHeight, letterSpacing),
+    normal: typeStyle(size, 'normal', lineHeight, letterSpacing)
+  } as const
+}
+
 export const systemFont = {
   family: refMap('fontFamily', {
     sans: 'pd.global.font.family.sans',
@@ -42,11 +53,11 @@ export const systemFont = {
     md: typeStyle('12', 'bold', '01', '02')
   },
   heading: {
-    xs: typeStyle('05', 'bold', '06', '05'),
-    sm: typeStyle('06', 'bold', '06', '04'),
-    md: typeStyle('07', 'bold', '05', '04'),
-    lg: typeStyle('08', 'bold', '04', '04'),
-    xl: typeStyle('10', 'bold', '03', '03')
+    xs: headingStyle('05', '06', '05'),
+    sm: headingStyle('06', '06', '04'),
+    md: headingStyle('07', '05', '04'),
+    lg: headingStyle('08', '04', '04'),
+    xl: headingStyle('10', '03', '03')
   },
   body: {
     sm: typeStyle('04', 'normal', '07', '05'),
