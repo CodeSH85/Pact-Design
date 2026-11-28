@@ -25,7 +25,7 @@ Pact Design organizes design tokens into a single canonical tree (`tokens = { pd
 
 #### System Level (`packages/tokens/src/system/*.ts`)
 
-- Maps `pd.global.*` primitives to semantic roles (`color.{surface, on-surface, border, primary..neutral, shadow}`, `border.{width, focus}`, `radius`, `spacing`, `size.{3xs..5xl, control, icon}`, `font`, `elevation.{xs..xl, z}`, `motion.{duration, easing}`).
+- Maps `pd.global.*` primitives to semantic roles (`color.{surface, fg, border, primary..neutral, shadow}`, `border.{width, focus}`, `radius`, `spacing`, `size.{3xs..5xl, control, icon}`, `font`, `elevation.{xs..xl, z}`, `motion.{duration, easing}`).
 - Uses DTCG `$root` for base values inside nested state groups (e.g., `pd.system.color.surface.layer-1.$root` → `--pd-system-color-surface-layer-1`, `pd.system.color.surface.layer-1.hover` → `--pd-system-color-surface-layer-1-hover`).
 - Uses a unified **T-shirt sizing scale** (`xs`, `sm`, `md`, `lg`, `xl`, with `3xs`–`5xl` extensions for spacing/sizing) anchored around `md`.
 
@@ -170,7 +170,7 @@ All 18 system typography tokens use `$type: "typography"` (`fontFamily`, `fontSi
 | Category | Scale | Sizes (`px` / `rem`) | Default Weight | Allowed Weights | Line Height | Letter Spacing | Purpose |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `system.font.display` | `sm`, `md` | 36px, 48px | `bold` (600) | `normal`, `medium`, `bold` | `1.1`–`1.15` | `-0.03` to `-0.02rem` | Hero metrics and large promotional callouts. |
-| `system.font.heading` | `xs`, `sm`, `md`, `lg`, `xl` | 16px, 18px, 20px, 24px, 32px | `bold` (600) | `medium`, `bold` | `1.2`–`1.4` | `-0.02` to `0rem` | Page, section, panel, and dialog titles. |
+| `system.font.heading` | `xs`, `sm`, `md`, `lg`, `xl` (each with `$root` & `normal`) | 16px, 18px, 20px, 24px, 32px | `bold` (600) / `normal` (400) | `normal`, `medium`, `bold` | `1.2`–`1.4` | `-0.02` to `0rem` | Page, section, panel, and dialog titles (`heading.*.normal` for airy, lightweight titles). |
 | `system.font.body` | `sm`, **`md`**, `lg` | 14px, **16px**, 18px | `normal` (400) | `normal` | `1.5`–`1.6` | `0rem` | Reading copy and table content (`md` = `1rem`). |
 | `system.font.label` | `xs`, `sm`, **`md`**, `lg` | 12px, 14px, **16px**, 18px | `normal` (400) | `normal`, `medium` | `1.3` | `0` to `0.02rem` | Form labels, buttons, tabs, and navigation items. |
 | `system.font.caption` | `sm`, `md` | 10px, 12px | `normal` (400) | `normal`, `medium` | `1.4` | `0.01` to `0.02rem` | Image captions, footnotes, and helper annotations. |

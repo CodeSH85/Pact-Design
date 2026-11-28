@@ -15,7 +15,7 @@ Pact Design 參考 Material 3 的 **Category–Type–Item** 命名語法，將�
 | 層級 | CSS 變數前綴 | 職責說明 | 範例 |
 | :--- | :--- | :--- | :--- |
 | **Global 原始層** | `--pd-global-*` | 儲存不含情境語意的基礎原始值，涵蓋 13 組 OKLCH 色盤、尺寸與間距階梯、字重與動效時間刻度。 | `--pd-global-color-indigo-600`、`--pd-global-spacing-05` |
-| **System 語意層** | `--pd-system-*` | 賦予設計意圖與主題感知能力，定義工作區表面、表面文字、語意狀態色、邊框、焦點與複合排版字階。 | `--pd-system-color-surface-layer-1`、`--pd-system-color-on-surface` |
+| **System 語意層** | `--pd-system-*` | 賦予設計意圖與主題感知能力，定義工作區表面、表面文字、語意狀態色、邊框、焦點與複合排版字階。 | `--pd-system-color-surface-layer-1`、`--pd-system-color-fg` |
 | **Component 元件層** | `--pd-component-*` | 針對特定互動元件的屬性插槽（`bg`、`text`、`border`、`icon`）封裝專屬變數，預設參照 System 層。 | `--pd-component-button-primary-bg-hover`、`--pd-component-field-border-focus` |
 
 ---
@@ -83,12 +83,12 @@ Pact Design 在 System 層透過 `color({ light, dark })` 於同一份定義檔�
 :root, [data-theme="light"] {
   --pd-global-color-indigo-600: oklch(0.6 0.192 274.9733);
   --pd-system-color-primary: var(--pd-global-color-indigo-600);
-  --pd-system-color-on-surface: var(--pd-global-color-gray-1100);
+  --pd-system-color-fg: var(--pd-global-color-gray-1100);
 }
 
 [data-theme="dark"] {
   --pd-system-color-primary: var(--pd-global-color-indigo-700);
-  --pd-system-color-on-surface: var(--pd-global-color-gray-200);
+  --pd-system-color-fg: var(--pd-global-color-gray-200);
 }
 ```
 
