@@ -25,8 +25,8 @@ export const toastTokens = {
     default: colorMap({
       bg: 'pd.system.color.surface.elevated',
       border: 'pd.system.color.border.$root',
-      text: 'pd.system.color.on-surface.$root',
-      icon: 'pd.system.color.on-surface.muted',
+      text: 'pd.system.color.fg.$root',
+      icon: 'pd.system.color.fg.subtle',
       'close-hover': 'pd.system.color.surface.layer-2.hover'
     }),
     info: semanticTone('info'),

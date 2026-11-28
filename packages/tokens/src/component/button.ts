@@ -19,8 +19,8 @@ export const buttonTokens = {
       selected: 'pd.system.color.surface.layer-1.selected.$root'
     }),
     text: colorMap({
-      $root: 'pd.system.color.on-surface.$root',
-      selected: 'pd.system.color.on-surface.$root'
+      $root: 'pd.system.color.fg.$root',
+      selected: 'pd.system.color.fg.$root'
     }),
     border: colorMap({
       $root: 'pd.system.color.border.$root',
@@ -35,8 +35,8 @@ export const buttonTokens = {
       selected: 'pd.system.color.surface.layer-1.selected.$root'
     }),
     text: colorMap({
-      $root: 'pd.system.color.on-surface.$root',
-      selected: 'pd.system.color.on-surface.$root'
+      $root: 'pd.system.color.fg.$root',
+      selected: 'pd.system.color.fg.$root'
     }),
     border: colorRef('transparent')
   },
@@ -68,7 +68,7 @@ export const buttonTokens = {
   },
   disabled: {
     bg: colorRef('pd.system.color.surface.disabled'),
-    text: colorRef('pd.system.color.on-surface.disabled'),
+    text: colorRef('pd.system.color.fg.disabled'),
     border: colorRef('transparent')
   }
 } as const

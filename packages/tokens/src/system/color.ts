@@ -158,10 +158,10 @@ export const systemColor = {
     },
     disabled: color({ light: surfaceStop('200'), dark: surfaceStop('1000') })
   },
-  'on-surface': {
+  fg: {
     $root: color({ light: surfaceStop('1100'), dark: surfaceStop('200') }),
-    secondary: color({ light: surfaceStop('900'), dark: surfaceStop('300') }),
-    muted: color({ light: surfaceStop('700'), dark: surfaceStop('400') }),
+    muted: color({ light: surfaceStop('900'), dark: surfaceStop('300') }),
+    subtle: color({ light: surfaceStop('700'), dark: surfaceStop('400') }),
     disabled: color({ light: surfaceStop('500'), dark: surfaceStop('600') })
   },
   border: {

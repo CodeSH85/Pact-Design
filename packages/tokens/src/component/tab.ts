@@ -34,10 +34,10 @@ export const tabTokens = {
       lg: 'pd.system.spacing.sm'
     }),
     text: colorMap({
-      $root: 'pd.system.color.on-surface.muted',
-      hover: 'pd.system.color.on-surface.$root',
-      selected: 'pd.system.color.on-surface.$root',
-      disabled: 'pd.system.color.on-surface.disabled'
+      $root: 'pd.system.color.fg.subtle',
+      hover: 'pd.system.color.fg.$root',
+      selected: 'pd.system.color.fg.$root',
+      disabled: 'pd.system.color.fg.disabled'
     }),
     border: colorMap({
       selected: 'pd.system.color.primary.border.strong',
@@ -63,6 +63,6 @@ export const tabTokens = {
   },
   panel: {
     'padding-top': dim('pd.system.spacing.md'),
-    text: colorRef('pd.system.color.on-surface.$root')
+    text: colorRef('pd.system.color.fg.$root')
   }
 } as const

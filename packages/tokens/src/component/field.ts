@@ -22,16 +22,16 @@ export const fieldTokens = {
     'invalid-focus': 'pd.system.elevation.focus.danger'
   }),
   text: colorMap({
-    $root: 'pd.system.color.on-surface.$root',
-    placeholder: 'pd.system.color.on-surface.muted',
-    disabled: 'pd.system.color.on-surface.disabled',
-    muted: 'pd.system.color.on-surface.muted'
+    $root: 'pd.system.color.fg.$root',
+    placeholder: 'pd.system.color.fg.subtle',
+    disabled: 'pd.system.color.fg.disabled',
+    muted: 'pd.system.color.fg.subtle'
   }),
   label: {
-    text: colorRef('pd.system.color.on-surface.$root')
+    text: colorRef('pd.system.color.fg.$root')
   },
   description: {
-    text: colorRef('pd.system.color.on-surface.muted')
+    text: colorRef('pd.system.color.fg.subtle')
   },
   error: {
     text: colorRef('pd.system.color.danger.text.$root')
