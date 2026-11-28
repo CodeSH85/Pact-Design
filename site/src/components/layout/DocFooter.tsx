@@ -16,15 +16,15 @@ function FooterNavLink({ item, direction }: { item: NavItem; direction: 'prev' |
       <span
         className={
           isPrev
-            ? 'flex items-center gap-xs text-caption-sm text-on-surface-muted group-hover:text-primary transition-colors'
-            : 'flex items-center justify-end gap-xs text-caption-sm text-on-surface-muted group-hover:text-primary transition-colors'
+            ? 'flex items-center gap-xs text-caption-sm text-fg-subtle group-hover:text-primary transition-colors'
+            : 'flex items-center justify-end gap-xs text-caption-sm text-fg-subtle group-hover:text-primary transition-colors'
         }
       >
         {isPrev && <span aria-hidden="true">←</span>}
         <span>{isPrev ? '上一頁' : '下一頁'}</span>
         {!isPrev && <span aria-hidden="true">→</span>}
       </span>
-      <span className="text-label-md font-medium text-on-surface group-hover:text-primary transition-colors">
+      <span className="text-label-md font-medium text-fg group-hover:text-primary transition-colors">
         {item.title || item.label}
       </span>
     </>

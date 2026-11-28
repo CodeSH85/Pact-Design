@@ -79,18 +79,18 @@ export function SpecDoc({ id, category = 'spec', showHeader = true }: SpecDocPro
         {showHeader && (
           <header className="flex flex-col gap-xs pb-md border-b border-border-default">
             {eyebrow && (
-              <span className="text-mono-xs text-primary uppercase">{eyebrow}</span>
+              <span className="text-mono-xs text-primary-text uppercase">{eyebrow}</span>
             )}
-            <h1 className="text-heading-xl text-on-surface">{title}</h1>
+            <h1 className="text-heading-lg text-fg">{title}</h1>
             {description && (
-              <p className="text-body-md text-on-surface-muted my-sm">
+              <p className="text-body-md text-fg-subtle my-sm">
                 {description}
               </p>
             )}
           </header>
         )}
 
-        <article className="flex flex-col gap-md text-body-md text-on-surface">
+        <article className="flex flex-col gap-md text-body-md text-fg">
           <MDXProvider components={mdxComponents}>
             <Content />
           </MDXProvider>

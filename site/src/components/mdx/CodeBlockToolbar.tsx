@@ -21,7 +21,7 @@ export function CodeBlockToolbar({
 
   return (
     <div className="flex items-center justify-between py-2xs bg-layer-1 rounded-t-xs">
-      <span className="text-mono-xs text-on-surface-muted select-none">
+      <span className="text-mono-xs text-fg-subtle select-none">
         {language && language !== 'text' ? language : 'code'}
       </span>
 

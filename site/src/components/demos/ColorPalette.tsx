@@ -91,7 +91,7 @@ export function ColorPalette() {
   return (
     <section className="flex flex-col gap-md pt-md border-t border-border-default">
       <div className="flex items-center justify-between gap-sm flex-wrap">
-        <h2 className="m-0 text-heading-xs text-on-surface">
+        <h2 className="m-0 text-heading-xs text-fg">
           Global 12 階 OKLCH 色票
         </h2>
         <ToggleButton
@@ -111,8 +111,8 @@ export function ColorPalette() {
             className="bg-layer-2 border border-border-default rounded-xs p-sm flex flex-col gap-xs"
           >
             <div className="flex items-center justify-between text-label-sm">
-              <strong className="text-on-surface">{palette.scale}</strong>
-              <code className="text-mono-xs text-on-surface-muted">
+              <strong className="text-fg">{palette.scale}</strong>
+              <code className="text-mono-xs text-fg-subtle">
                 --pd-global-color-{palette.scale.replace(/([A-Z])/g, '-$1').toLowerCase()}-{'{100..1200}'}
               </code>
             </div>

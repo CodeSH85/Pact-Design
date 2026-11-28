@@ -134,8 +134,8 @@ export function TableOfContents({ pageTitle = '總覽' }: TableOfContentsProps) 
               }}
               className={`py-xs pl-md text-label-sm transition-colors block text-left -ml-1px border-l-2 cursor-pointer ${
                 isActive
-                  ? 'border-primary text-on-surface font-medium'
-                  : 'border-transparent text-on-surface-muted hover:text-on-surface'
+                  ? 'border-primary text-fg font-medium'
+                  : 'border-transparent text-fg-subtle hover:text-fg'
               }`}
             >
               {item.text}

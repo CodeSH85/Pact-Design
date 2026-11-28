@@ -125,21 +125,21 @@ export function ComponentPlayground() {
     <div className="flex flex-col gap-xl">
       {/* Live status bar */}
       <div className="flex items-center justify-between px-md py-sm rounded-sm bg-layer-2 border border-border-subtle sticky top-0 z-docked shadow-elevation-xs">
-        <span className="text-caption-md font-medium text-on-surface-secondary">Event Log</span>
+        <span className="text-caption-md font-medium text-fg-muted">Event Log</span>
         <code className="text-mono-xs text-primary">{lastAction}</code>
       </div>
 
       {/* 1. Button Showcase */}
       <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
         <div className="flex flex-col gap-2xs">
-          <h2 className="text-heading-sm text-on-surface">Button</h2>
-          <p className="text-body-sm text-on-surface-muted m-0">
+          <h2 className="text-heading-sm text-fg">Button</h2>
+          <p className="text-body-sm text-fg-subtle m-0">
             Semantic action buttons with T-shirt control heights (`xs` to `xl`) and focus rings.
           </p>
         </div>
 
         <div className="flex flex-col gap-sm">
-          <span className="text-caption-sm text-on-surface-muted font-medium">Variants (size=&quot;md&quot;)</span>
+          <span className="text-caption-sm text-fg-subtle font-medium">Variants (size=&quot;md&quot;)</span>
           <div className="flex flex-wrap items-center gap-sm">
             <Button variant="primary" onPress={() => setLastAction('Clicked Primary Button')}>
               Primary
@@ -166,7 +166,7 @@ export function ComponentPlayground() {
         </div>
 
         <div className="flex flex-col gap-sm pt-xs border-t border-border-subtle">
-          <span className="text-caption-sm text-on-surface-muted font-medium">Icon & Link Buttons</span>
+          <span className="text-caption-sm text-fg-subtle font-medium">Icon & Link Buttons</span>
           <div className="flex flex-wrap items-center gap-sm">
             <Button variant="primary" onPress={() => setLastAction('Clicked Icon + Label Button')}>
               <RiAddLine />
@@ -202,7 +202,7 @@ export function ComponentPlayground() {
         </div>
 
         <div className="flex flex-col gap-sm pt-xs border-t border-border-subtle">
-          <span className="text-caption-sm text-on-surface-muted font-medium">Control Height Scale (xs: 24px · sm: 28px · md: 32px · lg: 36px · xl: 40px)</span>
+          <span className="text-caption-sm text-fg-subtle font-medium">Control Height Scale (xs: 24px · sm: 28px · md: 32px · lg: 36px · xl: 40px)</span>
           <div className="flex flex-wrap items-end gap-sm">
             <Button variant="secondary" size="xs" onPress={() => setLastAction('Size: xs (24px)')}>
               Control XS
@@ -223,7 +223,7 @@ export function ComponentPlayground() {
         </div>
 
         <div className="flex flex-col gap-sm pt-xs border-t border-border-subtle">
-          <span className="text-caption-sm text-on-surface-muted font-medium">Radius Overrides (data-radius)</span>
+          <span className="text-caption-sm text-fg-subtle font-medium">Radius Overrides (data-radius)</span>
           <div className="flex flex-wrap items-center gap-sm">
             {(['none', '2xs', 'xs', 'sm', 'md', 'lg', 'xl', 'full'] as const).map((radius) => (
               <Button
@@ -243,8 +243,8 @@ export function ComponentPlayground() {
       {/* 2. ToggleButton & ToggleButtonGroup */}
       <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
         <div className="flex flex-col gap-2xs">
-          <h2 className="text-heading-sm text-on-surface">ToggleButton & ToggleButtonGroup</h2>
-          <p className="text-body-sm text-on-surface-muted m-0">
+          <h2 className="text-heading-sm text-fg">ToggleButton & ToggleButtonGroup</h2>
+          <p className="text-body-sm text-fg-subtle m-0">
             Two-state toggle buttons with active surface layers and segmented button groups.
           </p>
         </div>
@@ -291,8 +291,8 @@ export function ComponentPlayground() {
       <section className="grid grid-cols-1 md:grid-cols-2 gap-md">
         <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
           <div className="flex flex-col gap-2xs">
-            <h2 className="text-heading-sm text-on-surface">Badge</h2>
-            <p className="text-body-sm text-on-surface-muted m-0">
+            <h2 className="text-heading-sm text-fg">Badge</h2>
+            <p className="text-body-sm text-fg-subtle m-0">
               Compact status tags with semantic tones, subtle/solid/outline variants, and auto-sized icons.
             </p>
           </div>
@@ -318,8 +318,8 @@ export function ComponentPlayground() {
 
         <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
           <div className="flex flex-col gap-2xs">
-            <h2 className="text-heading-sm text-on-surface">Slider</h2>
-            <p className="text-body-sm text-on-surface-muted m-0">
+            <h2 className="text-heading-sm text-fg">Slider</h2>
+            <p className="text-body-sm text-fg-subtle m-0">
               Accessible continuous, range, and zero-offset sliders built on React Aria.
             </p>
           </div>
@@ -349,8 +349,8 @@ export function ComponentPlayground() {
       <section className="grid grid-cols-1 md:grid-cols-2 gap-md">
         <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
           <div className="flex flex-col gap-2xs">
-            <h2 className="text-heading-sm text-on-surface">Checkbox</h2>
-            <p className="text-body-sm text-on-surface-muted m-0">
+            <h2 className="text-heading-sm text-fg">Checkbox</h2>
+            <p className="text-body-sm text-fg-subtle m-0">
               Compact checkbox with Remix icons for checked & indeterminate states.
             </p>
           </div>
@@ -384,8 +384,8 @@ export function ComponentPlayground() {
 
         <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
           <div className="flex flex-col gap-2xs">
-            <h2 className="text-heading-sm text-on-surface">Switch</h2>
-            <p className="text-body-sm text-on-surface-muted m-0">
+            <h2 className="text-heading-sm text-fg">Switch</h2>
+            <p className="text-body-sm text-fg-subtle m-0">
               Pill toggle track with functional duration-normal motion curve.
             </p>
           </div>
@@ -422,8 +422,8 @@ export function ComponentPlayground() {
       <section className="grid grid-cols-1 md:grid-cols-2 gap-md">
         <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
           <div className="flex flex-col gap-2xs">
-            <h2 className="text-heading-sm text-on-surface">Radio & RadioGroup</h2>
-            <p className="text-body-sm text-on-surface-muted m-0">
+            <h2 className="text-heading-sm text-fg">Radio & RadioGroup</h2>
+            <p className="text-body-sm text-fg-subtle m-0">
               Mutually exclusive radio options with labels, descriptions, and keyboard navigation.
             </p>
           </div>
@@ -458,25 +458,25 @@ export function ComponentPlayground() {
 
         <div className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
           <div className="flex flex-col gap-2xs">
-            <h2 className="text-heading-sm text-on-surface">Separator</h2>
-            <p className="text-body-sm text-on-surface-muted m-0">
+            <h2 className="text-heading-sm text-fg">Separator</h2>
+            <p className="text-body-sm text-fg-subtle m-0">
               Accessible horizontal and vertical dividers using subtle, default, and strong border tones.
             </p>
           </div>
 
           <div className="flex flex-col gap-sm">
-            <span className="text-caption-sm text-on-surface-muted font-medium">Horizontal (subtle · default · strong)</span>
+            <span className="text-caption-sm text-fg-subtle font-medium">Horizontal (subtle · default · strong)</span>
             <Separator tone="subtle" />
             <Separator tone="default" />
             <Separator tone="strong" />
           </div>
 
           <div className="flex items-center gap-sm h-control-md px-sm rounded-xs bg-layer-1 border border-border-subtle">
-            <span className="text-label-sm text-on-surface">Tokens</span>
+            <span className="text-label-sm text-fg">Tokens</span>
             <Separator orientation="vertical" tone="default" />
-            <span className="text-label-sm text-on-surface">Components</span>
+            <span className="text-label-sm text-fg">Components</span>
             <Separator orientation="vertical" tone="default" />
-            <span className="text-label-sm text-on-surface-muted">Docs</span>
+            <span className="text-label-sm text-fg-subtle">Docs</span>
           </div>
         </div>
       </section>
@@ -484,8 +484,8 @@ export function ComponentPlayground() {
       {/* 4. Menu, Popover & Modal Overlays */}
       <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
         <div className="flex flex-col gap-2xs">
-          <h2 className="text-heading-sm text-on-surface">Menu, Popover & Modal Overlays</h2>
-          <p className="text-body-sm text-on-surface-muted m-0">
+          <h2 className="text-heading-sm text-fg">Menu, Popover & Modal Overlays</h2>
+          <p className="text-body-sm text-fg-subtle m-0">
             Layered floating containers with elevation shadows, backdrop scrims, and keyboard accessibility.
           </p>
         </div>
@@ -513,8 +513,8 @@ export function ComponentPlayground() {
             trigger={<Button variant="secondary">Open Popover</Button>}
           >
             <div className="flex flex-col gap-xs p-xs">
-              <span className="text-label-sm font-bold text-on-surface">Floating Inspector</span>
-              <p className="text-caption-md text-on-surface-muted m-0">
+              <span className="text-label-sm font-bold text-fg">Floating Inspector</span>
+              <p className="text-caption-md text-fg-subtle m-0">
                 Pact Design popovers use bg-elevated and shadow-elevation-lg.
               </p>
             </div>
@@ -535,7 +535,7 @@ export function ComponentPlayground() {
               </>
             )}
           >
-            <p className="text-body-sm text-on-surface m-0">
+            <p className="text-body-sm text-fg m-0">
               This modal dialog is rendered in a portal with a scrim backdrop (<code>bg-backdrop</code>) and centered <code>bg-elevated</code> container.
             </p>
           </Modal>
@@ -552,7 +552,7 @@ export function ComponentPlayground() {
               </Button>
             )}
           >
-            <p className="text-body-sm text-on-surface m-0">
+            <p className="text-body-sm text-fg m-0">
               Sheets slide in from any viewport edge (<code>left</code>, <code>right</code>, <code>top</code>, <code>bottom</code>) and support swipe-to-dismiss and Escape key handling.
             </p>
           </Sheet>
@@ -562,8 +562,8 @@ export function ComponentPlayground() {
       {/* 5. Disclosure & DisclosureGroup */}
       <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
         <div className="flex flex-col gap-2xs">
-          <h2 className="text-heading-sm text-on-surface">Disclosure & DisclosureGroup</h2>
-          <p className="text-body-sm text-on-surface-muted m-0">
+          <h2 className="text-heading-sm text-fg">Disclosure & DisclosureGroup</h2>
+          <p className="text-body-sm text-fg-subtle m-0">
             Expandable accordion panels with rotating Remix Icon chevron indicators.
           </p>
         </div>
@@ -584,8 +584,8 @@ export function ComponentPlayground() {
       {/* 5b. Tree */}
       <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
         <div className="flex flex-col gap-2xs">
-          <h2 className="text-heading-sm text-on-surface">Tree</h2>
-          <p className="text-body-sm text-on-surface-muted m-0">
+          <h2 className="text-heading-sm text-fg">Tree</h2>
+          <p className="text-body-sm text-fg-subtle m-0">
             Hierarchical tree grid with keyboard arrow navigation, expandable branches, and multi-select checkboxes.
           </p>
         </div>
@@ -623,8 +623,8 @@ export function ComponentPlayground() {
       {/* 6. Form Fields: TextField, ComboBox, DateField, DatePicker */}
       <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
         <div className="flex flex-col gap-2xs">
-          <h2 className="text-heading-sm text-on-surface">Form Fields (TextField, ComboBox, DateField, DatePicker)</h2>
-          <p className="text-body-sm text-on-surface-muted m-0">
+          <h2 className="text-heading-sm text-fg">Form Fields (TextField, ComboBox, DateField, DatePicker)</h2>
+          <p className="text-body-sm text-fg-subtle m-0">
             Input fields built with shared <code>Field</code> primitives (`Label`, `FieldGroup`, `FieldError`, `FieldDescription`).
           </p>
         </div>
@@ -682,15 +682,15 @@ export function ComponentPlayground() {
       {/* 7. Navigation: Breadcrumbs & Tabs */}
       <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
         <div className="flex flex-col gap-2xs">
-          <h2 className="text-heading-sm text-on-surface">Navigation (Breadcrumbs & Tabs)</h2>
-          <p className="text-body-sm text-on-surface-muted m-0">
+          <h2 className="text-heading-sm text-fg">Navigation (Breadcrumbs & Tabs)</h2>
+          <p className="text-body-sm text-fg-subtle m-0">
             Hierarchical path navigation with Breadcrumbs and multi-variant Tabs (`underline`, `segmented`, `pill`).
           </p>
         </div>
 
         <div className="flex flex-col gap-md">
           <div className="flex flex-col gap-2xs">
-            <span className="text-caption-sm text-on-surface-muted font-medium">Breadcrumbs</span>
+            <span className="text-caption-sm text-fg-subtle font-medium">Breadcrumbs</span>
             <Breadcrumbs
               items={[
                 { id: 'home', label: 'Home', href: '#' },
@@ -702,7 +702,7 @@ export function ComponentPlayground() {
           </div>
 
           <div className="flex flex-col gap-sm">
-            <span className="text-caption-sm text-on-surface-muted font-medium">Tabs (Underline Variant)</span>
+            <span className="text-caption-sm text-fg-subtle font-medium">Tabs (Underline Variant)</span>
             <Tabs defaultSelectedKey="tab-tokens">
               <TabList>
                 <Tab id="tab-tokens">Design Tokens</Tab>
@@ -722,7 +722,7 @@ export function ComponentPlayground() {
           </div>
 
           <div className="flex flex-col gap-sm">
-            <span className="text-caption-sm text-on-surface-muted font-medium">Tabs (Segmented Variant)</span>
+            <span className="text-caption-sm text-fg-subtle font-medium">Tabs (Segmented Variant)</span>
             <Tabs variant="segmented" defaultSelectedKey="preview">
               <TabList>
                 <Tab id="preview">Interactive Preview</Tab>
@@ -740,8 +740,8 @@ export function ComponentPlayground() {
       {/* 8. Selection & Search: Select & Autocomplete */}
       <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
         <div className="flex flex-col gap-2xs">
-          <h2 className="text-heading-sm text-on-surface">Selection & Filtering (Select & Autocomplete)</h2>
-          <p className="text-body-sm text-on-surface-muted m-0">
+          <h2 className="text-heading-sm text-fg">Selection & Filtering (Select & Autocomplete)</h2>
+          <p className="text-body-sm text-fg-subtle m-0">
             Accessible pickers with single/multi selection and filter-as-you-type search suggestions.
           </p>
         </div>
@@ -781,8 +781,8 @@ export function ComponentPlayground() {
       {/* 9. Form, FileTrigger & Toast */}
       <section className="flex flex-col gap-md p-lg rounded-md bg-layer-2 border border-border-default">
         <div className="flex flex-col gap-2xs">
-          <h2 className="text-heading-sm text-on-surface">Form, FileTrigger & Toast</h2>
-          <p className="text-body-sm text-on-surface-muted m-0">
+          <h2 className="text-heading-sm text-fg">Form, FileTrigger & Toast</h2>
+          <p className="text-body-sm text-fg-subtle m-0">
             Composite form layout with file trigger upload and floating notification toast system.
           </p>
         </div>
@@ -809,7 +809,7 @@ export function ComponentPlayground() {
                   }
                 }}
               />
-              <span className="text-caption-md text-on-surface-muted">
+              <span className="text-caption-md text-fg-subtle">
                 {selectedFile ? `Selected: ${selectedFile}` : 'No file chosen yet'}
               </span>
             </div>
@@ -833,7 +833,7 @@ export function ComponentPlayground() {
         </Form>
 
         <div className="flex flex-col gap-xs pt-sm border-t border-border-subtle">
-          <span className="text-caption-sm text-on-surface-muted font-medium">Trigger Toast Notifications</span>
+          <span className="text-caption-sm text-fg-subtle font-medium">Trigger Toast Notifications</span>
           <div className="flex flex-wrap gap-sm">
             <Button
               variant="subtle"

@@ -49,8 +49,8 @@ function SwatchGroup({
   return (
     <div className="flex flex-col gap-xs">
       <div className="flex items-center justify-between">
-        <span className="text-label-xs font-medium text-on-surface">{title}</span>
-        <span className="text-caption-sm text-on-surface-muted">{activeLabel}</span>
+        <span className="text-label-xs font-medium text-fg">{title}</span>
+        <span className="text-caption-sm text-fg-subtle">{activeLabel}</span>
       </div>
       <div className="grid grid-cols-5 gap-xs" role="radiogroup" aria-label={title}>
         {options.map((opt) => {
@@ -133,7 +133,7 @@ export function ThemeCustomizer() {
       )}
     >
       <div className="flex items-center justify-between gap-xs">
-        <span className="text-label-sm font-semibold text-on-surface">Theme Preview</span>
+        <span className="text-label-sm font-semibold text-fg">Theme Preview</span>
         <div className="flex items-center gap-2xs">
           <TooltipTrigger>
             <Button
@@ -192,7 +192,7 @@ export function ThemeCustomizer() {
 
       <div className="flex flex-col gap-xs">
         <div className="flex items-center justify-between">
-          <span className="text-label-xs font-medium text-on-surface">Theme Variables</span>
+          <span className="text-label-xs font-medium text-fg">Theme Variables</span>
           <div className="flex items-center gap-2xs">
             <Badge tone="primary" variant="solid" size="xs">Primary</Badge>
             <Badge tone="secondary" variant="solid" size="xs">Secondary</Badge>
@@ -205,7 +205,7 @@ export function ThemeCustomizer() {
               key={cssVar}
               className="flex items-center justify-between gap-xs px-xs py-3xs rounded-2xs bg-layer-1 border-sm border-border-subtle"
             >
-              <code className="text-mono-xs text-on-surface-secondary truncate">{cssVar}</code>
+              <code className="text-mono-xs text-fg-muted truncate">{cssVar}</code>
               <span
                 className="w-3.5 h-3.5 rounded-2xs shrink-0 border-sm border-border-default"
                 style={{ backgroundColor: `var(${cssVar})` }}
